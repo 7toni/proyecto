@@ -43,7 +43,7 @@ class RegistroController {
         //             );
         
         $data['cco'] = array(
-                        'email' => array('sistemas@mypsa.com.mx','mvega@mypsa.mx'), 
+                        'email' => array('bitacora.soporte@mypsa.com.mx','mvega@mypsa.mx'), 
                         'alias' => array('Soporte','Manuel V.'),
                     );
 
@@ -93,8 +93,8 @@ class RegistroController {
             //                 'alias' => array('Soporte'),
             //             );
             
-            $data['cco'] = array(
-                            'email' => array('sistemas@mypsa.com.mx','mvega@mypsa.mx'), 
+            $dataemail['cco'] = array(
+                            'email' => array('bitacora.soporte@mypsa.com.mx','mvega@mypsa.mx'), 
                             'alias' => array('Soporte','Manuel V.'),
                         );
 
@@ -123,7 +123,7 @@ class RegistroController {
     }
 
     private function generarPass(){
-        $cadena="ABCDEFGHIJKLMNOPQRSTUVWXYZz1234567890abcdefghijklmnopqrstuvwxy./-_@*(){}[]";
+        $cadena="ABCDEFGHIJKLMNOPQRSTUVWXYZ.,;/-_@*()+%#1234567890abcdefghijklmnopqrstuvwxyz";
         $lengthcadena= strlen($cadena);
         $pass="";
         $lengthpass=10;

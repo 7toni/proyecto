@@ -43,8 +43,9 @@ class CalibracionController {
 
 
   public function store (){
+    $view="view_informes". $this->ext;
     $hoy = date("Y-m-d");    
-      if (isset($_POST['calibrado']) === true) {          
+      if (isset($_POST['calibrado']) === true) {
          $data = validate($_POST, [
           'id' => 'toInt',
           'proceso' => 'toInt',
@@ -56,7 +57,8 @@ class CalibracionController {
           $data['usuarios_informe_id'] = $_POST['usuarios_calibracion_id'];
           $data['fecha_calibracion'] = $_POST['fecha_calibracion'];
           $data['fecha_vencimiento'] = $_POST['fecha_calibracion'];                        
-          $data['periodo_calibracion'] = '0';          
+          $data['periodo_calibracion'] = '0';
+          $data['periodo_id']= '1';  
       }
       else{
           $data = validate($_POST, [ 
@@ -90,7 +92,10 @@ class CalibracionController {
         $data['proceso'] = intval('2');
         }
         
-         if ($this->model['informes']->find_by(['id' => $data['id']])){
+        $retorno = $this->model['informes']->validar_fecha($data['id'],$data['fecha_calibracion'],$proceso_temp,$this->name,$view);
+
+        if ($retorno) {
+          if ($this->model['informes']->find_by(['id' => $data['id']])){
               if ($this->model['informes']->update($data))  {
               // direccionarlo al siguiente proceso 
                 $roles_id= substr(Session::get('roles_id'),-1,1);                     
@@ -118,5 +123,15 @@ class CalibracionController {
                  Flash::error(setError('002'));
               }
          }
+        }
+        else{
+            if ($proceso_temp = 1) {
+              Flash::error(setError('012'));
+            }
+            else{
+              Flash::error(setError('014'));
+            }
+        }
+         
   }
 }

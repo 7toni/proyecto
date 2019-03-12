@@ -13,7 +13,7 @@ class ReportesController{
 		 'sucursal' => new Sucursal(),
 		 'usuario'=> new Usuario(),
 		 'tipocalibracion'=> new Tipocalibracion(),
-		 'informes'=> new Informes(),
+		 'informe'=> new Informes(),
 		 'planta' => new Planta(),
         ];
         $this->ext=$this->model['sucursal']->extension();        
@@ -40,7 +40,7 @@ class ReportesController{
 
 	        $data['ext']=$ext;
 
-	 		$table_t=$this->model['informes']->get_reporte_totales($data);	 		 	
+	 		$table_t=$this->model['informe']->get_reporte_totales($data);	 		 	
 	 		$equipos_t = 0;
 	 		$pesos_t = 0;
 	 		$dolares_t = 0;  		
@@ -107,16 +107,16 @@ class ReportesController{
 			unset($data['daterange']);
 			$data['fecha_home']=$cadena[0];
 			$data['fecha_end']=$cadena[1];	
-			$table_data=$this->model['informes']->get_productividad($data);
+			$table_data=$this->model['informe']->get_productividad($data);
 			
-			$table_totales=$this->model['informes']->get_totalprocesos($data);						
+			$table_totales=$this->model['informe']->get_totalprocesos($data);						
 
 			if ($data['tipo_busqueda']== 0) {
 			$empresa= $this->model['planta']->find_by(['id'=>$data['cliente_id']],'view_plantas');                 
             $cliente = (trim(strtolower($empresa[0]['nombre']))=='planta1') ?  $empresa[0]['empresa']: $empresa[0]['empresa'].' ('.$empresa[0]['nombre'].')';
 			}
 			
-			//$table_totales=$this->model['informes']->get_productividad_total($data);		
+			//$table_totales=$this->model['informe']->get_productividad_total($data);		
 		}
 
  		/* Arreglos default para el formulario */
@@ -150,7 +150,7 @@ class ReportesController{
 		include view($this->name.'.cliente');
 	}
 
-	public function ajax_load_clientes() { 	
+	public function ajax_load_clientes() {
 		$data = array(
 				"daterange" =>$_POST['daterange'],
 				"nombre_suc" =>$_POST['nombre_suc'],
@@ -243,8 +243,32 @@ class ReportesController{
 		include view($this->name.'.total_product');
 	}
 
-	Public function pulso(){
-		include view($this->name.'.pulso');
+	public function pulso(){
+		Session::logged(['roles_id'=>'10000']);
+        $suc = array("n","h","g");    
+        for($i=0; $i<3; $i++)
+        {
+            $query="SELECT count(id) as count FROM informes_".$suc[$i]." where proceso=1 union all select count(id) FROM informes_".$suc[$i]." where proceso=2 union all select count(id) FROM informes_".$suc[$i]." where proceso=3;";           
+            $data['result'][$i] = $this->model['informe']->get_query_informe($query);
+       }             
+	   include view($this->name.'.pulso');
 	}
+
+    public function edit_sucursal() {
+        $sucursal= $_POST['var1'];
+        $plantas_id="";
+        if ( $sucursal== 'nogales') {$plantas_id="758"; }
+        else if($sucursal== 'hermosillo') {$plantas_id="757"; }
+        else if($sucursal== 'guaymas') {$plantas_id="2341"; }
+
+        if(!isset($_COOKIE['session'])) {           
+            $_COOKIE['session']['sucursal'] = $sucursal;
+            $_COOKIE['session']['plantas_id'] = $plantas_id;
+        }
+        $_SESSION['session']['sucursal'] = $sucursal;
+        $_SESSION['session']['plantas_id'] = $plantas_id;
+        
+        //echo json_encode($_SESSION['session']);         
+    }
 		
 }

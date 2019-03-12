@@ -143,9 +143,12 @@ abstract class Db {
     }
 
     public function delete($id) {
-        $this->query = "DELETE FROM " . $this->table . " WHERE " . $this->primary_key . "='" . $id[$this->primary_key] . "';";
-        // var_dump($this->query);
-        // exit;
+        $this->query = "DELETE FROM " . $this->table . " WHERE ";
+        if (gettype($id[$this->primary_key]) == "integer") {
+            $this->query .= $this->primary_key . "=" . $id[$this->primary_key] . ";";
+        }else{
+            $this->query .= $this->primary_key . "='" . $id[$this->primary_key] . "';";
+        }                
         return $this->execute_single_query();
     }
 
