@@ -24,7 +24,7 @@
                                     <table id="table_informes" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%"> 
                                         <thead>
                                             <tr>
-                                                <th>id</th>
+                                                <th>Informe</th>
                                                 <th>Id equipo</th>
                                                 <th>Descripción</th>
                                                 <th>Marca</th>
@@ -62,7 +62,7 @@
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                            <th>id</th>
+                                            <th>Informe</th>
                                             <th>Id equipo</th>
                                             <th>Descripción</th>
                                             <th>Marca</th>

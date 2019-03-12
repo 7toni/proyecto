@@ -146,18 +146,7 @@
                                                ?>                                           
                                           </select>                                              
                                         </div>
-                                      </div>
-                                      <!-- <div class="form-group">
-                                          <label class="col-sm-3 control-label">Vigencia:</label>
-                                          <div class="col-sm-9">
-                                          <?php 
-                                          // if (strlen($data['get'][0]['periodo_calibracion']) > 0 ) {
-                                          //   echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" placeholder="0" min="0" value="'.$data['get'][0]['periodo_calibracion'] .'">';
-                                          // }
-                                          // else{ echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" placeholder="0" min="0">';}
-                                          ?>
-                                          </div>
-                                      </div> -->
+                                      </div>                                       
                                       <div class="form-group">
                                         <label class="col-sm-3 control-label">Vigencia (Mes/Día):</label>
                                         <div class="col-sm-9">
@@ -171,8 +160,7 @@
                                             ?>
 
                                             <div class="input-group-btn">
-                                              <?php 
-                                                echo  $data['periodo'];                                       
+                                              <?php                                                                                    
                                                 echo '<select name="periodo_id" id="periodo_id" class="form-control" style="width:100px">';
                                                 for ($i=0; $i < sizeof($data['periodo']); $i++) {
                                                   $value=$data['periodo'][$i]['id'];

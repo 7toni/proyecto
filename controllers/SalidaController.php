@@ -71,6 +71,7 @@ class SalidaController {
   } 
 
   public function store(){
+    $view="view_informes". $this->ext;
     $hoy = date("Y-m-d");        
     $fecha_entrega= isset($_POST['fecha_entrega']) ? $hoy : NULL;               
     $data = validate($_POST, [ 
@@ -81,16 +82,20 @@ class SalidaController {
           'fecha' => 'required', 
           'comentarios' => 'trimlower',
         ]);
+
     if($fecha_entrega != null) {unset($data['fecha_entrega']);}                      
       //$data['usuarios_captura2_id'] = intval(Session::get('id'));
     $proceso_temp = $data['proceso'];                    
     if ($data['proceso'] == 2) {$data['proceso'] = intval('3');}
-
-    if ($this->model['informes']->find_by(['id' => $data['id']])){
-      $usuarios_id = $data['usuario_hoja_salida']; unset($data['usuario_hoja_salida']);
-      $numero = $data['hojas_salida_id']; unset($data['hojas_salida_id']);
-      $fecha = $data['fecha']; unset($data['fecha']);                 
-      //existe hoja de salida       
+     
+    $retorno = $this->model['informes']->validar_fecha($data['id'],$data['fecha'],$proceso_temp,$this->name,$view);
+    if ($retorno) {
+      # code...
+      if ($this->model['informes']->find_by(['id' => $data['id']])){
+        $usuarios_id = $data['usuario_hoja_salida']; unset($data['usuario_hoja_salida']);
+        $numero = $data['hojas_salida_id']; unset($data['hojas_salida_id']);
+        $fecha = $data['fecha']; unset($data['fecha']);                 
+        //existe hoja de salida       
         if ($this->model['salida']->find_by(['numero' => $numero])) {
          //si existe - update                 
           $id =$this->model['salida']->find_by(['numero' => $numero]);                
@@ -152,7 +157,11 @@ class SalidaController {
         else{           
           Flash::error(setError('002'));
         }
+      }
+    }else{      
+        Flash::error(setError('013'));
     }
+    
   }
 
   public function ajax_load_hoja_salida() {
@@ -184,7 +193,7 @@ class SalidaController {
           'urgente' => ($_POST['check_urgente']==1) ?  "URGENTE": "",
         ];    
 
-      $query = "SELECT id,alias as idequipo,descripcion,precio , precio_extra, moneda FROM mypsa_bitacoramyp.view_informes_n where  id In (". $data['dataid'] .") order by id asc;";
+      $query = "SELECT id,alias as idequipo,descripcion,precio,precio_extra, moneda FROM ".$view." where  id In (". $data['dataid'] .") order by id asc;";
       $data['tabla']= $this->model['informes']->get_query_informe($query);     
           
       $data['body']=EnvioCorreo::_bodyinvoice($data);            
@@ -198,8 +207,8 @@ class SalidaController {
                     );
       $sucursal=Session::get('sucursal');
       $data['cco'] = array(
-                        'email' => array('drodriguez@mypsa.mx','mvega@mypsa.mx'), 
-                        'alias' => array('Dulce R.','Manuel V.'),                       
+                        'email' => array('bitacora.soporte@mypsa.com.mx','drodriguez@mypsa.mx','mvega@mypsa.mx'), 
+                        'alias' => array('Bitacora S.','Dulce R.','Manuel V.'),                       
                     );
 
       $data['asunto']= $data['urgente']." Solicitud de factura | PO : {$data['po']}. Sucursal: {$sucursal}";

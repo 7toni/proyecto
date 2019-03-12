@@ -20,6 +20,7 @@
         'informes'=> new Informes(),
         'equipo'=> new Equipo(),
   		 'sucursal' => new Sucursal(),
+       'periodo' => new Periodo(),
       ];
       $this->ext=$this->model['sucursal']->extension(); 
       $this->sucursal= strtoupper(Session::get('sucursal'));   
@@ -65,7 +66,8 @@
 
       $data['acreditacion']=$this->model['acreditacion']->find_by(['activo'=>'1']);
 
-      $data['tipocalibracion']=$this->model['tipocalibracion']->all();             
+      $data['tipocalibracion']=$this->model['tipocalibracion']->all();
+      $data['periodo']=$this->model['periodo']->find_by();              
   	include view($this->name.'.read');
 	}
 
@@ -107,6 +109,7 @@
 
   public function store() {
     //existe esta variables auxiliar que es un radio y esta en la tabla de historial, pero tomo el valor del número de informe del campo informe, entonces cuando hay datos en la tabla y tambien en el campo informe, no me sirve el id_aux.
+    $view="view_informes". $this->ext;
     if (isset($_POST['id_aux'])) {unset($_POST['id_aux']);}
         $data = validate($_POST, [
             'id' => 'required|toInt',
@@ -126,29 +129,36 @@
             'prioridad' => 'required|toInt',                          
             'comentarios' => 'trimlower',
             'proceso' => 'toInt',
+            'periodo_id' => 'toInt',            
         ]);
         $proceso_temp = $data['proceso'];
+
         if ($data['proceso'] === 0) {
           $data['proceso'] = intval('1');
         }
 
-        $hoy = date("Y-m-d H:i:s");
-        $data['fecha_inicio'] = $hoy;
-                           
-        /* Agregar PO , funcion store_po */
-        $po_id = $data['po_id']; unset($data['po_id']);        
-        $cantidad = $data['cantidad']; unset($data['cantidad']);        
-        $data['po_id']= $this->store_po($po_id,$cantidad);
-        
-        /* Agregar Hoja de entrada , funcion store_hoja_entrada */
-        $hojaentrada_sucursal="view_hojas_entrada_aux".$this->ext;         
-        $hojas_entrada_id = $data['hojas_entrada_id']; unset($data['hojas_entrada_id']);//
-        $usuarios_id = $data['usuarios_id']; unset($data['usuarios_id']); // 
-        $fecha = $data['fecha']; unset($data['fecha']);//  
+        $retorno = $this->model['informes']->validar_fecha($data['id'],$data['fecha'],$proceso_temp,$this->name,$view);
 
-        $data['hojas_entrada_aux_id']= $this->store_hoja_entrada($hojas_entrada_id,$usuarios_id,$fecha,$hojaentrada_sucursal);
+        var_dump($retorno);
 
-          /* Comparar si si agrego bien el PO y la hoja de entrada */                                  
+        if ($retorno) {
+          # code...
+          $hoy = date("Y-m-d H:i:s");
+          $data['fecha_inicio'] = $hoy;
+                             
+          /* Agregar PO , funcion store_po */
+          $po_id = $data['po_id']; unset($data['po_id']);        
+          $cantidad = $data['cantidad']; unset($data['cantidad']);        
+          $data['po_id']= $this->store_po($po_id,$cantidad);
+          /* renombrando las variables para insertar la hoja de entrada */                
+          $hojaentrada_sucursal="view_hojas_entrada_aux".$this->ext;         
+          $hojas_entrada_id = $data['hojas_entrada_id']; unset($data['hojas_entrada_id']);//
+          $usuarios_id = $data['usuarios_id']; unset($data['usuarios_id']); // 
+          $fecha = $data['fecha']; unset($data['fecha']);//  
+          /* Agregar Hoja de entrada , funcion store_hoja_entrada */
+          $data['hojas_entrada_aux_id']= $this->store_hoja_entrada($hojas_entrada_id,$usuarios_id,$fecha,$hojaentrada_sucursal);
+
+            /* Comparar si si agrego bien el PO y la hoja de entrada */                                  
           if (strlen($data['hojas_entrada_aux_id'])> 0 && strlen($data['po_id'])>0) {
             //si se agrego correctamente hoja de entrada y PO entonces se hara update sobre la tabla informes de los datos pendientes.                
             if ($this->model['informes']->update($data))  {
@@ -177,7 +187,7 @@
               else{
                 redirect('?c=informes&a=proceso');
               }
-              }
+            }
             else {               
                Flash::error(setError('002'));
             }  
@@ -185,6 +195,15 @@
           else{
             Flash::error(setError('002'));           
           }           
+        }
+        else{
+            if ($proceso_temp = 2) {
+              Flash::error(setError('011'));
+            }
+            else if($proceso_temp > 2){
+              Flash::error(setError('010'));
+            }
+        }      
   }
 
   public function store_po($po_id,$cantidad){
@@ -214,30 +233,21 @@
   public function store_hoja_entrada($hojas_entrada_id,$usuarios_id,$fecha,$hojaentrada_sucursal){
     $_hojaent="";
       //existe hoja entrada auxiliar
-         if ($this->model['hojaentradaaux']->find_by(['numero_hoja' => $hojas_entrada_id,'usuarios_id'=> $usuarios_id,'fecha'=>$fecha],$hojaentrada_sucursal)) {
-
-               $id_hoja_entrada = $this->model['hojaentradaaux']->find_by(['numero_hoja' => $hojas_entrada_id,'usuarios_id'=> $usuarios_id,'fecha'=>$fecha],$hojaentrada_sucursal);
+           $id_hoja_entrada = $this->model['hojaentradaaux']->find_by(['numero_hoja' => $hojas_entrada_id,'usuarios_id'=> $usuarios_id,'fecha'=>$fecha],$hojaentrada_sucursal);                  
+         if (sizeof($id_hoja_entrada)) {              
                $id_hoja_aux= $id_hoja_entrada[0]['id'];
-               $_hojaent=$id_hoja_aux;
-
-              //si existe update 
-              // if ($this->model['hojaentradaaux']->update(['id'=> $id_hoja_aux,'hojas_entrada_id'=>$id_hoja_entrada[0]['hojas_entrada_id'], 'usuarios_id' =>$usuarios_id,'fecha'=>$fecha])) {
-              //     $_hojaent=intval($id_hoja_aux);
-              // } else {                   
-              //        Flash::error(setError('002'));
-              //   }
+               $_hojaent=$id_hoja_aux;            
+               var_dump($id_hoja_aux);
           }
         // no  existe en la tabla auxiliar
           else { 
             // Pregunta si existe el numero de hoja de entrada, si existe se inserta a la tabla auxiliar, si no se agregara todo desde cero. 
-            if ($this->model['hojaentrada']->find_by(['numero' => $hojas_entrada_id])) {
-                $id_hoja_entrada =$this->model['hojaentrada']->find_by(['numero' => $hojas_entrada_id]);              
+            $id_hoja_entrada =$this->model['hojaentrada']->find_by(['numero' => $hojas_entrada_id]);                              
+            if (sizeof($id_hoja_entrada)) {                
                 //insertar hojaentradaaux y select id hoja entrada aux
                 if($this->model['hojaentradaaux']->store(['hojas_entrada_id'=>$id_hoja_entrada[0]['id'], 'usuarios_id' =>$usuarios_id,'fecha'=>$fecha])){
                     $id_hoja_entrada_aux = $this->model['hojaentradaaux']->find_by(['hojas_entrada_id' => $id_hoja_entrada[0]['id']],$hojaentrada_sucursal);
-
                     $id_hoja_aux= $id_hoja_entrada_aux[0]['id'];                       
-
                     $_hojaent=intval($id_hoja_aux);
                     Logs::this("Agregar", "Se agrego la hoja de entrada". $id_hoja_aux);                    
                 } 
@@ -261,7 +271,6 @@
                     else {
                       Flash::error(setError('002'));
                     }
-
                 }            
                 else {
                  Flash::error(setError('002'));

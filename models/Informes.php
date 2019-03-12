@@ -43,13 +43,15 @@ class Informes extends Model {
     }
 
     public function get_recepcion($id,$view){
-        $this->query= "SELECT id as id, idequipo, alias as equipos_id,descripcion,marca,modelo,serie,empresas_id,plantas_id,periodo_calibracion,acreditaciones_id,usuarios_calibracion_id,calibraciones_id,prioridad,comentarios,po_id,cantidad,numero_hoja_entrada as hojas_entrada_id,usuarios_id_hoja_entrada as usuarios_id,fecha_hoja_entrada as fecha,proceso  FROM ".$view." WHERE id = ". $id.";";
+        //$this->query= "SELECT id as id, idequipo, alias as equipos_id,descripcion,marca,modelo,serie,empresas_id,plantas_id,periodo_calibracion,acreditaciones_id,usuarios_calibracion_id,calibraciones_id,prioridad,comentarios,po_id,cantidad,numero_hoja_entrada as hojas_entrada_id,usuarios_id_hoja_entrada as usuarios_id,fecha_hoja_entrada as fecha,proceso  FROM ".$view." WHERE id = ". $id.";";
+        $this->query= "SELECT id as id, idequipo, alias as equipos_id,descripcion,marca,modelo,serie,empresas_id,plantas_id,periodo_calibracion,acreditaciones_id,usuarios_calibracion_id,calibraciones_id,prioridad,comentarios,po_id,cantidad,numero_hoja_entrada as hojas_entrada_id,usuarios_id_hoja_entrada as usuarios_id,fecha_hoja_entrada as fecha,proceso,periodo_id  FROM view_informes_n_temp WHERE id = ". $id.";";
         $this->get_results_from_query();       
         return $this->rows;
     }    
 
     public function get_calibracion($id,$view){
-        $this->query= "SELECT id as id,usuarios_calibracion_id,usuarios_informe_id,fecha_calibracion,acreditaciones_id,periodo_calibracion,comentarios,proceso,estado_calibracion as calibrado  FROM ".$view." WHERE id = ". $id.";"; 
+        //$this->query= "SELECT id as id,usuarios_calibracion_id,usuarios_informe_id,fecha_calibracion,acreditaciones_id,periodo_calibracion,comentarios,proceso,estado_calibracion as calibrado  FROM ".$view." WHERE id = ". $id.";"; 
+        $this->query= "SELECT id as id,usuarios_calibracion_id,usuarios_informe_id,fecha_calibracion,acreditaciones_id,periodo_calibracion,comentarios,proceso,estado_calibracion as calibrado, periodo_id FROM view_informes_n_temp WHERE id = ". $id.";";
         $this->get_results_from_query();
         return $this->rows;
     }
@@ -272,6 +274,75 @@ class Informes extends Model {
         return $this->rows;
     }
 
+    public function validar_fecha($id,$fecha,$proceso,$modulo,$view){            
+        $query="SELECT fecha_hoja_entrada,fecha_calibracion,fecha_hoja_salida FROM ".$view." WHERE id='". $id ."';";     
+        $data= $this->get_query_informe($query);
+        $fecha_entrada= strtotime($data[0]['fecha_hoja_entrada']);
+        $fecha_calibracion= strtotime($data[0]['fecha_calibracion']);
+        $fecha_salida= strtotime($data[0]['fecha_hoja_salida']);
+        $fechaevaluar= strtotime($fecha);
+        
+        if ($modulo=='recepcion') {
+            # code...
+            # Si el proceso es menor a #2, quiere decir que se registrara por primera vez la fecha de entrada.
+            # Si el proceso es igual a #2, quiere decir que se actualizara la fecha de entrada.
+            # Por lo tanto, evaluaremos la fecha a registra contra la fecha de calibracion.
+            # Si el proceso es mayor que #2 , qiere decir que se actualizara la fecha de entrada
+            # Por lo tanto, evaluamos la fecha a registrar contra la fecha de calibracion y la fecha de salida.
+            if ($proceso < 2) {
+                $retorno=true;
+            }
+            elseif ($proceso = 2) {
+                # code...
+                if ($fechaevaluar < $fecha_calibracion) {
+                  $retorno=true;
+                }else
+                {
+                  $retorno=false;      
+                }
+            }elseif($proceso > 2){
+                if ($fechaevaluar <= $fecha_calibracion && $fechaevaluar <= $fecha_salida) {
+                  $retorno=true;
+                }else
+                {
+                  $retorno=false;      
+                }
+            }
+        } elseif ($modulo=='calibracion') {
+            # code...
+            # Si el proceso es mayor que #1, quiere decir que se actualizara la fecha de calibracion.
+            # Por lo tanto, evaluaremos la fecha a registra contra la fecha de entrada y la fecha de salida.
+            # De lo contrario si elproceso es igual a #1 , solo se evaluara contra la fecha de entrada,
+            # Porque corresponde al proceso de registro en la bitacora.
+            if ($proceso > 1) {
+                # code...
+                if ($fechaevaluar >= $fecha_entrada && $fechaevaluar <= $fecha_salida) {
+                  $retorno=true;
+                }else
+                {
+                  $retorno=false;      
+                }
+            }else{
+                
+                if($fechaevaluar >= $fecha_entrada) {
+                  $retorno=true;
+                }else
+                {
+                  $retorno=false;      
+                }
+            }
+            
+        }elseif ($modulo=='salida') {
+            # code...
+            if ($fechaevaluar >= $fecha_entrada && $fechaevaluar >= $fecha_calibracion) {
+              $retorno=true;
+            }else
+            {
+              $retorno=false;      
+            }
+        }        
+        return $retorno;
+    }
     
 
 

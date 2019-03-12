@@ -162,8 +162,8 @@ class UsuariosController {
             $dataemail['email']=$data['email'];
             $dataemail['body']=EnvioCorreo::_bodyusernotificacion($dataemail);                                     
             $dataemail['cco'] = array(
-                                'email' => array('it@mypsa.mx','mvega@mypsa.mx'), 
-                                'alias' => array('Sistema','Manuel V.'),                       
+                                'email' => array('bitacora.soporte@mypsa.com.mx','mvega@mypsa.mx'), 
+                                'alias' => array('Bitacora S.','Manuel V.'),                       
                             );                                
 
             $dataemail['asunto']="Usuario de alta MyPSA";            
@@ -208,7 +208,7 @@ class UsuariosController {
 
     public function destroy() {
         $data = validate($_POST, [
-            'id' => 'required|exists:usuarios',
+            'id' => 'required|exists:usuarios|toInt',
         ]);
         if ($this->model['usuario']->destroy($data)) {
             Logs::this('Delete','Se elimino el usuario '.json_encode($data));
@@ -235,7 +235,7 @@ class UsuariosController {
 
     public function update_password() {
         $data = validate($_POST, [
-            'id'    => 'required|exists:usuarios',
+            'id'    => 'required|exists:usuarios|toInt',
             'password'  => 'required|min:3',
         ]);
         $data["password"] = Crypt::encrypt($data["password"]);
