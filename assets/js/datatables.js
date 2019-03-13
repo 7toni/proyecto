@@ -370,7 +370,7 @@ $(document).ready(function () {
                      return planta;                     
                     }
                 },  
-                {"targets":[24,25,26,27,29], "visible":false},
+                {"targets":[29], "visible":false},
                 {                 
                  "targets": 31, //Proceso
                  "render": function(data,type, row){                     
