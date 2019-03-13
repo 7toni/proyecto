@@ -10,7 +10,7 @@ class LoginController {
         ];            
     }
 
-    public function index() {
+    public function index() {       
         include view('login.index');
     }
 

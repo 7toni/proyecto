@@ -17,6 +17,8 @@ class PlantasController {
     }
 
     public function index() {
+        $_SESSION['menu'] = 'clientes';
+        $_SESSION['submenu'] = $this->name;
         include view($this->name . '.read');
     }
 

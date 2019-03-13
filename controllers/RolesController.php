@@ -14,6 +14,8 @@ class RolesController {
     }
 
     public function index() {
+        $_SESSION['menu'] = 'usuarios';
+        $_SESSION['submenu'] = $this->name;
         include view($this->name . '.read');
     }
 

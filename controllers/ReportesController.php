@@ -1,6 +1,7 @@
 <?php
 
 Session::logged();
+//session_start();
 
 class ReportesController{		
 
@@ -78,11 +79,13 @@ class ReportesController{
 		$data['tecnico']= $this->model['usuario']->find_by(['roles_id'=>'10003', 'plantas_id'=>Session::get('plantas_id')]); 			
 		$data['tipocalibracion']=$this->model['tipocalibracion']->all();			
 		$data['sucursal']=$this->model['sucursal']->find_by();
+		$_SESSION['menu'] = 'reportes';
+      	$_SESSION['submenu'] = $this->name.'_tecnico'; 				     	
  		include view($this->name.'.read');
 	}
 
 	public function tecnico(){
-		$arreglo = (isset($_GET['p'])) ? json_encode($this->url_get($_GET['p'])) : "";
+		$arreglo = (isset($_GET['p'])) ? json_encode($this->url_get($_GET['p'])) : "";		
 		include view($this->name.'.tecnico');
 	}
 
@@ -127,7 +130,8 @@ class ReportesController{
 		else{
 			$_data['sucursal']=$this->model['sucursal']->find_by(['nombre'=>Session::get('sucursal')]);	 
 		}	
-
+		$_SESSION['menu'] = 'reportes';
+      	$_SESSION['submenu'] = $this->name.'_productividad'; 
 		include view($this->name.'.productividad');
 	}
 
@@ -146,7 +150,8 @@ class ReportesController{
 		else{
 			$data['sucursal']=$this->model['sucursal']->find_by(['nombre'=>Session::get('sucursal')]);	 
 		}				
-
+		$_SESSION['menu'] = 'reportes';
+      	$_SESSION['submenu'] = $this->name.'_cliente';
 		include view($this->name.'.cliente');
 	}
 
@@ -183,8 +188,7 @@ class ReportesController{
 		else{
 			$table_rc=$this->model['informes']->get_reporte_clientes($data);	
 		}							
-
-		//$_SESSION['_arraykey']= $table_rc;
+	
 		echo json_encode($table_rc);
     }  
 
@@ -250,7 +254,9 @@ class ReportesController{
         {
             $query="SELECT count(id) as count FROM informes_".$suc[$i]." where proceso=1 union all select count(id) FROM informes_".$suc[$i]." where proceso=2 union all select count(id) FROM informes_".$suc[$i]." where proceso=3;";           
             $data['result'][$i] = $this->model['informe']->get_query_informe($query);
-       }             
+       }
+       $_SESSION['menu'] = 'pulso';
+       $_SESSION['submenu'] = 'pulso';
 	   include view($this->name.'.pulso');
 	}
 

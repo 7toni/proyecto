@@ -15,6 +15,8 @@ class EstadosController {
     }
 
     public function index() {
+        $_SESSION['menu'] = 'modulos';
+        $_SESSION['submenu'] = $this->name;
         include view($this->name . '.read');
     }
 
