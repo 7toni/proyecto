@@ -14,6 +14,8 @@ class Equipos_marcasController {
     }
 
     public function index() {
+        $_SESSION['menu'] = 'equipos';
+        $_SESSION['submenu'] = $this->name;
         include view($this->name . '.read');
     }
 

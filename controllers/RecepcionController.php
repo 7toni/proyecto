@@ -67,7 +67,9 @@
       $data['acreditacion']=$this->model['acreditacion']->find_by(['activo'=>'1']);
 
       $data['tipocalibracion']=$this->model['tipocalibracion']->all();
-      $data['periodo']=$this->model['periodo']->find_by();              
+      $data['periodo']=$this->model['periodo']->find_by();
+      $_SESSION['menu'] = 'bitacora';
+      $_SESSION['submenu'] = 'recepcion';           
   	include view($this->name.'.read');
 	}
 

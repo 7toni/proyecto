@@ -14,6 +14,8 @@ class LogsController {
     }
 
     public function index() {
+        $_SESSION['menu'] = 'logs';
+        $_SESSION['submenu'] = $this->name;
         include view($this->name . '.read');
     }
 }

@@ -2,9 +2,6 @@
 
 Session::logged();
 
-/**
-* 
-*/
 class InformesController
 {
 	
@@ -24,19 +21,25 @@ class InformesController
 	public function index(){
 		$usuario =Session::get('id');		
 		$rol =substr(Session::get('roles_id'),-2); // solo se abstrae el ultimo numero del rol todos empiesan con 100-00
+		$_SESSION['menu'] = 'bitacora';
+      	$_SESSION['submenu'] = 'completa';
 		include view($this->name.'.read');
 	}
 	public function proceso(){
 		$usuario =Session::get('id');		
 		$rol =substr(Session::get('roles_id'),-2); // solo se abstrae el ultimo numero del rol todos empiesan con 100-00
+		$_SESSION['menu'] = 'bitacora';
+        $_SESSION['submenu'] = 'proceso';
 		include view($this->name.'.proceso');
 	}
 	public function calibrar(){		
 		Session::logged([
 			//'roles_id' => '10003|10000',
 		]);
-		 $usuario =Session::get('id');		 
-		 $rol =Session::get('roles_id');
+		$usuario =Session::get('id');		 
+		$rol =Session::get('roles_id');
+		$_SESSION['menu'] = 'bitacora';
+	    $_SESSION['submenu'] = 'acalibrar';
 		include view($this->name.'.calibrar');
 	}
 
