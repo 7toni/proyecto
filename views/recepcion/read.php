@@ -268,7 +268,7 @@
                                                 if (strlen($data['get'][0]['periodo_calibracion']) > 0 ) {
                                                   echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" placeholder="0" min="0" value="'.$data['get'][0]['periodo_calibracion'] .'">';
                                                 }
-                                                else{ echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" placeholder="0" min="0">';}
+                                                else{ echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" min="0" placeholder="0" required="" value="12">';}
                                               ?>
 
                                               <div class="input-group-btn">
