@@ -141,7 +141,7 @@
 
         $retorno = $this->model['informes']->validar_fecha($data['id'],$data['fecha'],$proceso_temp,$this->name,$view);
 
-        var_dump($retorno);
+        //var_dump($retorno);
 
         if ($retorno) {
           # code...
@@ -239,7 +239,7 @@
          if (sizeof($id_hoja_entrada)) {              
                $id_hoja_aux= $id_hoja_entrada[0]['id'];
                $_hojaent=$id_hoja_aux;            
-               var_dump($id_hoja_aux);
+               //var_dump($id_hoja_aux);
           }
         // no  existe en la tabla auxiliar
           else { 
