@@ -90,8 +90,7 @@ class CalibracionController {
       $proceso_temp = $data['proceso'];  
       if ($data['proceso'] === 1) {
         $data['proceso'] = intval('2');
-        }
-        
+        }        
         $retorno = $this->model['informes']->validar_fecha($data['id'],$data['fecha_calibracion'],$proceso_temp,$this->name,$view);
 
         if ($retorno) {
