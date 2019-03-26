@@ -65,8 +65,16 @@ input:focus:invalid,  textarea:focus:invalid {
 
 }
 .table-striped>tbody>tr:nth-of-type(odd){
-	background-color: #dde7ed;
+	background-color: #f5f5f5;
+	color: black;	
 }
+
 .table-hover>tbody>tr:hover{
-	background-color: #96c0d9;
+	background-color: #5a5c5d;
+	color: white;
 }
+
+/*.table-hover>tbody>tr:hover{
+	background-color: #96c0d9;	
+	color: white;
+}*/
