@@ -13,7 +13,7 @@
                 </section>
                 <section class="content">
                     <div class="row">
-                     <form method="POST" novalidate="" autocomplete="off"  action="?c=<?php echo $this->name; ?>" role="form" enctype="multipart/form-data">
+                     <form method="POST" novalidate="" autocomplete="off"  action="?c=<?php echo $this->name; ?>" role="form">
                         <div class="col-lg-12">
                             <div class="box box-default">
                                 <div class="box-header">                                    
@@ -106,16 +106,16 @@
                             <div class="row">
                               <div class="col-md-12">                               
                                   <button id="save-lineChart" class="btn bg-navy margin pull-left"> <i class="fa fa-download" aria-hidden="true"></i> Descargar </button>   
-                                    <div class="chart">
+                                    <!-- <div class="chart">
                                       <canvas id="lineChart" style="height:250px"> </canvas> 
-                                    </div>
+                                    </div> -->
                               </div>
                               <div class="col-md-12">
                                <h4 class="text-center"> </h4>
                                   <button id="save-barChart" class="btn bg-navy margin pull-left"> <i class="fa fa-download" aria-hidden="true"></i> Descargar </button> 
-                                  <div class="chart">
+                                  <!-- <div class="chart">
                                     <canvas id="barChart" style="height:250px"> </canvas>
-                                  </div>
+                                  </div> -->
                               </div>
                               <!-- /.col -->  
                             </div>
@@ -255,109 +255,110 @@
                 saveAs(blob, "chart_totalpesosdlls.png");
               });
             });
-            var ctx = document.getElementById("lineChart");       
-            var myLineChart = new Chart(ctx, {
-                type: 'line',
-                data: {               
-                    labels: <?php echo json_encode ($array_Ttec); ?>,
-                    datasets: [
-                      {
-                          label: "# Equipos",
-                          fill: true,
-                          fillColor: "#79D1CF",
-                          strokeColor: "#79D1CF",
-                          lineTension: 0.1,
-                          backgroundColor: "rgba(40,225,108,0.4)",
-                          borderColor: "rgba(40,225,108,1)",
-                          borderCapStyle: 'butt',
-                          borderDash: [],
-                          borderDashOffset: 0.0,
-                          borderJoinStyle: 'miter',
-                          pointBorderColor: "rgba(40,225,108,1)",
-                          pointBackgroundColor: "#fff",
-                          pointBorderWidth: 1,
-                          pointHoverRadius: 5,
-                          pointHoverBackgroundColor: "rgba(40,225,108,1)",
-                          pointHoverBorderColor: "rgba(220,220,220,1)",
-                          pointHoverBorderWidth: 2,
-                          pointRadius: 5,
-                          pointHitRadius: 10,
-                          data: <?php echo json_encode ($array_Teq); ?>,
-                          spanGaps: false,
-                      }
-                  ]
-                },
-                options: {
-                  scales: {
-                      xAxes: [{
-                          display: true                          
-                      }]
-                  }
-                  }
-            });      
+            
+            // var ctx = document.getElementById("lineChart");       
+            // var myLineChart = new Chart(ctx, {
+            //     type: 'line',
+            //     data: {               
+            //         labels: <?php echo json_encode ($array_Ttec); ?>,
+            //         datasets: [
+            //           {
+            //               label: "# Equipos",
+            //               fill: true,
+            //               fillColor: "#79D1CF",
+            //               strokeColor: "#79D1CF",
+            //               lineTension: 0.1,
+            //               backgroundColor: "rgba(40,225,108,0.4)",
+            //               borderColor: "rgba(40,225,108,1)",
+            //               borderCapStyle: 'butt',
+            //               borderDash: [],
+            //               borderDashOffset: 0.0,
+            //               borderJoinStyle: 'miter',
+            //               pointBorderColor: "rgba(40,225,108,1)",
+            //               pointBackgroundColor: "#fff",
+            //               pointBorderWidth: 1,
+            //               pointHoverRadius: 5,
+            //               pointHoverBackgroundColor: "rgba(40,225,108,1)",
+            //               pointHoverBorderColor: "rgba(220,220,220,1)",
+            //               pointHoverBorderWidth: 2,
+            //               pointRadius: 5,
+            //               pointHitRadius: 10,
+            //               data: <?php echo json_encode ($array_Teq); ?>,
+            //               spanGaps: false,
+            //           }
+            //       ]
+            //     },
+            //     options: {
+            //       scales: {
+            //           xAxes: [{
+            //               display: true                          
+            //           }]
+            //       }
+            //       }
+            // });      
 
-            var ctx2 = document.getElementById("barChart");
-            var myChart = new Chart(ctx2, {
-                type: 'bar',
-                data: {
-                    labels:<?php echo json_encode ($array_Ttec); ?>,
-                    datasets: [{
-                        label: 'Total en pesos',
-                        data: <?php echo json_encode ($array_Tps); ?>,
-                        backgroundColor: [ 
-                            'rgba(74,236,25, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(153, 103, 245, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(44,133,17,1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(153, 103, 245, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Total en dolares',
-                        data: <?php echo json_encode ($array_Tdl); ?>,                   
-                        backgroundColor: [
-                            'rgba(13,154,8, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(153, 112, 225, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(7,66,5,1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(153, 112, 225, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero:true
-                            }
-                        }]
-                    }
-                }
-            });              
+            // var ctx2 = document.getElementById("barChart");
+            // var myChart = new Chart(ctx2, {
+            //     type: 'bar',
+            //     data: {
+            //         labels:<?php echo json_encode ($array_Ttec); ?>,
+            //         datasets: [{
+            //             label: 'Total en pesos',
+            //             data: <?php echo json_encode ($array_Tps); ?>,
+            //             backgroundColor: [ 
+            //                 'rgba(74,236,25, 0.2)',
+            //                 'rgba(54, 162, 235, 0.2)',
+            //                 'rgba(255, 206, 86, 0.2)',
+            //                 'rgba(75, 192, 192, 0.2)',
+            //                 'rgba(153, 102, 255, 0.2)',
+            //                 'rgba(153, 103, 245, 0.2)',
+            //                 'rgba(255, 159, 64, 0.2)'
+            //             ],
+            //             borderColor: [
+            //                 'rgba(44,133,17,1)',
+            //                 'rgba(54, 162, 235, 1)',
+            //                 'rgba(255, 206, 86, 1)',
+            //                 'rgba(75, 192, 192, 1)',
+            //                 'rgba(153, 102, 255, 1)',
+            //                 'rgba(153, 103, 245, 1)',
+            //                 'rgba(255, 159, 64, 1)'
+            //             ],
+            //             borderWidth: 1
+            //         },
+            //         {
+            //             label: 'Total en dolares',
+            //             data: <?php echo json_encode ($array_Tdl); ?>,                   
+            //             backgroundColor: [
+            //                 'rgba(13,154,8, 0.2)',
+            //                 'rgba(54, 162, 235, 0.2)',
+            //                 'rgba(255, 206, 86, 0.2)',
+            //                 'rgba(75, 192, 192, 0.2)',
+            //                 'rgba(153, 102, 255, 0.2)',
+            //                 'rgba(153, 112, 225, 0.2)',
+            //                 'rgba(255, 159, 64, 0.2)'
+            //             ],
+            //             borderColor: [
+            //                 'rgba(7,66,5,1)',
+            //                 'rgba(54, 162, 235, 1)',
+            //                 'rgba(255, 206, 86, 1)',
+            //                 'rgba(75, 192, 192, 1)',
+            //                 'rgba(153, 102, 255, 1)',
+            //                 'rgba(153, 112, 225, 1)',
+            //                 'rgba(255, 159, 64, 1)'
+            //             ],
+            //             borderWidth: 1
+            //         }]
+            //     },
+            //     options: {
+            //         scales: {
+            //             yAxes: [{
+            //                 ticks: {
+            //                     beginAtZero:true
+            //                 }
+            //             }]
+            //         }
+            //     }
+            // });              
         </script>        
     </body>
           

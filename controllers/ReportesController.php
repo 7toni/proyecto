@@ -1,7 +1,5 @@
 <?php
-
 Session::logged();
-//session_start();
 
 class ReportesController{		
 
@@ -276,5 +274,11 @@ class ReportesController{
         
         //echo json_encode($_SESSION['session']);         
     }
+
+    public function prueba(){		
+       $_SESSION['menu'] = 'pulso';
+       $_SESSION['submenu'] = 'pulso';
+	   include view($this->name.'.prueba');
+	}
 		
 }

@@ -282,6 +282,8 @@ class Informes extends Model {
         $fecha_salida= ($data[0]['fecha_hoja_salida'] == NULL) ? 0 : strtotime($data[0]['fecha_hoja_salida']);
         $fechaevaluar= strtotime($fecha); 
 
+//var_dump($fechaevaluar.' >='.$fecha_entrada.' && '. $fechaevaluar .'<='. $fecha_salida);
+//exit;
         if ($modulo=='recepcion') {
             # code...
             # Si el proceso es menor a #2, quiere decir que se registrara por primera vez la fecha de entrada.
@@ -294,7 +296,7 @@ class Informes extends Model {
             }
             elseif ($proceso = 2) {
                 # code...
-                if ($fechaevaluar < $fecha_calibracion) {
+                if ($fechaevaluar <= $fecha_calibracion) {
                   $retorno=true;
                 }else
                 {
@@ -316,7 +318,7 @@ class Informes extends Model {
             # Porque corresponde al proceso de registro en la bitacora.
             if ($proceso > 2) {
                 # code...
-                if ($fechaevaluar >= $fecha_entrada && $fechaevaluar <= $fecha_entrada) {                    
+                if ($fechaevaluar >= $fecha_entrada && $fechaevaluar <= $fecha_salida) {                    
                         $retorno=true;                                
                 }else
                 {
