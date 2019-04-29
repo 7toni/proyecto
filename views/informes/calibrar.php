@@ -107,7 +107,7 @@
     var controller = "<?php echo $this->name.' '.$this->ext.' '.'1 '.$usuario.' '.$rol.''; ?>";            
         </script>
         <?php importView('_static.scripts'); ?>
-                <script type="text/javascript">
+        <script type="text/javascript">
        $(window).load(function() {
             new $.fn.dataTable.FixedColumns( table_calibrar ,{
                 leftColumns:1,

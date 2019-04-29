@@ -27,8 +27,9 @@ $usuario = isset($cadena[3]) ? $cadena[3] : "";
 $rol = isset($cadena[4]) ? $cadena[4] : "";
 $condicion="";
 // DB table to use
+
 /* #Home vista de bitacora- porcesos #Home */ 
-    if ($controller=== "informes") {
+    if ($controller== "informes") {
         $table = 'view_'.$controller;
         $table.=$ext;		
         if ($tipo == 4) {
@@ -40,11 +41,13 @@ $condicion="";
         if($tipo == 3){$condicion ="proceso <=". $tipo;}    
         if($rol == '10003'){$condicion .=" and usuarios_calibracion_id=".$usuario;}    
     }
-    else{$table = 'view_'.$controller;}
+    else{$table = 'view_'.$controller.$ext;}
+
+    
 /* #End vista de bitacora- porcesos #End */ 
 
 /* #Home vista de informes cliente #Home */ 
-    if ($controller=== "clienteinformes") {$table = 'view_'.$controller.$ext;} 
+    if ($controller== "clienteinformes") {$table = 'view_'.$controller.$ext;} 
     if($tipo== "clienteinformes"){$condicion= "plantas_id=". $usuario.'';}
 
     $query='';
@@ -80,7 +83,7 @@ $condicion="";
             //and (calibraciones_id = 1  or calibraciones_id= 2 or  calibraciones_id= 6)
         }
         else{
-            $query_condicion =" fecha_inicio between '".$data[1]."' and '".$data[2]."' ";
+            $query_condicion =" fecha_hoja_entrada between '".$data[1]."' and '".$data[2]."' ";
         }
        
         if ($data[4] != 0) { // Pregunta se existe cliente
@@ -89,18 +92,27 @@ $condicion="";
         $condicion= $query_condicion;
 
     }
-
-
-
 /* #End Reportes */
-// Table's primary key
 
+/* #Home control calidad */
+    if ($controller == "control_calidad") {
+        if($tipo=="bajas"){
+            $condicion="activo=0";
+        }
+        else if($tipo=="activos"){
+            $condicion="activo=1";
+            }
+    }
+/* #end  control calidad */
+
+// Table's primary key    
  
 // Array of database columns which should be read and sent back to DataTables.
 // The `db` parameter represents the column name in the database, while the `dt`
 // parameter represents the DataTables column identifier. In this case simple
 // indexes
 require ('data/'.$controller.'.php');
+
  
 //SQL server connection information
 $sql_details = array(
@@ -122,7 +134,7 @@ $sql_details = array(
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * If you just want to use the basic configuration for DataTables with PHP
  * server-side, there is no need to edit below this line.
- */  
+ */   
 
 require( "ssp.class.php" );
 echo json_encode(

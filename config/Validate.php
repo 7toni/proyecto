@@ -67,8 +67,8 @@ function validate($data, $rules) {
                         $conn = new mysqli(APP_SERVER, APP_USER, APP_PASS, APP_DB);
                         $conn->set_charset("utf8");
                         if (!isset($singleValue[2])) {
-                            $query = "SELECT " . $columna . " FROM " . $tabla . " WHERE " . $columna . "= '" . $valor . "'";
-                            $result = $conn->query($query);
+                            $query = "SELECT " . $columna . " FROM " . $tabla . " WHERE " . $columna . "= '" . $valor . "'";                            
+                            $result = $conn->query($query);                            
                             if (($rows = $result->num_rows) == 0) {
                                 array_push($errors, [
                                     'rule' => $singleValue[0],
@@ -80,7 +80,7 @@ function validate($data, $rules) {
                             $result->close();
                             break;
                         } else {
-                            $query = "SELECT " . $singleValue[2] . " FROM " . $tabla . " WHERE " . $singleValue[2] . "= '" . $valor . "'";
+                            $query = "SELECT " . $singleValue[2] . " FROM " . $tabla . " WHERE " . $singleValue[2] . "= '" . $valor . "'";                            
                             $result = $conn->query($query);
                             if (($rows = $result->num_rows) == 0) {
                                 array_push($errors, [

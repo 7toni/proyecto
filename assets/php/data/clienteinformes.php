@@ -9,12 +9,25 @@ $array1 = array(
     array('db' => 'marca', 'dt' => 3),
     array('db' => 'modelo', 'dt' => 4),
     array('db' => 'serie', 'dt' => 5),
-    array('db' => 'activo', 'dt' => 6),    
+    //array('db' => 'activo', 'dt' => 6),
+    array(
+        'db' => 'activo',
+        'dt' => 6,
+        'formatter' => function($d, $row){
+            if($d==0){
+                return '<spam class="badge bg-red">inactivo</spam>';
+            }
+                else{
+                    return '<spam class="badge bg-green">activo</spam>';
+                }
+            }            
+        ),    
     array('db' => 'cliente', 'dt' => 7),
     array('db' => 'direccion', 'dt' => 8),
     array('db' => 'acreditacion', 'dt' => 9),        
     array('db' => 'fecha_calibracion', 'dt' => 10),
     array('db' => 'periodo_calibracion', 'dt' => 11),
+    //array('db' => 'vigencia', 'dt' => 11),
     array('db' => 'fecha_vencimiento', 'dt' => 12),    
     array('db' => 'comentarios', 'dt' => 13),
     array('db' => 'estado_calibracion', 'dt' => 14),

@@ -135,9 +135,10 @@ class Informes extends Model {
 
             $condicion .="and r1.alias is null and r2.alias is null and fecha_vencimiento between '". $data['fecha_home']."' and '". $data['fecha_end']."' ". $cliente_temp .""; 
         }        
-        $this->query .= $condicion." ;";                          
+        $this->query .= $condicion." ;";                                 
         $this->get_results_from_query();       
         return $this->rows;
+
     }
 
     public function get_productividad($data){
@@ -146,7 +147,7 @@ class Informes extends Model {
         $select="SELECT id,fecha_calibracion FROM view_informes";
         $condicion=" where fecha_calibracion between '". $data['fecha_home'] ."' and '". $data['fecha_end'] ."'";
         $order= " order by fecha_calibracion asc";
-        $_totalsc= array();
+        $_totalsc= array();       
         
         //Tipo de busqueda 0: 'comparacion del cliente',1:'comparacion de sucursales'      
         if ($data['tipo_busqueda']== 0) {// Cliente
@@ -155,7 +156,7 @@ class Informes extends Model {
                 $suctemp= strtolower($data['nombre_suc'][0]);
                 $table=$sucursal[$suctemp];
 
-                $this->query =$select .$table .$condicion.$order;                
+                $this->query =$select .$table .$condicion.$order;                              
                 $this->get_results_from_query(); 
                 $result=$this->rows;             
                 $reporte= $this->_productividad($result);
@@ -172,7 +173,7 @@ class Informes extends Model {
                     $suctemp= strtolower($data['nombre_suc'][$i]);
                     $table=$sucursal[$suctemp];                     
                     $this->query .=$table .$condicion.$order;
-                    //var_dump($this->query);                               
+                                               
                     $this->get_results_from_query();
                     $result=$this->rows;                  
                     $reporte= $this->_productividad($result);
@@ -216,7 +217,7 @@ class Informes extends Model {
         return $arraytotales;        
     }
 
-    public function get_totalprocesos($data){      
+    public function get_totalprocesos($data){
         $_data= array();
         if ($data['tipo_busqueda']== 0) {// Cliente                
             $reporte= $this->_totalprocesos($data,strtolower($data['nombre_suc'][0]));                    
@@ -257,8 +258,8 @@ class Informes extends Model {
         
         for ($i=0; $i < count($procesos) ; $i++) {            
             $table= $sucursal[$nom_suc];
-            $condicion=" where fecha_inicio".$between .$and[$i].$cliente;
-            $order=" order by fecha_inicio asc;";
+            $condicion=" where fecha_hoja_entrada".$between .$and[$i].$cliente;
+            $order=" order by fecha_hoja_entrada asc;";
             $this->query =$select.$table.$condicion.$order;
             //var_dump($this->query);
             $this->get_results_from_query();            
@@ -274,7 +275,7 @@ class Informes extends Model {
         return $this->rows;
     }
 
-    public function validar_fecha($id,$fecha,$proceso,$modulo,$view){            
+    public function validar_fecha($id,$fecha,$proceso,$modulo,$view){
         $query="SELECT fecha_hoja_entrada,fecha_calibracion,fecha_hoja_salida FROM ".$view." WHERE id='". $id ."';";     
         $data= $this->get_query_informe($query);        
         $fecha_entrada= ($data[0]['fecha_hoja_entrada'] == NULL) ? 0 : strtotime($data[0]['fecha_hoja_entrada']);
@@ -282,8 +283,8 @@ class Informes extends Model {
         $fecha_salida= ($data[0]['fecha_hoja_salida'] == NULL) ? 0 : strtotime($data[0]['fecha_hoja_salida']);
         $fechaevaluar= strtotime($fecha); 
 
-//var_dump($fechaevaluar.' >='.$fecha_entrada.' && '. $fechaevaluar .'<='. $fecha_salida);
-//exit;
+        //var_dump($fechaevaluar.' >='.$fecha_entrada.' && '. $fechaevaluar .'<='. $fecha_salida);
+        //exit;
         if ($modulo=='recepcion') {
             # code...
             # Si el proceso es menor a #2, quiere decir que se registrara por primera vez la fecha de entrada.

@@ -5,11 +5,11 @@ function setError($errorNum) {
             [
             'id' => '001',
             'title' => 'Alerta!',
-            'data' => ['msg' => 'Ha ocurrido un problema con la validación de los datos, favor de verificar nuevamente la información. Los datos no se guardaron']
+            'data' => array(['msg' => 'Ha ocurrido un problema con la validación de los datos, favor de verificar nuevamente la información. Los datos no se guardaron'])
         ], [
             'id' => '002',
             'title' => 'Alerta!',
-            'data' => array(['msg' => 'Ha ocurrido un problema al realizar la petición con la base de datos. Favor de reportar el incidente'])
+            'data' => array(['msg' => 'Ha ocurrido un problema al realizar la petición a los registros del sistema. Favor de reportar el incidente'])
         ], [
             'id' => '003',
             'title' => 'Inicio de sesion!',
@@ -17,7 +17,7 @@ function setError($errorNum) {
         ], [
             'id' => '004',
             'title' => 'Usuario no valido!',
-            'data' => array(['msg' => 'Parece que el usuario no esta registrado en nuestra base de datos'])
+            'data' => array(['msg' => 'El usuario no coincide con los registros del sistema. Favor de verificar la información.'])
         ], [
             'id' => '005',
             'title' => 'Contraseña incorrecta',
@@ -58,7 +58,11 @@ function setError($errorNum) {
             'id' => '014',
             'title' => 'Fecha no permitida',
             'data' => array(['msg' => 'La fecha a registrar es menor a las fechas registradas de Entrada| Salida'])
-        ]    
+        ],[
+            'id' => '015',
+            'title' => 'Registro no permitido',
+            'data' => array(['msg' => 'Este resgistro ya existe, no se permite un registro duplicado.'])
+        ]   
            
     );
     foreach ($dictionary as $error) {

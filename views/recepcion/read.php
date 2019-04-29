@@ -56,8 +56,8 @@
                               <div class="box-body form-horizontal">
                                 <div class="form-group" id="alerta_idequipo">
                                   <label for="idequipo" class="col-sm-3 control-label">Equipo :</label>
-                                  <div class="col-sm-9">                                       
-                                    <div class="input-group">                                  
+                                  <div class="col-sm-9">
+                                    <div class="input-group">
                                         <input type="text" id="idequipo" class="form-control" placeholder="id" required="" autofocus="">
                                         <div class="input-group-btn">
                                         <button type="button" class="btn btn-default" id="buscar_idequipo"> <i class="fa fa-search"></i> &nbsp; Buscar</button>
@@ -160,29 +160,43 @@
                                     </div>
                                   </div>                                  
                                   <div class="box-body table-responsive" style="overflow-y: scroll; height: 130px"> 
-                                  <table id="table_equipo"  class="table table-bordered table-striped table-hover dataTable" >
+                                  <table id="table_equipo" class="table table-bordered table-striped table-hover" role="grid">
                                     <thead>
-                                            <tr>
+                                            <tr role="row">
                                             <th>*</th>
                                             <th>Id</th>
                                             <th>Descripción</th>
                                             <th>Marca</th>
                                             <th>Modelo</th>
                                             <th>Serie</th>
+                                            <th>Estado</th>
                                             <th>Editar</th>
                                             </tr>
                                         </thead>
                                          <tbody>
                                          <?php 
-
                                          if(strlen($data['get'][0]['idequipo'])> 0){
+                                          $estadoeq="";
+                                          $labeleq="";
+                                          $disabled="";
+                                          if ($data['equipo'][0]['activo']==1){
+                                              $estadoeq="Activo";
+                                              $labeleq="label-success";
+                                          }
+                                          else{
+                                              $estadoeq="Inactivo";
+                                              $labeleq="label-danger";
+                                              $disabled="disabled";
+                                          }   
+
                                           echo '<tr>';  
-                                          echo '<td ><label> <input type="radio" name="equipos_id" value="'.$data['get'][0]['idequipo'] .'" checked></label></td>'; 
+                                          echo '<td ><label> <input type="radio" name="equipos_id" value="'.$data['get'][0]['idequipo'] .'" checked '. $disabled .'></label></td>'; 
                                           echo '<td >'.$data['get'][0]['equipos_id'] .'</td>';
                                           echo '<td >'.$data['get'][0]['descripcion'] .'</td>';
                                           echo '<td >'.$data['get'][0]['marca'] .'</td>';
                                           echo '<td >'.$data['get'][0]['modelo'] .'</td>';
-                                          echo '<td >'.$data['get'][0]['serie'] .'</td>';                                               
+                                          echo '<td >'.$data['get'][0]['serie'] .'</td>';
+                                          echo '<td > <span class="label '. $labeleq .'">' . $estadoeq . '</spam> </td>';                                               
                                           echo '<td > <a class="btn btn-block btn-warning btn-sm" target="_blank" href="?c=equipos&a=edit&p='.$data['get'][0]['idequipo'].'"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>';
                                           echo '</tr>';
                                           }
@@ -595,6 +609,6 @@
               return result;
             }
         </script>
-        <?php importView('_static.scripts'); ?>
+        <?php importView('_static.scripts'); ?>       
     </body>
 </html>

@@ -24,7 +24,7 @@ class UsuariosController {
     }
 
     public function alta() {
-                $_SESSION['menu'] = 'usuarios';
+        $_SESSION['menu'] = 'usuarios';
         $_SESSION['submenu'] = $this->name. "alta";
         include view($this->name . '.alta');
     }
@@ -251,7 +251,13 @@ class UsuariosController {
     }
 
     public function get_usuario_alta(){
-        echo $data = json_encode($data['usuario'] = $this->model['usuario']->usuario_alta_notification());
+        if(Session::get("rol") == "Administrador"){
+            echo $data = json_encode($data['usuario'] = $this->model['usuario']->usuario_alta_notification());
+        }        
+        else{
+            $arraydefault = array();
+            echo json_encode($arraydefault);
+        }
     }
 
 

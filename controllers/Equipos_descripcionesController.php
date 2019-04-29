@@ -6,7 +6,7 @@ class Equipos_descripcionesController{
     public function __construct() {
         $this->name = "equipos_descripciones";
         $this->title = "Módulos";
-        $this->subtitle = "Panel de control de módulos ";
+        $this->subtitle = "Panel de control de equipos";
         $this->model = [
             'equipos_descripciones' => new EquipoDescripcion(),
         ];

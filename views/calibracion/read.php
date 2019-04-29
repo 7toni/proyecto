@@ -61,9 +61,9 @@
                                           <label class="checkbox">
                                           <?php                                          
                                           if ($data['get'][0]['calibrado'] === '0') {
-                                           echo '<input type="checkbox" class="minimal-red" name="calibrado" value="0" checked>&nbsp; No se calibró';
+                                           echo '<input type="checkbox" class="icheckbox_flat-green" name="calibrado" value="0" checked>&nbsp; No se calibró';
                                           }
-                                          else{echo '<input type="checkbox" class="minimal-red" name="calibrado" value="0">&nbsp; No se calibró';}
+                                          else{echo '<input type="checkbox" class="icheckbox_flat-green" name="calibrado" value="0">&nbsp; No se calibró';}
                                           ?>                                              
                                           </label>                                           
                                         </div>                                        
@@ -123,12 +123,12 @@
                                       <div class="form-group">
                                         <label class="col-sm-3 control-label">Fecha de cal :</label>
                                         <div class="col-sm-9"> 
-                                        <?php 
-                                        if (strlen($data['get'][0]['fecha_calibracion']) > 0) {
-                                         echo '<input type="text" name="fecha_calibracion" id="fecha_calibracion" class="form-control pull-right datepicker_aux" value="'.$data['get'][0]['fecha_calibracion'].'">';
-                                        }
-                                        else{echo '<input type="text" name="fecha_calibracion" id="fecha_calibracion" class="form-control pull-right datepicker">';}                                        
-                                        ?>
+                                          <?php 
+                                          if (strlen($data['get'][0]['fecha_calibracion']) > 0) {
+                                          echo '<input type="text" name="fecha_calibracion" id="fecha_calibracion" class="form-control pull-right datepicker_aux" value="'.$data['get'][0]['fecha_calibracion'].'">';
+                                          }
+                                          else{echo '<input type="text" name="fecha_calibracion" id="fecha_calibracion" class="form-control pull-right datepicker">';}                                        
+                                          ?>
                                         </div>                                        
                                       </div>
                                       <div class="form-group">

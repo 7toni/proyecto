@@ -38,3 +38,10 @@
         <script src="assets/js/datatables.js"></script>
         <script src="assets/plugins/lightbox2/js/lightbox.min.js"></script>
         <script src="assets/js/scripts.js"></script>
+        
+        <?php
+        if($_SESSION['script']){
+                echo '<script src="assets/js/'.$_SESSION['submenu'].'.js"></script>';
+        }
+        ?>
+        

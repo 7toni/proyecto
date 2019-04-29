@@ -70,6 +70,7 @@
       $data['periodo']=$this->model['periodo']->find_by();
       $_SESSION['menu'] = 'bitacora';
       $_SESSION['submenu'] = 'recepcion';           
+      $_SESSION['script'] = true;
   	include view($this->name.'.read');
 	}
 

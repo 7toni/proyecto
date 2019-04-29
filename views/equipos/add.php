@@ -34,11 +34,11 @@
                                         <div class="box-body">
                                             <div class="form-group">
                                                 <label for="alias">Id de equipo</label>                                                    
-                                                <input autofocus type="text" class="form-control" name="alias" id="alias" placeholder="Id de equipo" value="" required="">
+                                                <input autofocus type="text" class="form-control" name="alias" id="alias" placeholder="Id de equipo"  required="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="serie">Número de serie</label>                                                    
-                                                <input autofocus type="text" class="form-control" name="serie" id="serie" placeholder="Número de serie" value="" required="">
+                                                <input  type="text" class="form-control" name="serie" id="serie" placeholder="Número de serie" required="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="descripciones_id">Descripción</label>

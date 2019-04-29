@@ -12,5 +12,17 @@ $columns = array(
     array('db' => 'telefono', 'dt' => 6),
     array('db' => 'email', 'dt' => 7),
     array('db' => 'rol', 'dt' => 8),
-    array('db' => 'activo', 'dt' => 9),
+    //array('db' => 'activo', 'dt' => 9),
+    array(
+        'db' => 'activo',
+        'dt' => 9,
+        'formatter' => function($d, $row){
+            if($d=='no'){
+                return '<spam class="badge bg-red">NO</spam>';
+            }
+                else{
+                    return '<spam class="badge bg-green">SI</spam>';
+                }
+            }
+        ),
 );
