@@ -9,7 +9,7 @@
             <?php importView('_static/sidebar'); ?>
             <div class="content-wrapper">
                 <section class="content-header">
-                    <h1>Pulso <small>MyPSA</small><?php  echo $active; ?></h1>
+                    <h1>Pulso <small>MyPSA</small></h1>
                 </section>
                 <section class="content">
                     <div class="row">

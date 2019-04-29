@@ -25,7 +25,7 @@
                                     <table id="table_users"   class="table table-bordered table-striped table-hover">
                                         <thead>
                                             <tr>
-                                                <th># de id</th>
+                                                <th>#</th>
                                                 <th>Nombre</th>
                                                 <th>Apellido</th>
                                                 <th>Empresa</th>
@@ -40,7 +40,7 @@
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <th># de id</th>
+                                                <th>#</th>
                                                 <th>Nombre</th>
                                                 <th>Apellido</th>
                                                 <th>Empresa</th>
@@ -86,32 +86,14 @@
                     "data": null,
                     "defaultContent": "<a href='#' data-type='edit' class='btn btn-xs btn-primary btn-flat'>Editar</a> <a href='#' data-type='delete' class='btn btn-xs btn-danger btn-flat'>Eliminar</a> <a href='#' data-type='password' class='btn btn-xs btn-warning btn-flat' title='Restablecer contraseña'><i class='fa fa-key' aria-hidden='true'></i></a> <a href='#' data-type='turn_off' class='btn btn-xs btn-default btn-flat' title='Suspender usuario'><i class='fa fa-power-off' aria-hidden='true'></i></a>"
                 }],
-            "language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún dato disponible en esta tabla",
-                "sInfo": "Mostrando registros de _START_ a _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
+                "language": { "url": "assets/json/datatables.spanish.json",
+                    "oAria": {
                     "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
                     "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }            
                 }
-            }
-        });
-        table.columns().every( function () {
+            });
+            table.columns().every( function () {
                 var that = this;
          
                 $( 'input', this.footer() ).on( 'keyup change', function () {
@@ -135,6 +117,7 @@
                     window.location.replace("?c=" + controller + "&a=turn_off&p=" + data[0]);
                }
            });
+
         </script>
     </body>
 </html>

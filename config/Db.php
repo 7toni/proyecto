@@ -13,7 +13,7 @@ abstract class Db {
     public function read_single($id, $view = null) {
         if ($view == null) {
             $this->query = "SELECT * FROM " . $this->table . " WHERE " . $this->primary_key . " = '" . $id . "'";
-            $this->get_results_from_query();
+            $this->get_results_from_query();            
             return $this->rows;
         } else {
             $table_aux = $this->table;
@@ -84,7 +84,7 @@ abstract class Db {
 
     public function read($view = null) {
         if ($view == null) {
-            $this->query = "SELECT * FROM " . $this->table . "";
+            $this->query = "SELECT * FROM " . $this->table . "";            
             $this->get_results_from_query();
             return $this->rows;
         } else {
@@ -138,7 +138,9 @@ abstract class Db {
         }
         $query = substr($query, 0, - 1);
         $query .= " WHERE " . $this->primary_key . "='" . $data[$this->primary_key] . "';";  
-        $this->query = $query;            
+        $this->query = $query;
+        // var_dump($this->query);
+        // exit;           
         return $this->execute_single_query();
     }
 
@@ -148,7 +150,7 @@ abstract class Db {
             $this->query .= $this->primary_key . "=" . $id[$this->primary_key] . ";";
         }else{
             $this->query .= $this->primary_key . "='" . $id[$this->primary_key] . "';";
-        }                
+        }                     
         return $this->execute_single_query();
     }
 
@@ -168,7 +170,7 @@ abstract class Db {
     }
 
     protected function execute_single_query() {
-        $this->open_connection();
+        $this->open_connection();        
         if ($this->conn->query($this->query)) {
             $this->close_connection();
             return true;

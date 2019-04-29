@@ -104,10 +104,7 @@
                           <div class="box-body">
                             <div class="row">
                               <div class="col-md-12">
-                                <h4 class="text-center" id="_rfechas" > </h4>
-                              <!--    <div class="chart">
-                                  <canvas id="areaChart" style="height:250px"></canvas>
-                                </div> -->
+                                <h4 class="text-center" id="_rfechas" > </h4>                                 
                               </div>
                               <!-- /.col -->  
                             </div>
@@ -227,12 +224,13 @@
               _tdlls.text('$ 0');
               _rfechas.text('Rango de fechas:');
 
-           $('#table_will tfoot th').each( function () {
+            $('#table_will tfoot th').each( function () {
               var title = $(this).text();
               $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
             } );
 
-            var _table= $('#table_will').DataTable({ 
+            var _table= $('#table_will').DataTable({
+              "lengthMenu": [[15, 20, 50,100,200,500,1000,3000, -1], [15, 20, 50,100,200,500,1000,3000, "All"]],
               dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
               buttons: [
                    {
@@ -261,15 +259,15 @@
                         ]             
                 });
 
-            _table.columns().every( function () {
-            var that = this;
-            $( 'input', this.footer() ).on( 'keyup change', function () {
-                if ( that.search() !== this.value ) {
-                    that
-                        .search( this.value )
-                        .draw();
-                    }
-                });
+              _table.columns().every( function () {
+              var that = this;
+              $( 'input', this.footer() ).on( 'keyup change', function () {
+                  if ( that.search() !== this.value ) {
+                      that
+                          .search( this.value )
+                          .draw();
+                      }
+                  });
             });        
                   
                       
@@ -278,29 +276,25 @@
                   'daterange': $('#daterange-text').val(),
                   'nombre_suc': $("#nombre_suc").val(),
                   'cliente_id': $("#cliente_id").val(),
-                  'tipo_busqueda': $("#tipo_busqueda").val(),
-                  'multiple_select':$("#multiple_select").val()
+                  'tipo_busqueda': $("#tipo_busqueda").val()                  
                 };    
-
-                console.log(parametro);            
-                if (validar_select(parametro)) {                                                      
+                //console.log(parametro);            
+                if (validar_select(parametro)) {
                     $.ajax({
                       type: 'post',
                       url: "?c=reportes&a=ajax_load_clientes",                        
                       data: parametro
                     }).done(function(data) {
                       var datos = data;
-                      console.log(datos);
-                      if(datos!= "false"){
+                      if(datos != "false"){
                         var obj= JSON.parse(datos);                        
                         //console.log(obj[1]); 
                         totales_p_d(obj); //Funcion de totales_Pesos_dolares
                         _table.clear();
                         _table.rows.add(obj).draw();
                         //Morris Charts
-                        $.ajax({url: "?c=reportes&a=test", success: function(result){
-                          //showgraph();
-                          console.log(result);
+                        $.ajax({url: "?c=reportes&a=test", success: function(result){                          
+                          //console.log(result);
                         }});                         
                        _rfechas.text('Rango de fechas: ' + parametro['daterange']);
                       } else{
@@ -313,19 +307,16 @@
                   else{
                     alert("Alguna opción no esta seleccionado.Por favor verificar.");                  
                   }                    
-                });
+            });
 
-               function validar_select(parametro)
-              {    
-               var result= true;
-                 if (parametro['nombre_suc']=='' || parametro['cliente_id']=='' || parametro['tipo_busqueda']=='') {
-                    result= false;
-                 }                
-                return result;
-              }                            
-
-            function showgraph(){            
-            }
+            function validar_select(parametro){    
+              var result= true;
+                if (parametro['nombre_suc']=='' || parametro['cliente_id']=='' || parametro['tipo_busqueda']=='') {
+                  result= false;
+                }                
+              return result;
+            }                            
+            
 
             function totales_p_d(obj){
               _tequipos.text('0');
@@ -348,31 +339,7 @@
             }
 
           });
-        </script>
-        <script>
-          var ctx = document.getElementById("areaChart").getContext('2d');
-          var myChart = new Chart(ctx, {
-             type: 'line',
-              data: {
-                  labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-                  datasets: [{
-                      label: '# of Votes',
-                      data: [12, 19, 3, 5, 2, 3],
-                      backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)'
-                      ],
-                      borderWidth: 1
-                  }]
-              },
-              options: {
-                  scales: {
-                      yAxes: [{
-                          stacked: true
-                      }]
-                  }
-              }
-          });
-        </script>
+        </script>     
    
     </body>
           

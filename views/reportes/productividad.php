@@ -266,24 +266,24 @@
         <?php importView('_static.scripts'); ?>   
         <script type="text/javascript">
           /* Datarange libreria alternativa*/
-        $('#daterange-text-p').daterangepicker(
-            {
-          ranges: {                                        
-            'Este mes': [moment().startOf('month'), moment().endOf('month')],
-            'Mes anterior': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-            '3 Meses': [moment().subtract(3, 'month').startOf('month'), moment().endOf('month')],
-            '6 Meses': [moment().subtract(6, 'month').startOf('month'), moment().endOf('month')],
-            '1 año': [moment().subtract(1, 'years').startOf('month'), moment().endOf('month')]            
-          },
-          startDate: moment().startOf('month'),
-          endDate: moment().endOf('month')
+          $('#daterange-text-p').daterangepicker(
+              {
+            ranges: {                                        
+              'Este mes': [moment().startOf('month'), moment().endOf('month')],
+              'Mes anterior': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+              '3 Meses': [moment().subtract(3, 'month').startOf('month'), moment().endOf('month')],
+              '6 Meses': [moment().subtract(6, 'month').startOf('month'), moment().endOf('month')],
+              '1 año': [moment().subtract(1, 'years').startOf('month'), moment().endOf('month')]            
             },
-            function (start, end) {
-          $('#daterange-text-p span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
-            }
-        );      
+            startDate: moment().startOf('month'),
+            endDate: moment().endOf('month')
+              },
+              function (start, end) {
+            $('#daterange-text-p span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+              }
+          );      
 
-          $(document).ready(function() {                       
+          $(document).ready(function() {
                 <?php
                   foreach ($table_data as $sucursal => $sucursal_anios) {
                      echo 'var data'.strtolower($sucursal).'= [';
@@ -339,9 +339,7 @@
                     echo "]}";
                     echo "});";
                   }
-                ?>
-
-              
+                ?>              
                 <?php  
                 foreach ($table_data as $sucursal => $sucursal_anios) { 
                 echo '$(\'#savepieChart-'.strtolower($sucursal).'\').click(function() { $(\'#pieChart-'. strtolower($sucursal).'\').get(0).toBlob(function(blob) {

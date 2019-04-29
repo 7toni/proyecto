@@ -9,7 +9,19 @@ $columns = array(
     array('db' => 'marca', 'dt' => 3),
     array('db' => 'modelo', 'dt' => 4),
     array('db' => 'serie', 'dt' => 5),
-    array('db' => 'activo', 'dt' => 6),    
+    //array('db' => 'activo', 'dt' => 6),
+    array(
+        'db' => 'activo',
+        'dt' => 6,
+        'formatter' => function($d, $row){
+            if($d==0){
+                return '<spam class="badge bg-red">inactivo</spam>';
+            }
+                else{
+                    return '<spam class="badge bg-green">activo</spam>';
+                }
+            }
+        ),    
     array('db' => 'cliente', 'dt' => 7),
     array('db' => 'calibracion', 'dt' => 8),
     array('db' => 'precio', 'dt' => 9),        

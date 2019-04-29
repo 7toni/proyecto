@@ -108,16 +108,20 @@ class ReportesController{
 			unset($data['daterange']);
 			$data['fecha_home']=$cadena[0];
 			$data['fecha_end']=$cadena[1];	
-			$table_data=$this->model['informe']->get_productividad($data);
 			
-			$table_totales=$this->model['informe']->get_totalprocesos($data);						
+			
+			$table_data=$this->model['informe']->get_productividad($data);
+						
+			$table_totales=$this->model['informe']->get_totalprocesos($data);									
 
 			if ($data['tipo_busqueda']== 0) {
-			$empresa= $this->model['planta']->find_by(['id'=>$data['cliente_id']],'view_plantas');                 
-            $cliente = (trim(strtolower($empresa[0]['nombre']))=='planta1') ?  $empresa[0]['empresa']: $empresa[0]['empresa'].' ('.$empresa[0]['nombre'].')';
+				$empresa= $this->model['planta']->find_by(['id'=>$data['cliente_id']],'view_plantas');                 
+            	$cliente = (trim(strtolower($empresa[0]['nombre']))=='planta1') ?  $empresa[0]['empresa']: $empresa[0]['empresa'].' ('.$empresa[0]['nombre'].')';
 			}
 			
-			//$table_totales=$this->model['informe']->get_productividad_total($data);		
+			//$table_totales=$this->model['informe']->get_productividad_total($data);
+			// var_dump($table_totales);
+			// exit;	
 		}
 
  		/* Arreglos default para el formulario */
@@ -129,7 +133,9 @@ class ReportesController{
 			$_data['sucursal']=$this->model['sucursal']->find_by(['nombre'=>Session::get('sucursal')]);	 
 		}	
 		$_SESSION['menu'] = 'reportes';
-      	$_SESSION['submenu'] = $this->name.'_productividad'; 
+		$_SESSION['submenu'] = $this->name.'_productividad';
+		  
+	
 		include view($this->name.'.productividad');
 	}
 
@@ -176,18 +182,17 @@ class ReportesController{
 			$hoy= date('Y-m-d');
 			$_fhome= date('Y-m-d',strtotime($data['fecha_home']));
 			$_fend= date('Y-m-d',strtotime($data['fecha_end']));
-			if ($_fhome >= $hoy and $_fend > $hoy) {				
-				$table_rc=$this->model['informes']->get_reporte_clientes($data);		
-			}
-			else{
-				$table_rc=false;
-			}
+				if ($_fhome >= $hoy and $_fend > $hoy) {				
+					$table_rc=$this->model['informe']->get_reporte_clientes($data);		
+				}
+				else{
+					$table_rc=false;
+				}
 			}
 		else{
-			$table_rc=$this->model['informes']->get_reporte_clientes($data);	
-		}							
-	
-		echo json_encode($table_rc);
+			$table_rc=$this->model['informe']->get_reporte_clientes($data);	
+		}
+		echo json_encode($table_rc);								
     }  
 
 	public function get_url($data){

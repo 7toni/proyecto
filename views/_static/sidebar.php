@@ -117,55 +117,89 @@
                             Productividad</a></li>                  
                         </ul>
                         </li>";
-                }
+                }            
+            ?>
+            <!-- Menu para las opciones de Calidad -->
+
+            <!-- End Menu Calidad -->
+            <?php
+            if(Session::has('rol',['Administrador','Ingenieros','Calidad'])){
+                    echo "<li class='header'>CALIDAD</li>";
+
+                    //adminsitración de equipos
+                    $calidadm = ($_SESSION['menu']=='control_calidad') ? 'active' : '';
+                    $calidadsm = ($_SESSION['submenu']=='control_calidad') ? 'active' : '';                    
+                    //$calidadspc = ($_SESSION['submenu']=='pulsocalidad') ? 'active' : '';
+                    $calidadsb=($_SESSION['submenu']=='bajas') ? 'active' : '';                    
+                    $calidadsi=($_SESSION['submenu']=='inventario') ? 'active' : '';
+                    $historialcsm = ($_SESSION['submenu']=='historialm') ? 'active' : '';
+                    $historialcsv = ($_SESSION['submenu']=='historialv') ? 'active' : '';
+
+                    echo "<li class='". $calidadm ." treeview'>
+                    <a href='#'>
+                        <i class='fa fa-calendar-check-o'></i> <span>Control de Calidad</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
+                    </a>
+                    <ul class='treeview-menu'>                                                                        
+                        <li class='". $calidadsm ."'><a href='?c=control_calidad'><i class='fa fa-calendar-o'></i> Control de Equipos</a></li>
+                        <li class='". $calidadsi ."'><a href='?c=inventario'><i class='fa fa-cubes'></i> Inventario</a></li>
+                        <li class='". $calidadsb ."'><a href='?c=control_calidad&a=bajas'><i class='fa fa-toggle-off'></i> Baja MPC</a></li>
+                        <li class='". $historialcsm ."'><a href='?c=historialm'><i class='fa fa-archive'></i> Historial Mantenimiento</a></li>
+                        <li class='". $historialcsv ."'><a href='?c=historialv'><i class='fa fa-archive'></i> Historial Verificación</a></li>
+                    </ul>
+                </li>";
+
+                //<li class='".$calidadspc ."'><a href='?c=control_calidad&a=pulsocalidad'><i class='fa fa-heartbeat'></i> Pulso Calidad</a></li>
+
+
+            }
             ?>
             <!-- Módulos de administración  -->
             <?php                
 
-                if(Session::has('rol',['Administrador','Ingenieros','Almacén','Técnicos','Calidad'])){          
+                if(Session::has('rol',['Administrador','Ingenieros','Almacén','Técnicos','Calidad'])){
                     echo "<li class='header'>ADMINISTRACIÓN</li>";
-                     //adminsitración de equipos
-                $equiposm = ($_SESSION['menu']=='equipos') ? 'active' : '';
+                    //adminsitración de equipos
+                    $equiposm = ($_SESSION['menu']=='equipos') ? 'active' : '';
 
-                $equipossm = ($_SESSION['submenu']=='equipos') ? 'active' : '';
-                $descripcionsm = ($_SESSION['submenu']=='equipos_descripciones') ? 'active' : '';
-                $marcasm = ($_SESSION['submenu']=='equipos_marcas') ? 'active' : '';
-                $modelosm = ($_SESSION['submenu']=='equipos_modelos') ? 'active' : '';
-                    echo "<li class='". $equiposm ." treeview'>
-                        <a href='#'>
-                            <i class='fa fa-wrench'></i> <span>Administración de equipos</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
-                        </a>
-                        <ul class='treeview-menu'>
-                            <li class='". $equipossm ."'><a href='?c=equipos'><i class='fa fa-database'></i> Equipos</a></li>
-                            <li class='". $descripcionsm ."'><a href='?c=equipos_descripciones'><i class='fa fa-font'></i> Descripcion de equipos</a></li>
-                            <li class='". $marcasm ."'><a href='?c=equipos_marcas'><i class='fa fa-tags'></i>Marcas de equipos</a></li>
-                            <li class='". $modelosm ."'><a href='?c=equipos_modelos'><i class='fa fa-list'></i>Modelos de equipos</a></li>
-                        </ul>
-                    </li>";
+                    $equipossm = ($_SESSION['submenu']=='equipos') ? 'active' : '';
+                    $descripcionsm = ($_SESSION['submenu']=='equipos_descripciones') ? 'active' : '';
+                    $marcasm = ($_SESSION['submenu']=='equipos_marcas') ? 'active' : '';
+                    $modelosm = ($_SESSION['submenu']=='equipos_modelos') ? 'active' : '';
+                        echo "<li class='". $equiposm ." treeview'>
+                            <a href='#'>
+                                <i class='fa fa-wrench'></i> <span>Administración de equipos</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
+                            </a>
+                            <ul class='treeview-menu'>
+                                <li class='". $equipossm ."'><a href='?c=equipos'><i class='fa fa-database'></i> Equipos</a></li>
+                                <li class='". $descripcionsm ."'><a href='?c=equipos_descripciones'><i class='fa fa-font'></i> Descripcion de equipos</a></li>
+                                <li class='". $marcasm ."'><a href='?c=equipos_marcas'><i class='fa fa-tags'></i>Marcas de equipos</a></li>
+                                <li class='". $modelosm ."'><a href='?c=equipos_modelos'><i class='fa fa-list'></i>Modelos de equipos</a></li>
+                            </ul>
+                        </li>";
     
                     //adminsitración de clientes
-                $clientesm = ($_SESSION['menu']=='clientes') ? 'active' : '';
+                    $clientesm = ($_SESSION['menu']=='clientes') ? 'active' : '';
 
-                $empresassm = ($_SESSION['submenu']=='empresas') ? 'active' : '';
-                $plantassm = ($_SESSION['submenu']=='plantas') ? 'active' : '';    
-                    echo "<li class='". $clientesm ." treeview'>
-                        <a href='#'>
-                            <i class='fa fa-address-card' aria-hidden='true'></i> <span>Administración de clientes</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
-                        </a>
-                        <ul class='treeview-menu'>
-                            <li class='". $empresassm ."'><a href='?c=empresas'><i class='fa fa-building'></i>Empresas</a></li>
-                            <li class='". $plantassm ."'><a href='?c=plantas'><i class='fa fa-industry'></i>Planta/Sucursal</a></li>
-                        </ul>
-                    </li>";
-                    //adminsitración de modulos
-                $modulosm = ($_SESSION['menu']=='modulos') ? 'active' : '';
+                    $empresassm = ($_SESSION['submenu']=='empresas') ? 'active' : '';
+                    $plantassm = ($_SESSION['submenu']=='plantas') ? 'active' : '';    
+                        echo "<li class='". $clientesm ." treeview'>
+                            <a href='#'>
+                                <i class='fa fa-address-card' aria-hidden='true'></i> <span>Administración de clientes</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
+                            </a>
+                            <ul class='treeview-menu'>
+                                <li class='". $empresassm ."'><a href='?c=empresas'><i class='fa fa-building'></i>Empresas</a></li>
+                                <li class='". $plantassm ."'><a href='?c=plantas'><i class='fa fa-industry'></i>Planta/Sucursal</a></li>
+                            </ul>
+                        </li>";
+                        //adminsitración de modulos
+                    $modulosm = ($_SESSION['menu']=='modulos') ? 'active' : '';
 
-                $paissm = ($_SESSION['submenu']=='paises') ? 'active' : '';
-                $estadosm = ($_SESSION['submenu']=='estados') ? 'active' : '';
-                $ciudadsm = ($_SESSION['submenu']=='ciudades') ? 'active' : '';
-                $tipocalsm = ($_SESSION['submenu']=='calibraciones') ? 'active' : '';
-                $sucursalsm = ($_SESSION['submenu']=='sucursales') ? 'active' : '';
-                $acreditacionsm = ($_SESSION['submenu']=='acreditacion') ? 'active' : '';
+                    $paissm = ($_SESSION['submenu']=='paises') ? 'active' : '';
+                    $estadosm = ($_SESSION['submenu']=='estados') ? 'active' : '';
+                    $ciudadsm = ($_SESSION['submenu']=='ciudades') ? 'active' : '';
+                    $tipocalsm = ($_SESSION['submenu']=='calibraciones') ? 'active' : '';
+                    $sucursalsm = ($_SESSION['submenu']=='sucursales') ? 'active' : '';
+                    $acreditacionsm = ($_SESSION['submenu']=='acreditacion') ? 'active' : '';
                     echo "<li class='". $modulosm ." treeview'>
                         <a href='#'>
                             <i class='fa fa-th'></i> <span>Módulos</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
@@ -180,11 +214,11 @@
                         </ul>
                     </li>";                            
                     //adminsitración de usuarios
-                $usuariosm = ($_SESSION['menu']=='usuarios') ? 'active' : '';
+                    $usuariosm = ($_SESSION['menu']=='usuarios') ? 'active' : '';
 
-                $usuariossm = ($_SESSION['submenu']=='usuarios') ? 'active' : '';
-                $usuariosrolsm = ($_SESSION['submenu']=='roles') ? 'active' : '';
-                $usuariosaltasm = ($_SESSION['submenu']=='usuariosalta') ? 'active' : '';            
+                    $usuariossm = ($_SESSION['submenu']=='usuarios') ? 'active' : '';
+                    $usuariosrolsm = ($_SESSION['submenu']=='roles') ? 'active' : '';
+                    $usuariosaltasm = ($_SESSION['submenu']=='usuariosalta') ? 'active' : '';            
                     if(Session::has('rol',['Administrador','Ingenieros','Calidad'])){
                         echo "<li class='".$usuariosm." treeview'>
                             <a href='#'>
@@ -198,8 +232,8 @@
                         </li>";
                     }           
                     //adminsitración del LOG
-                $logm = ($_SESSION['menu']=='logs') ? 'active' : '';
-                $logsm = ($_SESSION['submenu']=='logs') ? 'active' : '';                            
+                    $logm = ($_SESSION['menu']=='logs') ? 'active' : '';
+                    $logsm = ($_SESSION['submenu']=='logs') ? 'active' : '';                            
                     if(Session::has('rol',['Administrador'])){
                         echo  "<li class='". $logm ." treeview'>
                             <a href='#'>
