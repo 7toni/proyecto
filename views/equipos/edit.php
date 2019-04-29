@@ -86,6 +86,20 @@
                                                 ?>
                                                 </select>
                                             </div>
+                                                <!-- checkbox -->
+                                                <div class="form-group">
+                                                <label>
+                                                    <?php
+                                                    if($data['equipo'][0]['activo'] == 1){
+                                                        echo "<input type='checkbox' class='flat-red' id='activo' name='activo'  checked>";
+                                                    }
+                                                    else {
+                                                        echo "<input type='checkbox' class='flat-red' id='activo' name='activo'>";
+                                                    }
+                                                    ?>                                                
+                                                &nbsp; Activo
+                                                </label>                                                                                                
+                                            </div> 
                                             <div class="form-group">
                                                 <label for="comentarios">Comentarios</label>
                                                 <input type="text" class="form-control" name="comentarios" id="comentarios" value="<?php echo $data['equipo'][0]['comentarios'] ?>"  placeholder="Comentarios">

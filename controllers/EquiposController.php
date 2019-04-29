@@ -33,6 +33,7 @@ class EquiposController {
 
     public function edit($id) {
         $data['equipo'] = $this->model['equipo']->find($id);
+        //var_dump($data['equipo']);
         if (exists($data['equipo'])) {
             $data['equipos_descripciones'] = $this->model['equipos_descripciones']->all();
             $data['equipos_marcas'] = $this->model['equipos_marcas']->all();
@@ -62,6 +63,7 @@ class EquiposController {
             'modelos_id' => 'required|number',
         ]);
         $data['continental_id'] = 1;
+        $data['activo'] = 1;
         if ($this->model['equipo']->store($data)) {
             redirect('?c=' . $this->name);
         } else {
@@ -78,6 +80,7 @@ class EquiposController {
             'marcas_id' => 'required|number',
             'modelos_id' => 'required|number',
         ]);
+        $data['activo']= intval(isset($_POST['activo']) ? "1":"0");       
         if ($this->model['equipo']->update($data)) {
             redirect('?c=' . $this->name);
         } else {
@@ -95,6 +98,6 @@ class EquiposController {
         } else {
             Flash::error(setError('002'));
         }
-    }
+    }    
 
 }
