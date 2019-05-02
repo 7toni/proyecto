@@ -179,7 +179,7 @@
                                           $estadoeq="";
                                           $labeleq="";
                                           $disabled="";
-                                          if ($data['equipo'][0]['activo']==1){
+                                          if ($data['get'][0]['equipo_activo']==1){
                                               $estadoeq="Activo";
                                               $labeleq="label-success";
                                           }
@@ -188,7 +188,6 @@
                                               $labeleq="label-danger";
                                               $disabled="disabled";
                                           }   
-
                                           echo '<tr>';  
                                           echo '<td ><label> <input type="radio" name="equipos_id" value="'.$data['get'][0]['idequipo'] .'" checked '. $disabled .'></label></td>'; 
                                           echo '<td >'.$data['get'][0]['equipos_id'] .'</td>';

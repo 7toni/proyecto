@@ -45,14 +45,20 @@
                 <ul class='treeview-menu'>
                  <?php 
                     $completasm = ($_SESSION['submenu']=='completa') ? 'active' : '';
-                    $recepcionsm = ($_SESSION['submenu']=='recepcion') ? 'active' : '';               
+                    $recepcionsm = ($_SESSION['submenu']=='recepcion') ? 'active' : '';
+                    $recepcionvolsm = ($_SESSION['submenu']=='recepcionvol') ? 'active' : '';
                     $procesosm = ($_SESSION['submenu']=='proceso') ? 'active' : '';               
                     $acalibrarsm = ($_SESSION['submenu']=='acalibrar') ? 'active' : '';               
                         if(Session::has('rol',['Administrador','Técnicos','Ingenieros','Almacén'])){
-                            echo "         
-                                <li class='". $completasm ."'><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitacora completa</a></li>                 
+                            echo "
                                 <li class='". $recepcionsm ."'><a href='?c=recepcion'><i class='fa fa-circle-o'></i>Registrar equipo</a></li>
-                                <li class='". $procesosm ."'><a href='?c=informes&a=proceso'><i class='fa fa-circle-o'></i>Equipos en proceso</a></li>
+                                <li class='". $recepcionsvolsm ."'><a href='?c=recepcion&a=registrovol'><i class='fa fa-circle-o'></i>Registrar equipo (Volumen)</a></li>
+                                <li class='". $completasm ."'><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitacora completa</a></li>                                
+                                <li class='". $procesosm ."'><a href='?c=informes&a=proceso'><i class='fa fa-circle-o'></i>Equipos en proceso</a></li>                                
+                           ";
+                        }
+                        if(Session::has('rol',['Administrador','Técnicos'])){
+                            echo "                                
                                 <li class='". $acalibrarsm ."'><a href='?c=informes&a=calibrar'><i class='fa fa-circle-o'></i>Equipos a calibrar</a></li>
                            ";
                         }                        

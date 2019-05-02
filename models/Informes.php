@@ -44,7 +44,7 @@ class Informes extends Model {
 
     public function get_recepcion($id,$view){
         //$this->query= "SELECT id as id, idequipo, alias as equipos_id,descripcion,marca,modelo,serie,empresas_id,plantas_id,periodo_calibracion,acreditaciones_id,usuarios_calibracion_id,calibraciones_id,prioridad,comentarios,po_id,cantidad,numero_hoja_entrada as hojas_entrada_id,usuarios_id_hoja_entrada as usuarios_id,fecha_hoja_entrada as fecha,proceso  FROM ".$view." WHERE id = ". $id.";";
-        $this->query= "SELECT id as id, idequipo, alias as equipos_id,descripcion,marca,modelo,serie,empresas_id,plantas_id,periodo_calibracion,acreditaciones_id,usuarios_calibracion_id,calibraciones_id,prioridad,comentarios,po_id,cantidad,numero_hoja_entrada as hojas_entrada_id,usuarios_id_hoja_entrada as usuarios_id,fecha_hoja_entrada as fecha,proceso,periodo_id  FROM ".$view." WHERE id = ". $id.";";
+        $this->query= "SELECT id as id, idequipo, alias as equipos_id,descripcion,marca,modelo,serie,equipo_activo,empresas_id,plantas_id,periodo_calibracion,acreditaciones_id,usuarios_calibracion_id,calibraciones_id,prioridad,comentarios,po_id,cantidad,numero_hoja_entrada as hojas_entrada_id,usuarios_id_hoja_entrada as usuarios_id,fecha_hoja_entrada as fecha,proceso,periodo_id  FROM ".$view." WHERE id = ". $id.";";
         $this->get_results_from_query();       
         return $this->rows;
     }    

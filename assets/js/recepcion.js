@@ -50,7 +50,7 @@
     count_check_equipo=0;
     $('#overlay').addClass('overlay');
     $('#refresh').addClass('fa fa-refresh fa-spin');        
-    if (validar_text($("#idequipo").val().trim())== true) {              
+    if (validar_text($("#idequipo").val().trim())== true) {
         $.ajax({
             url: "?c=recepcion&a=ajax_load_historial",
             dataType: "json",
