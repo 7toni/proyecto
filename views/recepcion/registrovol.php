@@ -60,7 +60,7 @@
                                   </div>                                 
                                   <div class="box-body form-horizontal"> 
                                       <div class="form-group" id="alerta_informe">
-                                      <label for="numero_informe" class="col-sm-3 control-label">Informe :</label>
+                                      <label for="numero_informe" class="col-sm-4 control-label">Informe :</label>
                                       <div class="input-group col-sm-3">                                                            
                                           <input type="number" class="form-control" placeholder="Cantidad de informes a generar" id="informeadd" name="informeadd">
                                       </div>
