@@ -23,7 +23,8 @@
        'periodo' => new Periodo(),
       ];
       $this->ext=$this->model['sucursal']->extension(); 
-      $this->sucursal= strtoupper(Session::get('sucursal'));   
+      $this->sucursal= strtoupper(Session::get('sucursal'));
+      $_SESSION['script'] = 'recepcion';   
 	}
 
 	public function index (){
@@ -69,16 +70,14 @@
       $data['tipocalibracion']=$this->model['tipocalibracion']->all();
       $data['periodo']=$this->model['periodo']->find_by();
       $_SESSION['menu'] = 'bitacora';
-      $_SESSION['submenu'] = 'recepcion';           
-      $_SESSION['script'] = true;      
+      $_SESSION['submenu'] = 'recepcion';      
       
   	include view($this->name.'.read');
   }
   
   public function registrovol (){
     $_SESSION['menu'] = 'bitacora';
-    $_SESSION['submenu'] = 'recepcionvol';           
-    $_SESSION['script'] = true;  
+    $_SESSION['submenu'] = 'recepcionvol';               
       $sucursal=strtolower(Session::get('sucursal'));
 
       $data['empresa']=$this->model['empresa']->all();        
@@ -95,10 +94,7 @@
       $data['acreditacion']=$this->model['acreditacion']->find_by(['activo'=>'1']);
 
       $data['tipocalibracion']=$this->model['tipocalibracion']->all();
-      $data['periodo']=$this->model['periodo']->find_by();
-      $_SESSION['menu'] = 'bitacora';
-      $_SESSION['submenu'] = 'recepcion';           
-      $_SESSION['script'] = true;      
+      $data['periodo']=$this->model['periodo']->find_by();                           
       
   	include view($this->name.'.registrovol');
 	}

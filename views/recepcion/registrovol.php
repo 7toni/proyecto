@@ -377,18 +377,8 @@
         <script>
             var controller = "<?php echo $this->name; ?>";   
         </script>
-        <script type="text/javascript">           
-          
-          $(document).ready(function(){
-            
-            $("form").submit(function(){
-              $('#overlay').addClass('overlay');
-              $('#refresh').addClass('fa fa-refresh fa-spin');
-            });
-
-          });
-
-            function downloadCSV(args){
+        <script type="text/javascript">
+         function downloadCSV(args){
               var data, filename, link;
 
               var empresa = document.getElementById("empresa_ajax_r");
@@ -440,7 +430,6 @@
               link.click();
                                
             }
-
             function convertArrayOfObjectsToCSV(args) {
               var result, ctr, keys, columnDelimiter, lineDelimiter, data;
 
@@ -470,8 +459,7 @@
               });
 
               return result;
-            }
-
+            }                                          
         </script>
         <?php importView('_static.scripts'); ?>       
     </body>

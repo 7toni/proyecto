@@ -1,6 +1,6 @@
 <?php
 Session::logged();
-$_SESSION['script']= false;
+$_SESSION['script']= NULL;
 
 class HistorialmController{
 
