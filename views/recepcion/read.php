@@ -48,7 +48,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="box box-default">
-                              <div class="box-header">                                    
+                              <div class="box-header">
                                   <h3 class="box-title"> Buscar equipo </h3>
                                     <div class="box-tools">                                        
                                     </div>

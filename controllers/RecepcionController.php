@@ -251,8 +251,7 @@
     $hoy = date("Y-m-d H:i:s");
     $data['fecha_inicio'] = $hoy;
     
-    $iteraciones= $data['informeadd']; unset($data['informeadd']);  
-
+    $iteraciones= $data['informeadd']; unset($data['informeadd']);     
   //   /* Agregar PO , funcion store_po */    
     $po_id = $data['po_id']; unset($data['po_id']);        
     $cantidad = $data['cantidad']; unset($data['cantidad']);        
