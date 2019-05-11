@@ -43,7 +43,7 @@
                               ?></ul>
                       </div>
                     <?php } ?>
-                    <form method="POST" novalidate="" autocomplete="off"  action="?c=<?php echo $this->name; ?>&a=storevol" role="form" enctype="multipart/form-data">                    
+                    <form method="POST" novalidate="" autocomplete="off"  action="?c=<?php echo $this->name; ?>&a=storevol" role="form" >                    
                                          
                         <!-- Consulta del id del equipo/ generar número de informe-->                    
                         <div class="row">
@@ -356,7 +356,7 @@
                                     <div class="form-group">
                                     <div class="col-sm-3"></div>
                                     <div class="col-sm-9">
-                                      <button type="button" class="btn btn-box-tool pull-right" onclick="downloadCSV({ filename: 'formato.csv' });"><i class="fa fa-download" aria-hidden="true"></i> &nbsp; Descargar formato *.csv</button>                                     
+                                      <!-- <button type="button" class="btn btn-box-tool pull-right" onclick="downloadCSV({ filename: 'formato.csv' });"><i class="fa fa-download" aria-hidden="true"></i> &nbsp; Descargar formato *.csv</button>                                      -->
                                     <!-- id del campo = numero_informe -->
                                     </div>
                                     </div>
@@ -365,10 +365,7 @@
                             </div>
                             <div class="col-lg-2 pull-right">                              
                               <div class="box box-widget pull-right">
-                              <button type="submit" class="btn btn-info btn-block">Registrar</button>
-                                <div id="overlayv">
-                                      <i id="refreshv" ></i> 
-                                </div> 
+                              <button type="submit" class="btn btn-info btn-block">Registrar</button>                               
                                 </div>                                                                                                              
                               
                             </div>                            
@@ -381,100 +378,16 @@
         </div>    
         <script>
             var controller = "<?php echo $this->name; ?>";   
-        </script>
-        <script type="text/javascript">
-         function downloadCSV(args){
-              var data, filename, link;
-              var empresa = document.getElementById("empresa_ajax_r");
-              var planta = document.getElementById("idplanta_ajax_r");
-              var acreditacion = document.getElementById("acreditaciones_id");
-              var tecnico = document.getElementById("usuarios_calibracion_id");
-              var calibracion = document.getElementById("calibraciones_id");
-              var usuario = document.getElementById("usuarios_id");
-              //planta_id: $('#idplanta_ajax_r').val(),
-              //usuarios_calibracion_id: $('#usuarios_calibracion_id').val(),
-              //usuarios_id: $('#usuarios_id').val(),
-              var datos= [{                
-                    id: "",
-                    clave: "",
-                    descripcion: "",
-                    marca: "",
-                    modelo: "",
-                    serie: "",
-                    empresa:  empresa.options[empresa.selectedIndex].text,                  
-                    planta:  planta.options[planta.selectedIndex].text,                   
-                    periodo_calibracion: $('#periodo_calibracion').val(),
-                    acreditacion:  acreditacion.options[acreditacion.selectedIndex].text,                    
-                    tecnico:  tecnico.options[tecnico.selectedIndex].text,
-                   
-                    calibracion:  calibracion.options[calibracion.selectedIndex].text,                   
-                    prioridad: $("input:radio[name=prioridad]:checked").val(),                   
-                    po_id: $('#po_id').val(),
-                    cantidad: $('#cantidad').val(),
-                    num_hojaent: $('#num_hojaent').val(),
-                    usuario:  usuario.options[usuario.selectedIndex].text,
-                    
-                    fecha: $('#fecha').val()                  
-                  }];          
-
-              var csv = convertArrayOfObjectsToCSV({
-                  data: datos
-              });
-              if (csv == null) return;
-
-              filename = args.filename || 'export.csv';
-
-              if (!csv.match(/^data:text\/csv/i)) {
-                  csv = csv;
-              }
-              data = encodeURI(csv);
-
-              link = document.createElement('a');
-              link.setAttribute('href','data:text/csv;charset=utf-8,%EF%BB%BF' + data);
-              link.setAttribute('download', filename);
-              link.click();
-                               
-            }
-            function convertArrayOfObjectsToCSV(args) {
-              var result, ctr, keys, columnDelimiter, lineDelimiter, data;
-
-              data = args.data || null;
-              if (data == null || !data.length) {
-                  return null;
-              }
-
-              columnDelimiter = args.columnDelimiter || ',';
-              lineDelimiter = args.lineDelimiter || '\n';
-
-              keys = Object.keys(data[0]);
-
-              result = '';
-              result += keys.join(columnDelimiter);
-              result += lineDelimiter;
-
-              data.forEach(function(item) {
-                  ctr = 0;
-                  keys.forEach(function(key) {
-                      if (ctr > 0) result += columnDelimiter;
-
-                      result += item[key];
-                      ctr++;
-                  });
-                  result += lineDelimiter;
-              });
-
-              return result;
-            }                                          
-        </script>
+        </script>        
         <?php importView('_static.scripts'); ?>
         <script>
-          $(document).ready(function() {
-            $("form").submit(function(){
-              $('#overlayv').addClass('overlay');
-              $('#refreshv').addClass('fa fa-refresh fa-spin'); 
-            });             
+          // $(document).ready(function() {
+          //   $("form").submit(function(){
+          //     $('#overlayv').addClass('overlay');
+          //     $('#refreshv').addClass('fa fa-refresh fa-spin'); 
+          //   });             
 
-          });
+          // });
         </script>      
     </body>
 </html>

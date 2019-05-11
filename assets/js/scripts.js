@@ -51,6 +51,10 @@
             $("#" + alerta + "").before(
                 "<div class='form-group' name='alertas'>" + "<div class='col'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + "Campo requerido, favor de ingresar " + valor + " correctamente. Intente una vez más." + "</div>" + "</div>" + "</div>");
         }
+        if (tipo == 'error') {
+            $("#" + alerta + "").before(
+                "<div class='form-group' name='alertas'>" + "<div class='col'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + valor + " </div>" + "</div>" + "</div>");
+        }
     }
     
     function ultimo_numero_salida() {

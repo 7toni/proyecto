@@ -24,7 +24,8 @@
       ];
       $this->ext=$this->model['sucursal']->extension(); 
       $this->sucursal= strtoupper(Session::get('sucursal'));
-      $_SESSION['script'] = 'recepcion';   
+      $_SESSION['script'] = 'recepcion';
+            
 	}
 
 	public function index (){
@@ -113,10 +114,167 @@
       if($ext === 'csv'){              
         $data= $this->readCSV($ruta);
       }                                
-    }    
-   //var_dump($data);
-   //exit;
+    }           
     echo json_encode($data);
+  }
+
+  public function ajax_comprobardatos(){
+  
+    if($_FILES['csvfile']['name'] != ''){    
+      $ext = strtolower(end(explode('.', $_FILES['csvfile']['name'])));
+      $type = $_FILES['csvfile']['type'];
+      $ruta = $_FILES['csvfile']['tmp_name'];   
+      // check the file is a csv
+        if($ext === 'csv'){              
+          $data= $this->readCSV($ruta);
+        }                                
+      }
+        
+      $cliente_temp=['empresa'=>"",'planta'=>""];
+      $usuario_temp=['nombre'=>"",'apellido'=>""];    
+      $planta_temp=0;
+      $tecnico_temp= 0;
+      
+      foreach($data as $clave => $value){  
+               
+        if(!empty($data[$clave][1])){
+          $equipo= ['alias'=>$data[$clave][1],'descripcion'=>$data[$clave][3],'marca'=>$data[$clave][4],'modelo'=>$data[$clave][5],'serie'=>$data[$clave][2]];
+          $query1= "SELECT id FROM mypsa_bitacoramyp.view_equipos where alias='{$equipo['alias']}' and descripcion='{$equipo['descripcion']}' and marca='{$equipo['marca']}' and modelo='{$equipo['modelo']}' and serie='{$equipo['serie']}';";
+          //echo $query1;
+          $data1=$this->model['equipo']->get_query($query1);          
+          if(sizeof($data1)>0){
+            $data[$clave][19]=$data1[0]['id'];            
+          }
+          else{
+            $data[$clave][19]=0;
+          }   
+        } else{
+          $data[$clave][19]=0;
+        }             
+
+        if(!empty($data[$clave][6])){
+          
+            $cliente=['empresa'=>$data[$clave][6],'planta'=>$data[$clave][7]];
+         
+            if(($cliente_temp['empresa'] == $cliente['empresa']) && ($cliente_temp['planta'] == $cliente['planta']))
+            {
+              $data[$clave][20]=$planta_temp;
+            }
+            else{
+              $cliente_temp['empresa']=$data[$clave][6];
+              $cliente_temp['planta']=$data[$clave][7];
+              $query2="SELECT id FROM mypsa_bitacoramyp.view_plantas where empresa='{$cliente['empresa']}' and nombre='{$cliente['planta']}';";        
+              $data2=$this->model['planta']->get_query($query2);
+              if(sizeof($data2)>0){            
+                $planta_temp=$data2[0]['id'];            
+              }
+              else{
+                $planta_temp=0;
+              }
+              $data[$clave][20]=$planta_temp;
+            }                                        
+        }
+        else{
+          $data[$clave][20]=0;
+        } 
+
+        if(!empty($data[$clave][15])){
+          $tecnico= explode(' ',$data[$clave][15]);
+          $usuario=['nombre'=>$tecnico[0],'apellido'=>$tecnico[1]];
+
+          if(($usuario_temp['nombre'] == $usuario['nombre']) && ($usuario_temp['apellido'] == $usuario['apellido'])){
+            $data[$clave][21]=$tecnico_temp;
+          }
+          else{
+            $usuario_temp['nombre']=$tecnico[0];
+            $usuario_temp['apellido']=$tecnico[1];
+            $query3="SELECT id FROM mypsa_bitacoramyp.view_usuarios where nombre='{$usuario['nombre']}' and apellido='{$usuario['apellido']}';";
+            $data3=$this->model['usuario']->get_query($query3);
+            if(sizeof($data3)>0){
+              $tecnico_temp=$data3[0]['id'];
+            }else{
+              $tecnico_temp=0;
+            }
+            $data[$clave][21]=$tecnico_temp;
+          }
+          
+        }else{
+          $data[$clave][21]=0;
+        }
+        
+      }
+
+      //$data= procesar_csv($data);
+
+      echo json_encode($data);
+
+  }
+
+  public function ajax_storevolCSV(){
+    $post = $_POST['data'];
+
+    $decoded= json_decode($post, true);    
+    
+    foreach($decoded as $clave => $value){
+
+      $data[$clave]=[
+        'id'=> intval($decoded[$clave][0]),
+        'equipos_id'=>intval($decoded[$clave][19]),
+        'plantas_id'=>intval($decoded[$clave][20]),
+        'usuarios_calibracion_id'=>intval($decoded[$clave][21]),
+        'usuarios_informe_id'=>intval($decoded[$clave][21]),        
+        'periodo_id'=>null,
+        'periodo_calibracion'=>null,
+        'calibrado'=>null,
+        'fecha_calibracion'=>null,
+        'fecha_vencimiento'=>null        
+        ];
+
+      if(strtolower($decoded[$clave][18])=="inicio" || strtolower($decoded[$clave][18])=="calibracion"){
+        $data[$clave]['proceso']=2;
+      }
+
+      // Datos del proceso de calibracion
+      $fechacal= $decoded[$clave][17];
+      $vigencia= explode(' ',$decoded[$clave][16]);
+      $periodocal=intval($vigencia[0]);
+      $periodo_id=strtolower($vigencia[1]);
+      $dia_mes="";
+      if ($periodo_id=="mes(s)") {
+        $data[$clave]['periodo_id']=1;
+        $dia_mes="month";
+      }
+      else if ($periodo_id=="día(s)"){
+        $data[$clave]['periodo_id']=2;
+        $dia_mes="days";
+      } 
+      if($periodocal>0){
+        $data[$clave]['calibrado']=1;
+      }
+      else{
+        $data[$clave]['calibrado']=0;
+      } 
+      $data[$clave]['periodo_calibracion']=$periodocal;
+      $data[$clave]['fecha_calibracion']= date('Y-m-d', strtotime($fechacal));
+      $data[$clave]['fecha_vencimiento'] = date('Y-m-d', strtotime($fechacal . "+".$periodocal." ".$dia_mes));  
+      // <-- Fin -->      
+    }    
+    //var_dump(sizeof($data));   
+        
+    for ($i=0; $i < sizeof($data); $i++) {
+        $planta= $this->model['planta']->find_by(['id'=>$data[$i]['plantas_id']],'view_plantas');
+        $nombreplanta= strtolower(str_replace(' ','',$planta[0]['nombre']));
+        $cliente= ($nombreplanta=="planta1") ? $planta[0]['empresa']:$planta[0]['empresa'].', '.$planta[0]['nombre'];
+        if ($this->model['informes']->update($data[$i])){
+          Logs::this("Actualización de informes por CSV", " cliente : {". $cliente ."} y datos de calibración del informe: ".$data[$i]['id']); 
+          $return=true;
+        }else{
+          $return=false;
+          break;
+        }    
+    }    
+
+    echo json_encode($return);    
   }
 
   public function readCSV($ruta){ 
@@ -196,7 +354,7 @@
               // direccionarlo al siguiente proceso 
               $roles_id= substr(Session::get('roles_id'),-1,1);                                      
               if ($proceso_temp == 0) {
-                Logs::this("Captura datos de recepción", "Recepción del equipo, cliente : {". $cliente ."}y datos de calibración del informe: ".$data['id']); 
+                Logs::this("Captura datos de recepción", "Recepción del equipo, cliente : {". $cliente ."} y datos de calibración del informe: ".$data['id']); 
               $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
               }
               else if($proceso_temp == 1) {
@@ -238,7 +396,6 @@
   }
 
   public function storevol() {
-    //existe esta variables auxiliar que es un radio y esta en la tabla de historial, pero tomo el valor del número de informe del campo informe, entonces cuando hay datos en la tabla y tambien en el campo informe, no me sirve el id_aux.
     $view="view_informes". $this->ext;    
     $data = validate($_POST, [
         'informeadd' => 'required|toInt',            
@@ -252,19 +409,19 @@
     $data['fecha_inicio'] = $hoy;
     
     $iteraciones= $data['informeadd']; unset($data['informeadd']);     
-  //   /* Agregar PO , funcion store_po */    
-    $po_id = $data['po_id']; unset($data['po_id']);        
-    $cantidad = $data['cantidad']; unset($data['cantidad']);        
-    $data['po_id']= $this->store_po($po_id,$cantidad);
-  //   /* renombrando las variables para insertar la hoja de entrada */                
-    $hojaentrada_sucursal="view_hojas_entrada_aux".$this->ext;         
-    $hojas_entrada_id = $data['hojas_entrada_id']; unset($data['hojas_entrada_id']);//
-    $usuarios_id = $data['usuarios_id']; unset($data['usuarios_id']); // 
-    $fecha = $data['fecha']; unset($data['fecha']);//        
-  //   /* Agregar Hoja de entrada , funcion store_hoja_entrada */
-     $data['hojas_entrada_aux_id']= $this->store_hoja_entrada($hojas_entrada_id,$usuarios_id,$fecha,$hojaentrada_sucursal);
+    //   /* Agregar PO , funcion store_po */    
+      $po_id = $data['po_id']; unset($data['po_id']);        
+      $cantidad = $data['cantidad']; unset($data['cantidad']);        
+      $data['po_id']= $this->store_po($po_id,$cantidad);
+    //   /* renombrando las variables para insertar la hoja de entrada */
+      $hojaentrada_sucursal="view_hojas_entrada_aux".$this->ext;         
+      $hojas_entrada_id = $data['hojas_entrada_id']; unset($data['hojas_entrada_id']);//
+      $usuarios_id = $data['usuarios_id']; unset($data['usuarios_id']); // 
+      $fecha = $data['fecha']; unset($data['fecha']);//        
+    //   /* Agregar Hoja de entrada , funcion store_hoja_entrada */
+      $data['hojas_entrada_aux_id']= $this->store_hoja_entrada($hojas_entrada_id,$usuarios_id,$fecha,$hojaentrada_sucursal);
 
-  //     /* Comparar si si agrego bien el PO y la hoja de entrada */
+    //     /* Comparar si si agrego bien el PO y la hoja de entrada */
     if (strlen($data['hojas_entrada_aux_id'])> 0 && strlen($data['po_id'])>0) {
       //si se agrego correctamente hoja de entrada y PO entonces se hara update sobre la tabla informes de los datos pendientes.
       $planta= $this->model['planta']->find_by(['id'=>$data['plantas_id']],'view_plantas');
@@ -276,9 +433,11 @@
           // direccionarlo al siguiente proceso 
           if($iteraciones == ($i+1)){
             $roles_id= substr(Session::get('roles_id'),-1,1);                                      
-            if ($proceso_temp == 0) {  
+            if ($proceso_temp == 0) {
+              
               Logs::this("Captura datos de recepción por volumen", "Recepción del equipo, cliente : {". $cliente ."}. Total de informes : ". $iteraciones);          
-              redirect($_SERVER['HTTP_REFERER']);
+              $this->download_excel($view,$data['plantas_id'],$iteraciones);
+              include view($this->name.'.registrovol');
             }
             else {               
               Flash::error(setError('002'));
@@ -289,7 +448,35 @@
     }
     else{
       Flash::error(setError('002'));           
-    }                             
+    } 
+
+  }
+
+  public function download_excel($view,$plantaid,$limit){
+    $query= "SELECT id as informe,alias as clave,descripcion,marca,modelo,serie,empresa,planta,po_id,cantidad,acreditacion,calibracion,numero_hoja_entrada as hoja_entrada,usuarios_hoja_entrada,fecha_hoja_entrada,calibrado_por,vigencia,fecha_calibracion,nombre_proceso as proceso FROM ". $view ." WHERE plantas_id=". $plantaid ." ORDER BY id DESC LIMIT ". $limit .";";
+        
+    $data = $this->model['informes']->get_query_informe($query); 
+
+    $filename="formato.csv";
+    header('Content-Encoding: UTF-8');              
+    header('Content-Type: text/csv; charset=utf-8' );
+    header('Content-Disposition: attachment; filename='.$filename);
+    header("Pragma: public");
+    header("Expires: 0");     
+    $mostrarcol=false;
+    $df = fopen( 'php://output', 'w' );
+    //This line is important:
+    fputs( $df, "\xEF\xBB\xBF" ); //UTF-8
+    foreach ($data as $row ) {
+
+      if(!$mostrarcol){
+        fputcsv( $df,array_keys($row));
+        $mostrarcol= true;
+      }
+        fputcsv( $df, array_values($row) );
+    }
+    fclose($df);
+            
   }
 
   public function store_po($po_id,$cantidad){
@@ -380,9 +567,9 @@
            $numero ='Erro BD';
         }
         echo json_encode($numero);
-    }
+  }
 
-  public function ajax_load_ultimo_informe() {                                                
+  public function ajax_load_ultimo_informe() {
         echo json_encode($numero=$this->model['informes']->numero_informe());
   }
 
@@ -421,7 +608,6 @@
       $view_hojas_entrada="view_hojas_entrada_aux". $this->ext;         
       $data = json_encode($data['hojaentradaaux'] = $this->model['hojaentradaaux']->find_by(['numero_hoja' => $numero_hoja],$view_hojas_entrada)); 
       echo $data;
-  }
-
+  }  
  
  }
