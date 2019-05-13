@@ -100,12 +100,13 @@
   	include view($this->name.'.registrovol');
 	}
 
-	public function volumen() {    
+	public function volumen() {
+    $_SESSION['menu'] = 'bitacora';
+    $_SESSION['submenu'] = 'actualizarvol';    
     include view($this->name.'.volumen');
 	}
 
   public function ajax_cargarcsv(){
-
     if($_FILES['csvfile']['name'] != ''){    
     $ext = strtolower(end(explode('.', $_FILES['csvfile']['name'])));
     $type = $_FILES['csvfile']['type'];

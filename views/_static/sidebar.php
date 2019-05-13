@@ -47,12 +47,14 @@
                     $completasm = ($_SESSION['submenu']=='completa') ? 'active' : '';
                     $recepcionsm = ($_SESSION['submenu']=='recepcion') ? 'active' : '';
                     $recepcionvolsm = ($_SESSION['submenu']=='recepcionvol') ? 'active' : '';
+                    $recepcionactvolsm = ($_SESSION['submenu']=='actualizarvol') ? 'active' : '';
                     $procesosm = ($_SESSION['submenu']=='proceso') ? 'active' : '';               
                     $acalibrarsm = ($_SESSION['submenu']=='acalibrar') ? 'active' : '';               
                         if(Session::has('rol',['Administrador','Técnicos','Ingenieros','Almacén'])){
                             echo "
-                                <li class='". $recepcionsm ."'><a href='?c=recepcion'><i class='fa fa-circle-o'></i>Registrar equipo</a></li>
-                                <li class='". $recepcionvolsm ."'><a href='?c=recepcion&a=registrovol'><i class='fa fa-circle-o'></i>Registrar equipo (Volumen)</a></li>
+                                <li class='". $recepcionsm ."'><a href='?c=recepcion'><i class='fa fa-circle-o'></i>Recepción de equipo</a></li>
+                                <li class='". $recepcionvolsm ."'><a href='?c=recepcion&a=registrovol'><i class='fa fa-circle-o'></i>Recepción por volumen</a></li>
+                                <li class='". $recepcionactvolsm ."'><a href='?c=recepcion&a=volumen'><i class='fa fa-circle-o'></i>Actualizar informes (*.csv)</a></li>                              
                                 <li class='". $completasm ."'><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitacora completa</a></li>                                
                                 <li class='". $procesosm ."'><a href='?c=informes&a=proceso'><i class='fa fa-circle-o'></i>Equipos en proceso</a></li>                                
                            ";
@@ -67,7 +69,7 @@
                         // } 
                         if(Session::has('rol',['Calidad'])){
                             echo "         
-                                <li class='". $completasm ."'><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitacora completa</a></li>                                                 
+                                <li class='". $completasm ."'><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitacora Terminada</a></li>                                                 
                                 <li class='". $procesosm ."'><a href='?c=informes&a=proceso'><i class='fa fa-circle-o'></i>Equipos en proceso</a></li>
                                 <li class='". $acalibrarsm ."'><a href='?c=informes&a=calibrar'><i class='fa fa-circle-o'></i>Equipos a calibrar</a></li>
                            ";

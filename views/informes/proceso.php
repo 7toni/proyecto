@@ -24,9 +24,9 @@
                                     <h3 class="box-title">Bitácora de informes en proceso</h3>
                                 </div>
                                 <!-- /.box-header -->
-                                <div class="box-body">
-                                    <!-- /* Agregar contenido */-->
-                                    <table id="table_proceso" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
+                                <div class="box-body table-responsive">
+                                    <!-- /* Agregar contenido  cellspacing="0" width="100%" */-->
+                                    <table id="table_proceso" class="table table-bordered table-striped table-hover" >
                                         <thead >
                                             <tr>
                                                 <th>Informe</th>

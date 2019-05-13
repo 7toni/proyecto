@@ -20,14 +20,20 @@ class InformesController
 
 	public function index(){
 		$usuario =Session::get('id');		
-		$rol =substr(Session::get('roles_id'),-2); // solo se abstrae el ultimo numero del rol todos empiesan con 100-00
+		$rol =substr(Session::get('roles_id'),-2); // solo se abstrae el ultimo numero del rol todos empiesan con 100 00
+		if($rol == "00" || $rol == "02" || $rol == "06"){
+			$proceso="";
+		}
+		else{
+			$proceso="4";
+		}
 		$_SESSION['menu'] = 'bitacora';
       	$_SESSION['submenu'] = 'completa';
 		include view($this->name.'.read');
 	}
 	public function proceso(){
 		$usuario =Session::get('id');		
-		$rol =substr(Session::get('roles_id'),-2); // solo se abstrae el ultimo numero del rol todos empiesan con 100-00
+		$rol =substr(Session::get('roles_id'),-2); // solo se abstrae el ultimo numero del rol todos empiesan con 100 00
 		$_SESSION['menu'] = 'bitacora';
         $_SESSION['submenu'] = 'proceso';
 		include view($this->name.'.proceso');

@@ -19,7 +19,7 @@
                                     <h3 class="box-title">Bitácora completa</h3>
                                 </div>
                                 <!-- /.box-header -->
-                                <div class="box-body">
+                                <div class="box-body table-responsive">
                                     <!-- /* Agregar contenido */-->
                                     <table id="table_informes" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%"> 
                                         <thead>
@@ -109,7 +109,7 @@
             <?php importView('_static.footer'); ?>
         </div>
         <script>
-        var controller = "<?php echo $this->name.' '.$this->ext.' '.'4 '.$usuario.' '.$rol.''; ?>";        
+        var controller = "<?php echo $this->name.' '.$this->ext.' '.$proceso.' '.$usuario.' '.$rol.''; ?>";        
         </script>
         <?php importView('_static.scripts'); ?>
         <script type="text/javascript">

@@ -16,7 +16,7 @@
                         <div class="col-md-12">
                             <div class="box box-primary">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">Equipos por volumen</h3>
+                                    <h3 class="box-title">Actualización de informes por volumen</h3>
                                     <div class="pull-right box-tools">
                                         <button type="button" class="btn btn-primary btn-sm" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
                                         <i class="fa fa-minus"></i></button> 
