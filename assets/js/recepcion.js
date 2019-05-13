@@ -69,7 +69,7 @@
               var color_row=['','danger','warning','info','success'];
               for (var i =  0; i < filas; i++) {                                    
               historial[i] = {equipos_id:datos[i].idequipo, alias: datos[i].alias, descripcion: datos[i].descripcion,
-                marca: datos[i].marca, modelo: datos[i].modelo, serie: datos[i].serie, empresas_id:datos[i].empresas_id, 
+                marca: datos[i].marca, modelo: datos[i].modelo, serie: datos[i].serie,equipo_activo:datos[i].equipo_activo, empresas_id:datos[i].empresas_id, 
                 plantas_id:datos[i].plantas_id, vigencia: datos[i].periodo_calibracion, acreditacion: datos[i].acreditaciones_id,
                 tipo_cal: datos[i].calibraciones_id, tecnico_cal: datos[i].usuarios_calibracion_id };
                     var radiocheck= '';
@@ -183,6 +183,16 @@
       var bitacora = historial[index];            
       planta_temp = bitacora.plantas_id;
 
+      if (bitacora.equipo_activo=="1"){
+        estadoeq="Activo";
+        labeleq="label-success";                        
+        }
+        else{
+            estadoeq="Inactivo";
+            labeleq="label-danger";
+            disabled="disabled";
+        }        
+
       var nuevafila = "<tr>" +
           "<td><label> <input type='radio' name='equipos_id' value='" + bitacora.equipos_id + "' checked></label></td>" +
           "<td>" + bitacora.alias + "</td>" +
@@ -190,6 +200,7 @@
           "<td>" + bitacora.marca + "</td>" +
           "<td>" + bitacora.modelo + "</td>" +
           "<td>" + bitacora.serie + "</td>" +
+          "<td > <span class='label "+ labeleq +"'>" + estadoeq + "</spam> </td>" +
           "<td> <a class='btn btn-block btn-warning btn-sm' target='_blank'  href='?c=equipos&a=edit&p=" + bitacora.equipos_id + "'><i class='fa fa-pencil' aria-hidden='true'></i></a></td>" +
           +"</tr>"
       $("#table_equipo").append(nuevafila);

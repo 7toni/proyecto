@@ -428,17 +428,17 @@
       $planta= $this->model['planta']->find_by(['id'=>$data['plantas_id']],'view_plantas');
       $nombreplanta= strtolower(str_replace(' ','',$planta[0]['nombre']));
       $cliente= ($nombreplanta=="planta1") ? $planta[0]['empresa']:$planta[0]['empresa'].', '.$planta[0]['nombre'];
-      for ($i=0; $i < $iteraciones; $i++) { 
+      for ($i=0; $i < $iteraciones; $i++) {
         # code...
         if ($this->model['informes']->store($data))  {          
-          // direccionarlo al siguiente proceso 
-          if($iteraciones == ($i+1)){
+          // direccionarlo al siguiente proceso
+          $ultimo= $i +1;
+          if($iteraciones == $ultimo){
             $roles_id= substr(Session::get('roles_id'),-1,1);                                      
-            if ($proceso_temp == 0) {
-              
+            if ($proceso_temp == 0) {              
               Logs::this("Captura datos de recepción por volumen", "Recepción del equipo, cliente : {". $cliente ."}. Total de informes : ". $iteraciones);          
               $this->download_excel($view,$data['plantas_id'],$iteraciones);
-              include view($this->name.'.registrovol');
+              //include view($this->name.'.registrovol');
             }
             else {               
               Flash::error(setError('002'));
@@ -476,8 +476,8 @@
       }
         fputcsv( $df, array_values($row) );
     }
-    fclose($df);
-            
+    fclose($df);    
+    exit;        
   }
 
   public function store_po($po_id,$cantidad){
