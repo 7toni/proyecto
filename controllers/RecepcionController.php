@@ -231,6 +231,11 @@
         'fecha_vencimiento'=>null        
         ];
 
+        //   /* Agregar PO , funcion store_po */    
+      $po_id = $decoded[$clave][8];        
+      $cantidad = $decoded[$clave][9]; 
+      $data['po_id']= $this->store_po($po_id,$cantidad);
+
       if(strtolower($decoded[$clave][18])=="inicio" || strtolower($decoded[$clave][18])=="calibracion"){
         $data[$clave]['proceso']=2;
       }

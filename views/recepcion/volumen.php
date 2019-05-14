@@ -330,7 +330,7 @@
                                 "autoWidth"   : false,
                                 dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
                                 "columnDefs" : [
-                                    { "targets":[8,9,11,12,13], "visible":false }
+                                    { "targets":[11,12,13], "visible":false }
                                     ],
                                 buttons: [],
                                 columns: [
@@ -424,7 +424,7 @@
                                 "autoWidth"   : false,
                                 dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
                                 "columnDefs" : [
-                                    { "targets":[8,9,11,12,13], "visible":false },
+                                    { "targets":[11,12,13], "visible":false },
                                     {
                                         "targets":17,
                                         "render": function(data,type, row){
@@ -552,42 +552,43 @@
                 $("#submit").click(function(){
                     var frmData= JSON.stringify(dataBitacora);
                     $('#overlay3').addClass('overlay');
-                    $('#refresh3').addClass('fa fa-refresh fa-spin');                                                           
-                    $.ajax({
-                        url: '?c=recepcion&a=ajax_storevolCSV',                                                
-                        type:'POST',                        
-                        data: {data:frmData},
-                        dataType: 'JSON',                        
-                        success:function(data) {
-                            var datos = data;
-                            var obj= JSON.parse(datos);                            
-                            if(obj==true){
-                                alertas_tipo_valor_col12('alerta_volumen','correcto','Los datos fueron registrados correctamente.');                                
-                                var table = $('#table_volumen2').DataTable();
-                                    table
-                                        .clear();
-                                $('#row_table1').hide();
-                                $('#row_table2').hide();
-                                /* ******************************** */
-                                $('#cargarfile').hide();
-                                $('#cargarfiledisabled').show();
-                                $('#comprobardatos').hide();
-                                $('#comprobardatosdisabled').show();
-                                $('#submit').hide();
-                                $('#submitdisabled').show();
-                                /* ******************************** */
-                                document.getElementById("file").disabled = false;
-                            }
-                            else{
-                                alertas_tipo_valor_col12('alerta_volumen','error','Error al actualizar la bitacora, revisar si alguna información esta incorrecta y favor de reportar el error con el administrador. Gracias!');
-                            }
-                            $('#overlay3').removeClass('overlay');
-                            $('#refresh3').removeClass('fa fa-refresh fa-spin');
-                        },
-                        error: function (response) {
-                            console.log(response);                            
-                        }
-                    });                    
+                    $('#refresh3').addClass('fa fa-refresh fa-spin'); 
+                    console.log(dataBitacora);                                                          
+                    // $.ajax({
+                    //     url: '?c=recepcion&a=ajax_storevolCSV',                                                
+                    //     type:'POST',                        
+                    //     data: {data:frmData},
+                    //     dataType: 'JSON',                        
+                    //     success:function(data) {
+                    //         var datos = data;
+                    //         var obj= JSON.parse(datos);                            
+                    //         if(obj==true){
+                    //             alertas_tipo_valor_col12('alerta_volumen','correcto','Los datos fueron registrados correctamente.');                                
+                    //             var table = $('#table_volumen2').DataTable();
+                    //                 table
+                    //                     .clear();
+                    //             $('#row_table1').hide();
+                    //             $('#row_table2').hide();
+                    //             /* ******************************** */
+                    //             $('#cargarfile').hide();
+                    //             $('#cargarfiledisabled').show();
+                    //             $('#comprobardatos').hide();
+                    //             $('#comprobardatosdisabled').show();
+                    //             $('#submit').hide();
+                    //             $('#submitdisabled').show();
+                    //             /* ******************************** */
+                    //             document.getElementById("file").disabled = false;
+                    //         }
+                    //         else{
+                    //             alertas_tipo_valor_col12('alerta_volumen','error','Error al actualizar la bitacora, revisar si alguna información esta incorrecta y favor de reportar el error con el administrador. Gracias!');
+                    //         }
+                    //         $('#overlay3').removeClass('overlay');
+                    //         $('#refresh3').removeClass('fa fa-refresh fa-spin');
+                    //     },
+                    //     error: function (response) {
+                    //         console.log(response);                            
+                    //     }
+                    // });                    
                     
                 });
                 
