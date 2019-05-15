@@ -146,7 +146,7 @@
 
                                                                 <td>Técnico</td>
                                                                 <td>Vigencia</td>                                                                                                                
-                                                                <td>Fecha de Calibracion</td>
+                                                                <td>Fecha de Calibración</td>
                                                                 <td>Proceso</td>
                                                             </tr>
                                                         </thead>                                            
@@ -170,7 +170,7 @@
 
                                                                 <td>Técnico</td>
                                                                 <td>Vigencia</td>                                                                                                                
-                                                                <td>Fecha de Calibracion</td>
+                                                                <td>Fecha de Calibración</td>
                                                                 <td>Proceso</td>
                                                             </tr>
                                                         </tfoot>
@@ -207,7 +207,7 @@
 
                                                                 <td>Técnico</td>
                                                                 <td>Vigencia</td>                                                                                                                
-                                                                <td>Fecha de Calibracion</td>
+                                                                <td>Fecha de Calibración</td>
                                                                 <td>Proceso</td>
                                                                 <td>Estado de Equipo</td>
                                                                 <td>Estado de Planta</td>
@@ -235,7 +235,7 @@
 
                                                                 <td>Técnico</td>
                                                                 <td>Vigencia</td>                                                                                                                
-                                                                <td>Fecha de Calibracion</td>
+                                                                <td>Fecha de Calibración</td>
                                                                 <td>Proceso</td>
                                                                 <td>Equipo id</td>
                                                                 <td>Planta id</td>
@@ -411,7 +411,8 @@
                         type:'POST',
                         success:function(data) {
                             var datos = data;
-                            var obj= JSON.parse(datos);                            
+                            var obj= JSON.parse(datos);
+                            console.log(obj);                           
                             $('#row_table1').hide();
                             $('#row_table2').show();                                                        
 
@@ -419,7 +420,7 @@
                                 data : obj,
                                 "paging"      : true,                    
                                 "searching"   : true,
-                                "ordering"    : true,
+                                "ordering"    : false,
                                 "info"        : true,
                                 "autoWidth"   : false,
                                 dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
@@ -429,8 +430,17 @@
                                         "targets":17,
                                         "render": function(data,type, row){
                                             var menu="";
-                                            if(row[17] != ""){
-                                                menu="<span class='label label-success'>"+ moment(row[17]).format("YYYY-MM-DD"); +"</span>";
+                                            if(row[17] != ""){ 
+                                                $date= moment(row[17]).format("YYYY-MM-DD");
+                                                if($date!="Invalid date"){
+                                                    menu="<span class='label label-success'>"+ $date +"</span>";
+                                                }
+                                                else{
+                                                    if(!entro){ //
+                                                        entro=true;
+                                                    }                                                
+                                                    menu="<span class='label label-danger'> Error en el csv </span>";
+                                                }
                                             }else{
                                                 if(!entro){ //
                                                     entro=true;
@@ -553,42 +563,42 @@
                     var frmData= JSON.stringify(dataBitacora);
                     $('#overlay3').addClass('overlay');
                     $('#refresh3').addClass('fa fa-refresh fa-spin'); 
-                    console.log(dataBitacora);                                                          
-                    // $.ajax({
-                    //     url: '?c=recepcion&a=ajax_storevolCSV',                                                
-                    //     type:'POST',                        
-                    //     data: {data:frmData},
-                    //     dataType: 'JSON',                        
-                    //     success:function(data) {
-                    //         var datos = data;
-                    //         var obj= JSON.parse(datos);                            
-                    //         if(obj==true){
-                    //             alertas_tipo_valor_col12('alerta_volumen','correcto','Los datos fueron registrados correctamente.');                                
-                    //             var table = $('#table_volumen2').DataTable();
-                    //                 table
-                    //                     .clear();
-                    //             $('#row_table1').hide();
-                    //             $('#row_table2').hide();
-                    //             /* ******************************** */
-                    //             $('#cargarfile').hide();
-                    //             $('#cargarfiledisabled').show();
-                    //             $('#comprobardatos').hide();
-                    //             $('#comprobardatosdisabled').show();
-                    //             $('#submit').hide();
-                    //             $('#submitdisabled').show();
-                    //             /* ******************************** */
-                    //             document.getElementById("file").disabled = false;
-                    //         }
-                    //         else{
-                    //             alertas_tipo_valor_col12('alerta_volumen','error','Error al actualizar la bitacora, revisar si alguna información esta incorrecta y favor de reportar el error con el administrador. Gracias!');
-                    //         }
-                    //         $('#overlay3').removeClass('overlay');
-                    //         $('#refresh3').removeClass('fa fa-refresh fa-spin');
-                    //     },
-                    //     error: function (response) {
-                    //         console.log(response);                            
-                    //     }
-                    // });                    
+                    //console.log(dataBitacora);                                                          
+                    $.ajax({
+                        url: '?c=recepcion&a=ajax_storevolCSV',                                                
+                        type:'POST',                        
+                        data: {data:frmData},
+                        dataType: 'JSON',                        
+                        success:function(data) {
+                            var datos = data;
+                            var obj= JSON.parse(datos);                            
+                            if(obj==true){
+                                alertas_tipo_valor_col12('alerta_volumen','correcto','Los datos fueron registrados correctamente.');                                
+                                var table = $('#table_volumen2').DataTable();
+                                    table
+                                        .clear();
+                                $('#row_table1').hide();
+                                $('#row_table2').hide();
+                                /* ******************************** */
+                                $('#cargarfile').hide();
+                                $('#cargarfiledisabled').show();
+                                $('#comprobardatos').hide();
+                                $('#comprobardatosdisabled').show();
+                                $('#submit').hide();
+                                $('#submitdisabled').show();
+                                /* ******************************** */
+                                document.getElementById("file").disabled = false;
+                            }
+                            else{
+                                alertas_tipo_valor_col12('alerta_volumen','error','Error al actualizar la bitacora, revisar si alguna información esta incorrecta y favor de reportar el error con el administrador. Gracias!');
+                            }
+                            $('#overlay3').removeClass('overlay');
+                            $('#refresh3').removeClass('fa fa-refresh fa-spin');
+                        },
+                        error: function (response) {
+                            console.log(response);                            
+                        }
+                    });                    
                     
                 });
                 

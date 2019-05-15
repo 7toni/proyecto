@@ -8,7 +8,7 @@
   		$this->name= "recepcion";
   		$this->title ="Recepción";
   		$this->subtitle= "Bitácora";      
-  		$this->model=[  
+  		$this->model=[
         'empresa'=> new Empresa(),
         'planta' => new Planta(),        
         'usuario'=> new Usuario(),
@@ -102,7 +102,8 @@
 
 	public function volumen() {
     $_SESSION['menu'] = 'bitacora';
-    $_SESSION['submenu'] = 'actualizarvol';    
+    $_SESSION['submenu'] = 'actualizarvol'; 
+    //$this->download_excel();
     include view($this->name.'.volumen');
 	}
 
@@ -139,8 +140,8 @@
       foreach($data as $clave => $value){  
                
         if(!empty($data[$clave][1])){
-          $equipo= ['alias'=>$data[$clave][1],'descripcion'=>$data[$clave][3],'marca'=>$data[$clave][4],'modelo'=>$data[$clave][5],'serie'=>$data[$clave][2]];
-          $query1= "SELECT id FROM mypsa_bitacoramyp.view_equipos where alias='{$equipo['alias']}' and descripcion='{$equipo['descripcion']}' and marca='{$equipo['marca']}' and modelo='{$equipo['modelo']}' and serie='{$equipo['serie']}';";
+          $equipo= ['alias'=>$data[$clave][1],'descripcion'=>$data[$clave][2],'marca'=>$data[$clave][3],'modelo'=>$data[$clave][4],'serie'=>$data[$clave][5]];
+          $query1= "SELECT id FROM mypsa_bitacoramyp.view_equipos where alias LIKE '%{$equipo['alias']}%' and descripcion LIKE '%{$equipo['descripcion']}%' and marca LIKE '%{$equipo['marca']}%' and modelo LIKE '%{$equipo['modelo']}%' and serie LIKE '%{$equipo['serie']}%';";
           //echo $query1;
           $data1=$this->model['equipo']->get_query($query1);          
           if(sizeof($data1)>0){
@@ -201,11 +202,9 @@
           
         }else{
           $data[$clave][21]=0;
-        }
+        }        
         
-      }
-
-      //$data= procesar_csv($data);
+      }      
 
       echo json_encode($data);
 
@@ -228,13 +227,14 @@
         'periodo_calibracion'=>null,
         'calibrado'=>null,
         'fecha_calibracion'=>null,
-        'fecha_vencimiento'=>null        
+        'fecha_vencimiento'=>null,
+        'po_id'=>null,       
         ];
 
         //   /* Agregar PO , funcion store_po */    
       $po_id = $decoded[$clave][8];        
       $cantidad = $decoded[$clave][9]; 
-      $data['po_id']= $this->store_po($po_id,$cantidad);
+      $data[$clave]['po_id']= $this->store_po($po_id,$cantidad);
 
       if(strtolower($decoded[$clave][18])=="inicio" || strtolower($decoded[$clave][18])=="calibracion"){
         $data[$clave]['proceso']=2;
@@ -261,7 +261,9 @@
         $data[$clave]['calibrado']=0;
       } 
       $data[$clave]['periodo_calibracion']=$periodocal;
+      
       $data[$clave]['fecha_calibracion']= date('Y-m-d', strtotime($fechacal));
+
       $data[$clave]['fecha_vencimiento'] = date('Y-m-d', strtotime($fechacal . "+".$periodocal." ".$dia_mes));  
       // <-- Fin -->      
     }    
@@ -271,6 +273,7 @@
         $planta= $this->model['planta']->find_by(['id'=>$data[$i]['plantas_id']],'view_plantas');
         $nombreplanta= strtolower(str_replace(' ','',$planta[0]['nombre']));
         $cliente= ($nombreplanta=="planta1") ? $planta[0]['empresa']:$planta[0]['empresa'].', '.$planta[0]['nombre'];
+        
         if ($this->model['informes']->update($data[$i])){
           Logs::this("Actualización de informes por CSV", " cliente : {". $cliente ."} y datos de calibración del informe: ".$data[$i]['id']); 
           $return=true;
@@ -283,7 +286,8 @@
     echo json_encode($return);    
   }
 
-  public function readCSV($ruta){ 
+  public function readCSV($ruta){
+
         $lines = file($ruta, FILE_IGNORE_NEW_LINES); 
         $data = array();                     
          foreach ($lines as $key => $value)
@@ -293,7 +297,7 @@
              {              
              array_push($data,$csv[$key]);
              }                         
-        }         
+        }        
         return $data;
   }
 
@@ -459,13 +463,13 @@
   }
 
   public function download_excel($view,$plantaid,$limit){
-    $query= "SELECT id as informe,alias as clave,descripcion,marca,modelo,serie,empresa,planta,po_id,cantidad,acreditacion,calibracion,numero_hoja_entrada as hoja_entrada,usuarios_hoja_entrada,fecha_hoja_entrada,calibrado_por,vigencia,fecha_calibracion,nombre_proceso as proceso FROM ". $view ." WHERE plantas_id=". $plantaid ." ORDER BY id DESC LIMIT ". $limit .";";
+    $query= "SELECT id as informe,alias as clave,descripcion,marca,modelo,serie,empresa,planta,po_id,cantidad,acreditacion,calibracion,numero_hoja_entrada as hoja_entrada,usuarios_hoja_entrada,fecha_hoja_entrada,calibrado_por,vigencia,fecha_calibracion,nombre_proceso as proceso FROM ". $view ." WHERE plantas_id=". $plantaid ." ORDER BY id DESC LIMIT ". $limit .";";    
         
     $data = $this->model['informes']->get_query_informe($query); 
 
     $filename="formato.csv";
     header('Content-Encoding: UTF-8');              
-    header('Content-Type: text/csv; charset=utf-8' );
+    header('Content-Type: application/csv; charset=utf-8' );
     header('Content-Disposition: attachment; filename='.$filename);
     header("Pragma: public");
     header("Expires: 0");     
@@ -473,13 +477,16 @@
     $df = fopen( 'php://output', 'w' );
     //This line is important:
     fputs( $df, "\xEF\xBB\xBF" ); //UTF-8
+    
+    //$titulos = array("Informe","Clave","Descripcion","Marca","Modelo","Serie","Empresa","Planta","PO","Cantidad","Acreditacion","Tipo Calibracion","Hoja Entrada","Realizado por","Fecha Hoja.Ent.","Calibrado por","Vigencia","F. Calibracion (m/dd/yyyy)","Proceso actual");
+
     foreach ($data as $row ) {
 
       if(!$mostrarcol){
-        fputcsv( $df,array_keys($row));
+        fputcsv($df,$titulos);
         $mostrarcol= true;
       }
-        fputcsv( $df, array_values($row) );
+        fputcsv( $df, array_values($row));
     }
     fclose($df);    
     exit;        
