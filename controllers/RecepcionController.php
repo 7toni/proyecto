@@ -287,12 +287,12 @@
   }
 
   public function readCSV($ruta){
-
         $lines = file($ruta, FILE_IGNORE_NEW_LINES); 
         $data = array();                     
          foreach ($lines as $key => $value)
         {                  
-             $csv[$key] = str_getcsv(utf8_encode($value));             
+            // $csv[$key] = str_getcsv(utf8_encode($value));             
+            $csv[$key] = str_getcsv($value);             
              if($key>0)
              {              
              array_push($data,$csv[$key]);
@@ -463,27 +463,25 @@
   }
 
   public function download_excel($view,$plantaid,$limit){
-    $query= "SELECT id as informe,alias as clave,descripcion,marca,modelo,serie,empresa,planta,po_id,cantidad,acreditacion,calibracion,numero_hoja_entrada as hoja_entrada,usuarios_hoja_entrada,fecha_hoja_entrada,calibrado_por,vigencia,fecha_calibracion,nombre_proceso as proceso FROM ". $view ." WHERE plantas_id=". $plantaid ." ORDER BY id DESC LIMIT ". $limit .";";    
-        
+    $query= "SELECT id as informe,alias as clave,descripcion,marca,modelo,serie,empresa,planta,po_id,cantidad,acreditacion,calibracion,numero_hoja_entrada as hoja_entrada,usuarios_hoja_entrada,fecha_hoja_entrada,calibrado_por,vigencia,fecha_calibracion,nombre_proceso as proceso FROM ". $view ." WHERE plantas_id=". $plantaid ." ORDER BY id DESC LIMIT ". $limit .";";        
     $data = $this->model['informes']->get_query_informe($query); 
 
     $filename="formato.csv";
-    header('Content-Encoding: UTF-8');              
-    header('Content-Type: application/csv; charset=utf-8' );
+    header('Content-Encoding: UTF-8');   
+    header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename='.$filename);
     header("Pragma: public");
-    header("Expires: 0");     
+    header("Expires: 0"); 
     $mostrarcol=false;
+    $titulos = array("Informe","Clave","Descripcion","Marca","Modelo","Serie","Empresa","Planta","PO","Cantidad","Acreditacion","Tipo Calibracion","Hoja Entrada","Realizado por","Fecha Hoja.Ent.","Calibrado por","Vigencia","F. Calibracion (m/dd/yyyy)","Proceso actual");
     $df = fopen( 'php://output', 'w' );
     //This line is important:
     fputs( $df, "\xEF\xBB\xBF" ); //UTF-8
-    
-    //$titulos = array("Informe","Clave","Descripcion","Marca","Modelo","Serie","Empresa","Planta","PO","Cantidad","Acreditacion","Tipo Calibracion","Hoja Entrada","Realizado por","Fecha Hoja.Ent.","Calibrado por","Vigencia","F. Calibracion (m/dd/yyyy)","Proceso actual");
 
     foreach ($data as $row ) {
-
       if(!$mostrarcol){
-        fputcsv($df,$titulos);
+        fputcsv( $df, $titulos);
+        //fputcsv($df, array_keys($row));
         $mostrarcol= true;
       }
         fputcsv( $df, array_values($row));
