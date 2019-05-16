@@ -648,8 +648,19 @@ $(document).ready(function () {
                 }                
             ],                    
             "columnDefs": [
-                //{"targets":[6,14,15], "visible":false},               
-                //{"targets":[15], "visible":false},
+                {"targets":[16], "visible":false},               
+                //{"targets":[15], "visible":false},               
+                {   
+                    "targets": 14,                                 
+                    "render": function(data,type, row){
+                        if(row[14] == 1){
+                            return '<spam class="badge bg-green">Calibrado</spam>';
+                        }
+                        else{
+                            return '<spam class="badge bg-red">No se calibro</spam>';
+                        }                        
+                    },                    
+                },
                 {   
                     "targets": -1,                                 
                     "render": function(data,type, row){

@@ -24,13 +24,13 @@
                                      <table id="table_clientesconti" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
-                                                <th>id</th>
+                                                <th>Informe</th>
                                                 <th>Id equipo</th>
                                                 <th>Descripción</th>
                                                 <th>Marca</th>
                                                 <th>Modelo</th>
                                                 <th>Serie</th>
-                                                <th>activo</th>                                                
+                                                <th>Activo</th>                                                
                                                 <th>Cliente</th>                                                
                                                 <th>Dirección</th>
                                                 <th>Acreditación</th> 
@@ -39,7 +39,7 @@
                                                 <th>Calibración siguiente</th>                                                
                                                 <th>Comentarios</th>
                                                 <th>Estado</th>
-                                                <th>proceso</th>
+                                                <th>Proceso</th>
                                                 <th>Continental_id</th>                                               
                                                 <th>um</th>
                                                 <th>inv_date</th>
@@ -53,22 +53,22 @@
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <th>id</th>
+                                                <th>Informe</th>
                                                 <th>Id equipo</th>
                                                 <th>Descripción</th>
                                                 <th>Marca</th>
                                                 <th>Modelo</th>
                                                 <th>Serie</th>
-                                                <th>activo</th>                                                
+                                                <th>Activo</th>                                                
                                                 <th>Cliente</th>                                                
                                                 <th>Dirección</th>
                                                 <th>Acreditación</th> 
                                                 <th>Calibración actual</th>
                                                 <th>Vigencia</th>
-                                                <th>Calibración siguiente</th>                                               
+                                                <th>Calibración siguiente</th>                                                
                                                 <th>Comentarios</th>
-                                                <th>Estado</th>                                                
-                                                <th>proceso</th>
+                                                <th>Estado</th>
+                                                <th>Proceso</th>
                                                 <th>Continental_id</th>                                               
                                                 <th>um</th>
                                                 <th>inv_date</th>
