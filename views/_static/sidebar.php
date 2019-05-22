@@ -52,12 +52,14 @@
                     $acalibrarsm = ($_SESSION['submenu']=='acalibrar') ? 'active' : '';               
                         if(Session::has('rol',['Administrador','Técnicos','Ingenieros','Almacén'])){
                             echo "
-                                <li class='". $recepcionsm ."'><a href='?c=recepcion'><i class='fa fa-circle-o'></i>Recepción de equipo</a></li>
-                                <li class='". $recepcionvolsm ."'><a href='?c=recepcion&a=registrovol'><i class='fa fa-circle-o'></i>Recepción por volumen</a></li>
-                                <li class='". $recepcionactvolsm ."'><a href='?c=recepcion&a=volumen'><i class='fa fa-circle-o'></i>Actualizar informes (*.csv)</a></li>                              
+                                <li class='". $recepcionsm ."'><a href='?c=recepcion'><i class='fa fa-circle-o'></i>Recepción de equipo</a></li>                                
                                 <li class='". $completasm ."'><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitacora completa</a></li>                                
                                 <li class='". $procesosm ."'><a href='?c=informes&a=proceso'><i class='fa fa-circle-o'></i>Equipos en proceso</a></li>                                
                            ";
+                        }
+                        if(Session::has('rol',['Administrador','Almacén'])){
+                            echo "<li class='". $recepcionvolsm ."'><a href='?c=recepcion&a=registrovol'><i class='fa fa-circle-o'></i>Recepción por volumen</a></li>
+                            <li class='". $recepcionactvolsm ."'><a href='?c=recepcion&a=volumen'><i class='fa fa-circle-o'></i>Actualizar informes (*.csv)</a></li>";
                         }
                         if(Session::has('rol',['Administrador','Técnicos'])){
                             echo "                                
@@ -107,7 +109,7 @@
              <!-- Módulos de reportes  --> 
              <?php
                 $reportesm = ($_SESSION['menu']=='reportes') ? 'active' : '';
-
+                $rindexsm = ($_SESSION['submenu']=='reportes_tecnico') ? 'active' : '';
                 $rtecnicossm = ($_SESSION['submenu']=='reportes_tecnico') ? 'active' : '';
                 $rclientessm = ($_SESSION['submenu']=='reportes_cliente') ? 'active' : '';
                 $rproductsm = ($_SESSION['submenu']=='reportes_productividad') ? 'active' : '';
@@ -118,7 +120,9 @@
                         <a href='#'>
                             <i class='fa fa-pie-chart'></i> <span>Reportes</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
                         </a>
-                        <ul class='treeview-menu'>                                                    
+                        <ul class='treeview-menu'>
+                            <li class='". $rindexsm ."' ><a href='?c=reportes'><i class='fa fa-circle-o'></i>
+                            Técnico</a></li>                                                   
                             <li class='". $rclientessm ."' ><a href='?c=reportes&a=cliente'><i class='fa fa-circle-o'></i>
                             Clientes</a></li>
                             <li class='". $rproductsm ."' ><a href='?c=reportes&a=productividad'><i class='fa fa-circle-o'></i>

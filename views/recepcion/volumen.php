@@ -318,7 +318,7 @@
                         success:function(data) {
                             var datos = data;
                             var obj= JSON.parse(datos);
-                            console.log(obj);
+                            //console.log(obj);
                             $('#row_table1').show();                            
 
                             $('#table_volumen').DataTable({

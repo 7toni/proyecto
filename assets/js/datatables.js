@@ -719,15 +719,15 @@ $(document).ready(function () {
                 }
             ],
             fixedColumns: true,
-            "rowCallback": function( row, data, index ) {                      
-                var activo = parseInt(data[6]), 
-                $node = this.api().row(row).nodes().to$();
-                if (activo = 'inactivo') {
-                     $node.addClass('bg-red')
-                }                                        
-              },
+            // "rowCallback": function( row, data, index ) {                      
+            //     var activo = parseInt(data[6]), 
+            //     $node = this.api().row(row).nodes().to$();
+            //     if (activo = 'inactivo') {
+            //          $node.addClass('bg-red')
+            //     }                                        
+            //   },
             "columnDefs": [                
-                { "targets":[6], "visible":false},
+                //{ "targets":[6], "visible":false},
                 {                                                   
                     "render": function(data,type, row){ 
                         var suma= row[13] + row[14];
