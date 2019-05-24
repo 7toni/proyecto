@@ -310,15 +310,25 @@
                     $('#overlay1').addClass('overlay');
                     $('#refresh1').addClass('fa fa-refresh fa-spin');                                                           
                     $.ajax({
-                        url: '?c=recepcion&a=ajax_cargarcsv',                        
+                        //url: '?c=recepcion&a=ajax_cargarcsv',                        
+                        // //dataType:'json',
+                        // contentType:false,
+                        // cache:false,
+                        // processData:false,
+                        // method:'POST',
+                        url:"?c=recepcion&a=ajax_cargarcsv",
+                        method:"POST",
                         data:frmData,
-                        processData:false,
-                        contentType: false,
-                        type:'POST',
+                        dataType:'json',
+                        contentType:false,
+                        cache:false,
+                        processData:false,                       
                         success:function(data) {
+                            //console.log(data);
+                            //console.log(JSON.parse(data));                            
                             var datos = data;
-                            var obj= JSON.parse(datos);
-                            //console.log(obj);
+                            var obj=datos;                                                                                   
+                           // var obj=JSON.parse(datos);
                             $('#row_table1').show();                            
 
                             $('#table_volumen').DataTable({
@@ -379,13 +389,13 @@
                                 }
                                 
                             });
-                            
+
                             $('#comprobardatos').show();
                             $('#comprobardatosdisabled').hide();
 
                             $('#overlay1').removeClass('overlay');
-                            $('#refresh1').removeClass('fa fa-refresh fa-spin');
-                            
+                            $('#refresh1').removeClass('fa fa-refresh fa-spin');                            
+                                                                                                                                                                     
                         },
                         error: function (response) {
                             console.log(response);                            
@@ -405,13 +415,16 @@
                     $('#refresh2').addClass('fa fa-refresh fa-spin');                    
                     $.ajax({                   
                         url: '?c=recepcion&a=ajax_comprobardatos',                        
+                        method:"POST",
                         data:frmData,
+                        dataType:'json',
+                        contentType:false,
+                        cache:false,
                         processData:false,
-                        contentType: false,
-                        type:'POST',
                         success:function(data) {
                             var datos = data;
-                            var obj= JSON.parse(datos);
+                            //var obj= JSON.parse(datos);
+                            var obj=datos;
                             //console.log(obj);                           
                             $('#row_table1').hide();
                             $('#row_table2').show();                                                        
@@ -568,10 +581,14 @@
                         url: '?c=recepcion&a=ajax_storevolCSV',                                                
                         type:'POST',                        
                         data: {data:frmData},
-                        dataType: 'JSON',                        
+                        dataType: 'JSON',
+                        contentType:false,
+                        cache:false,
+                        processData:false,                        
                         success:function(data) {
                             var datos = data;
-                            var obj= JSON.parse(datos);                            
+                            //var obj= JSON.parse(datos);                            
+                            var obj=datos;
                             if(obj==true){
                                 alertas_tipo_valor_col12('alerta_volumen','correcto','Los datos fueron registrados correctamente.');                                
                                 var table = $('#table_volumen2').DataTable();

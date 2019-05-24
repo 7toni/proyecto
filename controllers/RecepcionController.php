@@ -111,13 +111,14 @@
     if($_FILES['csvfile']['name'] != ''){    
     $ext = strtolower(end(explode('.', $_FILES['csvfile']['name'])));
     $type = $_FILES['csvfile']['type'];
-    $ruta = $_FILES['csvfile']['tmp_name'];   
+    $ruta = $_FILES['csvfile']['tmp_name'];  
     // check the file is a csv
       if($ext === 'csv'){              
         $data= $this->readCSV($ruta);
       }                                
-    }           
-    echo json_encode($data);
+    }
+
+    echo json_encode($data);    
   }
 
   public function ajax_comprobardatos(){
@@ -291,8 +292,8 @@
         $data = array();                     
          foreach ($lines as $key => $value)
         {                  
-            // $csv[$key] = str_getcsv(utf8_encode($value));             
-            $csv[$key] = str_getcsv($value);             
+            $csv[$key] = str_getcsv(utf8_encode($value));             
+            //$csv[$key] = str_getcsv($value);             
              if($key>0)
              {              
              array_push($data,$csv[$key]);

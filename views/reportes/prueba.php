@@ -13,7 +13,7 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <div class="col-md-3">         
+        <div class="col-md-12">         
 
           <div class="box box-solid">
             <div class="box-header with-border">
@@ -24,9 +24,9 @@
                 </button>
               </div>
             </div>
-            <div class="box-body no-padding">
-              <ul class="nav nav-pills nav-stacked">
-                <li><a href="#">
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-12">
                   <div class="form-group">
                     <label>Rango de fechas:</label>
                       <div class="input-group">
@@ -36,85 +36,145 @@
                         <input type="text" class="form-control" id="daterange-text" name="daterange">
                       </div>
                   </div>                  
-                <li><a href="#"><div class="form-group">
-                                                <label>Tipo de busqueda:</label>
-                                                    <select id="tipo_busqueda" class="form-control select2" style="width: 100%;" name="tipo_busqueda">
-                                                      <option value="">Seleccione una opción</option> 
-                                                      <option value="0">Equipos calibrados</option>
-                                                      <option value="1">Equipos a vencer</option>
-                                                      <option value="2">Equipos vencidos</option> 
-                                                    </select>
-                                            </div></a></li>
-                <li><a href="#"><div class="form-group">
-                                                <label>Tipo de busqueda:</label>
-                                                    <select id="tipo_busqueda" class="form-control select2" style="width: 100%;" name="tipo_busqueda">
-                                                      <option value="">Seleccione una opción</option> 
-                                                      <option value="0">Equipos calibrados</option>
-                                                      <option value="1">Equipos a vencer</option>
-                                                      <option value="2">Equipos vencidos</option> 
-                                                    </select>
-                                            </div></a></li>
-                <li><a href="#"><div class="form-group">
-                                                <label>Tipo de busqueda:</label>
-                                                    <select id="tipo_busqueda" class="form-control select2" style="width: 100%;" name="tipo_busqueda">
-                                                      <option value="">Seleccione una opción</option> 
-                                                      <option value="0">Equipos calibrados</option>
-                                                      <option value="1">Equipos a vencer</option>
-                                                      <option value="2">Equipos vencidos</option> 
-                                                    </select>
-                                            </div></a>
-                </li>
-                <li><a href="#"><button type="button" name="buscar_rc" id="buscar_rc" class="btn btn-info btn-block margin-buttom"><i class="fa fa-search" aria-hidden="true"></i> &nbsp;Buscar</button></a></li>
-              </ul>
-            </div>
-            <!-- /.box-body -->
-          </div>
-
-          <div class="box box-solid">
-            <div class="box-header with-border">
-              <h3 class="box-title">Folders</h3>
-
-              <div class="box-tools">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
+                  <div class="form-group">
+                    <label>Empresa/Sucursal:</label>
+                    <select id="tipo_busqueda" class="form-control select2" style="width: 100%;" name="tipo_busqueda">
+                      <option value="">Seleccione una opción</option> 
+                      <option value="0">Nogales</option>
+                      <option value="1">Hermosillo</option>
+                      <option value="2">Guaymas</option> 
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Proceso de calibración</label>
+                    <select id="tipo_busqueda" class="form-control select2" style="width: 100%;" name="tipo_busqueda">
+                      <option value="">Seleccione una opción</option>
+                      <option value="5">Todos</option> 
+                      <option value="4">Informes Terminados</option>
+                      <option value="3">Informes en Proceso</option>                                        
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Campos de bitacora a buscar</label>
+                    <select class="form-control select2" multiple="multiple" data-placeholder="Seleccionar campo de bitacora"
+                            style="width: 100%;">
+                      <option>Sin filtro</option>
+                      <option>Todos</option>
+                      <option># informe</option>
+                      <option>Clave</option>
+                      <option>Descripcion</option>
+                      <option>Marca</option>
+                      <option>Modelo</option>
+                      <option>Serie</option>                    
+                      <option>Serie</option>
+                      <option>Técnico</option>
+                      <option>Cliente</option>
+                    </select>
+                  </div>
+                </div>
+              </div>  
+              <div class="row">
+              <div class="col-md-12">                
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Informe(s)</label>
+                      <input type="text" class="form-control" name="informes" placeholder="Ejemplo : 0123,1034,1456" />
+                    </div>                    
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Clave (s)</label>
+                      <input type="text" class="form-control" name="claves" placeholder="Ejemplo : clave1,clave2,calve...n" />
+                    </div>                    
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Descripción(s)</label>
+                      <select class="form-control select2" multiple="multiple" data-placeholder="Seleccionar descripción"
+                            style="width: 100%;">
+                      <option>Descripcion 1</option>
+                      <option>Descripcion 2</option>
+                      <option>Descripcion 3</option>
+                      <option>Descripcion 4</option>
+                      <option>Descripcion 5</option>
+                      <option>Descripcion 6</option>                      
+                    </select>
+                    </div>
+                  </div>                 
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Marca(s)</label>
+                      <select class="form-control select2" multiple="multiple" data-placeholder="Seleccionar marca"
+                            style="width: 100%;">
+                      <option>Marca 1</option>
+                      <option>Marca 2</option>
+                      <option>Marca 3</option>
+                      <option>Marca 4</option>
+                      <option>Marca 5</option>
+                      <option>Marca 6</option>                      
+                    </select>
+                    </div>                    
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Modelo(s)</label>
+                      <select class="form-control select2" multiple="multiple" data-placeholder="Seleccionar modelo"
+                            style="width: 100%;">
+                      <option>Modelo 1</option>
+                      <option>Modelo 2</option>
+                      <option>Modelo 3</option>
+                      <option>Modelo 4</option>
+                      <option>Modelo 5</option>
+                      <option>Modelo 6</option>                      
+                    </select>
+                    </div>                    
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Serie(s)</label>
+                      <input type="text" class="form-control" name="claves" placeholder="Ejemplo : Serie1,Serie2,Serie...n" />
+                    </div>
+                    
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Técnico(s)</label>
+                      <select class="form-control select2" multiple="multiple" data-placeholder="Seleccionar técnico"
+                            style="width: 100%;">
+                      <option>Técnico 1</option>
+                      <option>Técnico 2</option>
+                      <option>Técnico 3</option>
+                      <option>Técnico 4</option>
+                      <option>Técnico 5</option>
+                      <option>Técnico 6</option>                      
+                    </select>
+                    </div>                    
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Cliente(s)</label>
+                      <select class="form-control select2" multiple="multiple" data-placeholder="Seleccionar cliente"
+                            style="width: 100%;">
+                      <option>Cliente 1</option>
+                      <option>Cliente 2</option>
+                      <option>Cliente 3</option>
+                      <option>Cliente 4</option>
+                      <option>Cliente 5</option>
+                      <option>Cliente 6</option>                      
+                    </select>
+                    </div>                    
+                  </div>
               </div>
+              </div>             
+              <!-- /.form-group -->                
             </div>
-            <div class="box-body no-padding">
-              <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="#"><i class="fa fa-inbox"></i> Inbox
-                  <span class="label label-primary pull-right">12</span></a></li>
-                <li><a href="#"><i class="fa fa-envelope-o"></i> Sent</a></li>
-                <li><a href="#"><i class="fa fa-file-text-o"></i> Drafts</a></li>
-                <li><a href="#"><i class="fa fa-filter"></i> Junk <span class="label label-warning pull-right">65</span></a>
-                </li>
-                <li><a href="#"><i class="fa fa-trash-o"></i> Trash</a></li>
-              </ul>
-            </div>
+            <div class="box-footer"><button type="button" name="buscar_rc" id="buscar_rc" class="btn btn-info margin-buttom pull-right"><i class="fa fa-search" aria-hidden="true"></i> &nbsp;Buscar</button></div>
             <!-- /.box-body -->
           </div>
-          <!-- /. box -->
-          <div class="box box-solid">
-            <div class="box-header with-border">
-              <h3 class="box-title">Labels</h3>
-
-              <div class="box-tools">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-              </div>
-            </div>
-            <div class="box-body no-padding">
-              <ul class="nav nav-pills nav-stacked">
-                <li><a href="#"><i class="fa fa-circle-o text-red"></i> Important</a></li>
-                <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> Promotions</a></li>
-                <li><a href="#"><i class="fa fa-circle-o text-light-blue"></i> Social</a></li>
-              </ul>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
+          
         </div>
         <!-- /.col -->
-        <div class="col-md-9">
+        <div class="col-md-12">
           <div class="row">
             <div class="col-md-12">
               <div class="box box-success">
@@ -333,7 +393,7 @@
                       <!-- /.col -->
                       <div class="col-md-3 col-sm-6 col-xs-12">
                         <div class="info-box bg-red">
-                          <span class="info-box-icon"><i class="fa fa-comments-o"></i></span>
+                          <span class="info-box-icon"><i class="fa fa-file-pdf-o"></i></span>
 
                           <div class="info-box-content">
                             <span class="info-box-text">T. Facturados</span>
@@ -384,14 +444,23 @@
                 <div class="box-header with-border">
                   <h3 class="box-title">Inbox</h3>
                   <div class="box-body">
-                    <table id="example1" class="table table-bordered table-hover">
+                    <table id="table_reporte" class="table table-bordered table-hover">
                       <thead>
                         <tr>
-                          <th>Rendering engine</th>
-                          <th>Browser</th>
-                          <th>Platform(s)</th>
-                          <th>Engine version</th>
-                          <th>CSS grade</th>
+                          <th>Informe</th>
+                          <th>Clave</th>
+                          <th>Descripción</th>
+                          <th>Marca</th>
+                          <th>Modelo</th>
+                          <th>Serie</th>
+                          <th>Cliente (Sucursal/Departamento)</th>
+                          <th>Fecha de calibración</th>
+                          <th>Vigencia</th>
+                          <th>Fecha de vencimiento</th>
+                          <th>Precio</th>
+                          <th>Precio extra</th>
+                          <th>Moneda</th>
+                          <th>Proceso</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -665,11 +734,20 @@
                       </tbody>
                       <tfoot>
                         <tr>
-                          <th>Rendering engine</th>
-                          <th>Browser</th>
-                          <th>Platform(s)</th>
-                          <th>Engine version</th>
-                          <th>CSS grade</th>
+                          <th>Informe</th>
+                          <th>Clave</th>
+                          <th>Descripción</th>
+                          <th>Marca</th>
+                          <th>Modelo</th>
+                          <th>Serie</th>
+                          <th>Cliente (Sucursal/Departamento)</th>
+                          <th>Fecha de calibración</th>
+                          <th>Vigencia</th>
+                          <th>Fecha de vencimiento</th>
+                          <th>Precio</th>
+                          <th>Precio extra</th>
+                          <th>Moneda</th>
+                          <th>Proceso</th>
                         </tr>
                       </tfoot>
                     </table>
@@ -688,18 +766,65 @@
     </section>
     <!-- /.content -->
   </div>                      
-            <?php importView('_static.footer'); ?>
+          <?php importView('_static.footer'); ?>
         </div>        
         <script>
             var controller = "<?php echo $this->name; ?>";              
         </script>            
         <?php importView('_static.scripts'); ?>
-        <script>
-  $(function () {
-    $('#example1').DataTable()
+        <script type="text/javascript">
+
+          $(document).ready(function(){
+
+            $('#table_reporte tfoot th').each( function () {
+              var title = $(this).text();
+              $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
+            } );
+
+            var _table= $('#table_reporte').DataTable({
+              "lengthMenu": [[15, 20, 50,100,200,500,1000,3000, -1], [15, 20, 50,100,200,500,1000,3000, "All"]],
+              dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
+              buttons: [
+                   {
+                      extend: 'excel',
+                      text: 'Excel',
+                      exportOptions: {
+                          columns: [':not(:last-child)' ]
+                      }
+                  }                
+              ],                  
+              columns: [
+                          { data: 'informe' },
+                          { data: 'clave' },
+                          { data: 'descripcion'},
+                          { data: 'marca' },
+                          { data: 'modelo' },
+                          { data: 'serie' },
+                          { data: 'cliente' },
+                          { data: 'fecha_calibracion' },
+                          { data: 'periodo_calibracion' },
+                          { data: 'fecha_vencimiento' },
+                          { data: 'precio' },
+                          { data: 'precio_extra' },
+                          { data: 'moneda' },
+                          { data: 'proceso' } 
+                        ]             
+                });
+
+              _table.columns().every( function () {
+              var that = this;
+              $( 'input', this.footer() ).on( 'keyup change', function () {
+                  if ( that.search() !== this.value ) {
+                      that
+                          .search( this.value )
+                          .draw();
+                      }
+                  });
+            }); 
+
+          });
     
-  })
-</script>              
+        </script>              
     </body>
           
 </html>

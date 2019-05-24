@@ -162,8 +162,8 @@
                                     <table id="table_will" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%"> 
                                       <thead>
                                         <tr>
-                                          <th>id</th>
-                                          <th>Id equipo</th>
+                                          <th>Informe</th>
+                                          <th>Clave</th>
                                           <th>Descripción</th>
                                           <th>Marca</th>
                                           <th>Modelo</th>
@@ -180,8 +180,8 @@
                                       </thead>
                                       <tfoot>
                                         <tr>
-                                          <th>id</th>
-                                          <th>Id equipo</th>
+                                          <th>Informe</th>
+                                          <th>Clave</th>
                                           <th>Descripción</th>
                                           <th>Marca</th>
                                           <th>Modelo</th>
@@ -193,7 +193,7 @@
                                           <th>Precio</th>
                                           <th>Precio extra</th>
                                           <th>Moneda</th>
-                                          <th>Proceso</th>       
+                                          <th>Proceso</th>      
                                         </tr>
                                       </tfoot>
                                     </table> 
@@ -214,7 +214,7 @@
         </script>         
         <?php importView('_static.scripts'); ?>   
         <script type="text/javascript">
-          $(document).ready(function() { 
+          $(document).ready(function() {
             var _tequipos= $('#_tequipos');                      
             var _tpesos= $('#_tpesos');                      
             var _tdlls= $('#_tdlls'); 
@@ -242,8 +242,8 @@
                   }                
               ],                  
               columns: [
-                          { data: 'id' },
-                          { data: 'equipo_id' },
+                          { data: 'informe' },
+                          { data: 'clave' },
                           { data: 'descripcion'},
                           { data: 'marca' },
                           { data: 'modelo' },
@@ -317,7 +317,6 @@
               return result;
             }                            
             
-
             function totales_p_d(obj){
               _tequipos.text('0');
               _tpesos.text('$ 0');
