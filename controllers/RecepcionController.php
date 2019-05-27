@@ -134,14 +134,14 @@
       }
         
       $cliente_temp=['empresa'=>"",'planta'=>""];
-      $usuario_temp=['nombre'=>"",'apellido'=>""];    
+      $usuario_temp=['email'=>""];    
       $planta_temp=0;
       $tecnico_temp= 0;
       
       foreach($data as $clave => $value){  
                
         if(!empty($data[$clave][1])){
-          $equipo= ['alias'=>$data[$clave][1],'descripcion'=>$data[$clave][2],'marca'=>$data[$clave][3],'modelo'=>$data[$clave][4],'serie'=>$data[$clave][5]];
+          $equipo= ['alias'=>trim($data[$clave][1]),'descripcion'=>trim($data[$clave][2]),'marca'=>trim($data[$clave][3]),'modelo'=>trim($data[$clave][4]),'serie'=>trim($data[$clave][5])];
           $query1= "SELECT id FROM mypsa_bitacoramyp.view_equipos where alias LIKE '%{$equipo['alias']}%' and descripcion LIKE '%{$equipo['descripcion']}%' and marca LIKE '%{$equipo['marca']}%' and modelo LIKE '%{$equipo['modelo']}%' and serie LIKE '%{$equipo['serie']}%';";
           //echo $query1;
           $data1=$this->model['equipo']->get_query($query1);          
@@ -157,7 +157,7 @@
 
         if(!empty($data[$clave][6])){
           
-            $cliente=['empresa'=>$data[$clave][6],'planta'=>$data[$clave][7]];
+            $cliente=['empresa'=>trim($data[$clave][6]),'planta'=>trim($data[$clave][7])];
          
             if(($cliente_temp['empresa'] == $cliente['empresa']) && ($cliente_temp['planta'] == $cliente['planta']))
             {
@@ -182,16 +182,14 @@
         } 
 
         if(!empty($data[$clave][15])){
-          $tecnico= explode(' ',$data[$clave][15]);
-          $usuario=['nombre'=>$tecnico[0],'apellido'=>$tecnico[1]];
+          $tecnico= $data[$clave][15];
+          $usuario=['email'=>$tecnico];
 
-          if(($usuario_temp['nombre'] == $usuario['nombre']) && ($usuario_temp['apellido'] == $usuario['apellido'])){
+          if(($usuario_temp['email'] == $usuario['email'])){
             $data[$clave][21]=$tecnico_temp;
           }
-          else{
-            $usuario_temp['nombre']=$tecnico[0];
-            $usuario_temp['apellido']=$tecnico[1];
-            $query3="SELECT id FROM mypsa_bitacoramyp.view_usuarios where nombre='{$usuario['nombre']}' and apellido='{$usuario['apellido']}';";
+          else{            
+            $query3="SELECT id FROM mypsa_bitacoramyp.view_usuarios where email='{$usuario['email']}';";
             $data3=$this->model['usuario']->get_query($query3);
             if(sizeof($data3)>0){
               $tecnico_temp=$data3[0]['id'];
@@ -199,14 +197,12 @@
               $tecnico_temp=0;
             }
             $data[$clave][21]=$tecnico_temp;
-          }
-          
+          }          
         }else{
           $data[$clave][21]=0;
         }        
         
       }      
-
       echo json_encode($data);
 
   }
@@ -214,7 +210,9 @@
   public function ajax_storevolCSV(){
     $post = $_POST['data'];
 
-    $decoded= json_decode($post, true);    
+    $decoded= json_decode($post, true); 
+    
+    
     
     foreach($decoded as $clave => $value){
 
@@ -268,8 +266,9 @@
       $data[$clave]['fecha_vencimiento'] = date('Y-m-d', strtotime($fechacal . "+".$periodocal." ".$dia_mes));  
       // <-- Fin -->      
     }    
-    //var_dump(sizeof($data));   
-        
+   //var_dump(sizeof($data));   
+    
+
     for ($i=0; $i < sizeof($data); $i++) {
         $planta= $this->model['planta']->find_by(['id'=>$data[$i]['plantas_id']],'view_plantas');
         $nombreplanta= strtolower(str_replace(' ','',$planta[0]['nombre']));
@@ -291,7 +290,7 @@
         $lines = file($ruta, FILE_IGNORE_NEW_LINES); 
         $data = array();                     
          foreach ($lines as $key => $value)
-        {                  
+        {               
             $csv[$key] = str_getcsv(utf8_encode($value));             
             //$csv[$key] = str_getcsv($value);             
              if($key>0)
@@ -299,7 +298,7 @@
              array_push($data,$csv[$key]);
              }                         
         }        
-        return $data;
+        return $data;        
   }
 
  //Update la bitacora 
@@ -464,7 +463,7 @@
   }
 
   public function download_excel($view,$plantaid,$limit){
-    $query= "SELECT id as informe,alias as clave,descripcion,marca,modelo,serie,empresa,planta,po_id,cantidad,acreditacion,calibracion,numero_hoja_entrada as hoja_entrada,usuarios_hoja_entrada,fecha_hoja_entrada,calibrado_por,vigencia,fecha_calibracion,nombre_proceso as proceso FROM ". $view ." WHERE plantas_id=". $plantaid ." ORDER BY id DESC LIMIT ". $limit .";";        
+    $query= "SELECT id as informe,alias as clave,descripcion,marca,modelo,serie,empresa,planta,po_id,cantidad,acreditacion,calibracion,numero_hoja_entrada as hoja_entrada,usuarios_hoja_entrada,fecha_hoja_entrada,tecnico_cal_email,vigencia,fecha_calibracion,nombre_proceso as proceso FROM ". $view ." WHERE plantas_id=". $plantaid ." ORDER BY id DESC LIMIT ". $limit .";";        
     $data = $this->model['informes']->get_query_informe($query); 
 
     $filename="formato.csv";

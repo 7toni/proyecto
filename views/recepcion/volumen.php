@@ -309,20 +309,14 @@
                     frmData.append("csvfile",file);
                     $('#overlay1').addClass('overlay');
                     $('#refresh1').addClass('fa fa-refresh fa-spin');                                                           
-                    $.ajax({
-                        //url: '?c=recepcion&a=ajax_cargarcsv',                        
-                        // //dataType:'json',
-                        // contentType:false,
-                        // cache:false,
-                        // processData:false,
-                        // method:'POST',
+                    $.ajax({                        
                         url:"?c=recepcion&a=ajax_cargarcsv",
                         method:"POST",
                         data:frmData,
                         dataType:'json',
                         contentType:false,
                         cache:false,
-                        processData:false,                       
+                        processData:false,                      
                         success:function(data) {
                             //console.log(data);
                             //console.log(JSON.parse(data));                            
@@ -574,21 +568,17 @@
 
                 $("#submit").click(function(){
                     var frmData= JSON.stringify(dataBitacora);
+                    //var frmData=dataBitacora;
                     $('#overlay3').addClass('overlay');
                     $('#refresh3').addClass('fa fa-refresh fa-spin'); 
-                    //console.log(dataBitacora);                                                          
+                                                                        
                     $.ajax({
                         url: '?c=recepcion&a=ajax_storevolCSV',                                                
                         type:'POST',                        
-                        data: {data:frmData},
-                        dataType: 'JSON',
-                        contentType:false,
-                        cache:false,
-                        processData:false,                        
+                        data: {data:frmData},                                                
                         success:function(data) {
                             var datos = data;
-                            //var obj= JSON.parse(datos);                            
-                            var obj=datos;
+                            var obj= JSON.parse(datos);                            
                             if(obj==true){
                                 alertas_tipo_valor_col12('alerta_volumen','correcto','Los datos fueron registrados correctamente.');                                
                                 var table = $('#table_volumen2').DataTable();
