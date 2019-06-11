@@ -318,11 +318,11 @@
                         cache:false,
                         processData:false,                      
                         success:function(data) {
-                            //console.log(data);
-                            //console.log(JSON.parse(data));                            
-                            var datos = data;
-                            var obj=datos;                                                                                   
-                           // var obj=JSON.parse(datos);
+                            //console.log(data);                                                      
+                            //var datos = data;
+                            var obj=data;
+                            dataBitacora= obj;
+
                             $('#row_table1').show();                            
 
                             $('#table_volumen').DataTable({
@@ -388,8 +388,8 @@
                             $('#comprobardatosdisabled').hide();
 
                             $('#overlay1').removeClass('overlay');
-                            $('#refresh1').removeClass('fa fa-refresh fa-spin');                            
-                                                                                                                                                                     
+                            $('#refresh1').removeClass('fa fa-refresh fa-spin');
+                                                        
                         },
                         error: function (response) {
                             console.log(response);                            
@@ -401,25 +401,24 @@
                     var table = $('#table_volumen').DataTable();
                         table
                             .clear();
-                    var file= $('#file').prop('files')[0];                    
-                    var frmData= new FormData();
+                    //var file= $('#file').prop('files')[0];                    
+                    //var frmData= new FormData();                    
+                    var frmData= JSON.stringify(dataBitacora);
+                     //console.log(dataBitacora);
                     var entro=false;                    
-                    frmData.append("csvfile",file);
+                    //frmData.append("csvfile",file);
                     $('#overlay2').addClass('overlay');
                     $('#refresh2').addClass('fa fa-refresh fa-spin');                    
-                    $.ajax({                   
-                        url: '?c=recepcion&a=ajax_comprobardatos',                        
-                        method:"POST",
-                        data:frmData,
-                        dataType:'json',
-                        contentType:false,
-                        cache:false,
-                        processData:false,
+                    $.ajax({
+                        url: '?c=recepcion&a=ajax_comprobardatos',                       
+                        method:"POST",                        
+                        data: {data:frmData},                                              
                         success:function(data) {
                             var datos = data;
-                            //var obj= JSON.parse(datos);
-                            var obj=datos;
-                            //console.log(obj);                           
+                            var obj= JSON.parse(datos);
+                            //var obj=datos;
+                            //console.log(obj);                            
+
                             $('#row_table1').hide();
                             $('#row_table2').show();                                                        
 
@@ -427,12 +426,36 @@
                                 data : obj,
                                 "paging"      : true,                    
                                 "searching"   : true,
-                                "ordering"    : false,
+                                "ordering"    : true,
                                 "info"        : true,
                                 "autoWidth"   : false,
                                 dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
                                 "columnDefs" : [
                                     { "targets":[11,12,13], "visible":false },
+                                    {
+                                        "targets":14,
+                                        "render": function(data,type, row){
+                                            var menu="";
+                                            if(row[14] != ""){ 
+                                                $date= moment(row[14]).format("YYYY-MM-DD");
+                                                if($date!="Invalid date"){
+                                                    menu="<span class='label label-success'>"+ $date +"</span>";
+                                                }
+                                                else{
+                                                    if(!entro){ //
+                                                        entro=true;
+                                                    }                                                
+                                                    menu="<span class='label label-danger'> Error en el formato de fecha </span>";
+                                                }
+                                            }else{
+                                                if(!entro){ //
+                                                    entro=true;
+                                                }                                                
+                                                menu="<span class='label label-danger'>* Requiere </span>";                                                
+                                            }                                                                                        
+                                            return  menu;
+                                        }
+                                    },
                                     {
                                         "targets":17,
                                         "render": function(data,type, row){
@@ -446,7 +469,7 @@
                                                     if(!entro){ //
                                                         entro=true;
                                                     }                                                
-                                                    menu="<span class='label label-danger'> Error en el csv </span>";
+                                                    menu="<span class='label label-danger'> Error en el formato de fecha </span>";
                                                 }
                                             }else{
                                                 if(!entro){ //
@@ -557,6 +580,7 @@
                                 $('#submit').show();
                                 $('#submitdisabled').hide();
                             }
+
                             $('#overlay2').removeClass('overlay');
                             $('#refresh2').removeClass('fa fa-refresh fa-spin');                           
                         },
@@ -567,18 +591,18 @@
                 });
 
                 $("#submit").click(function(){
-                    var frmData= JSON.stringify(dataBitacora);
-                    //var frmData=dataBitacora;
+                    var frmData= JSON.stringify(dataBitacora);                    
                     $('#overlay3').addClass('overlay');
-                    $('#refresh3').addClass('fa fa-refresh fa-spin'); 
-                                                                        
+                    $('#refresh3').addClass('fa fa-refresh fa-spin');
+
                     $.ajax({
-                        url: '?c=recepcion&a=ajax_storevolCSV',                                                
+                        url: '?c=recepcion&a=ajax_storevolcsv',                                                
                         type:'POST',                        
-                        data: {data:frmData},                                                
+                        data: {data:frmData},                                              
                         success:function(data) {
-                            var datos = data;
-                            var obj= JSON.parse(datos);                            
+                            var datos = data;                            
+                            var obj= JSON.parse(datos);
+                            //console.log(obj);                                                      
                             if(obj==true){
                                 alertas_tipo_valor_col12('alerta_volumen','correcto','Los datos fueron registrados correctamente.');                                
                                 var table = $('#table_volumen2').DataTable();

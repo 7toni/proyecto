@@ -170,6 +170,7 @@
                                           <th>Serie</th>
                                           <th>Cliente (Sucursal/Departamento)</th>
                                           <th>Fecha de calibración</th>
+                                          <th>Calibrado Por</th>
                                           <th>Vigencia</th>
                                           <th>Fecha de vencimiento</th>
                                           <th>Precio</th>
@@ -188,6 +189,7 @@
                                           <th>Serie</th>
                                           <th>Cliente (Sucursal/Departamento)</th>
                                           <th>Fecha de calibración</th>
+                                          <th>Calibrado Por</th>
                                           <th>Vigencia</th>
                                           <th>Fecha de vencimiento</th>
                                           <th>Precio</th>
@@ -242,14 +244,15 @@
                   }                
               ],                  
               columns: [
-                          { data: 'informe' },
-                          { data: 'clave' },
+                          { data: 'id' },
+                          { data: 'equipo_id' },
                           { data: 'descripcion'},
                           { data: 'marca' },
                           { data: 'modelo' },
                           { data: 'serie' },
                           { data: 'cliente' },
                           { data: 'fecha_calibracion' },
+                          { data: 'tecnico_email' },
                           { data: 'periodo_calibracion' },
                           { data: 'fecha_vencimiento' },
                           { data: 'precio' },

@@ -15,7 +15,7 @@
       <div class="row">
         <div class="col-md-12">         
 
-          <div class="box box-solid">
+          <div class="box box-primary">
             <div class="box-header with-border">
               <h3 class="box-title"><i class="fa fa-filter" aria-hidden="true"></i>&nbsp;Filtros de busqueda</h3>
 
@@ -26,8 +26,8 @@
             </div>
             <div class="box-body">
               <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
+              <div class="col-md-6">
+                <div class="form-group">
                     <label>Rango de fechas:</label>
                       <div class="input-group">
                         <div class="input-group-addon">
@@ -37,14 +37,16 @@
                       </div>
                   </div>                  
                   <div class="form-group">
-                    <label>Empresa/Sucursal:</label>
+                    <label>Matriz/Sucursal:</label>
                     <select id="tipo_busqueda" class="form-control select2" style="width: 100%;" name="tipo_busqueda">
                       <option value="">Seleccione una opción</option> 
                       <option value="0">Nogales</option>
                       <option value="1">Hermosillo</option>
                       <option value="2">Guaymas</option> 
                     </select>
-                  </div>
+                  </div>                  
+              </div>
+              <div class="col-md-6">
                   <div class="form-group">
                     <label>Proceso de calibración</label>
                     <select id="tipo_busqueda" class="form-control select2" style="width: 100%;" name="tipo_busqueda">
@@ -53,44 +55,42 @@
                       <option value="4">Informes Terminados</option>
                       <option value="3">Informes en Proceso</option>                                        
                     </select>
-                  </div>
+                  </div>                
                   <div class="form-group">
                     <label>Campos de bitacora a buscar</label>
                     <select class="form-control select2" multiple="multiple" data-placeholder="Seleccionar campo de bitacora"
-                            style="width: 100%;">
-                      <option>Sin filtro</option>
-                      <option>Todos</option>
-                      <option># informe</option>
-                      <option>Clave</option>
-                      <option>Descripcion</option>
-                      <option>Marca</option>
-                      <option>Modelo</option>
-                      <option>Serie</option>                    
-                      <option>Serie</option>
-                      <option>Técnico</option>
-                      <option>Cliente</option>
+                            style="width: 100%;" name="filtro_bitacora">
+                      <option value="-1">Sin filtro</option>
+                      <option value="0">Todos</option>
+                      <option value="1"># informe</option>
+                      <option value="2">Clave</option>
+                      <option value="3">Descripcion</option>
+                      <option value="4">Marca</option>
+                      <option value="5">Modelo</option>
+                      <option value="6">Serie</option>                      
+                      <option value="7">Técnico</option>
+                      <option value="8">Cliente</option>
                     </select>
                   </div>
-                </div>
-              </div>  
+              </div>
               <div class="row">
-              <div class="col-md-12">                
-                  <div class="col-md-6">
+                <div class="col-md-12">
+                  <div class="col-md-6" id="col-informes">
                     <div class="form-group">
                       <label>Informe(s)</label>
-                      <input type="text" class="form-control" name="informes" placeholder="Ejemplo : 0123,1034,1456" />
+                      <input type="text" class="form-control" name="informes" id="informes" placeholder="Ejemplo : 0123,1034,1456" />
                     </div>                    
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-6" id="col-claves">
                     <div class="form-group">
                       <label>Clave (s)</label>
-                      <input type="text" class="form-control" name="claves" placeholder="Ejemplo : clave1,clave2,calve...n" />
+                      <input type="text" class="form-control" name="claves" id="claves" placeholder="Ejemplo : clave1,clave2,calve...n"/>
                     </div>                    
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-6" id="col-descripciones">
                     <div class="form-group">
                       <label>Descripción(s)</label>
-                      <select class="form-control select2" multiple="multiple" data-placeholder="Seleccionar descripción"
+                      <select class="form-control select2" name="descripciones" id="descripciones" multiple="multiple" data-placeholder="Seleccionar descripción"
                             style="width: 100%;">
                       <option>Descripcion 1</option>
                       <option>Descripcion 2</option>
@@ -101,10 +101,10 @@
                     </select>
                     </div>
                   </div>                 
-                  <div class="col-md-6">
+                  <div class="col-md-6" id="col-marcas">
                     <div class="form-group">
                       <label>Marca(s)</label>
-                      <select class="form-control select2" multiple="multiple" data-placeholder="Seleccionar marca"
+                      <select class="form-control select2" name="marcas" id="marcas" multiple="multiple" data-placeholder="Seleccionar marca"
                             style="width: 100%;">
                       <option>Marca 1</option>
                       <option>Marca 2</option>
@@ -115,10 +115,10 @@
                     </select>
                     </div>                    
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-6" id="col-modelos">
                     <div class="form-group">
                       <label>Modelo(s)</label>
-                      <select class="form-control select2" multiple="multiple" data-placeholder="Seleccionar modelo"
+                      <select class="form-control select2" name="modelos" id="modelos" multiple="multiple" data-placeholder="Seleccionar modelo"
                             style="width: 100%;">
                       <option>Modelo 1</option>
                       <option>Modelo 2</option>
@@ -129,17 +129,17 @@
                     </select>
                     </div>                    
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-6" id="col-series">
                     <div class="form-group">
                       <label>Serie(s)</label>
-                      <input type="text" class="form-control" name="claves" placeholder="Ejemplo : Serie1,Serie2,Serie...n" />
+                      <input type="text" class="form-control" name="series" id="series" placeholder="Ejemplo : Serie1,Serie2,Serie...n" />
                     </div>
                     
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-6" id="col-tecnicos">
                     <div class="form-group">
                       <label>Técnico(s)</label>
-                      <select class="form-control select2" multiple="multiple" data-placeholder="Seleccionar técnico"
+                      <select class="form-control select2" name="tecnicos" id="tecnicos" multiple="multiple" data-placeholder="Seleccionar técnico"
                             style="width: 100%;">
                       <option>Técnico 1</option>
                       <option>Técnico 2</option>
@@ -150,10 +150,10 @@
                     </select>
                     </div>                    
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-6" id="col-clientes">
                     <div class="form-group">
                       <label>Cliente(s)</label>
-                      <select class="form-control select2" multiple="multiple" data-placeholder="Seleccionar cliente"
+                      <select class="form-control select2" name="clientes" id="clientes" multiple="multiple" data-placeholder="Seleccionar cliente"
                             style="width: 100%;">
                       <option>Cliente 1</option>
                       <option>Cliente 2</option>
@@ -442,8 +442,8 @@
             <div class="col-md-12">
               <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Inbox</h3>
-                  <div class="box-body">
+                  <h3 class="box-title">Resultados</h3>
+                  <div class="box-body table-responsive">
                     <table id="table_reporte" class="table table-bordered table-hover">
                       <thead>
                         <tr>
@@ -463,274 +463,7 @@
                           <th>Proceso</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr>
-                          <td>Trident</td>
-                          <td>Internet
-                            Explorer 4.0
-                          </td>
-                          <td>Win 95+</td>
-                          <td> 4</td>
-                          <td>X</td>
-                        </tr>
-                        <tr>
-                          <td>Trident</td>
-                          <td>Internet
-                            Explorer 5.0
-                          </td>
-                          <td>Win 95+</td>
-                          <td>5</td>
-                          <td>C</td>
-                        </tr>
-                        <tr>
-                          <td>Trident</td>
-                          <td>Internet
-                            Explorer 5.5
-                          </td>
-                          <td>Win 95+</td>
-                          <td>5.5</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Trident</td>
-                          <td>Internet
-                            Explorer 6
-                          </td>
-                          <td>Win 98+</td>
-                          <td>6</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Trident</td>
-                          <td>Internet Explorer 7</td>
-                          <td>Win XP SP2+</td>
-                          <td>7</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Trident</td>
-                          <td>AOL browser (AOL desktop)</td>
-                          <td>Win XP</td>
-                          <td>6</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Firefox 1.0</td>
-                          <td>Win 98+ / OSX.2+</td>
-                          <td>1.7</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Firefox 1.5</td>
-                          <td>Win 98+ / OSX.2+</td>
-                          <td>1.8</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Firefox 2.0</td>
-                          <td>Win 98+ / OSX.2+</td>
-                          <td>1.8</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Firefox 3.0</td>
-                          <td>Win 2k+ / OSX.3+</td>
-                          <td>1.9</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Camino 1.0</td>
-                          <td>OSX.2+</td>
-                          <td>1.8</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Camino 1.5</td>
-                          <td>OSX.3+</td>
-                          <td>1.8</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Netscape 7.2</td>
-                          <td>Win 95+ / Mac OS 8.6-9.2</td>
-                          <td>1.7</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Netscape Browser 8</td>
-                          <td>Win 98SE+</td>
-                          <td>1.7</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Netscape Navigator 9</td>
-                          <td>Win 98+ / OSX.2+</td>
-                          <td>1.8</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Mozilla 1.0</td>
-                          <td>Win 95+ / OSX.1+</td>
-                          <td>1</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Mozilla 1.1</td>
-                          <td>Win 95+ / OSX.1+</td>
-                          <td>1.1</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Mozilla 1.2</td>
-                          <td>Win 95+ / OSX.1+</td>
-                          <td>1.2</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Mozilla 1.3</td>
-                          <td>Win 95+ / OSX.1+</td>
-                          <td>1.3</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Mozilla 1.4</td>
-                          <td>Win 95+ / OSX.1+</td>
-                          <td>1.4</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Mozilla 1.5</td>
-                          <td>Win 95+ / OSX.1+</td>
-                          <td>1.5</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Mozilla 1.6</td>
-                          <td>Win 95+ / OSX.1+</td>
-                          <td>1.6</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Mozilla 1.7</td>
-                          <td>Win 98+ / OSX.1+</td>
-                          <td>1.7</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Mozilla 1.8</td>
-                          <td>Win 98+ / OSX.1+</td>
-                          <td>1.8</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Seamonkey 1.1</td>
-                          <td>Win 98+ / OSX.2+</td>
-                          <td>1.8</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Epiphany 2.20</td>
-                          <td>Gnome</td>
-                          <td>1.8</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Webkit</td>
-                          <td>Safari 1.2</td>
-                          <td>OSX.3</td>
-                          <td>125.5</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Webkit</td>
-                          <td>Safari 1.3</td>
-                          <td>OSX.3</td>
-                          <td>312.8</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Webkit</td>
-                          <td>Safari 2.0</td>
-                          <td>OSX.4+</td>
-                          <td>419.3</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Webkit</td>
-                          <td>Safari 3.0</td>
-                          <td>OSX.4+</td>
-                          <td>522.1</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Webkit</td>
-                          <td>OmniWeb 5.5</td>
-                          <td>OSX.4+</td>
-                          <td>420</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Webkit</td>
-                          <td>iPod Touch / iPhone</td>
-                          <td>iPod</td>
-                          <td>420.1</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Webkit</td>
-                          <td>S60</td>
-                          <td>S60</td>
-                          <td>413</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Presto</td>
-                          <td>Opera 7.0</td>
-                          <td>Win 95+ / OSX.1+</td>
-                          <td>-</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Presto</td>
-                          <td>Opera 7.5</td>
-                          <td>Win 95+ / OSX.2+</td>
-                          <td>-</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Presto</td>
-                          <td>Opera 8.0</td>
-                          <td>Win 95+ / OSX.2+</td>
-                          <td>-</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Presto</td>
-                          <td>Opera 8.5</td>
-                          <td>Win 95+ / OSX.2+</td>
-                          <td>-</td>
-                          <td>A</td>
-                        </tr>                                    
+                      <tbody>                                                           
                       </tbody>
                       <tfoot>
                         <tr>
@@ -775,6 +508,15 @@
         <script type="text/javascript">
 
           $(document).ready(function(){
+
+            $('#col-informes').hide();
+            $('#col-claves').hide();
+            $('#col-descripciones').hide();
+            $('#col-marcas').hide();
+            $('#col-modelos').hide();
+            $('#col-series').hide();
+            $('#col-tecnicos').hide();
+            $('#col-clientes').hide();
 
             $('#table_reporte tfoot th').each( function () {
               var title = $(this).text();

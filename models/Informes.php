@@ -116,7 +116,7 @@ class Informes extends Model {
     public function get_reporte_clientes($data){
         $cliente_temp="";             
         $condicion= "WHERE estado_calibracion=1 and activo=1 ";
-        $this->query= "SELECT id,l.alias as equipo_id,descripcion,marca,modelo,serie,cliente,fecha_calibracion,fecha_vencimiento,periodo_calibracion,precio,precio_extra,moneda,proceso FROM view_clienteinformes".$data['ext'] ." l ";
+        $this->query= "SELECT id,l.alias as equipo_id,descripcion,marca,modelo,serie,cliente,fecha_calibracion,tecnico_email,fecha_vencimiento,periodo_calibracion,precio,precio_extra,moneda,proceso FROM view_clienteinformes".$data['ext'] ." l ";
 
         if($data['cliente_id'] != 0){
              $cliente_temp ="and plantas_id=". $data['cliente_id']." ";
