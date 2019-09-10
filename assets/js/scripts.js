@@ -71,7 +71,7 @@
     }
 
     /* Buscar los técnicos de acuerdo a la sucursal  */
-    var sucursalxtec_ajax = function() {   
+    var sucursalxtec_ajax = function() {
         //console.log($(".select2").val());   
         $.ajax({
             url: "?c=reportes&a=ajax_load_tecnicos",
@@ -94,7 +94,7 @@
     }     
 
 /* Buscar Hoja de salida */
-    var buscar_hoja_salida = function() {        
+    var buscar_hoja_salida = function() {
         if (validar_text($("#hojas_salida_id").val()) == true) {
             if ($("#hojas_salida_id").val().substr(0,4)!="0000") { //evitar la busqueda de los números de hoja con '0000'
                 $.ajax({
@@ -174,14 +174,18 @@
 
         });
     } 
+   
+    function _accesovalidacion(parametro){
+        
+    }
 
     //Events
     $(window).load(function() {
         // Mostrar equipos a calibrar en area de notificaciones
         $.ajax({
-            url: "?c=informes&a=get_a_calibrar",
-            dataType: "json",
-            method: "GET",
+                url: "?c=informes&a=get_a_calibrar",
+                dataType: "json",
+                method: "GET",
             }).done(function(data) {
             var count = data.length;
             if(count >0){$('#notification_number').text(count);}
@@ -195,10 +199,8 @@
                 $('#notification_header').text('Tienes '+count+' equipos a calibrar');
                 $('#notification_menu').append('<li><a href="?c=calibracion&a=index&p='+item.id+'" title="'+item.descripcion+'"><i class="fa fa-file-text text-'+color+'"></i> #' + item.id + ' - ' + item.descripcion + '</a></li>');
             });
-
-            }).fail(function(data) {
-
-            }).always(function(data) {
+        }).fail(function(data) {
+        }).always(function(data) {
         });
 
         $.ajax({
@@ -321,7 +323,7 @@
                 url: 'api/EquiposDescripciones.php',
                 dataType: 'json',
                 delay: 450,
-                data: function(params) {
+                data: function(params) {                    
                     return {
                         q: params.term,
                         page: params.page
@@ -340,8 +342,11 @@
             },
             escapeMarkup: function(markup) {
                 return markup; },
-            minimumInputLength: 2
+            minimumInputLength: 2,
+
         });
+
+
 
         $('.select2Empresa').select2({
             language: "es",

@@ -15,6 +15,7 @@ class EquiposController {
             'equipos_modelos' => new EquipoModelo(),
             'sucursal' => new Sucursal(),
         ];
+        $_SESSION['script'] = $this->name;
     }
 
     public function index() {
@@ -23,10 +24,7 @@ class EquiposController {
         include view($this->name . '.read');
     }
 
-    public function add() {
-        $data['equipos_descripciones'] = $this->model['equipos_descripciones']->all();
-        $data['equipos_marcas'] = $this->model['equipos_marcas']->all();
-        $data['equipos_modelos'] = $this->model['equipos_modelos']->all();
+    public function add() {        
         $data['sucursal'] = $this->model['sucursal']->all();
         include view($this->name . '.add');
     }
@@ -62,6 +60,8 @@ class EquiposController {
             'marcas_id' => 'required|number',
             'modelos_id' => 'required|number',
         ]);
+
+        
         $data['continental_id'] = 1;
         $data['activo'] = 1;
         if ($this->model['equipo']->store($data)) {
@@ -98,6 +98,15 @@ class EquiposController {
         } else {
             Flash::error(setError('002'));
         }
-    }    
+    } 
+    
+    public function ajax_load_validacionserie() {
+
+        $serie=$_POST['serie'];
+        $dato= $this->model['equipo']->find_by(['serie' => $serie],"view_equipos");
+        
+        
+        echo json_encode($dato);
+    }
 
 }

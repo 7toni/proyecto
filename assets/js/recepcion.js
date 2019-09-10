@@ -5,6 +5,7 @@
   var count_check_equipo = 0;
   var count_numinforme=0;
   var planta_temp = "";  
+  var equipo_temp = ""; 
 /* End variables de inicio */
  
 /* Generar número de informe  */
@@ -46,7 +47,7 @@
 /* End  ultimo_numero_informe */
 
 /* Buscar equipo */
-  var buscar_idequipo_historial = function () {    
+  var buscar_idequipo_historial = function () {
     count_check_equipo=0;
     $('#overlay').addClass('overlay');
     $('#refresh').addClass('fa fa-refresh fa-spin');        
@@ -57,8 +58,8 @@
             method: "POST",
             data: "idequipo=" + $("#idequipo").val().trim()
         }).done(function (data) {
-        var datos = data;   
-        //console.log(datos);              
+            var datos = data;   
+            //console.log(datos);              
             if (datos.length > 0) {                     
             $('#historial_informes tbody').remove();                
             $('#historial_informes').last().addClass( "table-scroll" );                  
@@ -71,20 +72,30 @@
               historial[i] = {equipos_id:datos[i].idequipo, alias: datos[i].alias, descripcion: datos[i].descripcion,
                 marca: datos[i].marca, modelo: datos[i].modelo, serie: datos[i].serie,equipo_activo:datos[i].equipo_activo, empresas_id:datos[i].empresas_id, 
                 plantas_id:datos[i].plantas_id, vigencia: datos[i].periodo_calibracion, acreditacion: datos[i].acreditaciones_id,
-                tipo_cal: datos[i].calibraciones_id, tecnico_cal: datos[i].usuarios_calibracion_id };
+                tipo_cal: datos[i].calibraciones_id, tecnico_cal: datos[i].usuarios_calibracion_id, fecha_calibracion:datos[i].fecha_calibracion,fecha_vencimiento:datos[i].fecha_vencimiento };
                     var radiocheck= '';
                     if(datos.length == 1) {radiocheck='checked'; asignar_equipo_cliente(i);  $('#historial_informes').removeClass( "table-scroll" );} //Esta condición se ejecuta cuando se halla un solo registro en historial.
-                    var nuevafila= "<tr class='bg-"+color_row[parseInt(datos[i].proceso)]+"'>"+
+                      var planta=datos[i].planta;
+                      var cliente="";
+                      if(planta.toLowerCase() == "planta1" || planta.toLowerCase() == "planta 1"){
+                        cliente=datos[i].empresa;
+                      }
+                      else{
+                         cliente=datos[i].empresa +" "+ datos[i].planta;
+                      }
+                      var nuevafila= "<tr class='bg-"+color_row[parseInt(datos[i].proceso)]+"'>"+
                       "<td> <label> <input type='radio' name='id_aux' class='flat-red' onClick='asignar_equipo_cliente("+i+")' "+radiocheck +"></label></td>"+
                       "<td>"+datos[i].id +"</td>"+
                       "<td>"+datos[i].alias +"</td>"+
                       "<td>"+datos[i].descripcion +"</td>"+
                       "<td>"+datos[i].marca +"</td>"+
                       "<td>"+datos[i].modelo +"</td>"+
-                      "<td>"+datos[i].serie +"</td>"+
-                      "<td>"+datos[i].empresa +"</td>"+
-                      "<td>"+datos[i].planta +"</td>"+
+                      "<td>"+datos[i].serie +"</td>"+                                            
+                      "<td>"+cliente +"</td>"+
+                      "<td>"+datos[i].fecha_calibracion +"</td>"+
                       "<td>"+datos[i].periodo_calibracion +"</td>"+
+                      "<td>"+datos[i].fecha_vencimiento +"</td>"+
+                      "<td>"+datos[i].calibrado_por +"</td>"+
                       "<td>"+datos[i].acreditacion +"</td>"+                         
                       "<td> <span class='badge bg-"+ color[parseInt(datos[i].proceso)]+"'>"+ (parseInt(datos[i].proceso)*100)/4+"%</span></td>"+                                                     
                     +"</tr>"
@@ -144,18 +155,23 @@
                         disabled="disabled";
                     }
 
-                     if (datos.length == 1) { radiocheck = 'checked'; }
-                        var nuevafila = "<tr>" +
-                            "<td> <label> <input type='radio' name='equipos_id' value='" + bitacora[i].id + "' " + radiocheck + " "+ disabled +"></label></td>" +
-                            "<td>" + bitacora[i].alias + "</td>" +
-                            "<td>" + bitacora[i].descripcion + "</td>" +
-                            "<td>" + bitacora[i].marca + "</td>" +
-                            "<td>" + bitacora[i].modelo + "</td>" +
-                            "<td>" + bitacora[i].serie + "</td>" +
-                            "<td > <span class='label "+ labeleq +"'>" + estadoeq + "</spam> </td>" +
-                            "<td> <a class='btn btn-block btn-warning btn-sm' target='_blank'  href='?c=equipos&a=edit&p=" + bitacora[i].id + "'><i class='fa fa-pencil' aria-hidden='true'></i></a></td>" +
-                            +"</tr>"
-                        $("#table_equipo").append(nuevafila);
+                    var nuevafila = "<tr>";
+                    if (datos.length == 1) {
+                      radiocheck = 'checked'; 
+                      validar_serieEq(bitacora[i].serie);
+                      nuevafila += "<td> <label> <input type='radio' name='equipos_id' value='" + bitacora[i].id + "' " + radiocheck + " "+ disabled +"></label></td>";
+                    }else{
+                       nuevafila += "<td> <label> <input type='radio' name='equipos_id' onClick='asignar_equipo("+bitacora[i].id+")' value='" + bitacora[i].id + "' " + radiocheck + " "+ disabled +"></label></td>";                        
+                    } 
+                    nuevafila += "<td>" + bitacora[i].alias + "</td>"+
+                        "<td>" + bitacora[i].descripcion + "</td>" +
+                        "<td>" + bitacora[i].marca + "</td>" +
+                        "<td>" + bitacora[i].modelo + "</td>" +
+                        "<td>" + bitacora[i].serie + "</td>" +
+                        "<td > <span class='label "+ labeleq +"'>" + estadoeq + "</spam> </td>" +
+                        "<td> <a class='btn btn-block btn-warning btn-sm' target='_blank'  href='?c=equipos&a=edit&p=" + bitacora[i].id + "'><i class='fa fa-pencil' aria-hidden='true'></i></a></td>" +
+                        +"</tr>";                                                          
+                    $("#table_equipo").append(nuevafila);
                 }
 
             } else {
@@ -167,6 +183,7 @@
         });
     } else {
         alertas_tipo_valor('alerta_idequipo', 'requerido', 'id del equipo');
+
     }
   }
 
@@ -174,44 +191,104 @@
 
 /* asignar_equipo_cliente */
   var asignar_equipo_cliente = function(index) {
-  //count_check_equipo++;
-  //if (count_check_equipo < 2) {
-      $('#table_equipo').removeClass( "table-scroll" );
-      $('#table_equipo tbody').remove();            
-      planta_temp = "";
-      //console.log( historial);                
-      var bitacora = historial[index];            
-      planta_temp = bitacora.plantas_id;
+    //count_check_equipo++;
+    //if (count_check_equipo < 2) {
+        $('#table_equipo').removeClass( "table-scroll" );
+        $('#table_equipo tbody').remove();            
+        planta_temp = "";
+        //console.log( historial);                
+        var bitacora = historial[index];            
+        planta_temp = bitacora.plantas_id;
+      
+        if (bitacora.equipo_activo=="1"){
+          estadoeq="Activo";
+          labeleq="label-success";                        
+          }
+          else{
+              estadoeq="Inactivo";
+              labeleq="label-danger";
+              disabled="disabled";
+          }        
 
-      if (bitacora.equipo_activo=="1"){
-        estadoeq="Activo";
-        labeleq="label-success";                        
-        }
-        else{
-            estadoeq="Inactivo";
-            labeleq="label-danger";
-            disabled="disabled";
-        }        
+        var nuevafila = "<tr>" +
+            "<td><label> <input type='radio' name='equipos_id' value='" + bitacora.equipos_id + "' checked></label></td>" +
+            "<td>" + bitacora.alias + "</td>" +
+            "<td>" + bitacora.descripcion + "</td>" +
+            "<td>" + bitacora.marca + "</td>" +
+            "<td>" + bitacora.modelo + "</td>" +
+            "<td>" + bitacora.serie + "</td>" +
+            "<td > <span class='label "+ labeleq +"'>" + estadoeq + "</spam> </td>" +
+            "<td> <a class='btn btn-block btn-warning btn-sm' target='_blank'  href='?c=equipos&a=edit&p=" + bitacora.equipos_id + "'><i class='fa fa-pencil' aria-hidden='true'></i></a></td>" +
+            +"</tr>"
+        $("#table_equipo").append(nuevafila);
 
-      var nuevafila = "<tr>" +
-          "<td><label> <input type='radio' name='equipos_id' value='" + bitacora.equipos_id + "' checked></label></td>" +
-          "<td>" + bitacora.alias + "</td>" +
-          "<td>" + bitacora.descripcion + "</td>" +
-          "<td>" + bitacora.marca + "</td>" +
-          "<td>" + bitacora.modelo + "</td>" +
-          "<td>" + bitacora.serie + "</td>" +
-          "<td > <span class='label "+ labeleq +"'>" + estadoeq + "</spam> </td>" +
-          "<td> <a class='btn btn-block btn-warning btn-sm' target='_blank'  href='?c=equipos&a=edit&p=" + bitacora.equipos_id + "'><i class='fa fa-pencil' aria-hidden='true'></i></a></td>" +
-          +"</tr>"
-      $("#table_equipo").append(nuevafila);
+        $('#empresa_ajax_r').val(bitacora.empresas_id).change();
+        $('#periodo_calibracion').val(bitacora.vigencia)
+        $('#acreditaciones_id').val(bitacora.acreditacion).change();
+        $('#calibraciones_id').val(bitacora.tipo_cal).change();
+        $('#usuarios_calibracion_id').val(bitacora.tecnico_cal).change();
 
-      $('#empresa_ajax_r').val(bitacora.empresas_id).change();
-      $('#periodo_calibracion').val(bitacora.vigencia)
-      $('#acreditaciones_id').val(bitacora.acreditacion).change();
-      $('#calibraciones_id').val(bitacora.tipo_cal).change();
-      $('#usuarios_calibracion_id').val(bitacora.tecnico_cal).change();
-  //}
+          //validar_equipo(bitacora.equipos_id);
+
+          if (planta_temp !="") { 
+           //alert("Planta : " + planta_temp);        
+            //validar_historial(bitacora.equipos_id,bitacora.plantas_id);
+          }
+          else{
+             alert("No hay planta");
+          }
+          
+
+          var porciento= validar_ultimacal(bitacora.fecha_calibracion,bitacora.fecha_vencimiento);
+          console.log(porciento + " % "); 
+
+          if( porciento < 80){ 
+          //<a href='#' onclick='confirmar_validacion()' class='btn btn-box-tool' style='font-size:20px;'>Confirmar<i class='fa fa-check fa-lg'></i> </a>         
+            $("[name='informevalidacion']").remove();
+              var valor= "<p> <h4>La fecha de vencimiento aún no culminá. ¿Estas seguro de ingresar el equipo una vez más?</h4> <button type='button' class='btn btn-default' data-toggle='modal' data-target='#modal-default'>Confirmar <i class='fa fa-check fa-lg'></i> </button> </p>";
+              $("#alerta_informevalidacion").before(
+                  "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-warning alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");
+
+              var x = document.getElementById("div1");
+              var y = document.getElementById("div2");           
+                x.style.display = "none";
+                y.style.display = "none";            
+          }
+          else{
+              $("[name='informevalidacion']").remove();
+              var x = document.getElementById("div1");
+              var y = document.getElementById("div2");
+              if (x.style.display === "none" && y.style.display === "none") {
+                x.style.display = "block";
+                y.style.display = "block";
+              }
+          }
+
+    //}
   }
+
+  var asignar_equipo = function(index) {
+      equipo_temp = index;
+      console.log("Equipo: "+equipo_temp);
+  }
+
+  validar_serieEq = function(serie) {      
+      console.log("Equipo: "+serie);
+  }
+
+  function validar_ultimacal(datehome,dateend){
+         var dateA= moment(datehome);
+        var dateB= moment(dateend);
+        var datehoy= moment();
+
+        var diastotal= dateB.diff(dateA, 'days');
+        var diastranscurridos= datehoy.diff(dateA, 'days');
+        var value= ((diastranscurridos*100)/diastotal);
+
+        return value;
+  }
+
+
 /* End asignar_equipo_cliente */
 
 /* Buscar plantas de la empresa  */
@@ -514,5 +591,7 @@
     opciones_factura("registrar");
 
     $("#empresa_ajax").on('change', empresa_ajax);
+    
 
-  });   
+  }); 
+  

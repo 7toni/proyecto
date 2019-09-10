@@ -39,7 +39,8 @@
       //var_dump($data['get']);  
       //exit;        
     }
-    else{   
+    else{ 
+      
     $data ['get']=array(array(
       'id' => '', 'idequipo' => '', 'alias' => '', 'empresas_id' => '', 'plantas_id' => '', 'periodo_calibracion' => '', 'acreditaciones_id' => '',
       'usuarios_calibracion_id' => '', 'calibraciones_id' => '', 'prioridad' => '', 'comentarios' => '', 'po_id' => '', 'cantidad' => '',
