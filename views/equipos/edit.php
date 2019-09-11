@@ -37,52 +37,61 @@
                                                 <label for="alias">Id de equipo</label>                                                    
                                                 <input autofocus type="text" class="form-control" name="alias" id="alias" placeholder="Id de equipo" value="<?php echo $data['equipo'][0]['alias'] ?>" required="">
                                             </div>
-                                            <div class="form-group">
+                                            <div class="form-group" id="alerta_numeroserie">
                                                 <label for="serie">Número de serie</label>                                                    
-                                                <input autofocus type="text" class="form-control" name="serie" id="serie" placeholder="Número de serie" value="<?php echo $data['equipo'][0]['serie'] ?>"  required="">
-                                            </div>
+                                                <input  type="text" class="form-control" name="serie" id="serie" onchange="BuscarSerie(this.value)" placeholder="Número de serie" value="<?php echo $data['equipo'][0]['serie'] ?>" required="">
+                                            </div>                                            
                                             <div class="form-group">
-                                                <label for="descripciones_id">Descripción</label>
-                                                <select class="form-control select2" name="descripciones_id" id="descripciones_id"  required="">
-                                                    <option value="">Seleccione una opción</option>
+                                                <label for="descripciones_id">Descripción</label> 
+                                                <select class="form-control select2Descripcion" name="descripciones_id" id="descripciones_id"  required="" style="width: 100%;">
                                                 <?php
+                                                    $entro=false;
                                                     foreach ($data['equipos_descripciones'] as $descripcion) {
                                                         if($data['equipo'][0]['descripciones_id'] == $descripcion['id']){
-                                                            echo '<option selected value="'.$descripcion['id'].'">'.$descripcion['nombre'].'</option>';
-                                                        } else{
-                                                            echo '<option value="'.$descripcion['id'].'">'.$descripcion['nombre'].'</option>';
-                                                        }
+                                                            $entro=true;
+                                                            echo '<option value="'.$descripcion['id'].'" selected>'.$descripcion['nombre'].'</option>';
+                                                            break;
+                                                        } 
                                                     }
-                                                ?>
-                                                </select>
+                                                    if($entro==false){
+                                                        echo '<option value="">Seleccione una opción</option>';
+                                                    }                                                    
+                                                ?> 
+                                                 </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="marcas_id">Marca</label>
-                                                <select class="form-control select2" name="marcas_id" id="marcas_id" required="">
-                                                    <option value="">Seleccione una opción</option>
+                                                <select class="form-control select2Marca" name="marcas_id" id="marcas_id" required="" style="width: 100%;">                                                   
                                                 <?php
+                                                    $entro=false;
                                                     foreach ($data['equipos_marcas'] as $marca) {
                                                         if($data['equipo'][0]['marcas_id'] == $marca['id']){
+                                                            $entro=true;
                                                             echo '<option selected value="'.$marca['id'].'">'.$marca['nombre'].'</option>';
-                                                        } else {
-                                                            echo '<option value="'.$marca['id'].'">'.$marca['nombre'].'</option>';
-                                                        }
+                                                            break;
+                                                        } 
+                                                    }
+                                                    if($entro==false){
+                                                        echo '<option value="">Seleccione una opción</option>';
                                                     }
                                                 ?>
                                                 </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="modelos_id">Modelo</label>
-                                                <select class="form-control select2" name="modelos_id" id="modelos_id" required="">
-                                                    <option value="">Seleccione una opción</option>
+                                                <select class="form-control select2Modelo" name="modelos_id" id="modelos_id" required="" style="width: 100%;">
                                                 <?php
+                                                    $entro=false;
                                                     foreach ($data['equipos_modelos'] as $modelo) {
                                                         if($data['equipo'][0]['modelos_id'] == $modelo['id']){
+                                                            $entro=true;
                                                             echo '<option selected value="'.$modelo['id'].'">'.$modelo['nombre'].'</option>';
-                                                        } else{
-                                                            echo '<option value="'.$modelo['id'].'">'.$modelo['nombre'].'</option>';
+                                                            break;
                                                         }
                                                     }
+                                                    if($entro==false){
+                                                        echo '<option value="">Seleccione una opción</option>';
+                                                    }                                                   
                                                 ?>
                                                 </select>
                                             </div>
@@ -107,6 +116,44 @@
                                         </div>
                                         <div class="box-footer"><button type="submit" class="btn btn-primary btn-flat">Guardar cambios</button></div>
                                     </form>
+                                    <!-- /.modal -->
+                                        <div class="modal fade" id="modal-default">
+                                            <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title">Confirmar permiso</h4>
+                                                </div>
+                                                <div class="modal-body box box-info"> 
+                                                    <form id="form_acceso" name="form_acceso" action="#" >
+                                                        <div class="box-body">
+                                                            <div class="form-group">
+                                                            <label for="email">* Correo</label>
+                                                            <input type="email" class="form-control" id="email" name="email" placeholder="Ingresar Correo">
+                                                            </div>
+                                                            <div class="form-group">
+                                                            <label for="password">* Contraseña</label>
+                                                            <input type="password" class="form-control" id="password" name="password" placeholder="Ingresar Contraseña">
+                                                            </div>
+                                                            <p id="validacion"></p>                                                    
+                                                        </div>
+                                                        
+                                                        <!-- /.box-body -->
+                                                        <div class="box-footer">
+                                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>  
+                                                        <button type="button" id="submit" class="btn btn-primary pull-right" onclick="submit_acceso()"> Enviar </button>                         
+                                                        </div>                                                    
+                                                    </form> 
+                                                    
+                                                </div>
+                                            
+                                            </div>
+                                            <!-- /.modal-content -->
+                                            </div>
+                                            <!-- /.modal-dialog -->
+                                        </div>
+                                     <!-- /.modal -->
                                 </div>
                             </div>
                         </div>
@@ -116,5 +163,49 @@
             <?php importView('_static/footer'); ?>
         </div>
         <?php importView('_static/scripts'); ?>
+        <script type="text/javascript">           
+                /* Submit de acceso */
+                function submit_acceso() {
+                    var email = document.getElementById("email").value;
+                    var password = document.getElementById("password").value; 
+                    var validado= true;                 
+                    
+                    if(email =="" || email === null ){validado=false;}
+                    if(password== "" || password === null ){validado=false;}
+                    
+                    if(validado == true){
+                        var $logModal = $('#modal-default');
+                        var parametro= {                  
+                            'email': email.trim(),
+                            'password': password.trim()
+                        };
+                        $.ajax({
+                            url: "?c=login&a=ajax_load_acceso",
+                            dataType: "json",
+                            method: "POST",
+                            data: parametro
+                        }).done(function(data) {
+                            var datos = data;
+                            if(datos=="exitoso"){
+                                $('[type="submit"]').removeAttr('disabled');
+                                $logModal.modal('hide');
+                                $("[name='numeroserie']").remove();
+                            }
+                            else{
+                                $("[name='alerta_validacion']").remove();
+                                $("#validacion").before(
+                                "<div class='form-group' name='alerta_validacion'> <div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + datos + "</div>" + "</div>" + "</div>");                    
+                            }                                           
+                        }).fail(function(data) {}).always(function(data) {
+                            //console.log(data);             
+                        });                                           
+                    }else{
+                        $("[name='alerta_validacion']").remove();
+                        $("#validacion").before(
+                        "<div class='form-group' name='alerta_validacion'> <div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + "Campo requerido,favor de ingresar información. Intente una vez más." + "</div>" + "</div>" + "</div>");                    
+                    }                
+                }
+                /* Submit de acceso */                        
+        </script>       
     </body>
 </html>

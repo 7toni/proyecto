@@ -162,14 +162,15 @@
                                     <table id="table_will" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%"> 
                                       <thead>
                                         <tr>
-                                          <th>id</th>
-                                          <th>Id equipo</th>
+                                          <th>Informe</th>
+                                          <th>Clave</th>
                                           <th>Descripción</th>
                                           <th>Marca</th>
                                           <th>Modelo</th>
                                           <th>Serie</th>
                                           <th>Cliente (Sucursal/Departamento)</th>
                                           <th>Fecha de calibración</th>
+                                          <th>Calibrado Por</th>
                                           <th>Vigencia</th>
                                           <th>Fecha de vencimiento</th>
                                           <th>Precio</th>
@@ -180,20 +181,21 @@
                                       </thead>
                                       <tfoot>
                                         <tr>
-                                          <th>id</th>
-                                          <th>Id equipo</th>
+                                          <th>Informe</th>
+                                          <th>Clave</th>
                                           <th>Descripción</th>
                                           <th>Marca</th>
                                           <th>Modelo</th>
                                           <th>Serie</th>
                                           <th>Cliente (Sucursal/Departamento)</th>
                                           <th>Fecha de calibración</th>
+                                          <th>Calibrado Por</th>
                                           <th>Vigencia</th>
                                           <th>Fecha de vencimiento</th>
                                           <th>Precio</th>
                                           <th>Precio extra</th>
                                           <th>Moneda</th>
-                                          <th>Proceso</th>       
+                                          <th>Proceso</th>      
                                         </tr>
                                       </tfoot>
                                     </table> 
@@ -214,7 +216,7 @@
         </script>         
         <?php importView('_static.scripts'); ?>   
         <script type="text/javascript">
-          $(document).ready(function() { 
+          $(document).ready(function() {
             var _tequipos= $('#_tequipos');                      
             var _tpesos= $('#_tpesos');                      
             var _tdlls= $('#_tdlls'); 
@@ -250,6 +252,7 @@
                           { data: 'serie' },
                           { data: 'cliente' },
                           { data: 'fecha_calibracion' },
+                          { data: 'tecnico_email' },
                           { data: 'periodo_calibracion' },
                           { data: 'fecha_vencimiento' },
                           { data: 'precio' },
@@ -317,7 +320,6 @@
               return result;
             }                            
             
-
             function totales_p_d(obj){
               _tequipos.text('0');
               _tpesos.text('$ 0');

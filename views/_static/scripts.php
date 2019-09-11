@@ -40,8 +40,8 @@
         <script src="assets/js/scripts.js"></script>
         
         <?php
-        if($_SESSION['script']){
-                echo '<script src="assets/js/'.$_SESSION['submenu'].'.js"></script>';
+        if($_SESSION['script'] != NULL){                
+                echo '<script src="assets/js/'.$_SESSION['script'].'.js"></script>';
         }
         ?>
         

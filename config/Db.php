@@ -137,10 +137,15 @@ abstract class Db {
             }            
         }
         $query = substr($query, 0, - 1);
-        $query .= " WHERE " . $this->primary_key . "='" . $data[$this->primary_key] . "';";  
+
+        if (gettype($data[$this->primary_key]) == "integer") {            
+            $query .= " WHERE " . $this->primary_key . "=" . $data[$this->primary_key] . ";"; 
+        }else{
+            $query .= " WHERE " . $this->primary_key . "='" . $data[$this->primary_key] . "';"; 
+        }         
         $this->query = $query;
-        // var_dump($this->query);
-        // exit;           
+        //var_dump($this->query);
+        //exit;           
         return $this->execute_single_query();
     }
 
@@ -184,8 +189,8 @@ abstract class Db {
 
     protected function get_results_from_query() {
         unset($this->rows);
-        $this->open_connection();
-        $result = $this->conn->query($this->query);
+        $this->open_connection();        
+        $result = $this->conn->query($this->query);        
         if ($result) {
             while ($this->rows[] = $result->fetch_assoc());
             $result->close();

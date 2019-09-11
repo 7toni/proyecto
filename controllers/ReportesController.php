@@ -78,11 +78,13 @@ class ReportesController{
 		$data['tipocalibracion']=$this->model['tipocalibracion']->all();			
 		$data['sucursal']=$this->model['sucursal']->find_by();
 		$_SESSION['menu'] = 'reportes';
-      	$_SESSION['submenu'] = $this->name.'_tecnico'; 				     	
+      	$_SESSION['submenu'] = $this->name.'_tecnico';			     	
  		include view($this->name.'.read');
 	}
 
 	public function tecnico(){
+		$_SESSION['menu'] = 'reportes';
+      	$_SESSION['submenu'] = $this->name.'_tecnico';
 		$arreglo = (isset($_GET['p'])) ? json_encode($this->url_get($_GET['p'])) : "";		
 		include view($this->name.'.tecnico');
 	}

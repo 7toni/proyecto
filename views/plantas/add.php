@@ -36,7 +36,15 @@
                                                 <label for="nombre">Nombre</label>                                                    
                                                 <input autofocus type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre" value="" required="">
                                             </div>
+
                                             <div class="form-group">
+                                                <label for="descripciones_id">Nombre de la empresa perteneciente</label>
+                                                <select class="form-control select2Empresa" name="empresas_id" id="empresas_id"  required="" style="width: 100%;">
+                                                    <option value="">Seleccione una opción</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- <div class="form-group">
                                                 <label for="empresas_id">Nombre de la empresa perteneciente</label>
                                                 <select  id="empresas_id" class="form-control select2" style="width: 100%;" name="empresas_id" required="">
                                                     <option value="">Seleccione una opción</option>
@@ -46,7 +54,8 @@
                                                     }
                                                     ?>
                                                 </select>
-                                            </div>
+                                            </div> -->
+                                            
                                             <div class="form-group">
                                                 <label for="rfc">RFC</label>                                                    
                                                 <input  type="text"  class="form-control" name="rfc" id="rfc" placeholder="RFC" value="" >

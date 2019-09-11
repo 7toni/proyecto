@@ -6,5 +6,5 @@ class Acreditacion extends Model {
         $this->table = 'acreditaciones';
         $this->primary_key = 'id';    
     }
-
+    
 }

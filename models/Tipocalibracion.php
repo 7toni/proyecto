@@ -6,5 +6,6 @@ class TipoCalibracion extends Model {
         $this->table = 'calibraciones';
         $this->primary_key = 'id';
     }
+   
 
 }

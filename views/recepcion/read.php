@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <?php importView('_static.head'); ?>
-        <style type="text/css">                        
-        </style>   
+        <?php importView('_static.head'); ?>           
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
        <!--  <body class="hold-transition skin-blue sidebar-mini"> -->
@@ -48,7 +46,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="box box-default">
-                              <div class="box-header">                                    
+                              <div class="box-header">
                                   <h3 class="box-title"> Buscar equipo </h3>
                                     <div class="box-tools">                                        
                                     </div>
@@ -118,7 +116,7 @@
                             </div>
                         </div>
                     </div> 
-                  <!-- Muesrta el historial de informes que ha tenido el equipo escaneado-->
+                  <!-- Muestra el historial de informes que ha tenido el equipo escaneado-->
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="box box-default">
@@ -136,9 +134,11 @@
                                           <th>Marca</th>
                                           <th>Modelo</th>
                                           <th>Serie</th>                                          
-                                          <th>Empresa</th>                                         
-                                          <th>Planta</th>
+                                          <th>Cliente</th>
+                                          <th>Última calibración</th> <!-- Nuevo campo -->
                                           <th>Vigencia</th>
+                                          <th>Fecha vencimiento</th> <!-- Nuevo campo -->
+                                          <th>Calibrado por</th> <!-- Nuevo campo -->
                                           <th>Acreditación</th>
                                           <th>Proceso</th> 
                                         </tr>
@@ -149,7 +149,51 @@
                                   </div> 
                             </div>                             
                         </div>                      
-                    </div>  
+                    </div>
+                    <!-- Alerta para la validacion de equipos en proceso de calibracion o recien calibrados -->
+                    <div class="row">
+                      <div class="col-lg-12" id="alerta_informevalidacion">                        
+                      </div>
+                       <!-- /.modal -->
+                          <div class="modal fade" id="modal-default">
+                            <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Confirmar permiso</h4>
+                                </div>
+                                <div class="modal-body box box-info"> 
+                                    <form id="form_acceso" name="form_acceso" action="#" >
+                                        <div class="box-body">
+                                            <div class="form-group">
+                                            <label for="email">* Correo</label>
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="Ingresar Correo">
+                                            </div>
+                                            <div class="form-group">
+                                            <label for="password">* Contraseña</label>
+                                            <input type="password" class="form-control" id="password" name="password" placeholder="Ingresar Contraseña">
+                                            </div>
+                                            <p id="validacion"></p>                                                    
+                                        </div>
+                                        
+                                        <!-- /.box-body -->
+                                        <div class="box-footer">
+                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>  
+                                        <button type="button" id="submit" class="btn btn-primary pull-right" onclick="submit_acceso()"> Enviar </button>                         
+                                        </div>                                                    
+                                    </form> 
+                                    
+                                </div>
+                            
+                            </div>
+                            <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                      <!-- /.modal -->
+                    </div>
+
                      <!-- Muestra y seleccionar equipo y la empresa-->
                     <div class="row">
                         <div class="col-lg-6">
@@ -179,7 +223,7 @@
                                           $estadoeq="";
                                           $labeleq="";
                                           $disabled="";
-                                          if ($data['equipo'][0]['activo']==1){
+                                          if ($data['get'][0]['equipo_activo']==1){
                                               $estadoeq="Activo";
                                               $labeleq="label-success";
                                           }
@@ -188,7 +232,6 @@
                                               $labeleq="label-danger";
                                               $disabled="disabled";
                                           }   
-
                                           echo '<tr>';  
                                           echo '<td ><label> <input type="radio" name="equipos_id" value="'.$data['get'][0]['idequipo'] .'" checked '. $disabled .'></label></td>'; 
                                           echo '<td >'.$data['get'][0]['equipos_id'] .'</td>';
@@ -259,20 +302,7 @@
                                     </div>
                                   </div>
                                   <div class="box-body">                                                                                                         
-                                    <div class="box-body form-horizontal">
-                                        <!-- <div class="form-group">
-                                          <label for="periodo_calibracion" class="col-sm-3 control-label">Vigencia (Meses):</label>
-                                          <div class="col-sm-9"> -->
-                                         <!--  <?php 
-                                          // if (strlen($data['get'][0]['periodo_calibracion']) > 0) {
-                                          //   echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" min="0" placeholder="0" value="'.$data['get'][0]['periodo_calibracion'].'" required="">';
-                                          // }
-                                          // else{
-                                          //   echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" min="0" placeholder="0" required="" value="12">';
-                                          // }
-                                          ?> -->
-                                          <!-- </div>
-                                        </div>   -->
+                                    <div class="box-body form-horizontal">                                        
                                         <div class="form-group">
                                           <label class="col-sm-3 control-label">Vigencia (Mes/Día):</label>
                                           <div class="col-sm-9">
@@ -384,8 +414,7 @@
                                         </div>
                                         <div class="form-group">
                                           <label for="inputcomentario" class="col-sm-3 control-label">Prioridad :</label>
-                                          <div class="col-sm-9">
-                                           
+                                          <div class="col-sm-9">                                           
                                               <?php  
                                                 if ($data['get'][0]['prioridad'] === '1') {
                                                   echo '<label style="padding-left: 10%"> <input type="radio" name="prioridad" class="flat-red" value="0">&nbsp;Normal </label>';
@@ -496,14 +525,7 @@
                                         }
                                         else{echo '<input type="text" name="fecha" id="fecha" class="form-control pull-right datepicker" required="">';} ?>
                                       </div>
-                                    </div>
-                                    <div class="form-group">
-                                     <div class="col-sm-3"></div>
-                                     <div class="col-sm-9">
-                                      <button type="button" class="btn btn-box-tool pull-right" onclick="downloadCSV({ filename: 'formato.csv' });"><i class="fa fa-download" aria-hidden="true"></i> &nbsp; Descargar formato *.csv</button>                                     
-                                     <!-- id del campo = numero_informe -->
-                                     </div>
-                                     </div>
+                                    </div>                                    
                                   </div>   
                                   <div class="box-footer">
                                     <?php
@@ -525,89 +547,48 @@
             var controller = "<?php echo $this->name; ?>";   
         </script>
         <script type="text/javascript">                      
-            function downloadCSV(args){   
-              var data, filename, link;
-
-              var empresa = document.getElementById("empresa_ajax_r");
-              var planta = document.getElementById("idplanta_ajax_r");
-              var acreditacion = document.getElementById("acreditaciones_id");
-              var tecnico = document.getElementById("usuarios_calibracion_id");
-              var calibracion = document.getElementById("calibraciones_id");
-              var usuario = document.getElementById("usuarios_id");
-              //planta_id: $('#idplanta_ajax_r').val(),
-              //usuarios_calibracion_id: $('#usuarios_calibracion_id').val(),
-              //usuarios_id: $('#usuarios_id').val(),
-              var datos= [{                
-                    id: "",
-                    descripcion: "",
-                    marca: "",
-                    modelo: "",
-                    serie: "",
-                    empresa:  empresa.options[empresa.selectedIndex].text,                  
-                    planta:  planta.options[planta.selectedIndex].text,                   
-                    periodo_calibracion: $('#periodo_calibracion').val(),
-                    acreditacion:  acreditacion.options[acreditacion.selectedIndex].text,                    
-                    tecnico:  tecnico.options[tecnico.selectedIndex].text,
-                   
-                    calibracion:  calibracion.options[calibracion.selectedIndex].text,                   
-                    prioridad: $("input:radio[name=prioridad]:checked").val(),                   
-                    po_id: $('#po_id').val(),
-                    cantidad: $('#cantidad').val(),
-                    num_hojaent: $('#num_hojaent').val(),
-                    usuario:  usuario.options[usuario.selectedIndex].text,
-                    
-                    fecha: $('#fecha').val()                  
-                  }];          
-
-              var csv = convertArrayOfObjectsToCSV({
-                  data: datos
-              });
-              if (csv == null) return;
-
-              filename = args.filename || 'export.csv';
-
-              if (!csv.match(/^data:text\/csv/i)) {
-                  csv = csv;
-              }
-              data = encodeURI(csv);
-
-              link = document.createElement('a');
-              link.setAttribute('href','data:text/csv;charset=utf-8,%EF%BB%BF' + data);
-              link.setAttribute('download', filename);
-              link.click();
-                               
+            /* Submit de acceso */
+             function submit_acceso() {
+                var email = document.getElementById("email").value;
+                var password = document.getElementById("password").value; 
+                var validado= true;                 
+                
+                if(email =="" || email === null ){validado=false;}
+                if(password== "" || password === null ){validado=false;}
+                
+                if(validado == true){
+                    var $logModal = $('#modal-default');
+                    var parametro= {                  
+                        'email': email.trim(),
+                        'password': password.trim()
+                    };
+                    $.ajax({
+                        url: "?c=login&a=ajax_load_acceso",
+                        dataType: "json",
+                        method: "POST",
+                        data: parametro
+                    }).done(function(data) {
+                        var datos = data;
+                        if(datos=="exitoso"){
+                            $('[type="submit"]').removeAttr('disabled');
+                            $logModal.modal('hide');
+                            $("[name='informevalidacion']").remove();
+                        }
+                        else{
+                            $("[name='alerta_validacion']").remove();
+                            $("#validacion").before(
+                            "<div class='form-group' name='alerta_validacion'> <div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + datos + "</div>" + "</div>" + "</div>");                    
+                        }                                           
+                    }).fail(function(data) {}).always(function(data) {
+                        //console.log(data);             
+                    });                                           
+                }else{
+                    $("[name='alerta_validacion']").remove();
+                    $("#validacion").before(
+                    "<div class='form-group' name='alerta_validacion'> <div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + "Campo requerido,favor de ingresar información. Intente una vez más." + "</div>" + "</div>" + "</div>");                    
+                }              
             }
-
-            function convertArrayOfObjectsToCSV(args) {
-              var result, ctr, keys, columnDelimiter, lineDelimiter, data;
-
-              data = args.data || null;
-              if (data == null || !data.length) {
-                  return null;
-              }
-
-              columnDelimiter = args.columnDelimiter || ',';
-              lineDelimiter = args.lineDelimiter || '\n';
-
-              keys = Object.keys(data[0]);
-
-              result = '';
-              result += keys.join(columnDelimiter);
-              result += lineDelimiter;
-
-              data.forEach(function(item) {
-                  ctr = 0;
-                  keys.forEach(function(key) {
-                      if (ctr > 0) result += columnDelimiter;
-
-                      result += item[key];
-                      ctr++;
-                  });
-                  result += lineDelimiter;
-              });
-
-              return result;
-            }
+            /* Submit de acceso */
         </script>
         <?php importView('_static.scripts'); ?>       
     </body>

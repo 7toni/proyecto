@@ -95,34 +95,14 @@
                       <div class="col-md-12">
                           <div class="box box-primary">
                           <div class="box-header with-border">
-                            <h3 class="box-title"><i class="fa fa-area-chart" aria-hidden="true"></i>&nbsp; Metricas</h3>
+                            <h3 class="box-title">&nbsp; Totales </h3>
                             <div class="box-tools pull-right">
                               <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                               </button>                                              
                             </div>
                           </div>
                           <!-- /.box-header -->
-                          <div class="box-body">
-                            <div class="row">
-                              <div class="col-md-12">                               
-                                  <button id="save-lineChart" class="btn bg-navy margin pull-left"> <i class="fa fa-download" aria-hidden="true"></i> Descargar </button>   
-                                    <!-- <div class="chart">
-                                      <canvas id="lineChart" style="height:250px"> </canvas> 
-                                    </div> -->
-                              </div>
-                              <div class="col-md-12">
-                               <h4 class="text-center"> </h4>
-                                  <button id="save-barChart" class="btn bg-navy margin pull-left"> <i class="fa fa-download" aria-hidden="true"></i> Descargar </button> 
-                                  <!-- <div class="chart">
-                                    <canvas id="barChart" style="height:250px"> </canvas>
-                                  </div> -->
-                              </div>
-                              <!-- /.col -->  
-                            </div>
-                            <!-- /.row -->
-                          </div>
-                          <!-- ./box-body -->
-                          <div class="box-footer">
+                          <div class="box-body">                            
                             <div class="row">
                               <div class="col-md-4 col-sm-4 col-xs-12">
                                 <div class="description-block border-right">
@@ -151,6 +131,24 @@
                                 <!-- /.description-block -->
                               </div>                              
                             </div>
+                              <!-- <div class="col-md-12">                               
+                                  <button id="save-lineChart" class="btn bg-navy margin pull-left"> <i class="fa fa-download" aria-hidden="true"></i> Descargar </button>    -->
+                                    <!-- <div class="chart">
+                                      <canvas id="lineChart" style="height:250px"> </canvas> 
+                                    </div> -->
+                              <!-- </div> -->
+                              <!-- <div class="col-md-12">
+                               <h4 class="text-center"> </h4>
+                                  <button id="save-barChart" class="btn bg-navy margin pull-left"> <i class="fa fa-download" aria-hidden="true"></i> Descargar </button>  -->
+                                  <!-- <div class="chart">
+                                    <canvas id="barChart" style="height:250px"> </canvas>
+                                  </div> -->
+                              <!-- </div> -->
+                              <!-- /.col -->                              
+                            <!-- /.row -->
+                          </div>
+                          <!-- ./box-body -->
+                          <div class="box-footer">                           
                             <!-- /.row -->
                           </div>
                           <!-- /.box-footer -->

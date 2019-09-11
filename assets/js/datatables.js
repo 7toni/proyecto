@@ -158,8 +158,9 @@ $(document).ready(function () {
             "dataType": "jsonp",
             "lengthMenu":[[15, 20, 50,100,200,500,1000,3000, -1], [15, 20, 50,100,200,500,1000,3000, "All"]],
             "autoWidth": true,
-            "scrollX": true,           
-            dom: '<"pull-left"l>fr<"dt-buttons"B>Ztip',            
+            "scrollX": true,            
+            dom: '<"pull-left"l>fr<"dt-buttons"B>Ztip',
+            "order": [[ 1, "desc" ]],
             buttons: [
                  {
                     extend: 'excel',
@@ -238,7 +239,8 @@ $(document).ready(function () {
                      return planta;                                                             
                     }
                 },
-                {"targets":[29,30,31], "visible":false},                            
+                {"targets":[29], "visible":false},
+                { "width": "70px", "targets": [-1,-2] },                           
                 {   
                     "targets": -2,                                 
                     "render": function(data,type, row){
@@ -253,7 +255,19 @@ $(document).ready(function () {
                     "orderable" : false,
                     "searchable": false,
                 },
-                { "width": "70px", "targets": [-1,-2] },
+                {   "width": "50px",             
+                    "targets": 31, //Proceso
+                    "render": function(data,type, row){                     
+                       var color=['danger','warning','info','primary'];
+                       var text_color=['#5F5F5F','#FFFFFF','#FFFFFF','#FFFFFF'];                                       
+                       var menu="<div class='progress progress-striped active'>"+
+                       "<div class='progress-bar progress-bar-"+ color[row[31]]+"' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100' style='width:"+(parseInt(row[31])*100)/4+"%; color:"+ text_color[row[31]]+"'> "+(parseInt(row[31])*100)/4+"% </div>"+                    
+                       "</div>";                   
+                       return  menu;
+                   },
+                    "orderable" : false,
+                    "searchable": false,
+                   },                
                 {
                     "targets": -1, //
                     "render": function(data,type, row){
@@ -334,8 +348,10 @@ $(document).ready(function () {
             "lengthMenu": [[15, 20, 50,100,200,500,1000,3000, -1], [15, 20, 50,100,200,500,1000,3000, "All"]],
             "autoWidth": true,
             "scrollX": true,
-            "responsive": true,            
+            "responsive": true,
+            "ordering": true,           
             dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
+            "order": [[ 1, "desc" ]],
             buttons: [
                  {
                     extend: 'excel',
@@ -381,7 +397,9 @@ $(document).ready(function () {
                     "<div class='progress-bar progress-bar-"+ color[row[31]]+"' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100' style='width:"+(parseInt(row[31])*100)/4+"%; color:"+ text_color[row[31]]+"'> "+(parseInt(row[31])*100)/4+"% </div>"+                    
                     "</div>";                   
                     return  menu;
-                }
+                },
+                "orderable" : false,
+                "searchable": false,
                 },                           
                 { "width": "60px", "targets": [-1,-2] },
                 {
@@ -630,8 +648,19 @@ $(document).ready(function () {
                 }                
             ],                    
             "columnDefs": [
-                //{"targets":[6,14,15], "visible":false},               
-                //{"targets":[15], "visible":false},
+                {"targets":[16], "visible":false},               
+                //{"targets":[15], "visible":false},               
+                {   
+                    "targets": 14,                                 
+                    "render": function(data,type, row){
+                        if(row[14] == 1){
+                            return '<spam class="badge bg-green">Calibrado</spam>';
+                        }
+                        else{
+                            return '<spam class="badge bg-red">No se calibro</spam>';
+                        }                        
+                    },                    
+                },
                 {   
                     "targets": -1,                                 
                     "render": function(data,type, row){
@@ -690,15 +719,15 @@ $(document).ready(function () {
                 }
             ],
             fixedColumns: true,
-            "rowCallback": function( row, data, index ) {                      
-                var activo = parseInt(data[6]), 
-                $node = this.api().row(row).nodes().to$();
-                if (activo = 'inactivo') {
-                     $node.addClass('bg-red')
-                }                                        
-              },
+            // "rowCallback": function( row, data, index ) {                      
+            //     var activo = parseInt(data[6]), 
+            //     $node = this.api().row(row).nodes().to$();
+            //     if (activo = 'inactivo') {
+            //          $node.addClass('bg-red')
+            //     }                                        
+            //   },
             "columnDefs": [                
-                { "targets":[6], "visible":false},
+                //{ "targets":[6], "visible":false},
                 {                                                   
                     "render": function(data,type, row){ 
                         var suma= row[13] + row[14];

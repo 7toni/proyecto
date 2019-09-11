@@ -29,6 +29,12 @@ class Usuario extends Model {
         $this->query= "SELECT * FROM view_".$this->table."_alta order by id desc;";        
         $this->get_results_from_query();
         return $this->rows;
-    }   
+    }
+    
+    public function get_query($query){
+        $this->query= $query;
+        $this->get_results_from_query();       
+        return $this->rows;
+    }
 
 }

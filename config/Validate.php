@@ -60,6 +60,24 @@ function validate($data, $rules) {
                         }
                         $result->close();
                         break;
+                    // case 'acceso':
+                    //     $tabla = $singleValue[1];
+                    //     $columna = $key;
+                    //     $valor = $data[$key];
+                    //     $query = "SELECT " . $columna . " FROM " . $tabla . " WHERE " . $columna . "= '" . $valor . "'";
+                    //     $conn = new mysqli(APP_SERVER, APP_USER, APP_PASS, APP_DB);
+                    //     $conn->set_charset("utf8");
+                    //     $result = $conn->query($query);
+                    //     if (($rows = $result->num_rows) > 0) {
+                    //         array_push($errors, [
+                    //             'rule' => $singleValue[0],
+                    //             'field' => $key,
+                    //             'value' => $data[$key],
+                    //             'msg' => 'El campo ' . $data[$key] . ' ya se encuentra registrado en MyPSA'
+                    //         ]);
+                    //     }
+                    //     $result->close();
+                    //     break;
                     case 'exists':
                         $tabla = $singleValue[1];
                         $columna = $key;
@@ -99,7 +117,7 @@ function validate($data, $rules) {
                                 'rule' => $singleValue[0],
                                 'field' => $key,
                                 'value' => $data[$key],
-                                'msg' => 'El campo ' . $key . ' es obligstorio'
+                                'msg' => 'El campo ' . $key . ' es obligatorio'
                             ]);
                         } break;
                     case 'number':
@@ -108,7 +126,7 @@ function validate($data, $rules) {
                                 'rule' => $singleValue[0],
                                 'field' => $key,
                                 'value' => $data[$key],
-                                'msg' => 'El campo ' . $key . ' debe de contener solo numeros'
+                                'msg' => 'El campo ' . $key . ' debe de contener solo números'
                             ]);
                         } break;
                     case 'email':

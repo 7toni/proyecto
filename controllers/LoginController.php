@@ -45,7 +45,7 @@ class LoginController {
         if ($data = validate($_POST, [
             'email' => 'required',
             'password' => 'required|min:3',
-        ])) {
+        ])) {            
             if ($this->data = $this->model['usuario']->get_password($data['email'])) {
                 $user = $this->data[0];
                 if ($login = password_verify($data['password'], $user['password'])) {
@@ -81,6 +81,36 @@ class LoginController {
         } else {
             Flash::error(setError('003'));
         }
+    }
+
+    public function ajax_load_acceso() {
+        $dato="";
+        if ($data = validate($_POST, [
+            'email' => 'required',
+            'password' => 'required|min:3',
+        ])) {                         
+            if ($this->data = $this->model['usuario']->get_password($data['email'])) {
+                $user = $this->data[0];
+                if ($login = password_verify($data['password'], $user['password'])) {
+                    
+                    if($this->model['usuario']->find_by(['email' => $data['email'],'accesopass'=> 1],"view_usuarios")){
+                        $dato="exitoso"; 
+                    }
+                    else{
+                        $dato="Alerta!. Usuario no permitido, ingresar un usuario valido por favor. Gracias."; 
+                    }                   
+                } else {
+                   $dato="Error. Usuario y contraseña no coinciden.";
+                }
+            } else {
+                  $dato="Error.La contraseña no es valida.";
+            }
+
+        } else {
+            $dato="Error.Campos no validos.";
+        }
+
+        echo json_encode($dato);
     }
 
     public function logout() {        

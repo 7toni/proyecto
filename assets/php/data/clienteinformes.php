@@ -30,7 +30,7 @@ $array1 = array(
     //array('db' => 'vigencia', 'dt' => 11),
     array('db' => 'fecha_vencimiento', 'dt' => 12),    
     array('db' => 'comentarios', 'dt' => 13),
-    array('db' => 'estado_calibracion', 'dt' => 14),
+    array('db' => 'estado_calibracion', 'dt' => 14),    
     array('db' => 'proceso', 'dt' => 15),
 );
     if($ext=="_nconti")
