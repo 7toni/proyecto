@@ -710,6 +710,14 @@
       $view_hojas_entrada="view_hojas_entrada_aux". $this->ext;         
       $data = json_encode($data['hojaentradaaux'] = $this->model['hojaentradaaux']->find_by(['numero_hoja' => $numero_hoja],$view_hojas_entrada)); 
       echo $data;
-  }  
+  } 
+  
+  public function ajax_load_ultimoid_equipo(){
+    $idequipo = $_POST['idequipo'];
+    $view_informes="view_informes". $this->ext;
+    $query="SELECT * FROM ".$view_informes." where idequipo=".$idequipo." order by id desc limit 1;";                         
+    $data=json_encode($this->model['informes']->get_query_informe($query));    
+    echo $data;
+  }
  
  }

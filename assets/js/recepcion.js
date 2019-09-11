@@ -1,292 +1,298 @@
 
 
 /* Inicio de variables de recepción */
-  var historial = {};
-  var count_check_equipo = 0;
-  var count_numinforme=0;
-  var planta_temp = "";  
-  var equipo_temp = ""; 
+    var historial = {};
+    var count_check_equipo = 0;
+    var count_numinforme=0;
+    var planta_temp = "";  
+    var equipo_temp = ""; 
 /* End variables de inicio */
  
 /* Generar número de informe  */
-  function generar_informe() {
-    count_numinforme++;        
-    if(count_numinforme<2)
-    {
+    function generar_informe() {
+        count_numinforme++;        
+        if(count_numinforme<2)
+        {
+            $.ajax({
+                url: "?c=recepcion&a=ajax_load_generar_informe",
+                dataType: "json",
+                data: ""
+            }).done(function(data) {
+                var datos = data;
+                //console.log(datos);
+                $("#numero_informe").val(datos[0].id);
+                count_numinforme++;
+                document.getElementById("btn_generar_informe").disabled = true;
+            }).fail(function(data) {}).always(function(data) {
+                //console.log(data);s
+            });
+        }
+    }
+/* End  generar_informe() */
+
+/* Consultar el último número de informe registrado */
+    var ultimo_numero_informe = function() {   
         $.ajax({
-            url: "?c=recepcion&a=ajax_load_generar_informe",
+            url: "?c=recepcion&a=ajax_load_ultimo_informe",
             dataType: "json",
             data: ""
         }).done(function(data) {
             var datos = data;
-            //console.log(datos);
-            $("#numero_informe").val(datos[0].id);
-            count_numinforme++;
-            document.getElementById("btn_generar_informe").disabled = true;
+            $("#ultimo_informe").text(datos[0].id);         
+            //console.log(datos[0].id);                                       
         }).fail(function(data) {}).always(function(data) {
-            //console.log(data);s
-        });
-    }
-  }
-/* End  generar_informe() */
-
-/* Consultar el último número de informe registrado */
-  var ultimo_numero_informe = function() {   
-      $.ajax({
-          url: "?c=recepcion&a=ajax_load_ultimo_informe",
-          dataType: "json",
-          data: ""
-      }).done(function(data) {
-          var datos = data;
-          $("#ultimo_informe").text(datos[0].id);         
-          //console.log(datos[0].id);                                       
-      }).fail(function(data) {}).always(function(data) {
-          //console.log(data);
-      });   
+            //console.log(data);
+        });   
     }
 /* End  ultimo_numero_informe */
 
 /* Buscar equipo */
-  var buscar_idequipo_historial = function () {
-    count_check_equipo=0;
-    $('#overlay').addClass('overlay');
-    $('#refresh').addClass('fa fa-refresh fa-spin');        
-    if (validar_text($("#idequipo").val().trim())== true) {
-        $.ajax({
-            url: "?c=recepcion&a=ajax_load_historial",
-            dataType: "json",
-            method: "POST",
-            data: "idequipo=" + $("#idequipo").val().trim()
-        }).done(function (data) {
-            var datos = data;   
-            //console.log(datos);              
-            if (datos.length > 0) {                     
-            $('#historial_informes tbody').remove();                
-            $('#historial_informes').last().addClass( "table-scroll" );                  
-            //$('#table_equipo tbody').remove();                                                 
-              alertas_tipo_valor('alerta_idequipo','correcto','');                   
-              var filas= datos.length;
-              var color=['','red','yellow','blue','green'];
-              var color_row=['','danger','warning','info','success'];
-              for (var i =  0; i < filas; i++) {                                    
-              historial[i] = {equipos_id:datos[i].idequipo, alias: datos[i].alias, descripcion: datos[i].descripcion,
-                marca: datos[i].marca, modelo: datos[i].modelo, serie: datos[i].serie,equipo_activo:datos[i].equipo_activo, empresas_id:datos[i].empresas_id, 
-                plantas_id:datos[i].plantas_id, vigencia: datos[i].periodo_calibracion, acreditacion: datos[i].acreditaciones_id,
-                tipo_cal: datos[i].calibraciones_id, tecnico_cal: datos[i].usuarios_calibracion_id, fecha_calibracion:datos[i].fecha_calibracion,fecha_vencimiento:datos[i].fecha_vencimiento };
-                    var radiocheck= '';
-                    if(datos.length == 1) {radiocheck='checked'; asignar_equipo_cliente(i);  $('#historial_informes').removeClass( "table-scroll" );} //Esta condición se ejecuta cuando se halla un solo registro en historial.
-                      var planta=datos[i].planta;
-                      var cliente="";
-                      if(planta.toLowerCase() == "planta1" || planta.toLowerCase() == "planta 1"){
-                        cliente=datos[i].empresa;
-                      }
-                      else{
-                         cliente=datos[i].empresa +" "+ datos[i].planta;
-                      }
-                      var nuevafila= "<tr class='bg-"+color_row[parseInt(datos[i].proceso)]+"'>"+
-                      "<td> <label> <input type='radio' name='id_aux' class='flat-red' onClick='asignar_equipo_cliente("+i+")' "+radiocheck +"></label></td>"+
-                      "<td>"+datos[i].id +"</td>"+
-                      "<td>"+datos[i].alias +"</td>"+
-                      "<td>"+datos[i].descripcion +"</td>"+
-                      "<td>"+datos[i].marca +"</td>"+
-                      "<td>"+datos[i].modelo +"</td>"+
-                      "<td>"+datos[i].serie +"</td>"+                                            
-                      "<td>"+cliente +"</td>"+
-                      "<td>"+datos[i].fecha_calibracion +"</td>"+
-                      "<td>"+datos[i].periodo_calibracion +"</td>"+
-                      "<td>"+datos[i].fecha_vencimiento +"</td>"+
-                      "<td>"+datos[i].calibrado_por +"</td>"+
-                      "<td>"+datos[i].acreditacion +"</td>"+                         
-                      "<td> <span class='badge bg-"+ color[parseInt(datos[i].proceso)]+"'>"+ (parseInt(datos[i].proceso)*100)/4+"%</span></td>"+                                                     
-                    +"</tr>"
-                    $("#historial_informes") .append(nuevafila);                        
-              }                   
-              //Historial lleno, pero buscar equipos, esto es cuando hay muchos id similares 
-                buscar_idequipo(1);                                                   
-            }
-            else{
-                //Cuando historial esta vacio
-                $('#historial_informes tbody').remove();  
-                buscar_idequipo(0);
-            } 
-            //reload_radiobutton();
-        $('#overlay').removeClass('overlay');
-        $('#refresh').removeClass('fa fa-refresh fa-spin');                                  
-        }).fail(function (data) {
-        }).always(function (data) {
-            //console.log(data);
-        });
-    } 
-    else{
-        alertas_tipo_valor('alerta_idequipo','requerido','id del equipo');
-    $('#overlay').removeClass('overlay');
-    $('#refresh').removeClass('fa fa-refresh fa-spin');               
-    }        
-  }
+    var buscar_idequipo_historial = function () {
+        count_check_equipo=0;
+        
+        $('[type="submit"]').removeAttr('disabled');
+        $("[name='informevalidacion']").remove();
 
-  var buscar_idequipo = function(estado_hist) {
-    if (validar_text($("#idequipo").val().trim()) == true) {
-        $.ajax({
-            url: "?c=recepcion&a=ajax_load_equipo",
-            dataType: "json",
-            method: "POST",
-            data: "idequipo=" + $("#idequipo").val().trim()
-        }).done(function(data) {
-            var datos = data;
-            //console.log(datos);                          
-            if (datos.length > 0) {
-                if(estado_hist=0){$('#historial_informes tbody').remove(); $('#table_equipo').removeClass( "table-scroll" );}
-                $('#table_equipo tbody').remove();                    
-                $('#table_equipo').last().addClass( "table-scroll" );
-                if(datos.length==1){$('#table_equipo').removeClass( "table-scroll" );}  //Se elimina la clase cuando hay un fila en la tabla.                                                        
-                alertas_tipo_valor('alerta_idequipo', 'correcto', '');
-                var bitacora = datos;
-                var radiocheck = '';                   
-                var filas= datos.length;    
-                var disabled="";
-                 for (var i =  0; i < filas; i++) {
-                    if (bitacora[i].activo=="1"){
-                        estadoeq="Activo";
-                        labeleq="label-success";                        
-                    }
-                    else{
-                        estadoeq="Inactivo";
-                        labeleq="label-danger";
-                        disabled="disabled";
-                    }
-
-                    var nuevafila = "<tr>";
-                    if (datos.length == 1) {
-                      radiocheck = 'checked'; 
-                      validar_serieEq(bitacora[i].serie);
-                      nuevafila += "<td> <label> <input type='radio' name='equipos_id' value='" + bitacora[i].id + "' " + radiocheck + " "+ disabled +"></label></td>";
-                    }else{
-                       nuevafila += "<td> <label> <input type='radio' name='equipos_id' onClick='asignar_equipo("+bitacora[i].id+")' value='" + bitacora[i].id + "' " + radiocheck + " "+ disabled +"></label></td>";                        
-                    } 
-                    nuevafila += "<td>" + bitacora[i].alias + "</td>"+
-                        "<td>" + bitacora[i].descripcion + "</td>" +
-                        "<td>" + bitacora[i].marca + "</td>" +
-                        "<td>" + bitacora[i].modelo + "</td>" +
-                        "<td>" + bitacora[i].serie + "</td>" +
-                        "<td > <span class='label "+ labeleq +"'>" + estadoeq + "</spam> </td>" +
-                        "<td> <a class='btn btn-block btn-warning btn-sm' target='_blank'  href='?c=equipos&a=edit&p=" + bitacora[i].id + "'><i class='fa fa-pencil' aria-hidden='true'></i></a></td>" +
-                        +"</tr>";                                                          
-                    $("#table_equipo").append(nuevafila);
+        $('#overlay').addClass('overlay');
+        $('#refresh').addClass('fa fa-refresh fa-spin');        
+        if (validar_text($("#idequipo").val().trim())== true) {
+            $.ajax({
+                url: "?c=recepcion&a=ajax_load_historial",
+                dataType: "json",
+                method: "POST",
+                data: "idequipo=" + $("#idequipo").val().trim()
+            }).done(function (data) {
+                var datos = data;   
+                //console.log(datos);              
+                if (datos.length > 0) {                     
+                $('#historial_informes tbody').remove();                
+                $('#historial_informes').last().addClass( "table-scroll" );                  
+                //$('#table_equipo tbody').remove();                                                 
+                alertas_tipo_valor('alerta_idequipo','correcto','');                   
+                var filas= datos.length;
+                var color=['','red','yellow','blue','green'];
+                var color_row=['','danger','warning','info','success'];
+                for (var i =  0; i < filas; i++) {                                    
+                historial[i] = {equipos_id:datos[i].idequipo, alias: datos[i].alias, descripcion: datos[i].descripcion,
+                    marca: datos[i].marca, modelo: datos[i].modelo, serie: datos[i].serie,equipo_activo:datos[i].equipo_activo, empresas_id:datos[i].empresas_id, 
+                    plantas_id:datos[i].plantas_id, vigencia: datos[i].periodo_calibracion, acreditacion: datos[i].acreditaciones_id,
+                    tipo_cal: datos[i].calibraciones_id, tecnico_cal: datos[i].usuarios_calibracion_id, fecha_calibracion:datos[i].fecha_calibracion,fecha_vencimiento:datos[i].fecha_vencimiento };
+                        var radiocheck= '';
+                        if(datos.length == 1) {radiocheck='checked'; asignar_equipo_cliente(i);  $('#historial_informes').removeClass( "table-scroll" );} //Esta condición se ejecuta cuando se halla un solo registro en historial.
+                        var planta=datos[i].planta;
+                        var cliente="";
+                        if(planta.toLowerCase() == "planta1" || planta.toLowerCase() == "planta 1"){
+                            cliente=datos[i].empresa;
+                        }
+                        else{
+                            cliente=datos[i].empresa +" "+ datos[i].planta;
+                        }
+                        var nuevafila= "<tr class='bg-"+color_row[parseInt(datos[i].proceso)]+"'>"+
+                        "<td> <label> <input type='radio' name='id_aux' class='flat-red' onClick='asignar_equipo_cliente("+i+")' "+radiocheck +"></label></td>"+
+                        "<td>"+datos[i].id +"</td>"+
+                        "<td>"+datos[i].alias +"</td>"+
+                        "<td>"+datos[i].descripcion +"</td>"+
+                        "<td>"+datos[i].marca +"</td>"+
+                        "<td>"+datos[i].modelo +"</td>"+
+                        "<td>"+datos[i].serie +"</td>"+                                            
+                        "<td>"+cliente +"</td>"+
+                        "<td>"+datos[i].fecha_calibracion +"</td>"+
+                        "<td>"+datos[i].periodo_calibracion +"</td>"+
+                        "<td>"+datos[i].fecha_vencimiento +"</td>"+
+                        "<td>"+datos[i].calibrado_por +"</td>"+
+                        "<td>"+datos[i].acreditacion +"</td>"+                         
+                        "<td> <span class='badge bg-"+ color[parseInt(datos[i].proceso)]+"'>"+ (parseInt(datos[i].proceso)*100)/4+"%</span></td>"+                                                     
+                        +"</tr>"
+                        $("#historial_informes") .append(nuevafila);                        
+                }                   
+                //Historial lleno, pero buscar equipos, esto es cuando hay muchos id similares 
+                    buscar_idequipo(1);                                                   
                 }
-
-            } else {
-                $('#table_equipo tbody').remove();
-                alertas_tipo_valor('alerta_idequipo', 'vacio', "<p><a href='?c=equipos&a=add' target='_blank' class='btn btn-primary' style='text-decoration:none;'><i class='fa fa-plus-circle'></i> &nbsp; Agregar equipo</a></li></p>");
-            }
-        }).fail(function(data) {}).always(function(data) {
-            // console.log(data);
-        });
-    } else {
-        alertas_tipo_valor('alerta_idequipo', 'requerido', 'id del equipo');
-
+                else{
+                    //Cuando historial esta vacio
+                    $('#historial_informes tbody').remove();  
+                    buscar_idequipo(0);
+                } 
+                //reload_radiobutton();
+            $('#overlay').removeClass('overlay');
+            $('#refresh').removeClass('fa fa-refresh fa-spin');                                  
+            }).fail(function (data) {
+            }).always(function (data) {
+                //console.log(data);
+            });
+        } 
+        else{
+            alertas_tipo_valor('alerta_idequipo','requerido','id del equipo');
+        $('#overlay').removeClass('overlay');
+        $('#refresh').removeClass('fa fa-refresh fa-spin');               
+        }        
     }
-  }
+
+    var buscar_idequipo = function(estado_hist) {
+        if (validar_text($("#idequipo").val().trim()) == true) {
+            $.ajax({
+                url: "?c=recepcion&a=ajax_load_equipo",
+                dataType: "json",
+                method: "POST",
+                data: "idequipo=" + $("#idequipo").val().trim()
+            }).done(function(data) {
+                var datos = data;
+                //console.log(datos);                          
+                if (datos.length > 0) {
+                    if(estado_hist=0){$('#historial_informes tbody').remove(); $('#table_equipo').removeClass( "table-scroll" );}
+                    $('#table_equipo tbody').remove();                    
+                    $('#table_equipo').last().addClass( "table-scroll" );
+                    if(datos.length==1){$('#table_equipo').removeClass( "table-scroll" );}  //Se elimina la clase cuando hay un fila en la tabla.                                                        
+                    alertas_tipo_valor('alerta_idequipo', 'correcto', '');
+                    var bitacora = datos;
+                    var radiocheck = '';                   
+                    var filas= datos.length;    
+                    var disabled="";
+                    for (var i =  0; i < filas; i++) {
+                        if (bitacora[i].activo=="1"){
+                            estadoeq="Activo";
+                            labeleq="label-success";                        
+                        }
+                        else{
+                            estadoeq="Inactivo";
+                            labeleq="label-danger";
+                            disabled="disabled";
+                        }
+
+                        var nuevafila = "<tr>";
+                        if (datos.length == 1) {
+                        radiocheck = 'checked'; 
+                        //validar_serieEq(bitacora[i].serie);
+                        nuevafila += "<td> <label> <input type='radio' name='equipos_id' value='" + bitacora[i].id + "' " + radiocheck + " "+ disabled +"></label></td>";
+                        }else{
+                        nuevafila += "<td> <label> <input type='radio' name='equipos_id' onClick='asignar_equipo("+bitacora[i].id+")' value='" + bitacora[i].id + "' " + radiocheck + " "+ disabled +"></label></td>";                        
+                        } 
+                        nuevafila += "<td>" + bitacora[i].alias + "</td>"+
+                            "<td>" + bitacora[i].descripcion + "</td>" +
+                            "<td>" + bitacora[i].marca + "</td>" +
+                            "<td>" + bitacora[i].modelo + "</td>" +
+                            "<td>" + bitacora[i].serie + "</td>" +
+                            "<td > <span class='label "+ labeleq +"'>" + estadoeq + "</spam> </td>" +
+                            "<td> <a class='btn btn-block btn-warning btn-sm' target='_blank'  href='?c=equipos&a=edit&p=" + bitacora[i].id + "'><i class='fa fa-pencil' aria-hidden='true'></i></a></td>" +
+                            +"</tr>";                                                          
+                        $("#table_equipo").append(nuevafila);
+                    }
+
+                } else {
+                    $('#table_equipo tbody').remove();
+                    alertas_tipo_valor('alerta_idequipo', 'vacio', "<p><a href='?c=equipos&a=add' target='_blank' class='btn btn-primary' style='text-decoration:none;'><i class='fa fa-plus-circle'></i> &nbsp; Agregar equipo</a></li></p>");
+                }
+            }).fail(function(data) {}).always(function(data) {
+                // console.log(data);
+            });
+        } else {
+            alertas_tipo_valor('alerta_idequipo', 'requerido', 'id del equipo');
+
+        }
+    }
 
 /* End Buscar equipo */
 
 /* asignar_equipo_cliente */
-  var asignar_equipo_cliente = function(index) {
-    //count_check_equipo++;
-    //if (count_check_equipo < 2) {
-        $('#table_equipo').removeClass( "table-scroll" );
-        $('#table_equipo tbody').remove();            
-        planta_temp = "";
-        //console.log( historial);                
-        var bitacora = historial[index];            
-        planta_temp = bitacora.plantas_id;
-      
-        if (bitacora.equipo_activo=="1"){
-          estadoeq="Activo";
-          labeleq="label-success";                        
-          }
-          else{
-              estadoeq="Inactivo";
-              labeleq="label-danger";
-              disabled="disabled";
-          }        
+    var asignar_equipo_cliente = function(index) {
+        //count_check_equipo++;
+        //if (count_check_equipo < 2) {
+            $('#table_equipo').removeClass( "table-scroll" );
+            $('#table_equipo tbody').remove();                        
+            //console.log( historial);                
+            var bitacora = historial[index];            
+            planta_temp = bitacora.plantas_id;
+        
+            if (bitacora.equipo_activo=="1"){
+            estadoeq="Activo";
+            labeleq="label-success";                        
+            }
+            else{
+                estadoeq="Inactivo";
+                labeleq="label-danger";
+                disabled="disabled";
+            }        
 
-        var nuevafila = "<tr>" +
-            "<td><label> <input type='radio' name='equipos_id' value='" + bitacora.equipos_id + "' checked></label></td>" +
-            "<td>" + bitacora.alias + "</td>" +
-            "<td>" + bitacora.descripcion + "</td>" +
-            "<td>" + bitacora.marca + "</td>" +
-            "<td>" + bitacora.modelo + "</td>" +
-            "<td>" + bitacora.serie + "</td>" +
-            "<td > <span class='label "+ labeleq +"'>" + estadoeq + "</spam> </td>" +
-            "<td> <a class='btn btn-block btn-warning btn-sm' target='_blank'  href='?c=equipos&a=edit&p=" + bitacora.equipos_id + "'><i class='fa fa-pencil' aria-hidden='true'></i></a></td>" +
-            +"</tr>"
-        $("#table_equipo").append(nuevafila);
+            var nuevafila = "<tr>" +
+                "<td><label> <input type='radio' name='equipos_id' value='" + bitacora.equipos_id + "' checked></label></td>" +
+                "<td>" + bitacora.alias + "</td>" +
+                "<td>" + bitacora.descripcion + "</td>" +
+                "<td>" + bitacora.marca + "</td>" +
+                "<td>" + bitacora.modelo + "</td>" +
+                "<td>" + bitacora.serie + "</td>" +
+                "<td > <span class='label "+ labeleq +"'>" + estadoeq + "</spam> </td>" +
+                "<td> <a class='btn btn-block btn-warning btn-sm' target='_blank'  href='?c=equipos&a=edit&p=" + bitacora.equipos_id + "'><i class='fa fa-pencil' aria-hidden='true'></i></a></td>" +
+                +"</tr>"
+            $("#table_equipo").append(nuevafila);
 
-        $('#empresa_ajax_r').val(bitacora.empresas_id).change();
-        $('#periodo_calibracion').val(bitacora.vigencia)
-        $('#acreditaciones_id').val(bitacora.acreditacion).change();
-        $('#calibraciones_id').val(bitacora.tipo_cal).change();
-        $('#usuarios_calibracion_id').val(bitacora.tecnico_cal).change();
+            $('#empresa_ajax_r').val(bitacora.empresas_id).change();
+            $('#periodo_calibracion').val(bitacora.vigencia)
+            $('#acreditaciones_id').val(bitacora.acreditacion).change();
+            $('#calibraciones_id').val(bitacora.tipo_cal).change();
+            $('#usuarios_calibracion_id').val(bitacora.tecnico_cal).change();
 
-          //validar_equipo(bitacora.equipos_id);
+            var porciento = validar_equipo_vigenciacal(bitacora.equipos_id);                        
+            console.log(porciento + " % "); 
+            if( porciento < 80){
+                $("[type='submit']").attr('disabled','disabled');              
+                $("[name='informevalidacion']").remove();
+                var valor= "<p> <h4>La fecha de vencimiento aún no culminá. ¿Estas seguro de ingresar el equipo una vez más?</h4> <button type='button' class='btn btn-default' data-toggle='modal' data-target='#modal-default'>Confirmar <i class='fa fa-check fa-lg'></i> </button> </p>";
+                $("#alerta_informevalidacion").before(
+                    "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");           
+            }else if( porciento == -1 ){
+                $("[type='submit']").attr('disabled','disabled');              
+                $("[name='informevalidacion']").remove();
+                var valor= "<p> <h4>El equipo aún no se ha calibrado. ¿Estas seguro de ingresar el equipo una vez más?</h4> <button type='button' class='btn btn-default' data-toggle='modal' data-target='#modal-default'>Confirmar <i class='fa fa-check fa-lg'></i> </button> </p>";
+                $("#alerta_informevalidacion").before(
+                    "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-info alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");           
+            }
+            else{
+                $("[name='informevalidacion']").remove();           
+            }    
+    }
 
-          if (planta_temp !="") { 
-           //alert("Planta : " + planta_temp);        
-            //validar_historial(bitacora.equipos_id,bitacora.plantas_id);
-          }
-          else{
-             alert("No hay planta");
-          }
-          
+    var asignar_equipo = function(index) {
+        equipo_temp = index;
+       // console.log("Equipo: "+ equipo_temp);
+    }
 
-          var porciento= validar_ultimacal(bitacora.fecha_calibracion,bitacora.fecha_vencimiento);
-          console.log(porciento + " % "); 
+    validar_serieEq = function(serie) {      
+        console.log("Equipo: "+ serie);
+    }
 
-          if( porciento < 80){ 
-          //<a href='#' onclick='confirmar_validacion()' class='btn btn-box-tool' style='font-size:20px;'>Confirmar<i class='fa fa-check fa-lg'></i> </a>         
-            $("[name='informevalidacion']").remove();
-              var valor= "<p> <h4>La fecha de vencimiento aún no culminá. ¿Estas seguro de ingresar el equipo una vez más?</h4> <button type='button' class='btn btn-default' data-toggle='modal' data-target='#modal-default'>Confirmar <i class='fa fa-check fa-lg'></i> </button> </p>";
-              $("#alerta_informevalidacion").before(
-                  "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-warning alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");
-
-              var x = document.getElementById("div1");
-              var y = document.getElementById("div2");           
-                x.style.display = "none";
-                y.style.display = "none";            
-          }
-          else{
-              $("[name='informevalidacion']").remove();
-              var x = document.getElementById("div1");
-              var y = document.getElementById("div2");
-              if (x.style.display === "none" && y.style.display === "none") {
-                x.style.display = "block";
-                y.style.display = "block";
-              }
-          }
-
-    //}
-  }
-
-  var asignar_equipo = function(index) {
-      equipo_temp = index;
-      console.log("Equipo: "+equipo_temp);
-  }
-
-  validar_serieEq = function(serie) {      
-      console.log("Equipo: "+serie);
-  }
-
-  function validar_ultimacal(datehome,dateend){
-         var dateA= moment(datehome);
+    function validar_ultimacal(datehome,dateend){        
+        var dateA= moment(datehome);
         var dateB= moment(dateend);
         var datehoy= moment();
 
         var diastotal= dateB.diff(dateA, 'days');
         var diastranscurridos= datehoy.diff(dateA, 'days');
         var value= ((diastranscurridos*100)/diastotal);
-
         return value;
-  }
+    }
+
+     function validar_equipo_vigenciacal(value){        
+        var result=0;
+        $.ajax({            
+            url: "?c=recepcion&a=ajax_load_ultimoid_equipo",
+            dataType: "json",
+            method: "POST",
+            data: "idequipo=" + value,
+            async: false,
+            success: function(data) {
+                var datos = data;               
+                if(datos.length > 0){                     
+                    if(datos[0].fecha_calibracion != ""){
+                        result = Math.round(validar_ultimacal(datos[0].fecha_calibracion,datos[0].fecha_vencimiento));                                    
+                    }
+                }
+            },
+            error: function(data) {
+                result = -1;
+            },
+        });        
+        return result;
+    }
 
 
 /* End asignar_equipo_cliente */
@@ -334,7 +340,6 @@
           } else {
               $('#idplanta_ajax_r').val('').change();
           }
-
       }).fail(function(data) {}).always(function(data) {
           // console.log(data);
       });

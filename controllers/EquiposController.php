@@ -101,11 +101,8 @@ class EquiposController {
     } 
     
     public function ajax_load_validacionserie() {
-
         $serie=$_POST['serie'];
-        $dato= $this->model['equipo']->find_by(['serie' => $serie],"view_equipos");
-        
-        
+        $dato= $this->model['equipo']->find_by(['serie' => $serie],"view_equipos");                
         echo json_encode($dato);
     }
 

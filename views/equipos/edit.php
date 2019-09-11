@@ -43,10 +43,7 @@
                                             </div>                                            
                                             <div class="form-group">
                                                 <label for="descripciones_id">Descripción</label> 
-                                                <select class="form-control select2Descripcion" name="descripciones_id" id="descripciones_id"  required="" style="width: 100%;">                                                    
-                                                <!-- <option value="">Seleccione una opción</option> -->
-                                                <!-- <select class="form-control select2" name="descripciones_id" id="descripciones_id"  required="">
-                                                    <option value="">Seleccione una opción</option> -->
+                                                <select class="form-control select2Descripcion" name="descripciones_id" id="descripciones_id"  required="" style="width: 100%;">
                                                 <?php
                                                     $entro=false;
                                                     foreach ($data['equipos_descripciones'] as $descripcion) {
@@ -56,19 +53,9 @@
                                                             break;
                                                         } 
                                                     }
-
                                                     if($entro==false){
                                                         echo '<option value="">Seleccione una opción</option>';
-                                                    }
-
-                                                    // foreach ($data['equipos_descripciones'] as $descripcion) {
-                                                    //     if($data['equipo'][0]['descripciones_id'] == $descripcion['id']){
-                                                    //         echo '<option selected value="'.$descripcion['id'].'">'.$descripcion['nombre'].'</option>';
-                                                    //         break;
-                                                    //     } else{
-                                                    //         echo '<option value="'.$descripcion['id'].'">'.$descripcion['nombre'].'</option>';
-                                                    //     }
-                                                    // }
+                                                    }                                                    
                                                 ?> 
                                                  </select>
                                             </div>
@@ -84,19 +71,9 @@
                                                             break;
                                                         } 
                                                     }
-
                                                     if($entro==false){
                                                         echo '<option value="">Seleccione una opción</option>';
                                                     }
-
-                                                    // foreach ($data['equipos_marcas'] as $marca) {
-                                                    //     if($data['equipo'][0]['marcas_id'] == $marca['id']){
-                                                    //         echo '<option selected value="'.$marca['id'].'">'.$marca['nombre'].'</option>';
-                                                    //         break;
-                                                    //     } else {
-                                                    //         echo  '<option value="">Seleccione una opción</option>';
-                                                    //     }
-                                                    // }
                                                 ?>
                                                 </select>
                                             </div>
@@ -114,15 +91,7 @@
                                                     }
                                                     if($entro==false){
                                                         echo '<option value="">Seleccione una opción</option>';
-                                                    }
-                                                    // foreach ($data['equipos_modelos'] as $modelo) {
-                                                    //     if($data['equipo'][0]['modelos_id'] == $modelo['id']){
-                                                    //         echo '<option selected value="'.$modelo['id'].'">'.$modelo['nombre'].'</option>';
-                                                    //         break;
-                                                    //     } else{
-                                                    //         echo '<option value="'.$modelo['id'].'">'.$modelo['nombre'].'</option>';
-                                                    //     }
-                                                    // }
+                                                    }                                                   
                                                 ?>
                                                 </select>
                                             </div>
