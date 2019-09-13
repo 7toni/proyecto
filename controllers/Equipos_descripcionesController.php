@@ -50,7 +50,7 @@ class Equipos_descripcionesController{
     public function update() {
         $data = validate($_POST, [
             'id' => 'required|number|exists:equipos_descripciones',
-            'nombre' => 'required|except:equipos:id',
+            'nombre' => 'required|except:equipos_descripciones:id',
         ]);
         if ($this->model['equipos_descripciones']->update($data)) {
             redirect('?c=' . $this->name);

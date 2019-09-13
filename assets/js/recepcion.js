@@ -232,7 +232,7 @@
             $('#usuarios_calibracion_id').val(bitacora.tecnico_cal).change();
 
             var porciento = validar_equipo_vigenciacal(bitacora.equipos_id);                        
-            console.log(porciento + " % "); 
+            //console.log(porciento + " % "); 
             if( porciento < 80){
                 $("[type='submit']").attr('disabled','disabled');              
                 $("[name='informevalidacion']").remove();

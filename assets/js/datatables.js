@@ -2,10 +2,17 @@ $(document).ready(function () {
     if (typeof controller != 'undefined') {
         var _arrayCtrl=controller.split(" "); 
 
-        $('#table tfoot th').each( function () {
-            var title = $(this).text();
-            $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
-        } );
+        // $('#table tfoot th').each( function () {
+        //     var title = $(this).text();
+        //     $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
+        // } );
+
+        $('#table thead tr').clone(true).appendTo( '#table thead' );
+            $('#table thead tr:eq(1) th').each( function () {
+                var title = $(this).text();
+                $(this).html( '<input type="text" style="width:100%; font-size:11px;" placeholder="'+title+'" />' );                        
+            } );
+
 
         var table = $('#table').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,            
@@ -15,6 +22,7 @@ $(document).ready(function () {
             "lengthMenu": [[15, 20, 50,100,200,500,1000,3000, -1], [15, 20, 50,100,200,500,1000,3000, "All"]],
             "autoWidth": true,           
             "scrollX": true,
+            
             dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
             buttons: [
              {               
@@ -86,9 +94,10 @@ $(document).ready(function () {
             ],
             fixedColumns: {
                 leftColumns: 2
-            },
-            "columnDefs": [
-                { "width": "90px", "targets": -1 },
+            },fixedHeader: true,
+            "columnDefs": [                
+                { "searchable": false, "targets": -1 },
+                { "targets": -1 ,  "orderable" : false },
                 {
                     "targets": -1,
                     "data": null,
@@ -121,16 +130,28 @@ $(document).ready(function () {
         });
 
         table.columns().every( function () {
-                    var that = this;
+            var that = this;
+            $( 'input', this.header() ).on( 'keyup change', function () {
+                if ( that.search() !== this.value ) {
+                    that                        
+                        .search(this.value)
+                        .draw();
+                }
+            });
+        });
+
+
+        // table.columns().every( function () {
+        //             var that = this;
              
-                    $( 'input', this.footer() ).on( 'keyup change', function () {
-                        if ( that.search() !== this.value ) {
-                            that
-                                .search( this.value )
-                                .draw();
-                        }
-                    } );
-                } );
+        //             $( 'input', this.footer() ).on( 'keyup change', function () {
+        //                 if ( that.search() !== this.value ) {
+        //                     that
+        //                         .search( this.value )
+        //                         .draw();
+        //                 }
+        //             } );
+        //         } );
 
 
         $('#table tbody').on('click', 'a', function () {
@@ -141,14 +162,18 @@ $(document).ready(function () {
                 window.location.replace("?c=" + controller + "&a=delete&p=" + data[0]);
             }
         });
+        
+            $('#table_informes thead tr').clone(true).appendTo( '#table_informes thead' );
+            $('#table_informes thead tr:eq(1) th').each( function () {
+                var title = $(this).text();
+                $(this).html( '<input type="text" style="font-size:11px;" placeholder="'+title+'" />' );                        
+            } );
 
-
-         $('#table_informes tfoot th').each( function () {
-            //var title = $(this).text();            
-            var title = $('#table_informes thead th').eq( $(this).index() ).text();
-
-            $(this).append( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );            
-        } );
+        //  $('#table_informes tfoot th').each( function () {
+        //     var title = $(this).text(); 
+        //     $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
+        //     //$(this).append( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );            
+        // } );
 
         var table_informes = $('#table_informes').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
@@ -156,9 +181,11 @@ $(document).ready(function () {
             "processing": true,
             "serverSide": true,
             "dataType": "jsonp",
-            "lengthMenu":[[15, 20, 50,100,200,500,1000,3000, -1], [15, 20, 50,100,200,500,1000,3000, "All"]],
+            "lengthMenu":[[10, 20, 50,100,200,500,1000,3000], [10, 20, 50,100,200,500,1000,3000]],
             "autoWidth": true,
-            "scrollX": true,            
+            "scrollX": true,                    
+            "responsive": true,
+            "ordering": true,                        
             dom: '<"pull-left"l>fr<"dt-buttons"B>Ztip',
             "order": [[ 1, "desc" ]],
             buttons: [
@@ -227,6 +254,8 @@ $(document).ready(function () {
                     }}
             ],            
             "columnDefs": [
+                {"searchable": false, "targets": [-1,-2] },
+                {"orderable" : false, "targets": [-1,-2] },
                 { "targets":[7], "visible":true}, 
                 {
                     //"width": "150px",
@@ -240,7 +269,7 @@ $(document).ready(function () {
                     }
                 },
                 {"targets":[29], "visible":false},
-                { "width": "70px", "targets": [-1,-2] },                           
+                //{ "width": "70px", "targets": [-1,-2] },                           
                 {   
                     "targets": -2,                                 
                     "render": function(data,type, row){
@@ -251,9 +280,7 @@ $(document).ready(function () {
                         else{
                           return "<a href='#'  class='btn btn-social-icon badge bg-green disabled' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";  
                         }                        
-                    },
-                    "orderable" : false,
-                    "searchable": false,
+                    },                    
                 },
                 {   "width": "50px",             
                     "targets": 31, //Proceso
@@ -264,9 +291,7 @@ $(document).ready(function () {
                        "<div class='progress-bar progress-bar-"+ color[row[31]]+"' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100' style='width:"+(parseInt(row[31])*100)/4+"%; color:"+ text_color[row[31]]+"'> "+(parseInt(row[31])*100)/4+"% </div>"+                    
                        "</div>";                   
                        return  menu;
-                   },
-                    "orderable" : false,
-                    "searchable": false,
+                   }
                    },                
                 {
                     "targets": -1, //
@@ -292,10 +317,9 @@ $(document).ready(function () {
                     "<a href='#' id='btn_factura' class='btn btn-social-icon badge bg-navy "+ enable[proceso][3] +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";   
                     }
                         return  menu;                     
-                    },
-                "orderable" : false,
-                "searchable": false,
-                }], "language": {
+                    }
+            }],
+            "language": {
                 "sProcessing": "Procesando...",
                 "sLengthMenu": "Mostrar _MENU_ registros",
                 "sZeroRecords": "No se encontraron resultados",
@@ -321,23 +345,40 @@ $(document).ready(function () {
             }
         }); 
 
-
         table_informes.columns().every( function () {
             var that = this;
-            $( 'input', this.footer() ).on( 'keyup change', function () {
+            $( 'input', this.header() ).on( 'keyup change', function () {
                 if ( that.search() !== this.value ) {
-                    that
-                        .search( this.value )
+                    that                        
+                        .search(this.value)
                         .draw();
-                    }
-                });
+                }
             });
+        });
+
+        // table_informes.columns().every( function () {
+        //     var that = this;
+        //     $( 'input', this.footer() ).on( 'keyup change', function () {
+        //         if ( that.search() !== this.value ) {
+        //             that
+        //                 .search( this.value )
+        //                 .draw();
+        //             }
+        //         });
+        //     });
 
 
-         $('#table_proceso tfoot th').each( function () {
-            var title = $(this).text();
-            $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
-        } );
+            // Setup - add a text input to each footer cell
+            $('#table_proceso thead tr').clone(true).appendTo( '#table_proceso thead' );
+            $('#table_proceso thead tr:eq(1) th').each( function () {
+                var title = $(this).text();
+                $(this).html( '<input type="text" style="font-size:11px;" placeholder="'+title+'" />' );                        
+            } );
+
+        //  $('#table_proceso tfoot th').each( function () {
+        //     var title = $(this).text();
+        //     $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
+        // } );
 
         var table_proceso = $('#table_proceso').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
@@ -345,11 +386,9 @@ $(document).ready(function () {
             "processing": true,
             "serverSide": true,
             "dataType": "jsonp",
-            "lengthMenu": [[15, 20, 50,100,200,500,1000,3000, -1], [15, 20, 50,100,200,500,1000,3000, "All"]],
-            "autoWidth": true,
-            "scrollX": true,
-            "responsive": true,
-            "ordering": true,           
+            "lengthMenu": [[10, 20, 50,100,200,500,1000,3000], [10, 20, 50,100,200,500,1000,3000]],
+            "autoWidth": true,            
+            "scrollX": true,                                                                          
             dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
             "order": [[ 1, "desc" ]],
             buttons: [
@@ -360,9 +399,9 @@ $(document).ready(function () {
                         columns: [':not(:last-child)' ]
                     },                    
                 }
-            ], 
+            ],            
             //fixedColumns: true,           
-            "rowCallback": function( row, data, index ) {                      
+            "rowCallback": function( row, data, index ) {
                 var prioridad = parseInt(data[32]),
                     entregado= (data[33]),
                     proceso= parseInt(data[31]),                 
@@ -374,7 +413,9 @@ $(document).ready(function () {
                      $node.addClass('bg-light-blue')
                   }
               },
-            "columnDefs": [              
+            "columnDefs": [
+                {"searchable": false, "targets": [-1,-2] },
+                {"orderable" : false, "targets": [-1,-2] },
                 { "targets":[7], "visible":true}, 
                 {
                     //"width": "150px",
@@ -387,7 +428,7 @@ $(document).ready(function () {
                      return planta;                     
                     }
                 },  
-                {"targets":[29], "visible":false},
+                {"targets":[29], "visible":false},                
                 {                 
                  "targets": 31, //Proceso
                  "render": function(data,type, row){                     
@@ -397,11 +438,8 @@ $(document).ready(function () {
                     "<div class='progress-bar progress-bar-"+ color[row[31]]+"' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100' style='width:"+(parseInt(row[31])*100)/4+"%; color:"+ text_color[row[31]]+"'> "+(parseInt(row[31])*100)/4+"% </div>"+                    
                     "</div>";                   
                     return  menu;
-                },
-                "orderable" : false,
-                "searchable": false,
-                },                           
-                { "width": "60px", "targets": [-1,-2] },
+                }
+                },                                           
                 {
                     "targets": -1, //
                     "render": function(data,type, row){
@@ -428,45 +466,60 @@ $(document).ready(function () {
                     "<a href='#' id='btn_factura'  class='btn btn-social-icon badge bg-navy "+ disabledf  +"' title='Facturación'><i class='fa fa-file-archive-o'></i></a>";                
                     }                        
                     return  menu;
-                }} 
-
-                ],
-                "language": {
-                    "sProcessing": "Procesando...",
-                    "sLengthMenu": "Mostrar _MENU_ registros",
-                    "sZeroRecords": "No se encontraron resultados",
-                    "sEmptyTable": "Ningún dato disponible en esta tabla",
-                    "sInfo": "Mostrando registros de _START_ a _END_ de un total de _TOTAL_ registros",
-                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                    "sInfoPostFix": "",
-                    "sSearch": "Buscar:",
-                    "sUrl": "",
-                    "sInfoThousands": ",",
-                    "sLoadingRecords": "Cargando...",
-                    "oPaginate": {
-                        "sFirst": "Primero",
-                        "sLast": "Último",
-                        "sNext": "Siguiente",
-                        "sPrevious": "Anterior"
-                    },
-                    "oAria": {
-                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                    }
                 }
+            } 
+
+            ],
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros de _START_ a _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
         }); 
-              
+           
         table_proceso.columns().every( function () {
             var that = this;
-            $( 'input', this.footer() ).on( 'keyup change', function () {
+            $( 'input', this.header() ).on( 'keyup change', function () {
                 if ( that.search() !== this.value ) {
-                    that
-                        .search( this.value )
+                    that                        
+                        .search(this.value)
                         .draw();
-                    }
-                });
+                }
             });
+        });
+
+
+        // table_proceso.columns().every( function () {
+        //     var that = this;
+        //     $( 'input', this.footer() ).on( 'keyup change', function () {
+        //         if ( that.search() !== this.value ) {
+        //             that
+        //                 .search( this.value )
+        //                 .draw();
+        //             }
+        //         });
+        //     });
+
+
 
          $('#table_calibrar tfoot th').each( function () {
             var title = $(this).text();

@@ -91,7 +91,7 @@
                                                 <input disabled="" type="text" class="form-control" name="comentarios" id="comentarios" value="<?php echo $data['equipo'][0]['comentarios'] ?>"  placeholder="Comentarios">
                                             </div>
                                         </div>
-                                        <div class="box-footer"><button type="submit" class="btn btn-danger btn-flat">Elminar registro</button></div>
+                                        <div class="box-footer"><button type="submit" class="btn btn-danger btn-flat">Eliminar registro</button></div>
                                     </form>
                                 </div>
                             </div>

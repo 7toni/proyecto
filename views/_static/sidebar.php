@@ -183,7 +183,7 @@
                             </a>
                             <ul class='treeview-menu'>
                                 <li class='". $equipossm ."'><a href='?c=equipos'><i class='fa fa-database'></i> Equipos</a></li>
-                                <li class='". $descripcionsm ."'><a href='?c=equipos_descripciones'><i class='fa fa-font'></i> Descripcion de equipos</a></li>
+                                <li class='". $descripcionsm ."'><a href='?c=equipos_descripciones'><i class='fa fa-font'></i> Descripción de equipos</a></li>
                                 <li class='". $marcasm ."'><a href='?c=equipos_marcas'><i class='fa fa-tags'></i>Marcas de equipos</a></li>
                                 <li class='". $modelosm ."'><a href='?c=equipos_modelos'><i class='fa fa-list'></i>Modelos de equipos</a></li>
                             </ul>

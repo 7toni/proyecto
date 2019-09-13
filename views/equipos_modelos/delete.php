@@ -42,7 +42,7 @@
                                                 <input type="text" name="nombre" class="form-control" id="nombre"  disabled="" placeholder="nombre" value="<?php echo $data['equipos_modelos'][0]['nombre']; ?>">
                                             </div>
                                         </div>
-                                        <div class="box-footer"><button type="submit" class="btn btn-danger btn-flat">Elminar registro</button></div>
+                                        <div class="box-footer"><button type="submit" class="btn btn-danger btn-flat">Eliminar registro</button></div>
                                     </form>
                                 </div>
                             </div>

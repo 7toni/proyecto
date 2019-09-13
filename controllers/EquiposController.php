@@ -60,7 +60,6 @@ class EquiposController {
             'marcas_id' => 'required|number',
             'modelos_id' => 'required|number',
         ]);
-
         
         $data['continental_id'] = 1;
         $data['activo'] = 1;

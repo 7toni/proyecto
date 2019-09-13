@@ -25,11 +25,11 @@ function validate($data, $rules) {
                         $idKey = $singleValue[2];
                         $conn = new mysqli(APP_SERVER, APP_USER, APP_PASS, APP_DB);
                         $conn->set_charset("utf8");
-                        $query = "SELECT " . $columna . " FROM " . $tabla . " WHERE " . $columna . "= '" . $valor . "'";
+                        $query = "SELECT " . $columna . " FROM " . $tabla . " WHERE " . $columna . "= '" . $valor . "'";                       
                         $result = $conn->query($query);
                         $rows = $result->num_rows;
                         if ($rows > 0) {
-                            $query = "SELECT " . $columna . " value FROM " . $tabla . " WHERE " . $idKey . "= '" . $data[$idKey] . "'";
+                            $query = "SELECT " . $columna . " value FROM " . $tabla . " WHERE " . $idKey . "= '" . $data[$idKey] . "'";                            
                             $result = $conn->query($query);
                             $row = $result->fetch_assoc();
                             $result->close();
@@ -59,25 +59,7 @@ function validate($data, $rules) {
                             ]);
                         }
                         $result->close();
-                        break;
-                    // case 'acceso':
-                    //     $tabla = $singleValue[1];
-                    //     $columna = $key;
-                    //     $valor = $data[$key];
-                    //     $query = "SELECT " . $columna . " FROM " . $tabla . " WHERE " . $columna . "= '" . $valor . "'";
-                    //     $conn = new mysqli(APP_SERVER, APP_USER, APP_PASS, APP_DB);
-                    //     $conn->set_charset("utf8");
-                    //     $result = $conn->query($query);
-                    //     if (($rows = $result->num_rows) > 0) {
-                    //         array_push($errors, [
-                    //             'rule' => $singleValue[0],
-                    //             'field' => $key,
-                    //             'value' => $data[$key],
-                    //             'msg' => 'El campo ' . $data[$key] . ' ya se encuentra registrado en MyPSA'
-                    //         ]);
-                    //     }
-                    //     $result->close();
-                    //     break;
+                        break;                   
                     case 'exists':
                         $tabla = $singleValue[1];
                         $columna = $key;
