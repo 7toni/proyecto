@@ -21,7 +21,6 @@
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-
                                     <table id="table"  class="table table-bordered table-striped table-hover">
                                         <thead>
                                             <tr>

@@ -1,11 +1,8 @@
-
-
 /* Inicio de variables de recepción */
     var historial = {};
-    var count_check_equipo = 0;
+    //var count_check_equipo = 0;
     var count_numinforme=0;
-    var planta_temp = "";  
-    var equipo_temp = ""; 
+    var planta_temp = "";      
 /* End variables de inicio */
  
 /* Generar número de informe  */
@@ -48,7 +45,7 @@
 
 /* Buscar equipo */
     var buscar_idequipo_historial = function () {
-        count_check_equipo=0;
+        //count_check_equipo=0;
         
         $('[type="submit"]').removeAttr('disabled');
         $("[name='informevalidacion']").remove();
@@ -88,7 +85,7 @@
                             cliente=datos[i].empresa +" "+ datos[i].planta;
                         }
                         var nuevafila= "<tr class='bg-"+color_row[parseInt(datos[i].proceso)]+"'>"+
-                        "<td> <label> <input type='radio' name='id_aux' class='flat-red' onClick='asignar_equipo_cliente("+i+")' "+radiocheck +"></label></td>"+
+                        "<td> <label> <input type='radio' name='id_aux' class='minimal' onclick='asignar_equipo_cliente("+i+")' "+radiocheck +"></label></td>"+
                         "<td>"+datos[i].id +"</td>"+
                         "<td>"+datos[i].alias +"</td>"+
                         "<td>"+datos[i].descripcion +"</td>"+
@@ -123,8 +120,8 @@
         } 
         else{
             alertas_tipo_valor('alerta_idequipo','requerido','id del equipo');
-        $('#overlay').removeClass('overlay');
-        $('#refresh').removeClass('fa fa-refresh fa-spin');               
+            $('#overlay').removeClass('overlay');
+            $('#refresh').removeClass('fa fa-refresh fa-spin');               
         }        
     }
 
@@ -161,11 +158,10 @@
 
                         var nuevafila = "<tr>";
                         if (datos.length == 1) {
-                        radiocheck = 'checked'; 
-                        //validar_serieEq(bitacora[i].serie);
-                        nuevafila += "<td> <label> <input type='radio' name='equipos_id' value='" + bitacora[i].id + "' " + radiocheck + " "+ disabled +"></label></td>";
+                        radiocheck = 'checked';                         
+                        nuevafila += "<td> <label> <input type='radio' class='minimal' name='equipos_id' value='" + bitacora[i].id + "' " + radiocheck + " "+ disabled +"></label></td>";
                         }else{
-                        nuevafila += "<td> <label> <input type='radio' name='equipos_id' onClick='asignar_equipo("+bitacora[i].id+")' value='" + bitacora[i].id + "' " + radiocheck + " "+ disabled +"></label></td>";                        
+                        nuevafila += "<td> <label> <input type='radio' class='minimal' name='equipos_id' value='" + bitacora[i].id + "' " + radiocheck + " "+ disabled +"></label></td>";                        
                         } 
                         nuevafila += "<td>" + bitacora[i].alias + "</td>"+
                             "<td>" + bitacora[i].descripcion + "</td>" +
@@ -187,7 +183,6 @@
             });
         } else {
             alertas_tipo_valor('alerta_idequipo', 'requerido', 'id del equipo');
-
         }
     }
 
@@ -214,7 +209,7 @@
             }        
 
             var nuevafila = "<tr>" +
-                "<td><label> <input type='radio' name='equipos_id' value='" + bitacora.equipos_id + "' checked></label></td>" +
+                "<td><label> <input type='radio' class='minimal' name='equipos_id' value='" + bitacora.equipos_id + "' checked></label></td>" +
                 "<td>" + bitacora.alias + "</td>" +
                 "<td>" + bitacora.descripcion + "</td>" +
                 "<td>" + bitacora.marca + "</td>" +
@@ -231,47 +226,43 @@
             $('#calibraciones_id').val(bitacora.tipo_cal).change();
             $('#usuarios_calibracion_id').val(bitacora.tecnico_cal).change();
 
-            var porciento = validar_equipo_vigenciacal(bitacora.equipos_id);                        
-            //console.log(porciento + " % "); 
-            if( porciento < 80){
-                $("[type='submit']").attr('disabled','disabled');              
-                $("[name='informevalidacion']").remove();
-                var valor= "<p> <h4>La fecha de vencimiento aún no culminá. ¿Estas seguro de ingresar el equipo una vez más?</h4> <button type='button' class='btn btn-default' data-toggle='modal' data-target='#modal-default'>Confirmar <i class='fa fa-check fa-lg'></i> </button> </p>";
-                $("#alerta_informevalidacion").before(
-                    "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");           
-            }else if( porciento == -1 ){
+            var porciento = validar_equipo_vigenciacal(bitacora.equipos_id);
+            if(porciento == 0 ){
                 $("[type='submit']").attr('disabled','disabled');              
                 $("[name='informevalidacion']").remove();
                 var valor= "<p> <h4>El equipo aún no se ha calibrado. ¿Estas seguro de ingresar el equipo una vez más?</h4> <button type='button' class='btn btn-default' data-toggle='modal' data-target='#modal-default'>Confirmar <i class='fa fa-check fa-lg'></i> </button> </p>";
                 $("#alerta_informevalidacion").before(
                     "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-info alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");           
+            }else if( porciento < 80 ){
+                $("[type='submit']").attr('disabled','disabled');              
+                $("[name='informevalidacion']").remove();
+                var valor= "<p> <h4>La fecha de vencimiento aún no culminá. ¿Estas seguro de ingresar el equipo una vez más?</h4> <button type='button' class='btn btn-default' data-toggle='modal' data-target='#modal-default'>Confirmar <i class='fa fa-check fa-lg'></i> </button> </p>";
+                $("#alerta_informevalidacion").before(
+                    "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");                
             }
             else{
                 $("[name='informevalidacion']").remove();           
             }    
-    }
+    }    
+   
 
-    var asignar_equipo = function(index) {
-        equipo_temp = index;
-       // console.log("Equipo: "+ equipo_temp);
-    }
-
-    validar_serieEq = function(serie) {      
-        console.log("Equipo: "+ serie);
-    }
-
-    function validar_ultimacal(datehome,dateend){        
-        var dateA= moment(datehome);
-        var dateB= moment(dateend);
-        var datehoy= moment();
-
-        var diastotal= dateB.diff(dateA, 'days');
-        var diastranscurridos= datehoy.diff(dateA, 'days');
-        var value= ((diastranscurridos*100)/diastotal);
+    function validar_ultimacal(datehome,dateend){
+        var value=0;
+        if(datehome == null){
+            value=0;
+        } else{
+            var dateA= moment(datehome);
+            var dateB= moment(dateend);
+            var datehoy= moment();
+    
+            var diastotal= dateB.diff(dateA, 'days');
+            var diastranscurridos= datehoy.diff(dateA, 'days');
+            value= ((diastranscurridos*100)/diastotal);
+        }              
         return value;
     }
 
-     function validar_equipo_vigenciacal(value){        
+     function validar_equipo_vigenciacal(value){                
         var result=0;
         $.ajax({            
             url: "?c=recepcion&a=ajax_load_ultimoid_equipo",
@@ -281,16 +272,18 @@
             async: false,
             success: function(data) {
                 var datos = data;               
-                if(datos.length > 0){                     
-                    if(datos[0].fecha_calibracion != ""){
+                if(datos.length > 0){
+                    fechacal=datos[0].fecha_calibracion;
+                    console.log(fechacal);                 
+                    if(fechacal != ""){
                         result = Math.round(validar_ultimacal(datos[0].fecha_calibracion,datos[0].fecha_vencimiento));                                    
-                    }
+                    }                  
                 }
             },
             error: function(data) {
-                result = -1;
+                result = 0;
             },
-        });        
+        });             
         return result;
     }
 
@@ -486,7 +479,7 @@
         //registrar
     else if (op[2]==opciones) {            
         $( "#btn_registrar_po" ).prop( "disabled", true );            
-    }
+    }    
   }
 /* End Opciones de PO */
 
@@ -533,6 +526,50 @@
   }
 /* End Opciones de datos de factura */
 
+/* Submit de acceso */
+function submit_acceso() {
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value; 
+    var validado= true;                 
+    
+    if(email =="" || email === null ){validado=false;}
+    if(password== "" || password === null ){validado=false;}
+    
+    if(validado == true){
+        var $logModal = $('#modal-default');
+        var parametro= {                  
+            'email': email.trim(),
+            'password': password.trim()
+        };
+        $.ajax({
+            url: "?c=login&a=ajax_load_acceso",
+            dataType: "json",
+            method: "POST",
+            data: parametro
+        }).done(function(data) {
+            var datos = data;
+            if(datos=="exitoso"){
+                $('[type="submit"]').removeAttr('disabled');
+                $logModal.modal('hide');
+                $("[name='informevalidacion']").remove();
+            }
+            else{
+                $("[name='alerta_validacion']").remove();
+                $("#validacion").before(
+                "<div class='form-group' name='alerta_validacion'> <div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + datos + "</div>" + "</div>" + "</div>");                    
+            }                                           
+        }).fail(function(data) {}).always(function(data) {
+            //console.log(data);             
+        });                                           
+    }else{
+        $("[name='alerta_validacion']").remove();
+        $("#validacion").before(
+        "<div class='form-group' name='alerta_validacion'> <div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + "Campo requerido,favor de ingresar información. Intente una vez más." + "</div>" + "</div>" + "</div>");                    
+    }              
+}
+/* Submit de acceso */
+
+
 /* END Lista de errores nombre de la alerta, tipo de alerta, y texto */
 
   $(document).ready(function() {
@@ -541,7 +578,7 @@
       ultimo_numero_informe();
       e.preventDefault();
     });
-
+   
     $("#buscar_idequipo").on('click', buscar_idequipo_historial);
 
     $("#idequipo").keypress(function(e) {
@@ -562,6 +599,26 @@
       e.preventDefault();
     });
 
+    $("#calibraciones_id").on('change', retorna_session_planta);
+   
+    $("#empresa_ajax").on('change', empresa_ajax);
+
+    /**  # Datos de P.O **/
+    $("#btn_noregistrar_po").click(function(e){           
+        opciones_po('no_registrar');
+        e.preventDefault();
+      });
+
+      $("#btn_pendiente_po").click(function(e){           
+        opciones_po('pendiente');
+        e.preventDefault();
+      });
+
+      $("#btn_registrar_po").click(function(e){           
+        opciones_po('registrar');
+        e.preventDefault();
+      });
+
     $("#buscar_po").on('click', buscar_po);
 
     $("#po_id").keypress(function(e) {
@@ -571,6 +628,16 @@
             e.preventDefault();
         }
     });
+    /**  # Hoja de entrada  **/
+    $("#btn_noregistrar_hojae").click(function(e){           
+        opciones_hoja_entrada('no_registrar');
+        e.preventDefault();
+      });
+
+      $("#btn_registrar_hojae").click(function(e){           
+        opciones_hoja_entrada('registrar');
+        e.preventDefault();
+      });     
 
     $("#buscar_hoja_entrada").on('click', buscar_hoja_entrada);
     
@@ -581,6 +648,7 @@
             var numero=$(this).val();
             numero.replace(numero);            
             $(this).val(numero+'-'+anio.toString().substr(-2));
+            e.preventDefault();                      
         }
         if (e.which == 13) {
             $(this).val(espacio_blanco($(this).val()));      
@@ -589,13 +657,15 @@
         }                      
     });
 
-    $("#calibraciones_id").on('change', retorna_session_planta);
+    /**  # Datos de P.O **/
 
+    
+
+    /**  # Datos iniciales **/
     opciones_po("registrar");
     opciones_hoja_entrada("registrar");
     opciones_factura("registrar");
-
-    $("#empresa_ajax").on('change', empresa_ajax);
+    
     
 
   }); 

@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="assets/css/_all-skins.min.css">
         <link rel="stylesheet" href="assets/css/style.css">
         <link rel="stylesheet" href="assets/plugins/datatables/dataTables.bootstrap.css">
-	    <link rel="stylesheet" href="assets/plugins/datatables/buttons.bootstrap.min.css">            
+	<link rel="stylesheet" href="assets/plugins/datatables/buttons.bootstrap.min.css">            
         <link rel="stylesheet" href="assets/plugins/datatables/fixedHeader.dataTables.min.css">
         <link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.7/css/select.dataTables.min.css"/>
         <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css" rel="stylesheet" />

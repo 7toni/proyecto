@@ -1,18 +1,12 @@
 $(document).ready(function () {
     if (typeof controller != 'undefined') {
-        var _arrayCtrl=controller.split(" "); 
-
-        // $('#table tfoot th').each( function () {
-        //     var title = $(this).text();
-        //     $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
-        // } );
+        var _arrayCtrl=controller.split(" ");        
 
         $('#table thead tr').clone(true).appendTo( '#table thead' );
             $('#table thead tr:eq(1) th').each( function () {
                 var title = $(this).text();
                 $(this).html( '<input type="text" style="width:100%; font-size:11px;" placeholder="'+title+'" />' );                        
             } );
-
 
         var table = $('#table').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,            
@@ -21,8 +15,7 @@ $(document).ready(function () {
             "dataType": "jsonp",
             "lengthMenu": [[15, 20, 50,100,200,500,1000,3000, -1], [15, 20, 50,100,200,500,1000,3000, "All"]],
             "autoWidth": true,           
-            "scrollX": true,
-            
+            "scrollX": true,            
             dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
             buttons: [
              {               
@@ -140,20 +133,6 @@ $(document).ready(function () {
             });
         });
 
-
-        // table.columns().every( function () {
-        //             var that = this;
-             
-        //             $( 'input', this.footer() ).on( 'keyup change', function () {
-        //                 if ( that.search() !== this.value ) {
-        //                     that
-        //                         .search( this.value )
-        //                         .draw();
-        //                 }
-        //             } );
-        //         } );
-
-
         $('#table tbody').on('click', 'a', function () {
             var data = table.row($(this).parents('tr')).data();
             if ($(this).data("type") == "edit") {
@@ -168,12 +147,6 @@ $(document).ready(function () {
                 var title = $(this).text();
                 $(this).html( '<input type="text" style="font-size:11px;" placeholder="'+title+'" />' );                        
             } );
-
-        //  $('#table_informes tfoot th').each( function () {
-        //     var title = $(this).text(); 
-        //     $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
-        //     //$(this).append( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );            
-        // } );
 
         var table_informes = $('#table_informes').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
@@ -355,30 +328,12 @@ $(document).ready(function () {
                 }
             });
         });
-
-        // table_informes.columns().every( function () {
-        //     var that = this;
-        //     $( 'input', this.footer() ).on( 'keyup change', function () {
-        //         if ( that.search() !== this.value ) {
-        //             that
-        //                 .search( this.value )
-        //                 .draw();
-        //             }
-        //         });
-        //     });
-
-
-            // Setup - add a text input to each footer cell
+            
             $('#table_proceso thead tr').clone(true).appendTo( '#table_proceso thead' );
             $('#table_proceso thead tr:eq(1) th').each( function () {
                 var title = $(this).text();
                 $(this).html( '<input type="text" style="font-size:11px;" placeholder="'+title+'" />' );                        
-            } );
-
-        //  $('#table_proceso tfoot th').each( function () {
-        //     var title = $(this).text();
-        //     $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
-        // } );
+            } );        
 
         var table_proceso = $('#table_proceso').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
@@ -506,20 +461,6 @@ $(document).ready(function () {
                 }
             });
         });
-
-
-        // table_proceso.columns().every( function () {
-        //     var that = this;
-        //     $( 'input', this.footer() ).on( 'keyup change', function () {
-        //         if ( that.search() !== this.value ) {
-        //             that
-        //                 .search( this.value )
-        //                 .draw();
-        //             }
-        //         });
-        //     });
-
-
 
          $('#table_calibrar tfoot th').each( function () {
             var title = $(this).text();

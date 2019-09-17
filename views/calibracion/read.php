@@ -61,9 +61,9 @@
                                           <label class="checkbox">
                                           <?php                                          
                                           if ($data['get'][0]['calibrado'] === '0') {
-                                           echo '<input type="checkbox" class="icheckbox_flat-green" name="calibrado" value="0" checked>&nbsp; No se calibró';
+                                           echo '<input type="checkbox" class="minimal-red" name="calibrado" value="0" checked>&nbsp; No se calibró';
                                           }
-                                          else{echo '<input type="checkbox" class="icheckbox_flat-green" name="calibrado" value="0">&nbsp; No se calibró';}
+                                          else{echo '<input type="checkbox" class="minimal-red" name="calibrado" value="0">&nbsp; No se calibró';}
                                           ?>                                              
                                           </label>                                           
                                         </div>                                        
