@@ -424,8 +424,8 @@
 
           // for( var value of parametro.values()){
           //   console.log(value);
-          // }                  
-
+          // } 
+                    
           $.ajax({
               url: '?c=salida&a=_sendemail',
               data: parametro,

@@ -597,7 +597,7 @@ function submit_acceso() {
     $("#factura_previa").click(function(e){
       factura_previa();
       e.preventDefault();
-    });
+    });    
 
     $("#calibraciones_id").on('change', retorna_session_planta);
    
@@ -657,15 +657,23 @@ function submit_acceso() {
         }                      
     });
 
-    /**  # Datos de P.O **/
-
-    
+    /**  # Datos de P.O **/    
 
     /**  # Datos iniciales **/
     opciones_po("registrar");
     opciones_hoja_entrada("registrar");
     opciones_factura("registrar");
-    
+
+    $("#btn_registrar_factura").click(function(e){           
+        opciones_factura('registrar');
+        e.preventDefault();
+      });
+
+      $("#btn_noregistrar_factura").click(function(e){           
+        opciones_factura('no_registrar');
+        e.preventDefault();
+      });
+         
     
 
   }); 

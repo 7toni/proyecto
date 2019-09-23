@@ -51,7 +51,7 @@ class Informes extends Model {
 
     public function get_calibracion($id,$view){
         //$this->query= "SELECT id as id,usuarios_calibracion_id,usuarios_informe_id,fecha_calibracion,acreditaciones_id,periodo_calibracion,comentarios,proceso,estado_calibracion as calibrado  FROM ".$view." WHERE id = ". $id.";"; 
-        $this->query= "SELECT id as id,usuarios_calibracion_id,usuarios_informe_id,fecha_calibracion,acreditaciones_id,periodo_calibracion,comentarios,proceso,estado_calibracion as calibrado, periodo_id FROM ".$view." WHERE id = ". $id.";";
+        $this->query= "SELECT id as id,usuarios_calibracion_id,usuarios_informe_id,fecha_calibracion,fecha_vencimiento,acreditaciones_id,periodo_calibracion,comentarios,proceso,estado_calibracion as calibrado, periodo_id FROM ".$view." WHERE id = ". $id.";";
         $this->get_results_from_query();
         return $this->rows;
     }
@@ -68,7 +68,8 @@ class Informes extends Model {
     }
 
     public function get_factura($id,$view){ // Consulta informacion de factura, cuando entra como opción para actualizar
-        $this->query= "SELECT id as id,precio,precio_extra,factura,monedas_id,po_id,comentarios,proceso,descripcion FROM ".$view." WHERE id = ". $id.";";
+        
+        $this->query= "SELECT id as id,precio,precio_extra,factura,monedas_id,po_id,comentarios,proceso,descripcion,estado_calibracion,calibracion FROM ".$view." WHERE id = ". $id.";";
         $this->get_results_from_query();       
         return $this->rows;
     }

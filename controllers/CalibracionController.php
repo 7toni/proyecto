@@ -24,7 +24,7 @@ class CalibracionController {
         $id=$_GET['p'];
         $view_informes="view_informes". $this->ext;       
         $data['get']=$this->model['informes']->get_calibracion($id, $view_informes);
-        $data['equipo'] = $this->model['informes']->datos_equipo($id);              
+        $data['equipo'] = $this->model['informes']->datos_equipo($id);                
 
         $data['cliente'] = $this->model['informes']->datos_cliente($id);
                 
@@ -41,56 +41,31 @@ class CalibracionController {
   	}
   }
 
-
   public function store (){
-    $view="view_informes". $this->ext;
-    $hoy = date("Y-m-d");    
-      if (isset($_POST['calibrado']) === true) {
-         $data = validate($_POST, [
-          'id' => 'toInt',
-          'proceso' => 'toInt',
-          'comentarios' => 'ucname',
-          'calibrado' => 'toInt',
-          'acreditaciones_id' => 'toInt',          
-          ]);
-          $data['usuarios_calibracion_id'] = $_POST['usuarios_calibracion_id'];
-          $data['usuarios_informe_id'] = $_POST['usuarios_calibracion_id'];
-          $data['fecha_calibracion'] = $_POST['fecha_calibracion'];
-          $data['fecha_vencimiento'] = $_POST['fecha_calibracion'];                        
-          $data['periodo_calibracion'] = '0';
-          $data['periodo_id']= '1';  
-      }
-      else{
-          $data = validate($_POST, [ 
-              'id' => 'toInt',
-              'proceso' => 'toInt',
-              'usuarios_calibracion_id' => 'required|toInt',
-              'usuarios_informe_id' => 'required|toInt',
-              'fecha_calibracion' => 'required',
-              'acreditaciones_id' => 'required|toInt',             
-              'periodo_calibracion' => 'required|toInt',
-              'periodo_id'=>'toInt',
-              'comentarios' => 'ucname',
-            ]);
-          $fechacal= $data['fecha_calibracion'];
-          $periodocal= $data['periodo_calibracion'];
-          $periodo_id=$data['periodo_id'];
-          $dia_mes="";
 
-          if ($periodo_id==1) {
-            $dia_mes="month";
-          }
-          else if ($periodo_id==2){
-            $dia_mes="days";
-          }          
+      $view="view_informes". $this->ext;
+              
+      $data = validate($_POST, [
+        'id' => 'toInt',
+        'proceso' => 'toInt',
+        'usuarios_calibracion_id' => 'required|toInt',
+        'usuarios_informe_id' => 'required|toInt',
+        'fecha_calibracion' => 'required',
+        'fecha_vencimiento' => 'required',
+        'acreditaciones_id' => 'required|toInt',             
+        'periodo_calibracion' => 'required|toInt',
+        'periodo_id'=>'toInt',
+        'comentarios' => 'ucname',              
+      ]);
 
-          $data['fecha_vencimiento'] = date('Y-m-d', strtotime($fechacal . "+".$periodocal." ".$dia_mes));           
-          $data['calibrado']= intval('1');
-      }     
-      $proceso_temp = $data['proceso'];  
+      $data['calibrado'] = isset($_POST['calibrado']) === true ? $_POST['calibrado'] : intval('1');
+            
+      $proceso_temp = $data['proceso']; 
+
       if ($data['proceso'] === 1) {
         $data['proceso'] = intval('2');
-        }        
+      }   
+
         $retorno = $this->model['informes']->validar_fecha($data['id'],$data['fecha_calibracion'],$proceso_temp,$this->name,$view);
 
         if ($retorno) {
@@ -121,7 +96,7 @@ class CalibracionController {
               else {                 
                  Flash::error(setError('002'));
               }
-         }
+          }
         }
         else{
             if ($proceso_temp = 1) {

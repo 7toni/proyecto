@@ -182,8 +182,8 @@ class SalidaController {
     echo json_encode($data);
   }
 
-  public function _sendemail(){
-
+  public function _sendemail(){    
+    $view="view_informes". $this->ext;    
     $data = [
           'po' => $_POST['po'],
           'cliente' => ($_POST['cliente']==",") ?  "": $_POST['cliente'],
@@ -191,15 +191,15 @@ class SalidaController {
           'comentarios' => $_POST['comentarios'],
           'dataid' => $_POST['data'],
           'urgente' => ($_POST['check_urgente']==1) ?  "URGENTE": "",
-        ];    
-
-      $query = "SELECT id,alias as idequipo,descripcion,precio,precio_extra, moneda FROM ".$view." where  id In (". $data['dataid'] .") order by id asc;";
-      $data['tabla']= $this->model['informes']->get_query_informe($query);     
+        ];   
+                
+      $query = "SELECT id,alias as idequipo,descripcion,precio,precio_extra, moneda FROM ".$view." where id In (". $data['dataid'] .") order by id asc;";
+      $data['tabla']= $this->model['informes']->get_query_informe($query);            
           
       $data['body']=EnvioCorreo::_bodyinvoice($data);            
      
       $data['email']= "facturacion@mypsa.mx";
-      //$data['email']= "test@mypsa.com.mx";
+     // $data['email']= "otoniel.hernandez@mypsa.com.mx";
       $data['nombre']= "Factura_Mypsa";
       $data['cc'] = array(
                         'email' => array(Session::get('email')), 
@@ -209,7 +209,7 @@ class SalidaController {
       $data['cco'] = array(
                         'email' => array('bitacora.soporte@mypsa.com.mx','drodriguez@mypsa.mx','mvega@mypsa.mx'), 
                         'alias' => array('Bitacora S.','Dulce R.','Manuel V.'),                       
-                    );
+                    );                   
 
       $data['asunto']= $data['urgente']." Solicitud de factura | PO : {$data['po']}. Sucursal: {$sucursal}";
 

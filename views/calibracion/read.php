@@ -58,12 +58,12 @@
                                       <div class="form-group">
                                         <label class="col-sm-3 control-label">Estado :</label>
                                         <div class="col-sm-9"> 
-                                          <label class="checkbox">
+                                          <label>
                                           <?php                                          
                                           if ($data['get'][0]['calibrado'] === '0') {
-                                           echo '<input type="checkbox" class="minimal-red" name="calibrado" value="0" checked>&nbsp; No se calibró';
+                                           echo '<input type="checkbox" class="minimal-red" name="calibrado" id="checkbox_estado" checked">&nbsp; No se calibró';
                                           }
-                                          else{echo '<input type="checkbox" class="minimal-red" name="calibrado" value="0">&nbsp; No se calibró';}
+                                          else{echo '<input type="checkbox" class="minimal-red" name="calibrado" id="checkbox_estado">&nbsp; No se calibró';}
                                           ?>                                              
                                           </label>                                           
                                         </div>                                        
@@ -92,9 +92,9 @@
                                            ?> 
                                           </select>                                           
                                         </div>
-                                      </div>
+                                      </div>                                     
                                       <div class="form-group">
-                                        <label class="col-sm-3 control-label">informe hecho por : </label>
+                                        <label class="col-sm-3 control-label">Informe hecho por : </label>
                                         <div class="col-sm-9">                                                                                        
                                           <select id="usuarios_informe_id" class="form-control select2" style="width: 100%;" name="usuarios_informe_id">
                                             <option value="">Seleccione una opción</option> 
@@ -119,17 +119,6 @@
                                            ?> 
                                           </select>                                           
                                         </div>
-                                      </div>                                      
-                                      <div class="form-group">
-                                        <label class="col-sm-3 control-label">Fecha de cal :</label>
-                                        <div class="col-sm-9"> 
-                                          <?php 
-                                          if (strlen($data['get'][0]['fecha_calibracion']) > 0) {
-                                          echo '<input type="text" name="fecha_calibracion" id="fecha_calibracion" class="form-control pull-right datepicker_aux" value="'.$data['get'][0]['fecha_calibracion'].'">';
-                                          }
-                                          else{echo '<input type="text" name="fecha_calibracion" id="fecha_calibracion" class="form-control pull-right datepicker">';}                                        
-                                          ?>
-                                        </div>                                        
                                       </div>
                                       <div class="form-group">
                                         <label class="col-sm-3 control-label">Acreditación : </label>
@@ -147,6 +136,18 @@
                                           </select>                                              
                                         </div>
                                       </div>                                       
+                                      <div class="form-group">
+                                        <label class="col-sm-3 control-label">Fecha de cal :</label>
+                                        <div class="col-sm-9"> 
+                                          <?php 
+                                          if (strlen($data['get'][0]['fecha_calibracion']) > 0) {
+                                          echo '<input type="text" name="fecha_calibracion" id="fecha_calibracion" class="form-control pull-right datepicker_aux" value="'.$data['get'][0]['fecha_calibracion'].'">';
+                                          }
+                                          else{echo '<input type="text" name="fecha_calibracion" id="fecha_calibracion" class="form-control pull-right datepicker">';}                                        
+                                          ?>
+                                        </div>                                        
+                                      </div>
+                                                                             
                                       <div class="form-group">
                                         <label class="col-sm-3 control-label">Vigencia (Mes/Día):</label>
                                         <div class="col-sm-9">
@@ -176,6 +177,18 @@
                                             </div>                                         
                                           </div>
                                         </div>  
+                                      </div>
+                                      <div class="form-group">
+                                        <label class="col-sm-3 control-label">Fecha de venc :</label>
+                                        <div class="col-sm-9">                                         
+                                         <?php 
+                                          if (strlen($data['get'][0]['fecha_vencimiento']) > 0) {
+                                          echo '<input type="text" name="fecha_vencimiento" id="datepicker_venc" class="form-control pull-right datepicker_aux" value="'.$data['get'][0]['fecha_vencimiento'].'">';
+                                          }
+                                          else{echo '<input type="text" name="fecha_vencimiento" id="datepicker_venc" class="form-control pull-right datepicker">';}                                        
+                                          ?>
+
+                                        </div>                                        
                                       </div>                                                                        
                                       <div class="form-group">
                                         <label for="inputcomentario" class="col-sm-3 control-label">Comentarios :</label>
@@ -290,5 +303,50 @@
             var controller = "<?php echo $this->name; ?>";   
         </script>
         <?php importView('_static.scripts'); ?>
+        <script>        
+        var fecha_venc= <?php echo isset($data['get'][0]['fecha_vencimiento']) ? $data['get'][0]['fecha_vencimiento']: 'false'; ?>;        
+
+          function calcular_fecha(){                      
+            var datecal= $('#fecha_calibracion').val();
+            var periodo= $('#periodo_calibracion').val();
+            var vigencia= $('#periodo_id').val();
+            var setdate= ["","M","days"];
+            
+            var datetemp=moment(datecal);
+            var fechavenc= datetemp.add(periodo, setdate[vigencia]).format('YYYY-MM-DD');  
+            
+            $('#datepicker_venc').datepicker({                
+                autoclose: true,
+                format: 'yyyy-mm-dd'
+            }).datepicker('setDate', fechavenc);
+          }         
+
+        $(document).ready(function() {
+          
+          if(fecha_venc == false){
+            calcular_fecha();
+          }
+        
+          $( "#periodo_id" ).change(function() {
+            calcular_fecha();
+          });
+
+          $( "#fecha_calibracion" ).change(function() {
+            calcular_fecha();
+          });
+          
+          $( "#periodo_calibracion" ).change(function() {
+            calcular_fecha();
+          });                               
+
+          $('#checkbox_estado').on('ifChecked', function(event){
+            $( "#periodo_calibracion" ).val('0');
+            calcular_fecha();
+          });
+                                           
+        });
+
+        </script>
     </body>
 </html>
+
