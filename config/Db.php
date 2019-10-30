@@ -118,8 +118,8 @@ abstract class Db {
         $query = substr($query, 0, - 1);
         $query .= ");";
         $this->query = $query;
-        //var_dump($query);
-        //exit;
+        // var_dump($query);
+        // exit;
         return $this->execute_single_query();
     }
 
@@ -155,7 +155,7 @@ abstract class Db {
             $this->query .= $this->primary_key . "=" . $id[$this->primary_key] . ";";
         }else{
             $this->query .= $this->primary_key . "='" . $id[$this->primary_key] . "';";
-        }                     
+        }          
         return $this->execute_single_query();
     }
 

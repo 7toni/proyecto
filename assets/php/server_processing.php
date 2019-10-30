@@ -95,7 +95,7 @@ $condicion="";
 /* #End Reportes */
 
 /* #Home control calidad */
-    if ($controller == "control_calidad") {
+    if ($controller == "control_calidadc") {
         if($tipo=="bajas"){
             $condicion="activo=0";
         }
@@ -104,6 +104,17 @@ $condicion="";
             }
     }
 /* #end  control calidad */
+
+/* #Home control Prueba Electrica */
+if ($controller == "control_pruebaelect") {
+    if($tipo=="bajas"){
+        $condicion="activo=0";
+    }
+    else if($tipo=="activos"){
+        $condicion="activo=1";
+        }
+}
+/* #end  control Prueba Electrica */
 
 // Table's primary key    
  

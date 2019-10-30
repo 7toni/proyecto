@@ -329,11 +329,11 @@ $(document).ready(function () {
             });
         });
             
-            $('#table_proceso thead tr').clone(true).appendTo( '#table_proceso thead' );
-            $('#table_proceso thead tr:eq(1) th').each( function () {
-                var title = $(this).text();
-                $(this).html( '<input type="text" style="font-size:11px;" placeholder="'+title+'" />' );                        
-            } );        
+        $('#table_proceso thead tr').clone(true).appendTo( '#table_proceso thead' );
+        $('#table_proceso thead tr:eq(1) th').each( function () {
+            var title = $(this).text();
+            $(this).html( '<input type="text" style="font-size:11px;" placeholder="'+title+'" />' );                        
+        } );        
 
         var table_proceso = $('#table_proceso').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
@@ -462,10 +462,11 @@ $(document).ready(function () {
             });
         });
 
-         $('#table_calibrar tfoot th').each( function () {
-            var title = $(this).text();
-            $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
-        } );
+        $('#table_calibrar thead tr').clone(true).appendTo( '#table_calibrar thead' );
+            $('#table_calibrar thead tr:eq(1) th').each( function () {
+                var title = $(this).text();
+                $(this).html( '<input type="text" style="font-size:11px;" placeholder="'+title+'" />' );                        
+            } );  
 
         var table_calibrar = $('#table_calibrar').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
@@ -550,19 +551,19 @@ $(document).ready(function () {
                         "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                     }
                 }
-        });   
-
+        });
+        
         table_calibrar.columns().every( function () {
             var that = this;
-            $( 'input', this.footer() ).on( 'keyup change', function () {
+            $( 'input', this.header() ).on( 'keyup change', function () {
                 if ( that.search() !== this.value ) {
-                    that
-                        .search( this.value )
+                    that                        
+                        .search(this.value)
                         .draw();
-                    }
-                });
-            }); 
-
+                }
+            });
+        });
+         
         var table_clientes = $('#table_clientes').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,            
             "processing": true,
@@ -826,233 +827,8 @@ $(document).ready(function () {
         var badge= ["bg-red","bg-green"];
         var label= ["label-danger","label-success"];
         var hoy= moment().format('YYYY-MM-DD');
-        var nextmonth= moment(hoy).add(1,'months').format('YYYY-MM-DD');
-                       
-        $('#table_historialm tfoot th').each( function () {
-            var title = $(this).text();
-            //var title = $('#table_historialm thead th').eq( $(this).index() ).text();
-            $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder="'+title+'" />' );
-        } );
-        
-        var table_historialm = $('#table_historialm').DataTable({
-            "ajax": "assets/php/server_processing.php?controller=" + controller,            
-            "processing": true,
-            "serverSide": true,
-            "dataType": "jsonp",
-            "lengthMenu": [[15, 20, 50,100,200,500,1000,3000, -1], [15, 20, 50,100,200,500,1000,3000, "All"]],
-            "autoWidth": true,
-            "scrollX": true,                       
-            "scrollY":  '50vh',
-            "scrollCollapse": true,
-            dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
-            buttons: [
-                 {
-                    extend: 'excel',
-                    text: 'Excel',
-                    exportOptions: {
-                        columns: [':not(:last-child)' ]
-                    },
-                }                
-            ],
-            fixedColumns: true,            
-            "columnDefs": [
-                { "width": "90px", "targets": -1 },
-                {
-                    "targets": -1,
-                    "data": null,                    
-                    "render": function(data,type, row){
-                        return "<a href='?c=historialm&a=edit&p="+ row[0]+"' data-type='edit' class='btn btn-xs btn-primary btn-flat'>Editar</a> <a href='?c=historialm&a=delete&p="+ row[0]+"' data-type='delete' class='btn btn-xs btn-danger btn-flat'>Eliminar</a>"
-                    }
-                
-                },
-                { "targets": [1,7],"visible":false },
-                                               
-            ],"language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún dato disponible en esta tabla",
-                "sInfo": "Mostrando registros de _START_ a _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }
-        });
-
-        table_historialm.columns().every( function () {
-            var that = this;
-            $( 'input', this.footer() ).on( 'keyup change', function () {
-                if ( that.search() !== this.value ) {
-                    that
-                        .search( this.value )
-                        .draw();
-                    }
-                });
-        });
-
-        $('#table_historialv tfoot th').each( function () {
-            var title = $(this).text();
-            $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder="'+title+'" />' );
-        } );
-        
-        var table_historialv = $('#table_historialv').DataTable({
-            "ajax": "assets/php/server_processing.php?controller=" + controller,            
-            "processing": true,
-            "serverSide": true,
-            "dataType": "jsonp",
-            "lengthMenu": [[15, 20, 50,100,200,500,1000,3000, -1], [15, 20, 50,100,200,500,1000,3000, "All"]],
-            "autoWidth": true,
-            "scrollX": true,                       
-            "scrollY":  '50vh',
-            "scrollCollapse": true,
-            dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
-            buttons: [
-                 {
-                    extend: 'excel',
-                    text: 'Excel',
-                    exportOptions: {
-                        columns: [':not(:last-child)' ]
-                    },
-                }                
-            ],
-            fixedColumns: true,            
-            "columnDefs": [
-                { "width": "90px", "targets": -1 },
-                {
-                    "targets": -1,
-                    "data": null,                    
-                    "render": function(data,type, row){
-                        return "<a href='?c=historialv&a=edit&p="+ row[0]+"' data-type='edit' class='btn btn-xs btn-primary btn-flat'>Editar</a> <a href='?c=historialv&a=delete&p="+ row[0]+"' data-type='delete' class='btn btn-xs btn-danger btn-flat'>Eliminar</a>"
-                    }
-                
-                },
-                { "targets": [1,8],"visible":false },
-                                               
-            ],"language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún dato disponible en esta tabla",
-                "sInfo": "Mostrando registros de _START_ a _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }
-        });
-
-        table_historialv.columns().every( function () {
-            var that = this;
-            $( 'input', this.footer() ).on( 'keyup change', function () {
-                if ( that.search() !== this.value ) {
-                    that
-                        .search( this.value )
-                        .draw();
-                    }
-                });
-        });
-
-        $('#table_inventario tfoot th').each( function () {
-            var title = $(this).text();
-            $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder="'+title+'" />' );
-        } );
-        
-        var table_inventario = $('#table_inventario').DataTable({
-            "ajax": "assets/php/server_processing.php?controller=" + controller,            
-            "processing": true,
-            "serverSide": true,
-            "dataType": "jsonp",
-            "lengthMenu": [[15, 20, 50,100,200,500,1000,3000, -1], [15, 20, 50,100,200,500,1000,3000, "All"]],
-            "autoWidth": true,
-            "scrollX": true,                       
-            "scrollY":  '50vh',
-            "scrollCollapse": true,
-            dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
-            buttons: [
-                 {
-                    extend: 'excel',
-                    text: 'Excel',
-                    exportOptions: {
-                        columns: [':not(:last-child)' ]
-                    },
-                }                
-            ],
-            fixedColumns: true,            
-            "columnDefs": [
-                { "width": "90px", "targets": -1 },
-                {
-                    "targets": -1,
-                    "data": null,                    
-                    "render": function(data,type, row){
-                        return "<a href='?c=inventario&a=edit&p="+ row[0]+"' data-type='edit' class='btn btn-xs btn-primary btn-flat'>Editar</a> <a href='?c=inventario&a=delete&p="+ row[0]+"' data-type='delete' class='btn btn-xs btn-danger btn-flat'>Eliminar</a>"
-                    }
-                
-                },
-                //{ "targets": [1,8],"visible":false },
-                                               
-            ],"language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún dato disponible en esta tabla",
-                "sInfo": "Mostrando registros de _START_ a _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }
-        });
-
-        table_inventario.columns().every( function () {
-            var that = this;
-            $( 'input', this.footer() ).on( 'keyup change', function () {
-                if ( that.search() !== this.value ) {
-                    that
-                        .search( this.value )
-                        .draw();
-                    }
-                });
-        });
+        var nextmonth= moment(hoy).add(1,'months').format('YYYY-MM-DD');                                                               
+              
 
     }        
 });

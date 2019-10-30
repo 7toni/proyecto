@@ -216,23 +216,22 @@
                                                      <tr>                                     
                                                        <th><input name='select_all' value='1' type='checkbox'></th>
                                                        <th>Informe</th>
+                                                       <th>Id Equipo</th>
                                                        <th>Descripción</th>
-                                                       <th>Descripción</th>
-                                                       <th>Descripción</th>
-                                                      <th>Marca</th>
+                                                       <th>Marca</th>
                                                       <th>Modelo</th>
-                                                      <th>Serie</th>
+                                                      <th>Serie</th>                                                      
                                                     </tr>
                                                   </thead>
                                                   <tfoot>
                                                     <tr>                             
                                                       <th></th>
                                                       <th>Informe</th>
-                                                      <th>Id equipo</th>
+                                                      <th>Id Equipo</th>
                                                       <th>Descripción</th>
                                                       <th>Marca</th>
                                                       <th>Modelo</th>
-                                                      <th>Serie</th>
+                                                      <th>Serie</th>  
                                                     </tr>
                                                   </tfoot>
                                                 </table>
