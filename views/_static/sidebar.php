@@ -139,30 +139,51 @@
                     echo "<li class='header'>CALIDAD</li>";
 
                     //adminsitración de equipos
-                    $calidadm = ($_SESSION['menu']=='control_calidad') ? 'active' : '';
-                    $calidadsm = ($_SESSION['submenu']=='control_calidad') ? 'active' : '';                    
+                    $calidadm = ($_SESSION['menu']=='control_calidadc') ? 'active' : '';
+                    $calidadsm = ($_SESSION['submenu']=='control_calidadc') ? 'active' : '';                    
                     //$calidadspc = ($_SESSION['submenu']=='pulsocalidad') ? 'active' : '';
                     $calidadsb=($_SESSION['submenu']=='bajas') ? 'active' : '';                    
-                    $calidadsi=($_SESSION['submenu']=='inventario') ? 'active' : '';
-                    $historialcsm = ($_SESSION['submenu']=='historialm') ? 'active' : '';
-                    $historialcsv = ($_SESSION['submenu']=='historialv') ? 'active' : '';
+                    $calidadsi=($_SESSION['submenu']=='inventarioc') ? 'active' : '';
+                    $historialcsm = ($_SESSION['submenu']=='historialcm') ? 'active' : '';
+                    $historialcsv = ($_SESSION['submenu']=='historialcv') ? 'active' : '';
 
                     echo "<li class='". $calidadm ." treeview'>
                     <a href='#'>
-                        <i class='fa fa-calendar-check-o'></i> <span>Control de Calidad</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
+                        <i class='fa fa fa-wrench'></i> <span>Control | Dep. Calibracion</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
                     </a>
                     <ul class='treeview-menu'>                                                                        
-                        <li class='". $calidadsm ."'><a href='?c=control_calidad'><i class='fa fa-calendar-o'></i> Control de Equipos</a></li>
-                        <li class='". $calidadsi ."'><a href='?c=inventario'><i class='fa fa-cubes'></i> Inventario</a></li>
-                        <li class='". $calidadsb ."'><a href='?c=control_calidad&a=bajas'><i class='fa fa-toggle-off'></i> Baja MPC</a></li>
-                        <li class='". $historialcsm ."'><a href='?c=historialm'><i class='fa fa-archive'></i> Historial Mantenimiento</a></li>
-                        <li class='". $historialcsv ."'><a href='?c=historialv'><i class='fa fa-archive'></i> Historial Verificación</a></li>
+                        <li class='". $calidadsm ."'><a href='?c=control_calidadc'><i class='fa fa-calendar-o'></i> Control de Equipos</a></li>
+                        <li class='". $calidadsi ."'><a href='?c=inventarioc'><i class='fa fa-cubes'></i> Inventario</a></li>
+                        <li class='". $calidadsb ."'><a href='?c=control_calidadc&a=bajas'><i class='fa fa-toggle-off'></i> Baja MPC</a></li>
+                        <li class='". $historialcsm ."'><a href='?c=historialcm'><i class='fa fa-archive'></i> Historial Mantenimiento</a></li>
+                        <li class='". $historialcsv ."'><a href='?c=historialcv'><i class='fa fa-archive'></i> Historial Verificación</a></li>
                     </ul>
                 </li>";
 
                 //<li class='".$calidadspc ."'><a href='?c=control_calidad&a=pulsocalidad'><i class='fa fa-heartbeat'></i> Pulso Calidad</a></li>
+                
+                //adminsitración de equipos de pruebas electricas
+                $calidadmpe = ($_SESSION['menu']=='control_pruebaelect') ? 'active' : '';
+                $calidadsmpe = ($_SESSION['submenu']=='control_pruebaelect') ? 'active' : '';                    
+                //$calidadspc = ($_SESSION['submenu']=='pulsocalidad') ? 'active' : '';
+                $calidadsbpe=($_SESSION['submenu']=='bajas') ? 'active' : '';                    
+                $calidadsipe=($_SESSION['submenu']=='inventariope') ? 'active' : '';
+                $historialpesm = ($_SESSION['submenu']=='historialpem') ? 'active' : '';
+                $historialpesv = ($_SESSION['submenu']=='historialpev') ? 'active' : '';
 
-
+                echo "<li class='". $calidadmpe ." treeview'>
+                    <a href='#'>
+                        <i class='fa fa fa-plug'></i> <span>Control | Dep. Pruebas E.</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
+                    </a>
+                    <ul class='treeview-menu'>                                                                        
+                        <li class='". $calidadsmpe ."'><a href='?c=control_pruebaelect'><i class='fa fa-calendar-o'></i> Control de Equipos</a></li>
+                        <li class='". $calidadsipe ."'><a href='?c=inventariope'><i class='fa fa-cubes'></i> Inventario</a></li>
+                        <li class='". $calidadsbpe ."'><a href='?c=control_pruebaelect&a=bajas'><i class='fa fa-toggle-off'></i> Baja MPC</a></li>
+                        <li class='". $historialpesm ."'><a href='?c=historialpem'><i class='fa fa-archive'></i> Historial Mantenimiento</a></li>
+                        <li class='". $historialpesv ."'><a href='?c=historialpev'><i class='fa fa-archive'></i> Historial Verificación</a></li>
+                    </ul>
+                </li>";
+                
             }
             ?>
             <!-- Módulos de administración  -->
@@ -183,7 +204,7 @@
                             </a>
                             <ul class='treeview-menu'>
                                 <li class='". $equipossm ."'><a href='?c=equipos'><i class='fa fa-database'></i> Equipos</a></li>
-                                <li class='". $descripcionsm ."'><a href='?c=equipos_descripciones'><i class='fa fa-font'></i> Descripcion de equipos</a></li>
+                                <li class='". $descripcionsm ."'><a href='?c=equipos_descripciones'><i class='fa fa-font'></i> Descripción de equipos</a></li>
                                 <li class='". $marcasm ."'><a href='?c=equipos_marcas'><i class='fa fa-tags'></i>Marcas de equipos</a></li>
                                 <li class='". $modelosm ."'><a href='?c=equipos_modelos'><i class='fa fa-list'></i>Modelos de equipos</a></li>
                             </ul>
@@ -211,7 +232,7 @@
                     $ciudadsm = ($_SESSION['submenu']=='ciudades') ? 'active' : '';
                     $tipocalsm = ($_SESSION['submenu']=='calibraciones') ? 'active' : '';
                     $sucursalsm = ($_SESSION['submenu']=='sucursales') ? 'active' : '';
-                    $acreditacionsm = ($_SESSION['submenu']=='acreditacion') ? 'active' : '';
+                    $acreditacionsm = ($_SESSION['submenu']=='acreditaciones') ? 'active' : '';
                     echo "<li class='". $modulosm ." treeview'>
                         <a href='#'>
                             <i class='fa fa-th'></i> <span>Módulos</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>

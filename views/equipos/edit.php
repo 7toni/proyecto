@@ -205,7 +205,8 @@
                         "<div class='form-group' name='alerta_validacion'> <div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + "Campo requerido,favor de ingresar información. Intente una vez más." + "</div>" + "</div>" + "</div>");                    
                     }                
                 }
-                /* Submit de acceso */                        
+                /* Submit de acceso */ 
+                                       
         </script>       
     </body>
 </html>

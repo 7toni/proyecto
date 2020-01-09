@@ -26,11 +26,13 @@ class SalidaController {
         $id=$_GET['p'];
         $view_informes="view_informes". $this->ext; 
         $data['equipo'] = $this->model['informes']->datos_equipo($id); 
-        $data['cliente'] = $this->model['informes']->datos_cliente($id); 
-        
+        $data['cliente'] = $this->model['informes']->datos_cliente($id);                 
+            
         $cliente= $data['cliente'][0]['cliente'];
 
-        $data['get']=$this->model['informes']->get_salida($id, $view_informes);
+        $data['get']=$this->model['informes']->get_salida($id, $view_informes);           
+        $planta =$data['get'][0]['plantas_id'];
+
         $idpo= strtolower($data['get'][0]['po_id']);
         if($idpo == "pendiente" || $idpo == "n/a" || $idpo == "no existe" || $idpo == "sin orden"){          
           $totalfact=0;
@@ -41,14 +43,15 @@ class SalidaController {
         }
         else{       
           $cantidadpo= $data['get'][0]['cantidad'];
-          $temp_POt=$this->model['po']->get_countPO($idpo, $view_informes);
-          $countpototal= $temp_POt[0]['total'];
-          //po_total_listo
-          $temp_POtl=$this->model['po']->get_countPOlisto($idpo, $view_informes);
-          $countpolisto= $temp_POtl[0]['total'];
 
-          $countfact=$this->model['informes']->get_countfactura($idpo, $view_informes);
-          $totalfact= $countfact[0]['total'];
+          $temp_POt=$this->model['po']->get_countPO($idpo, $planta, $view_informes);
+          $countpototal= $temp_POt[0]['total'];          
+          //po_total_listo
+          $temp_POtl=$this->model['po']->get_countPOlisto($idpo, $planta, $view_informes);
+          $countpolisto= $temp_POtl[0]['total'];
+          
+          $countfact=$this->model['informes']->get_countfactura($idpo, $planta, $view_informes);
+          $totalfact= $countfact[0]['total'];          
         }
         
         if ($data['get'][0]['proceso']> 1) {
@@ -182,8 +185,8 @@ class SalidaController {
     echo json_encode($data);
   }
 
-  public function _sendemail(){
-
+  public function _sendemail(){    
+    $view="view_informes". $this->ext;    
     $data = [
           'po' => $_POST['po'],
           'cliente' => ($_POST['cliente']==",") ?  "": $_POST['cliente'],
@@ -191,15 +194,15 @@ class SalidaController {
           'comentarios' => $_POST['comentarios'],
           'dataid' => $_POST['data'],
           'urgente' => ($_POST['check_urgente']==1) ?  "URGENTE": "",
-        ];    
-
-      $query = "SELECT id,alias as idequipo,descripcion,precio,precio_extra, moneda FROM ".$view." where  id In (". $data['dataid'] .") order by id asc;";
-      $data['tabla']= $this->model['informes']->get_query_informe($query);     
+        ];   
+                
+      $query = "SELECT id,alias as idequipo,descripcion,precio,precio_extra, moneda FROM ".$view." where id In (". $data['dataid'] .") order by id asc;";
+      $data['tabla']= $this->model['informes']->get_query_informe($query);            
           
       $data['body']=EnvioCorreo::_bodyinvoice($data);            
      
       $data['email']= "facturacion@mypsa.mx";
-      //$data['email']= "test@mypsa.com.mx";
+     // $data['email']= "otoniel.hernandez@mypsa.com.mx";
       $data['nombre']= "Factura_Mypsa";
       $data['cc'] = array(
                         'email' => array(Session::get('email')), 
@@ -209,7 +212,7 @@ class SalidaController {
       $data['cco'] = array(
                         'email' => array('bitacora.soporte@mypsa.com.mx','drodriguez@mypsa.mx','mvega@mypsa.mx'), 
                         'alias' => array('Bitacora S.','Dulce R.','Manuel V.'),                       
-                    );
+                    );                   
 
       $data['asunto']= $data['urgente']." Solicitud de factura | PO : {$data['po']}. Sucursal: {$sucursal}";
 

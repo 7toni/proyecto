@@ -41,7 +41,7 @@
                               ?></ul>
                       </div>
                     <?php } ?>
-                    <form method="POST" novalidate="" autocomplete="off"  action="?c=<?php echo $this->name; ?>&a=store" role="form" enctype="multipart/form-data">
+                    <form method="POST" novalidate="" autocomplete="off" action="?c=<?php echo $this->name; ?>&a=store" role="form" enctype="multipart/form-data">
                     <!-- Consulta del id del equipo/ generar número de informe-->                    
                     <div class="row">
                         <div class="col-lg-6">
@@ -153,45 +153,7 @@
                     <!-- Alerta para la validacion de equipos en proceso de calibracion o recien calibrados -->
                     <div class="row">
                       <div class="col-lg-12" id="alerta_informevalidacion">                        
-                      </div>
-                       <!-- /.modal -->
-                          <div class="modal fade" id="modal-default">
-                            <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">Confirmar permiso</h4>
-                                </div>
-                                <div class="modal-body box box-info"> 
-                                    <form id="form_acceso" name="form_acceso" action="#" >
-                                        <div class="box-body">
-                                            <div class="form-group">
-                                            <label for="email">* Correo</label>
-                                            <input type="email" class="form-control" id="email" name="email" placeholder="Ingresar Correo">
-                                            </div>
-                                            <div class="form-group">
-                                            <label for="password">* Contraseña</label>
-                                            <input type="password" class="form-control" id="password" name="password" placeholder="Ingresar Contraseña">
-                                            </div>
-                                            <p id="validacion"></p>                                                    
-                                        </div>
-                                        
-                                        <!-- /.box-body -->
-                                        <div class="box-footer">
-                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>  
-                                        <button type="button" id="submit" class="btn btn-primary pull-right" onclick="submit_acceso()"> Enviar </button>                         
-                                        </div>                                                    
-                                    </form> 
-                                    
-                                </div>
-                            
-                            </div>
-                            <!-- /.modal-content -->
-                            </div>
-                            <!-- /.modal-dialog -->
-                        </div>
-                      <!-- /.modal -->
+                      </div>                      
                     </div>
 
                      <!-- Muestra y seleccionar equipo y la empresa-->
@@ -233,7 +195,7 @@
                                               $disabled="disabled";
                                           }   
                                           echo '<tr>';  
-                                          echo '<td ><label> <input type="radio" name="equipos_id" value="'.$data['get'][0]['idequipo'] .'" checked '. $disabled .'></label></td>'; 
+                                          echo '<td ><label> <input type="radio" name="equipos_id" class="minimal" value="'.$data['get'][0]['idequipo'] .'" checked '. $disabled .'></label></td>'; 
                                           echo '<td >'.$data['get'][0]['equipos_id'] .'</td>';
                                           echo '<td >'.$data['get'][0]['descripcion'] .'</td>';
                                           echo '<td >'.$data['get'][0]['marca'] .'</td>';
@@ -447,9 +409,9 @@
                                   <div class="box-header">
                                   <h3 class="box-title">Datos de P.O</h3>
                                    <div class="box-tools">
-                                        <button onclick="opciones_po('registrar')" class="btn btn-success btn-xs pull-right" id="btn_registrar_po">Registrar</button> 
-                                        <button onclick="opciones_po('pendiente')" class="btn btn-warning btn-xs pull-right" id="btn_pendiente_po">Pendiente</button> 
-                                        <button onclick="opciones_po('no_registrar')" class="btn btn-danger btn-xs pull-right" id="btn_noregistrar_po">No registrar</button>                                        
+                                        <button class="btn btn-success btn-xs pull-right" id="btn_registrar_po">Registrar</button> 
+                                        <button class="btn btn-warning btn-xs pull-right" id="btn_pendiente_po">Pendiente</button> 
+                                        <button class="btn btn-danger btn-xs pull-right" id="btn_noregistrar_po">No registrar</button>                                        
                                     </div>
                                   </div>
                                   <div class="box-body form-horizontal">                                 
@@ -483,8 +445,8 @@
                                   <div class="box-header">
                                   <h3 class="box-title">Hoja de entrada</h3>
                                    <div class="box-tools">
-                                        <button onclick="opciones_hoja_entrada('registrar')" class="btn btn-success btn-xs pull-right" id="btn_registrar_hojae">Registrar</button> 
-                                        <button onclick="opciones_hoja_entrada('no_registrar')" class="btn btn-danger btn-xs pull-right" id="btn_noregistrar_hojae">No registrar</button>
+                                        <button class="btn btn-success btn-xs pull-right" id="btn_registrar_hojae">Registrar</button> 
+                                        <button class="btn btn-danger btn-xs pull-right" id="btn_noregistrar_hojae">No registrar</button>
                                     </div>
                                   </div>
                                   <div class="box-body form-horizontal">                                 
@@ -537,59 +499,53 @@
                                   </div>                               
                             </div>  
                          </div>
-                    </div> 
-                    </form>                   
+                    </div>                      
+                    </form>
+                    <!-- /.modal -->
+                      <div class="modal fade" id="modal-default">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Confirmar permiso</h4>
+                            </div>
+                            <div class="modal-body box box-info">                                     
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                        <label for="email">* Correo</label>
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Ingresar Correo">
+                                        </div>
+                                        <div class="form-group">
+                                        <label for="password">* Contraseña</label>
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Ingresar Contraseña">
+                                        </div>
+                                        <p id="validacion"></p>                                                    
+                                    </div>
+                                    
+                                    <!-- /.box-body -->
+                                    <div class="box-footer">
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>  
+                                    <button type="button" id="submit" class="btn btn-primary pull-right" onclick="submit_acceso()"> Enviar </button>                         
+                                    </div>                                                                                                                            
+                            </div>
+                        
+                        </div>
+                        <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                      </div>
+                    <!-- /.modal -->
+
+                    
+
                 </section>
             </div>                                                      
             <?php importView('_static.footer'); ?>
         </div>    
         <script>
             var controller = "<?php echo $this->name; ?>";   
-        </script>
-        <script type="text/javascript">                      
-            /* Submit de acceso */
-             function submit_acceso() {
-                var email = document.getElementById("email").value;
-                var password = document.getElementById("password").value; 
-                var validado= true;                 
-                
-                if(email =="" || email === null ){validado=false;}
-                if(password== "" || password === null ){validado=false;}
-                
-                if(validado == true){
-                    var $logModal = $('#modal-default');
-                    var parametro= {                  
-                        'email': email.trim(),
-                        'password': password.trim()
-                    };
-                    $.ajax({
-                        url: "?c=login&a=ajax_load_acceso",
-                        dataType: "json",
-                        method: "POST",
-                        data: parametro
-                    }).done(function(data) {
-                        var datos = data;
-                        if(datos=="exitoso"){
-                            $('[type="submit"]').removeAttr('disabled');
-                            $logModal.modal('hide');
-                            $("[name='informevalidacion']").remove();
-                        }
-                        else{
-                            $("[name='alerta_validacion']").remove();
-                            $("#validacion").before(
-                            "<div class='form-group' name='alerta_validacion'> <div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + datos + "</div>" + "</div>" + "</div>");                    
-                        }                                           
-                    }).fail(function(data) {}).always(function(data) {
-                        //console.log(data);             
-                    });                                           
-                }else{
-                    $("[name='alerta_validacion']").remove();
-                    $("#validacion").before(
-                    "<div class='form-group' name='alerta_validacion'> <div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + "Campo requerido,favor de ingresar información. Intente una vez más." + "</div>" + "</div>" + "</div>");                    
-                }              
-            }
-            /* Submit de acceso */
-        </script>
+        </script>       
         <?php importView('_static.scripts'); ?>       
     </body>
 </html>

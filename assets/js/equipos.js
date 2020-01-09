@@ -1,13 +1,14 @@
 function BuscarSerie(val) {
-    var value= val.toLowerCase();
-
-    if (value !="" || value !="sin serie" || value !="n/a") {                    
-        
+    var value= val.toLowerCase().trim();    
+    if(value ==""){}
+    else if(value =='sin serie'){}
+    else if(value =='n/a'){}
+    else{
         $.ajax({
-        url: "?c=equipos&a=ajax_load_validacionserie",
-        dataType: "json",
-        method: "POST",
-        data: "serie="+value
+            url: "?c=equipos&a=ajax_load_validacionserie",
+            dataType: "json",
+            method: "POST",
+            data: "serie="+value
         }).done(function(data) {
         var datos = data;        
         if(datos.length > 0){
@@ -62,6 +63,10 @@ function BuscarSerie(val) {
         
         }).fail(function(data) {}).always(function(data) {
             //console.log(data);
-        });                    
-    }                
+        }); 
+    }
+    
+
+                           
+                  
 }

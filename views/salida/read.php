@@ -179,7 +179,7 @@
                                             <th style='width: 20%; text-align: center;'><span data-toggle='tooltip' title='' data-original-title='Total de equipos que corresponden al PO.'> Total </span></th>
                                             <th style='width: 20%; text-align: center;'><span data-toggle='tooltip' title='' data-original-title='Total de equipos que ya se ecuentran facturados.'> Facturados </span></th>
                                             <th style='width: 20%; text-align: center;'><span data-toggle='tooltip' title='' data-original-title='Son los equipos restantes por facturar, se calcula del total de equipos, menos los equipos ya facturados.'> No Facturados </span></th>
-                                            <th style='width: 20%; text-align: center;'><span data-toggle='tooltip' title='' data-original-title='Son equipos que ya fueron calibrados, por lo tanto están disponibles para enviar a facturar.'> Pendientes </span></th>
+                                            <th style='width: 20%; text-align: center;'><span data-toggle='tooltip' title='' data-original-title='Son equipos que ya fueron calibrados, por lo tanto están disponibles para enviar a facturar.'>Equipos para facturar</span></th>
                                           </tr>
                                           <tr>
                                             <td align='center'><span class='badge bg-green'>". $idpo ."</span></td>
@@ -216,23 +216,22 @@
                                                      <tr>                                     
                                                        <th><input name='select_all' value='1' type='checkbox'></th>
                                                        <th>Informe</th>
+                                                       <th>Id Equipo</th>
                                                        <th>Descripción</th>
-                                                       <th>Descripción</th>
-                                                       <th>Descripción</th>
-                                                      <th>Marca</th>
+                                                       <th>Marca</th>
                                                       <th>Modelo</th>
-                                                      <th>Serie</th>
+                                                      <th>Serie</th>                                                      
                                                     </tr>
                                                   </thead>
                                                   <tfoot>
                                                     <tr>                             
                                                       <th></th>
                                                       <th>Informe</th>
-                                                      <th>Id equipo</th>
+                                                      <th>Id Equipo</th>
                                                       <th>Descripción</th>
                                                       <th>Marca</th>
                                                       <th>Modelo</th>
-                                                      <th>Serie</th>
+                                                      <th>Serie</th>  
                                                     </tr>
                                                   </tfoot>
                                                 </table>
@@ -424,8 +423,8 @@
 
           // for( var value of parametro.values()){
           //   console.log(value);
-          // }                  
-
+          // } 
+                    
           $.ajax({
               url: '?c=salida&a=_sendemail',
               data: parametro,

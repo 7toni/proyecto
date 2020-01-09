@@ -46,4 +46,12 @@ class Model extends Db {
         return $this->delete($data);
     }
 
+    public function count($data,$view = null) {
+        if ($view == null) {
+            return $this->count_simple($data);
+        } else {
+            return $this->count_simple($data,$view);
+        }        
+    }
+
 }

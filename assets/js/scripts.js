@@ -346,8 +346,6 @@
 
         });
 
-
-
         $('.select2Empresa').select2({
             language: "es",
             placeholder: 'Seleccione una opción',
@@ -419,11 +417,13 @@
             autoclose: true,
             format: 'yyyy-mm-dd'
         }).datepicker('setDate', 'today');
+
         /* Esta opcion es para cuando en un campo se pone la fecha desde php */
         $('.datepicker_aux').datepicker({
             autoclose: true,
             format: 'yyyy-mm-dd'
-        });    
+        }); 
+
         /* Datarange libreria*/
         $('#daterange-text').daterangepicker(
             {
@@ -442,7 +442,7 @@
             function (start, end) {
           $('#daterange-text span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
             }
-        );
+        );                
        
         //iCheck for checkbox and radio inputs
         $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
@@ -462,7 +462,7 @@
         
          /* Home Reportes Productividad  */  
         $("#nombre_suc").on('change', sucursalxtec_ajax);            
-        /* End Reportes productividad */
+        /* End Reportes productividad */        
 
     });
 

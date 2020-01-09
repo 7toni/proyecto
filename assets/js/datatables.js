@@ -1,11 +1,12 @@
 $(document).ready(function () {
     if (typeof controller != 'undefined') {
-        var _arrayCtrl=controller.split(" "); 
+        var _arrayCtrl=controller.split(" ");        
 
-        $('#table tfoot th').each( function () {
-            var title = $(this).text();
-            $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
-        } );
+        $('#table thead tr').clone(true).appendTo( '#table thead' );
+            $('#table thead tr:eq(1) th').each( function () {
+                var title = $(this).text();
+                $(this).html( '<input type="text" style="width:100%; font-size:11px;" placeholder="'+title+'" />' );                        
+            } );
 
         var table = $('#table').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,            
@@ -14,7 +15,7 @@ $(document).ready(function () {
             "dataType": "jsonp",
             "lengthMenu": [[15, 20, 50,100,200,500,1000,3000, -1], [15, 20, 50,100,200,500,1000,3000, "All"]],
             "autoWidth": true,           
-            "scrollX": true,
+            "scrollX": true,            
             dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
             buttons: [
              {               
@@ -86,9 +87,10 @@ $(document).ready(function () {
             ],
             fixedColumns: {
                 leftColumns: 2
-            },
-            "columnDefs": [
-                { "width": "90px", "targets": -1 },
+            },fixedHeader: true,
+            "columnDefs": [                
+                { "searchable": false, "targets": -1 },
+                { "targets": -1 ,  "orderable" : false },
                 {
                     "targets": -1,
                     "data": null,
@@ -121,17 +123,15 @@ $(document).ready(function () {
         });
 
         table.columns().every( function () {
-                    var that = this;
-             
-                    $( 'input', this.footer() ).on( 'keyup change', function () {
-                        if ( that.search() !== this.value ) {
-                            that
-                                .search( this.value )
-                                .draw();
-                        }
-                    } );
-                } );
-
+            var that = this;
+            $( 'input', this.header() ).on( 'keyup change', function () {
+                if ( that.search() !== this.value ) {
+                    that                        
+                        .search(this.value)
+                        .draw();
+                }
+            });
+        });
 
         $('#table tbody').on('click', 'a', function () {
             var data = table.row($(this).parents('tr')).data();
@@ -141,14 +141,12 @@ $(document).ready(function () {
                 window.location.replace("?c=" + controller + "&a=delete&p=" + data[0]);
             }
         });
-
-
-         $('#table_informes tfoot th').each( function () {
-            //var title = $(this).text();            
-            var title = $('#table_informes thead th').eq( $(this).index() ).text();
-
-            $(this).append( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );            
-        } );
+        
+            $('#table_informes thead tr').clone(true).appendTo( '#table_informes thead' );
+            $('#table_informes thead tr:eq(1) th').each( function () {
+                var title = $(this).text();
+                $(this).html( '<input type="text" style="font-size:11px;" placeholder="'+title+'" />' );                        
+            } );
 
         var table_informes = $('#table_informes').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
@@ -156,9 +154,11 @@ $(document).ready(function () {
             "processing": true,
             "serverSide": true,
             "dataType": "jsonp",
-            "lengthMenu":[[15, 20, 50,100,200,500,1000,3000, -1], [15, 20, 50,100,200,500,1000,3000, "All"]],
+            "lengthMenu":[[10, 20, 50,100,200,500,1000,3000], [10, 20, 50,100,200,500,1000,3000]],
             "autoWidth": true,
-            "scrollX": true,            
+            "scrollX": true,                    
+            "responsive": true,
+            "ordering": true,                        
             dom: '<"pull-left"l>fr<"dt-buttons"B>Ztip',
             "order": [[ 1, "desc" ]],
             buttons: [
@@ -227,6 +227,8 @@ $(document).ready(function () {
                     }}
             ],            
             "columnDefs": [
+                {"searchable": false, "targets": [-1,-2] },
+                {"orderable" : false, "targets": [-1,-2] },
                 { "targets":[7], "visible":true}, 
                 {
                     //"width": "150px",
@@ -240,7 +242,7 @@ $(document).ready(function () {
                     }
                 },
                 {"targets":[29], "visible":false},
-                { "width": "70px", "targets": [-1,-2] },                           
+                //{ "width": "70px", "targets": [-1,-2] },                           
                 {   
                     "targets": -2,                                 
                     "render": function(data,type, row){
@@ -251,9 +253,7 @@ $(document).ready(function () {
                         else{
                           return "<a href='#'  class='btn btn-social-icon badge bg-green disabled' data-original-title='ver informe'><i class='fa fa-file-pdf-o'></i></a>";  
                         }                        
-                    },
-                    "orderable" : false,
-                    "searchable": false,
+                    },                    
                 },
                 {   "width": "50px",             
                     "targets": 31, //Proceso
@@ -264,9 +264,7 @@ $(document).ready(function () {
                        "<div class='progress-bar progress-bar-"+ color[row[31]]+"' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100' style='width:"+(parseInt(row[31])*100)/4+"%; color:"+ text_color[row[31]]+"'> "+(parseInt(row[31])*100)/4+"% </div>"+                    
                        "</div>";                   
                        return  menu;
-                   },
-                    "orderable" : false,
-                    "searchable": false,
+                   }
                    },                
                 {
                     "targets": -1, //
@@ -292,10 +290,9 @@ $(document).ready(function () {
                     "<a href='#' id='btn_factura' class='btn btn-social-icon badge bg-navy "+ enable[proceso][3] +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";   
                     }
                         return  menu;                     
-                    },
-                "orderable" : false,
-                "searchable": false,
-                }], "language": {
+                    }
+            }],
+            "language": {
                 "sProcessing": "Procesando...",
                 "sLengthMenu": "Mostrar _MENU_ registros",
                 "sZeroRecords": "No se encontraron resultados",
@@ -321,23 +318,22 @@ $(document).ready(function () {
             }
         }); 
 
-
         table_informes.columns().every( function () {
             var that = this;
-            $( 'input', this.footer() ).on( 'keyup change', function () {
+            $( 'input', this.header() ).on( 'keyup change', function () {
                 if ( that.search() !== this.value ) {
-                    that
-                        .search( this.value )
+                    that                        
+                        .search(this.value)
                         .draw();
-                    }
-                });
+                }
             });
-
-
-         $('#table_proceso tfoot th').each( function () {
+        });
+            
+        $('#table_proceso thead tr').clone(true).appendTo( '#table_proceso thead' );
+        $('#table_proceso thead tr:eq(1) th').each( function () {
             var title = $(this).text();
-            $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
-        } );
+            $(this).html( '<input type="text" style="font-size:11px;" placeholder="'+title+'" />' );                        
+        } );        
 
         var table_proceso = $('#table_proceso').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
@@ -345,11 +341,9 @@ $(document).ready(function () {
             "processing": true,
             "serverSide": true,
             "dataType": "jsonp",
-            "lengthMenu": [[15, 20, 50,100,200,500,1000,3000, -1], [15, 20, 50,100,200,500,1000,3000, "All"]],
-            "autoWidth": true,
-            "scrollX": true,
-            "responsive": true,
-            "ordering": true,           
+            "lengthMenu": [[10, 20, 50,100,200,500,1000,3000], [10, 20, 50,100,200,500,1000,3000]],
+            "autoWidth": true,            
+            "scrollX": true,                                                                          
             dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
             "order": [[ 1, "desc" ]],
             buttons: [
@@ -360,9 +354,9 @@ $(document).ready(function () {
                         columns: [':not(:last-child)' ]
                     },                    
                 }
-            ], 
+            ],            
             //fixedColumns: true,           
-            "rowCallback": function( row, data, index ) {                      
+            "rowCallback": function( row, data, index ) {
                 var prioridad = parseInt(data[32]),
                     entregado= (data[33]),
                     proceso= parseInt(data[31]),                 
@@ -374,7 +368,9 @@ $(document).ready(function () {
                      $node.addClass('bg-light-blue')
                   }
               },
-            "columnDefs": [              
+            "columnDefs": [
+                {"searchable": false, "targets": [-1,-2] },
+                {"orderable" : false, "targets": [-1,-2] },
                 { "targets":[7], "visible":true}, 
                 {
                     //"width": "150px",
@@ -387,7 +383,7 @@ $(document).ready(function () {
                      return planta;                     
                     }
                 },  
-                {"targets":[29], "visible":false},
+                {"targets":[29], "visible":false},                
                 {                 
                  "targets": 31, //Proceso
                  "render": function(data,type, row){                     
@@ -397,11 +393,8 @@ $(document).ready(function () {
                     "<div class='progress-bar progress-bar-"+ color[row[31]]+"' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100' style='width:"+(parseInt(row[31])*100)/4+"%; color:"+ text_color[row[31]]+"'> "+(parseInt(row[31])*100)/4+"% </div>"+                    
                     "</div>";                   
                     return  menu;
-                },
-                "orderable" : false,
-                "searchable": false,
-                },                           
-                { "width": "60px", "targets": [-1,-2] },
+                }
+                },                                           
                 {
                     "targets": -1, //
                     "render": function(data,type, row){
@@ -428,50 +421,52 @@ $(document).ready(function () {
                     "<a href='#' id='btn_factura'  class='btn btn-social-icon badge bg-navy "+ disabledf  +"' title='Facturación'><i class='fa fa-file-archive-o'></i></a>";                
                     }                        
                     return  menu;
-                }} 
-
-                ],
-                "language": {
-                    "sProcessing": "Procesando...",
-                    "sLengthMenu": "Mostrar _MENU_ registros",
-                    "sZeroRecords": "No se encontraron resultados",
-                    "sEmptyTable": "Ningún dato disponible en esta tabla",
-                    "sInfo": "Mostrando registros de _START_ a _END_ de un total de _TOTAL_ registros",
-                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                    "sInfoPostFix": "",
-                    "sSearch": "Buscar:",
-                    "sUrl": "",
-                    "sInfoThousands": ",",
-                    "sLoadingRecords": "Cargando...",
-                    "oPaginate": {
-                        "sFirst": "Primero",
-                        "sLast": "Último",
-                        "sNext": "Siguiente",
-                        "sPrevious": "Anterior"
-                    },
-                    "oAria": {
-                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                    }
                 }
+            } 
+
+            ],
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros de _START_ a _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
         }); 
-              
+           
         table_proceso.columns().every( function () {
             var that = this;
-            $( 'input', this.footer() ).on( 'keyup change', function () {
+            $( 'input', this.header() ).on( 'keyup change', function () {
                 if ( that.search() !== this.value ) {
-                    that
-                        .search( this.value )
+                    that                        
+                        .search(this.value)
                         .draw();
-                    }
-                });
+                }
             });
+        });
 
-         $('#table_calibrar tfoot th').each( function () {
-            var title = $(this).text();
-            $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
-        } );
+        $('#table_calibrar thead tr').clone(true).appendTo( '#table_calibrar thead' );
+            $('#table_calibrar thead tr:eq(1) th').each( function () {
+                var title = $(this).text();
+                $(this).html( '<input type="text" style="font-size:11px;" placeholder="'+title+'" />' );                        
+            } );  
 
         var table_calibrar = $('#table_calibrar').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
@@ -556,19 +551,19 @@ $(document).ready(function () {
                         "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                     }
                 }
-        });   
-
+        });
+        
         table_calibrar.columns().every( function () {
             var that = this;
-            $( 'input', this.footer() ).on( 'keyup change', function () {
+            $( 'input', this.header() ).on( 'keyup change', function () {
                 if ( that.search() !== this.value ) {
-                    that
-                        .search( this.value )
+                    that                        
+                        .search(this.value)
                         .draw();
-                    }
-                });
-            }); 
-
+                }
+            });
+        });
+         
         var table_clientes = $('#table_clientes').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,            
             "processing": true,
@@ -727,21 +722,21 @@ $(document).ready(function () {
             //     }                                        
             //   },
             "columnDefs": [                
-                //{ "targets":[6], "visible":false},
+                { "targets":[6], "visible":false},
                 {                                                   
                     "render": function(data,type, row){ 
                         var suma= row[13] + row[14];
                          return suma; 
                         },
-                        "targets": -2                                    
+                        "targets": -3                                   
                 },
                 {                                                   
                     "render": function(data,type, row){ 
                         var proceso= ["","","Calibrado","Entregado","Terminado"];
 
-                         return proceso[row[15]]; 
+                         return proceso[row[16]]; 
                         },
-                        "targets": -1                                    
+                        "targets": -2                                    
                 }
             ],"language": {
                 "sProcessing": "Procesando...",
@@ -787,20 +782,20 @@ $(document).ready(function () {
                 } ],
             fixedColumns: true,
             "rowCallback": function( row, data, index ) {                      
-                var activo = parseInt(data[6]), 
+                var activo = parseInt(data[6]),
                 $node = this.api().row(row).nodes().to$();
                 if (activo = 0) {
                      $node.addClass('bg-red')
                 }                                        
               },
             "columnDefs": [                
-                { "targets":[6,17], "visible":false},
+                { "targets":[6], "visible":false},
                 {                                                   
                     "render": function(data,type, row){ 
                         var suma= row[14] + row[15];
                          return suma; 
                         },
-                        "targets": -3                                    
+                        "targets": 16
                 },                
             ],"language": {
                 "sProcessing": "Procesando...",
@@ -832,233 +827,8 @@ $(document).ready(function () {
         var badge= ["bg-red","bg-green"];
         var label= ["label-danger","label-success"];
         var hoy= moment().format('YYYY-MM-DD');
-        var nextmonth= moment(hoy).add(1,'months').format('YYYY-MM-DD');
-                       
-        $('#table_historialm tfoot th').each( function () {
-            var title = $(this).text();
-            //var title = $('#table_historialm thead th').eq( $(this).index() ).text();
-            $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder="'+title+'" />' );
-        } );
-        
-        var table_historialm = $('#table_historialm').DataTable({
-            "ajax": "assets/php/server_processing.php?controller=" + controller,            
-            "processing": true,
-            "serverSide": true,
-            "dataType": "jsonp",
-            "lengthMenu": [[15, 20, 50,100,200,500,1000,3000, -1], [15, 20, 50,100,200,500,1000,3000, "All"]],
-            "autoWidth": true,
-            "scrollX": true,                       
-            "scrollY":  '50vh',
-            "scrollCollapse": true,
-            dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
-            buttons: [
-                 {
-                    extend: 'excel',
-                    text: 'Excel',
-                    exportOptions: {
-                        columns: [':not(:last-child)' ]
-                    },
-                }                
-            ],
-            fixedColumns: true,            
-            "columnDefs": [
-                { "width": "90px", "targets": -1 },
-                {
-                    "targets": -1,
-                    "data": null,                    
-                    "render": function(data,type, row){
-                        return "<a href='?c=historialm&a=edit&p="+ row[0]+"' data-type='edit' class='btn btn-xs btn-primary btn-flat'>Editar</a> <a href='?c=historialm&a=delete&p="+ row[0]+"' data-type='delete' class='btn btn-xs btn-danger btn-flat'>Eliminar</a>"
-                    }
-                
-                },
-                { "targets": [1,7],"visible":false },
-                                               
-            ],"language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún dato disponible en esta tabla",
-                "sInfo": "Mostrando registros de _START_ a _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }
-        });
-
-        table_historialm.columns().every( function () {
-            var that = this;
-            $( 'input', this.footer() ).on( 'keyup change', function () {
-                if ( that.search() !== this.value ) {
-                    that
-                        .search( this.value )
-                        .draw();
-                    }
-                });
-        });
-
-        $('#table_historialv tfoot th').each( function () {
-            var title = $(this).text();
-            $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder="'+title+'" />' );
-        } );
-        
-        var table_historialv = $('#table_historialv').DataTable({
-            "ajax": "assets/php/server_processing.php?controller=" + controller,            
-            "processing": true,
-            "serverSide": true,
-            "dataType": "jsonp",
-            "lengthMenu": [[15, 20, 50,100,200,500,1000,3000, -1], [15, 20, 50,100,200,500,1000,3000, "All"]],
-            "autoWidth": true,
-            "scrollX": true,                       
-            "scrollY":  '50vh',
-            "scrollCollapse": true,
-            dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
-            buttons: [
-                 {
-                    extend: 'excel',
-                    text: 'Excel',
-                    exportOptions: {
-                        columns: [':not(:last-child)' ]
-                    },
-                }                
-            ],
-            fixedColumns: true,            
-            "columnDefs": [
-                { "width": "90px", "targets": -1 },
-                {
-                    "targets": -1,
-                    "data": null,                    
-                    "render": function(data,type, row){
-                        return "<a href='?c=historialv&a=edit&p="+ row[0]+"' data-type='edit' class='btn btn-xs btn-primary btn-flat'>Editar</a> <a href='?c=historialv&a=delete&p="+ row[0]+"' data-type='delete' class='btn btn-xs btn-danger btn-flat'>Eliminar</a>"
-                    }
-                
-                },
-                { "targets": [1,8],"visible":false },
-                                               
-            ],"language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún dato disponible en esta tabla",
-                "sInfo": "Mostrando registros de _START_ a _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }
-        });
-
-        table_historialv.columns().every( function () {
-            var that = this;
-            $( 'input', this.footer() ).on( 'keyup change', function () {
-                if ( that.search() !== this.value ) {
-                    that
-                        .search( this.value )
-                        .draw();
-                    }
-                });
-        });
-
-        $('#table_inventario tfoot th').each( function () {
-            var title = $(this).text();
-            $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder="'+title+'" />' );
-        } );
-        
-        var table_inventario = $('#table_inventario').DataTable({
-            "ajax": "assets/php/server_processing.php?controller=" + controller,            
-            "processing": true,
-            "serverSide": true,
-            "dataType": "jsonp",
-            "lengthMenu": [[15, 20, 50,100,200,500,1000,3000, -1], [15, 20, 50,100,200,500,1000,3000, "All"]],
-            "autoWidth": true,
-            "scrollX": true,                       
-            "scrollY":  '50vh',
-            "scrollCollapse": true,
-            dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
-            buttons: [
-                 {
-                    extend: 'excel',
-                    text: 'Excel',
-                    exportOptions: {
-                        columns: [':not(:last-child)' ]
-                    },
-                }                
-            ],
-            fixedColumns: true,            
-            "columnDefs": [
-                { "width": "90px", "targets": -1 },
-                {
-                    "targets": -1,
-                    "data": null,                    
-                    "render": function(data,type, row){
-                        return "<a href='?c=inventario&a=edit&p="+ row[0]+"' data-type='edit' class='btn btn-xs btn-primary btn-flat'>Editar</a> <a href='?c=inventario&a=delete&p="+ row[0]+"' data-type='delete' class='btn btn-xs btn-danger btn-flat'>Eliminar</a>"
-                    }
-                
-                },
-                //{ "targets": [1,8],"visible":false },
-                                               
-            ],"language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún dato disponible en esta tabla",
-                "sInfo": "Mostrando registros de _START_ a _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }
-        });
-
-        table_inventario.columns().every( function () {
-            var that = this;
-            $( 'input', this.footer() ).on( 'keyup change', function () {
-                if ( that.search() !== this.value ) {
-                    that
-                        .search( this.value )
-                        .draw();
-                    }
-                });
-        });
+        var nextmonth= moment(hoy).add(1,'months').format('YYYY-MM-DD');                                                               
+              
 
     }        
 });

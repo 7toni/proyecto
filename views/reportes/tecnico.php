@@ -40,6 +40,7 @@
                                                 <th>Días despues de Cal:</th>
                                                 <th>Total de días:</th>
                                                 <th>Proceso</th>
+                                                <th>Técnico</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
@@ -61,6 +62,7 @@
                                                 <th>Días despues de:</th>
                                                 <th>Total de días:</th>
                                                 <th>Proceso</th>
+                                                <th>Técnico</th>
                                             </tr>
                                         </tfoot>
                                     </table>

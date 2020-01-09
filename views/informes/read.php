@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <?php importView('_static.head'); ?>     
+        <?php importView('_static.head'); ?> 
+        <style>
+                thead input {
+                width: 70px;                
+            }
+            </style>    
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
             <?php importView('_static.header'); ?>
-            <?php importView('_static.sidebar'); ?>
+            <?php importView('_static.sidebar'); ?>            
             <div class="content-wrapper">
                 <section class="content-header">
                     <h1><?php echo $this->title; ?><small><?php echo $this->subtitle.' '. $this->sucursal; ?> </small></h1>
@@ -21,7 +26,7 @@
                                 <!-- /.box-header -->
                                 <div class="box-body table-responsive">
                                     <!-- /* Agregar contenido */-->
-                                    <table id="table_informes" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%"> 
+                                    <table id="table_informes" class="table table-bordered table-striped table-hover"> 
                                         <thead>
                                             <tr>
                                                 <th>Informe</th>

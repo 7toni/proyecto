@@ -39,7 +39,7 @@ class PaisesController {
 
     public function store() {
         $data = validate($_POST, [
-            'nombre' => 'required|trimlower|unique:paises',           
+            'nombre' => 'required|unique:paises',           
         ]);
         if ($this->model['pais']->store($data)) {
             redirect('?c=' . $this->name);
@@ -51,7 +51,7 @@ class PaisesController {
     public function update() {
         $data = validate($_POST, [
             'id' => 'required|number|exists:paises',
-            'nombre' => 'required|trimlower|except:paises:id',
+            'nombre' => 'required|except:paises:id',
         ]);
         if ($this->model['pais']->update($data)) {
             redirect('?c=' . $this->name);

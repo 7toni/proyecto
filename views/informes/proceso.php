@@ -6,6 +6,9 @@
             .prioridad {
                 background-color: red !important;
             }
+            thead input {
+                width: 70px;                
+            }
         </style>
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
@@ -26,8 +29,8 @@
                                 <!-- /.box-header -->
                                 <div class="box-body table-responsive">
                                     <!-- /* Agregar contenido  cellspacing="0" width="100%" */-->
-                                    <table id="table_proceso" class="table table-bordered table-striped table-hover" >
-                                        <thead >
+                                    <table id="table_proceso" class="table table-bordered table-striped table-hover">
+                                        <thead>
                                             <tr>
                                                 <th>Informe</th>
                                                 <th>Id equipo</th>

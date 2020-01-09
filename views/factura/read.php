@@ -50,8 +50,8 @@
                                       <label>Número de informe : </label>
                                       <?php echo '<input type="hidden" name="id" id="id" value="'.$data['get'][0]['id'] .'">'; ?>
                                       <?php echo '<input type="hidden" name="proceso" id="proceso" value="'.$data['get'][0]['proceso'] .'">'; ?> 
-                                      <label data-toggle="tooltip" id="proceso" name="proceso" class="badge bg-green"><?php echo $data['get'][0]['id']; ?></label>&nbsp; <button onclick="opciones_factura('registrar')" class="btn btn-success btn-xs pull-right" id="btn_registrar_factura">Registrar</button>
-                                      <button onclick="opciones_factura('no_registrar')" class="btn btn-danger btn-xs pull-right" id="btn_noregistrar_factura">No registrar</button>                                    
+                                      <label data-toggle="tooltip" id="proceso" name="proceso" class="badge bg-green"><?php echo $data['get'][0]['id']; ?></label>&nbsp; <button class="btn btn-success btn-xs pull-right" id="btn_registrar_factura">Registrar</button>
+                                      <button class="btn btn-danger btn-xs pull-right" id="btn_noregistrar_factura">No registrar</button>                                    
                                     </div>                                
                                   </div> 
                                   <div class="box-body">
@@ -185,5 +185,15 @@
             var controller = "<?php echo $this->name; ?>";   
         </script>
         <?php importView('_static.scripts'); ?>
+        <script>
+          var calibrado = "<?php echo $data['get'][0]['estado_calibracion']; ?>";
+            
+          $(document).ready(function() {
+            if(calibrado=="0"){
+              opciones_factura('no_registrar');
+            }
+
+          });
+        </script>
     </body>
 </html>
