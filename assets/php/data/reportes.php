@@ -43,25 +43,33 @@ $columns = array(
                 $count += date('N',$start) < 6 ? 1:0;
                 $start = strtotime("+1 day",$start);
             }
-            return $count;                            
+            return  $count;                            
             }
         ),        
      array(
             'db' => 'fecha_salida',
             'dt' => 14,
-            'formatter'=> function( $d, $row ) {                
-                $start= strtotime($row[12]);              
-                $end= strtotime($d);
-                $count =0;
-                while(date('Y-m-d',$start)< date('Y-m-d',$end))
+            'formatter'=> function( $d, $row ) { 
+                if($d != null || $d!='')
                 {
-                    $count += date('N',$start) < 6 ? 1:0;
-                    $start = strtotime("+1 day",$start);
-                }
+                    $start= strtotime($row[12]);              
+                    $end= strtotime($d);
+                    $count =0;
+                    while(date('Y-m-d',$start)< date('Y-m-d',$end))
+                    {
+                        $count += date('N',$start) < 6 ? 1:0;
+                        $start = strtotime("+1 day",$start);
+                    }
+                    return $count;
+                } else{
+                    
+                }                             
                 return $count;
             }
-        ),    
-    array('db' => 'proceso', 'dt' => 15),
+        ),
+    array('db' => 'fecha_salida', 'dt' => 15),       
+    array('db' => 'proceso', 'dt' => 16),
+    array('db' => 'tecnico', 'dt' => 17)  
 );
 
 ?>

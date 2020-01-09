@@ -54,8 +54,8 @@ class EquiposController {
 
     public function store() {
         $data = validate($_POST, [
-            'alias' => 'required|trim|strtolower',
-            'serie' => 'required|trim|strtolower',
+            'alias' => 'required|trim',
+            'serie' => 'required|trim',
             'descripciones_id' => 'required|number',
             'marcas_id' => 'required|number',
             'modelos_id' => 'required|number',
@@ -73,8 +73,8 @@ class EquiposController {
     public function update() {
         $data = validate($_POST, [
             'id' => 'required',
-            'alias' => 'required|trim|strtolower',
-            'serie' => 'required|trim|strtolower',
+            'alias' => 'required|trim',
+            'serie' => 'required|trim',
             'descripciones_id' => 'required|number',
             'marcas_id' => 'required|number',
             'modelos_id' => 'required|number',

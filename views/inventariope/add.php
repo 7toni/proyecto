@@ -121,7 +121,7 @@
             <?php importView('_static/footer'); ?>
         </div>
         <?php importView('_static/scripts'); ?>
-        <script>
+        <script>        
             var buscar_idequipo = function() {
                 if (validar_text($("#idequipom").val().trim()) == true) {
                     $.ajax({
@@ -175,7 +175,7 @@
                 } else {
                     alertas_tipo_valor_col12('alerta_equipom', 'requerido', 'id del equipo');
                 }
-            } 
+            }            
 
             $(document).ready(function(){
                 $("#buscar_idequipom").on('click', buscar_idequipo);
@@ -183,10 +183,12 @@
                 $("#idequipom").keypress(function(e) {
                     if (e.which == 13) {   
                         $(this).val(espacio_blanco($(this).val()));      
-                        buscar_idequipo();
+                        buscar_idequipo();                        
                         e.preventDefault();
                     }
-                }); 
+                });
+
+
             });
         </script>     
     </body>

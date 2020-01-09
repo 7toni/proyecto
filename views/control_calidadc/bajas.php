@@ -178,8 +178,8 @@
                         "targets": -1,
                         "data": null,                    
                         "render": function(data,type, row){                                                                   
-                            menu = "<a href='?c=control_calidadc&a=enable&p=" + data[0]+"' data-type='enable' class='btn btn-social-icon badge bg-green' title='Activar Equipo'><i class='fa fa-toggle-on'></i></a>";
-                            menu += "<a href='?c=control_calidadc&a=delete&p=" + data[0]+"' data-type='delete' class='btn btn-social-icon badge bg-red' title='Eliminar'><i class='fa fa-trash-o'></i></a>";
+                            menu = "<a href='?c=control_calidadc&a=enable&p=" + row[0]+"' data-type='enable' class='btn btn-social-icon badge bg-green' title='Activar Equipo'><i class='fa fa-toggle-on'></i></a>";
+                            menu += "<a href='?c=control_calidadc&a=delete&p=" + row[0]+"' data-type='delete' class='btn btn-social-icon badge bg-red' title='Eliminar'><i class='fa fa-trash-o'></i></a>";
                             
                             return menu;                                             
                         }                

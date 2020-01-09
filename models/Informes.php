@@ -31,9 +31,18 @@ class Informes extends Model {
     }
 
     public function datos_cliente($id){
-        $this->query= "SELECT concat(nombre,' ',apellido) as contacto, IF(((planta = 'Planta1') OR (planta = 'Planta 1')), empresa, concat(empresa,' ',planta)) AS cliente, direccion, telefono, email FROM view_usuarios where plantas_id=(SELECT plantas_id FROM view_".$this->table." where id=".$id.") and roles_id=10005 limit 1;";       
+        $this->query= "SELECT concat(nombre,' ',apellido) as contacto, IF(((planta = 'Planta1') OR (planta = 'Planta 1')), empresa, concat(empresa,' ',planta)) AS cliente, direccion, telefono, email FROM view_usuarios where plantas_id=(SELECT plantas_id FROM view_".$this->table." where id=".$id.") and roles_id=10005 limit 1;";        
         $this->get_results_from_query();        
-        return $this->rows;
+        if(sizeof($this->rows)> 0){
+            return $this->rows;
+        }
+        else{
+            $this->query= "SELECT IF(((planta = 'Planta1') OR (planta = 'Planta 1')), empresa, concat(empresa,' ',planta)) AS cliente,direccion
+            FROM view_".$this->table." where plantas_id=(SELECT plantas_id FROM view_".$this->table." where id=53318) limit 1;";
+            $this->get_results_from_query();
+            return $this->rows;   
+        }
+        
     }
 
     public function numero_informe(){      
@@ -56,13 +65,13 @@ class Informes extends Model {
         return $this->rows;
     }
     public function get_salida($id,$view){
-        $this->query= "SELECT id as id,numero_hoja_salida,usuario_id_hoja_salida as usuario_hoja_salida,fecha_hoja_salida as fecha,entrega_hoja_salida as fecha_entrega,comentarios,proceso,po_id,cantidad  FROM ".$view." WHERE id = ". $id.";";
+        $this->query= "SELECT id as id,numero_hoja_salida,usuario_id_hoja_salida as usuario_hoja_salida,fecha_hoja_salida as fecha,entrega_hoja_salida as fecha_entrega,comentarios,proceso,po_id,cantidad,plantas_id  FROM ".$view." WHERE id = ". $id.";";
         $this->get_results_from_query();       
         return $this->rows;
     }
 
-    public function get_countfactura($id,$view){
-        $this->query= "SELECT Count(factura) as total FROM ".$view." where po_id='". $id ."';";
+    public function get_countfactura($id,$planta,$view){
+        $this->query= "SELECT Count(factura) as total FROM ".$view." where po_id='". $id ."' and plantas_id=". $planta .";";
         $this->get_results_from_query();       
         return $this->rows;
     }

@@ -48,8 +48,7 @@ class Control_pruebaelectController{
         $data['get'] = $this->model['control_pruebaelect']->find($id);
         //var_dump($data['get'][0]);
         if (exists($data['get'])) {
-            $data['equipo'] = $this->model['equipo']->find_by(['id' => $data['get'][0]['equipos_id']],'view_equipos');
-            //var_dump($data['equipo']);
+            $data['equipo'] = $this->model['equipo']->find_by(['id' => $data['get'][0]['equipos_id']],'view_equipos');            
             $data['magnitud']=$this->model['magnitud']->find_by(['departamentos_id'=>'2']);
             $data['tipocalibracionc']=$this->model['tipocalibracioncalidad']->find_by(['departamentos_id'=>'2']);     
             include view($this->name . '.edit');
@@ -159,7 +158,7 @@ class Control_pruebaelectController{
     }
 
     public function update(){
-        $tabla= $this->name.$this->ext;
+        $tabla= $this->name;
         $data = validate($_POST, [
             'id' => 'required|toInt|exists:'. $tabla .'',            
             'equipos_id' => 'required|toInt',            
@@ -209,7 +208,7 @@ class Control_pruebaelectController{
     }
 
     public function disabled(){
-        $tabla= $this->name.$this->ext;
+        $tabla= $this->name;
         $data = validate($_POST, [
             'id' => 'required|toInt|exists:'. $tabla .'',            
             'equipos_id' => 'required|toInt',                                                
@@ -233,8 +232,7 @@ class Control_pruebaelectController{
             }            
         } else {
             Flash::error(setError('002'));
-        } 
-       
+        }        
     }
 
     public function destroy(){ 

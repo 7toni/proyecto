@@ -722,21 +722,21 @@ $(document).ready(function () {
             //     }                                        
             //   },
             "columnDefs": [                
-                //{ "targets":[6], "visible":false},
+                { "targets":[6], "visible":false},
                 {                                                   
                     "render": function(data,type, row){ 
                         var suma= row[13] + row[14];
                          return suma; 
                         },
-                        "targets": -2                                    
+                        "targets": -3                                   
                 },
                 {                                                   
                     "render": function(data,type, row){ 
                         var proceso= ["","","Calibrado","Entregado","Terminado"];
 
-                         return proceso[row[15]]; 
+                         return proceso[row[16]]; 
                         },
-                        "targets": -1                                    
+                        "targets": -2                                    
                 }
             ],"language": {
                 "sProcessing": "Procesando...",
@@ -782,20 +782,20 @@ $(document).ready(function () {
                 } ],
             fixedColumns: true,
             "rowCallback": function( row, data, index ) {                      
-                var activo = parseInt(data[6]), 
+                var activo = parseInt(data[6]),
                 $node = this.api().row(row).nodes().to$();
                 if (activo = 0) {
                      $node.addClass('bg-red')
                 }                                        
               },
             "columnDefs": [                
-                { "targets":[6,17], "visible":false},
+                { "targets":[6], "visible":false},
                 {                                                   
                     "render": function(data,type, row){ 
                         var suma= row[14] + row[15];
                          return suma; 
                         },
-                        "targets": -3                                    
+                        "targets": 16
                 },                
             ],"language": {
                 "sProcessing": "Procesando...",

@@ -117,7 +117,7 @@
             var buscar_idequipo = function() {
                 if (validar_text($("#idequipom").val().trim()) == true) {
                     $.ajax({
-                        url: "?c=control_calidad&a=ajax_load_equipo",
+                        url: "?c=control_pruebaelect&a=ajax_load_equipo",
                         dataType: "json",
                         method: "POST",
                         data: "idequipo=" + $("#idequipom").val().trim()

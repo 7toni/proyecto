@@ -14,7 +14,7 @@ class InventariopeController{
             'equipo'=>new Equipo(),            
             'sucursal'=>new Sucursal(),           
         ];
-        $this->ext=$this->model['sucursal']->extension();
+        //$this->ext=$this->model['sucursal']->extension();
 
         $_SESSION['menu'] = 'control_pruebaelect';
         $_SESSION['submenu']= $this->name;
@@ -26,7 +26,7 @@ class InventariopeController{
 
     public function add(){
         if(isset($_GET['p'])){
-            $id=$_GET['p'];
+            $id=$_GET['p'];                       
             $data['equipo'] = $this->model['equipo']->find_by(['id' => $id],'view_equipos');   
         }  
         include view($this->name.'.add');
@@ -76,7 +76,7 @@ class InventariopeController{
     }
 
     public function update(){
-        $tabla= $this->name.$this->ext;
+        $tabla= $this->name;
         $data= validate($_POST,[
             'id'=>'required|toInt|exists:'. $tabla .'',
             'equipos_id'=>'requiere|toInt',
@@ -106,7 +106,7 @@ class InventariopeController{
     }
 
     public function destroy(){
-        $tabla= $this->name.$this->ext;
+        $tabla= $this->name;
         $data = validate($_POST, [
             'id' => 'required|toInt|exists:'. $tabla .'', 
         ]);        
@@ -115,7 +115,14 @@ class InventariopeController{
         } else {
             Flash::error(setError('002'));
         } 
+    }
 
+    public function ajax_load_existeequipo(){
+        $clave=$_POST['clave'];
+        $data= $this->model['inventariope']->count(['clave' => $clave],'view_inventariope'); 
+        //var_dump($data[0]['existe']);
+        $dato= $data[0]['existe'];
+        echo json_encode($dato);
     }
 
 

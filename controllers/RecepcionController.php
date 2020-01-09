@@ -29,7 +29,7 @@
 	}
 
 	public function index (){
-    //var_dump(Session::get('id')); //id usuario
+    //var_dump(Session::get('email')); //id usuario
     //?c=recepcion&a=index&p=2  
     if (isset($_GET['p'])) {
       $id=$_GET['p'];
@@ -675,7 +675,6 @@
         echo json_encode($numero=$this->model['informes']->numero_informe());
   }
 
-
   public function cookies() {                                                
     echo json_encode(Session::get('planta'));
   }
@@ -719,5 +718,14 @@
     $data=json_encode($this->model['informes']->get_query_informe($query));    
     echo $data;
   }
+
+  public function ajax_load_usuario_confirmar(){   
+    $usuario=Session::get('id');
+    $query="SELECT accesoconfirmar FROM usuarios where id=". $usuario .";";                             
+    $data=json_encode($this->model['usuario']->get_query($query));    
+    echo $data;    
+  }
+
+
  
  }

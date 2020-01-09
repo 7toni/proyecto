@@ -36,16 +36,23 @@
                                         <thead>
                                             <tr>
                                                 <th>id</th>                                                
-                                                <th>Clave</th>                                              
+                                                <th>Clave</th>  
+
+                                                <th>Descripción</th>
+                                                <th>Marca</th>
+                                                <th>Modelo</th>
+                                                <th>Serie</th>
+                                                <th>Activo</th>
+                                                
                                                 <th>Magnitud</th>
                                                 <th>Tipo de Cal.</th>                                                                                                 
                                                 
-                                                <th>Requiere Calibración / Comprobación </th>
+                                                <th>Requiere Cal/Comp</th>
                                                 <th>Informe</th>
-                                                <th>Fecha de Cal.</th>                                                                                                
+                                                <th>Fecha de Cal/Comp</th>                                                                                                
                                                 <th>Vigencia</th>
                                                 <th>Fecha de Venc.</th>                                                
-                                                <th>Estado de Cal.</th>
+                                                <th>Estado de Cal/Comp</th>
 
                                                 <th>Requiere Mant.</th>                                                
                                                 <th>Ultimo Mant.</th>
@@ -64,6 +71,12 @@
                                             <tr>
                                                 <th>id</th>                                                
                                                 <th>Clave</th> 
+
+                                                <th>Descripción</th>
+                                                <th>Marca</th>
+                                                <th>Modelo</th>
+                                                <th>Serie</th>
+                                                <th>Activo</th>
 
                                                 <th>Magnitud</th>
                                                 <th>Tipo de Cal.</th>                                                                                                 
@@ -134,7 +147,8 @@
 
             var requiere= ["No requiere","Requiere"];
             var badge= ["bg-red","bg-green"];
-            var label= ["label-danger","label-success"];
+            var label= ["label-success","label-success"];           
+
             var hoy= moment().format('YYYY-MM-DD');
             var nextmonth= moment(hoy).add(1,'months').format('YYYY-MM-DD');
             
@@ -157,8 +171,18 @@
                     {
                         "className":      'details-control',                        
                         "data":           2,
-                        "defaultContent": ''
+                        "defaultContent": ''                   
                     },                                                                                                                  
+                    { "data":  3,
+                        "visible" : false}, // "descripcion"
+                    { "data":  4,
+                        "visible" : false}, // "marca"
+                    { "data":  5,
+                        "visible" : false}, // "modelo"
+                    { "data":  6,
+                        "visible" : false}, // "serie"
+                    { "data":  7,
+                        "visible" : false}, // "activo"
                     { "data":  8}, // "magnitud"
                     { "data":  9}, //"calibracion"
                     { "data":  10}, // "requierec"
@@ -189,42 +213,93 @@
                 ], 
                 fixedColumns: true,                                   
                 "columnDefs": [
-                    { "targets": -1 , "width": "60px", "searchable": false, "orderable" : false  },
-                     {//  Requiere Calibracion; Posision: 10 
+                    { "targets": -1 , "width": "70px", "searchable": false, "orderable" : false  },
+                    {//  Requiere Calibracion; Posision: 9
                         "render": function(data,type,row){
                             var rowvalue=row[10];                        
                             return "<span class='label "+label[rowvalue] +"'>"+requiere[rowvalue] +"</span>";                         
                         },
-                        "targets":4
-                    },
-                    { // Estado de calibracion; Posision:9
+                        "targets":9
+                    },                    
+                    {  //  Fecha cal; Posision: 11                                              
                         "render": function(data,type,row){
-                            var rowvalue=moment(row[15]).format('YYYY-MM-DD');                                                
-                            var estado="";
-                            var programar= moment(nextmonth).isSame(rowvalue,'month') && moment(nextmonth).isSame(rowvalue,'year');
-                            var vencido= ((moment(hoy).isSame(rowvalue,'month') && moment(hoy).isSame(rowvalue,'year')) || moment(rowvalue).isBefore(hoy));
-                            var ok=  moment(rowvalue).isAfter(nextmonth);
-                            if(programar == true){
-                                estado = "<span class='badge bg-yellow'> Programar </span>";
+                            if(row[10]==1){
+                            var rowvalue = row[12];
+                                if(rowvalue != null){
+                                    return rowvalue;
+                                }else{
+                                    return "En espera...";
+                                }                            
+                            }else{
+                                return "No requiere";
                             }
-                            else if(vencido == true){
-                                estado = "<span class='badge bg-red'> Vencido </span>";
+                        },                        
+                            "targets": 11                               
+                    },
+                    {  //  vigencia; Posision: 12                                             
+                        "render": function(data,type,row){
+                            if(row[10]==1){
+                            var rowvalue = row[14];
+                                if(rowvalue != null){
+                                    return rowvalue;
+                                }else{
+                                    return "En espera...";
+                                }                            
+                            }else{
+                                return "No requiere";
                             }
-                            else if(ok== true){
-                                estado = "<span class='badge bg-green'> OK </span>";
+                        },                        
+                            "targets": 12                               
+                    },
+                    {  //  Fecha de vencimiento; Posision: 13                                               
+                        "render": function(data,type,row){
+                            if(row[10]==1){
+                            var rowvalue = row[15];
+                                if(rowvalue != null){
+                                    return rowvalue;
+                                }else{
+                                    return "En espera...";
+                                }                            
+                            }else{
+                                return "No requiere";
                             }
+                        },                        
+                            "targets": 13                                
+                    },
+                    { // estado de calibracion; Posision:14
+                        "render": function(data,type,row){
+                            if(row[10]==1){                            
+                                var rowvalue=moment(row[15]).format('YYYY-MM-DD');                                                
+                                var estado="";
+                                var programar= moment(nextmonth).isSame(rowvalue,'month') && moment(nextmonth).isSame(rowvalue,'year');
+                                var vencido= ((moment(hoy).isSame(rowvalue,'month') && moment(hoy).isSame(rowvalue,'year')) || moment(rowvalue).isBefore(hoy));
+                                var ok=  moment(rowvalue).isAfter(nextmonth);
+                                if(programar == true){
+                                    estado = "<span class='badge bg-yellow'> Programar </span>";
+                                }
+                                else if(vencido == true){
+                                    estado = "<span class='badge bg-red'> Vencido </span>";
+                                }
+                                else if(ok== true){
+                                    estado = "<span class='badge bg-green'> OK </span>";
+                                }
+                            }
+                            else{
+                                estado="<span class='label "+label[row[10]] +"'>"+requiere[row[10]] +"</span>"
+                            }
+
                             return estado;                        
                         },
-                        "targets":9
+                        "targets":14
                     },                                                   
-                    {//  Requiere mantenimiento; Posision: 10 
+                    {//  Requiere mantenimiento; Posision: 15
                         "render": function(data,type,row){
                             var rowvalue=row[16];                        
                             return "<span class='label "+label[rowvalue] +"'>"+requiere[rowvalue] +"</span>";                         
                         },
-                        "targets":10
+                        "targets":15
                     },
-                    { //  Ultimo mantenimiento; Posision: 11                                                
+                    { //  Ultimo mantenimiento; Posision: 16                                               
                         "render": function(data,type,row){
                             if(row[16]==1){
                             var rowvalue = row[18];                            
@@ -237,9 +312,9 @@
                                 return "<span class='label "+label[row[16]] +"'>"+requiere[row[16]] +"</span>";
                             }
                         },                        
-                            "targets": 11                               
+                            "targets": 16                            
                     },
-                    {  //  Proximo mantenimiento; Posision: 12                                                
+                    {  //  Proximo mantenimiento; Posision: 17                                               
                         "render": function(data,type,row){
                             if(row[16]==1){
                             var rowvalue = row[19];
@@ -252,9 +327,9 @@
                                 return "<span class='label "+label[row[16]] +"'>"+requiere[row[16]] +"</span>";
                             }
                         },                        
-                            "targets": 12                                   
+                            "targets": 17                                
                     },
-                     {  //  Estado de mantenimiento; Posision: 13
+                     {  //  Estado de mantenimiento; Posision: 18
                         "render": function(data,type,row){
                             if(row[16]==1){
                                 var rowvalue=moment(row[20]).format('YYYY-MM-DD');                                                
@@ -278,16 +353,16 @@
                             
                             return estado;                        
                         },
-                        "targets":13
+                        "targets":18
                      },
-                    { //  Requiere Veri.; Posision: 14
+                    { //  Requiere Veri.; Posision: 19
                         "render": function(data,type,row){
-                            var rowvalue=row[21];                        
-                            return "<span class='label "+label[rowvalue] +"'>"+requiere[rowvalue] +"</span>";
+                            //var rowvalue=row[21];                                                   
+                           return "<span class='label "+label[row[21]] +"'>"+requiere[row[21]] +"</span>";
                         },
-                        "targets":14
+                        "targets":19
                     },
-                    { //  Ultima Veri.; Posision: 15                                                
+                    { //  Ultima Veri.; Posision: 20                                               
                         "render": function(data,type,row){
                             if(row[21]==1){
                             var rowvalue = row[23];
@@ -300,9 +375,9 @@
                                 return "<span class='label "+label[row[21]] +"'>"+requiere[row[21]] +"</span>";
                             }
                         },                        
-                            "targets": 15                                  
+                            "targets": 20                                
                     },
-                    { //  Prox. Veri.; Posision: 16                                                   
+                    { //  Prox. Veri.; Posision: 21                                                   
                         "render": function(data,type,row){
                             if(row[21]==1){
                             var rowvalue = row[24];
@@ -315,9 +390,9 @@
                                 return "<span class='label "+label[row[21]] +"'>"+requiere[row[21]] +"</span>";
                             }
                         },                        
-                            "targets": 16                                   
+                            "targets": 21                                  
                     },                   
-                    { //  Prox. Veri.; Posision: 17 
+                    { //  Prox. Veri.; Posision: 22 
                         "render": function(data,type,row){
                             if(row[21]==1){
                             var rowvalue=moment(row[25]).format('YYYY-MM-DD');                                                
@@ -339,7 +414,7 @@
                         }
                             return estado;                        
                         },
-                        "targets":17
+                        "targets":22
                     },
                     {
                         "targets": -1,

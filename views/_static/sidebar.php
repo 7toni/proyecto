@@ -232,7 +232,7 @@
                     $ciudadsm = ($_SESSION['submenu']=='ciudades') ? 'active' : '';
                     $tipocalsm = ($_SESSION['submenu']=='calibraciones') ? 'active' : '';
                     $sucursalsm = ($_SESSION['submenu']=='sucursales') ? 'active' : '';
-                    $acreditacionsm = ($_SESSION['submenu']=='acreditacion') ? 'active' : '';
+                    $acreditacionsm = ($_SESSION['submenu']=='acreditaciones') ? 'active' : '';
                     echo "<li class='". $modulosm ." treeview'>
                         <a href='#'>
                             <i class='fa fa-th'></i> <span>Módulos</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>

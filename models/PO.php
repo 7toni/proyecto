@@ -16,14 +16,14 @@ class PO extends Model {
         return $this->rows;
     }
     //Total de equipos que tienen el mismo PO
-    public function get_countPO($id,$view){          
-        $this->query="SELECT Count(id) as total FROM ".$view." WHERE po_id='". $id ."';";
-        $this->get_results_from_query();       
-        return $this->rows;
+    public function get_countPO($id, $planta ,$view){          
+        $this->query="SELECT Count(id) as total FROM ".$view." WHERE po_id='". $id ."' and plantas_id=". $planta .";";
+       $this->get_results_from_query();       
+        return $this->rows;     
     }
     //Total de equipos que estan listos para enviar a facturar
-    public function get_countPOlisto($id,$view){          
-        $this->query="SELECT Count(id) as total FROM ".$view." WHERE po_id='". $id ."' and proceso>1 and proceso<4;";
+    public function get_countPOlisto($id, $planta, $view){          
+        $this->query="SELECT Count(id) as total FROM ".$view." WHERE po_id='". $id ."' and plantas_id=". $planta ." and proceso>1 and proceso<4;";
         $this->get_results_from_query();       
         return $this->rows;
     }    

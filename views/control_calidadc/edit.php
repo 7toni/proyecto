@@ -193,21 +193,20 @@
                                                     <label >Fecha de calibración</label>
                                                     <?php
                                                         echo (strlen($data['get'][0]['fecha_calibracion']) > 0 ) ? "<input type='text' class='form-control pull-right datepicker_aux' id='fecha_calibracion' name='fecha_calibracion' value='". $data['get'][0]['fecha_calibracion'] ."'>" : "<input type='text' class='form-control pull-right datepicker' id='fecha_calibracion' name='fecha_calibracion'>" ;
-                                                    ?>                                                                                                
-                                                </div>                                            
-                                                <!-- Date -->                                            
-                                                <div class="form-group">                                                
-                                                    <label >Fecha de vencimiento</label>                                                                                                
-                                                    <?php
-                                                        echo (strlen($data['get'][0]['fecha_vencimiento']) > 0) ? "<input type='text' class='form-control pull-right datepicker_aux' id='fecha_vencimiento' name='fecha_vencimiento' value='". $data['get'][0]['fecha_vencimiento'] ."'>" : "<input type='text' class='form-control pull-right datepicker' id='fecha_vencimiento' name='fecha_vencimiento'>";
-                                                    ?>
-                                                    
-                                                </div>                                                                                                                                                                            
+                                                    ?>                                                                                                                                                   
+                                                </div>
                                                 <div class="form-group">
                                                     <label >Vigencia</label>
                                                     <?php
                                                         echo (strlen($data['get'][0]['vigencia']) > 0) ? "<input type='number' class='form-control' id='vigencia' name='vigencia' placeholder='12' value='". $data['get'][0]['vigencia'] ."'>" : "<input type='number'  class='form-control' id='vigencia' name='vigencia' placeholder='12' value='12'>";
-                                                    ?>                                                                                     
+                                                    ?>                                                                                      
+                                                </div>                                            
+                                                <!-- Date -->                                            
+                                                <div class="form-group">                                                
+                                                    <label >Fecha de vencimiento</label> 
+                                                    <?php
+                                                        echo (strlen($data['get'][0]['fecha_vencimiento']) > 0) ? "<input type='text' class='form-control pull-right datepicker_aux' id='fecha_vencimiento' name='fecha_vencimiento' value='". $data['get'][0]['fecha_vencimiento'] ."'>" : "<input type='text' class='form-control pull-right datepicker' id='fecha_vencimiento' name='fecha_vencimiento'>";
+                                                    ?>                                                    
                                                 </div>
                                                 <div class="form-group">
                                                     <label >Estado de Calibración</label>                                  
@@ -350,6 +349,21 @@
                 }                
             }
 
+            function calcular_fecha(){                      
+                var datecal= $('#fecha_calibracion').val();
+                var periodo= $('#vigencia').val();
+                //var vigencia= $('#vigencia').val();
+                // var setdate= ["","M","days"];
+                
+                var datetemp=moment(datecal);
+                var fechavenc= datetemp.add(periodo, "M").format('YYYY-MM-DD');  
+                
+                $('#fecha_vencimiento').datepicker({                
+                    autoclose: true,
+                    format: 'yyyy-mm-dd'
+                }).datepicker('setDate', fechavenc);
+            }
+
             $(document).ready(function(){
                 <?php  echo ($data['get'][0]['calibraciones_id']==3) ? "$('#grupo_informes').hide()" : ""; ?>
                 <?php  echo ($data['get'][0]['calibraciones_id']==2) ? "document.getElementById('buscar_idinformecc').disabled = true;" : "document.getElementById('buscar_idinformecc').disabled = false;"; ?>
@@ -384,6 +398,13 @@
                     }
                 });
 
+                $( "#fecha_calibracion" ).change(function() {
+                    calcular_fecha();
+                });
+                
+                $( "#vigencia" ).change(function() {
+                    calcular_fecha();
+                });
 
             });
         </script>

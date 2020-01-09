@@ -148,7 +148,7 @@
                             "targets": -1,
                             "data": null,                    
                             "render": function(data,type, row){
-                                return "<a href='?c=inventarioc&a=edit&p="+ row[0]+"' data-type='edit' class='btn btn-social-icon badge bg-yellow' title='Editar'><i class='fa fa-edit'></i></a> <a href='?c=inventarioc&a=delete&p="+ row[0]+"' data-type='delete' class='btn btn-social-icon badge bg-red' title='Eliminar'><i class='fa fa-trash-o'></i></a>"
+                                return "<a href='?c=inventariope&a=edit&p="+ row[0]+"' data-type='edit' class='btn btn-social-icon badge bg-yellow' title='Editar'><i class='fa fa-edit'></i></a> <a href='?c=inventarioc&a=delete&p="+ row[0]+"' data-type='delete' class='btn btn-social-icon badge bg-red' title='Eliminar'><i class='fa fa-trash-o'></i></a>"
                             }                        
                         },                    
                                                     

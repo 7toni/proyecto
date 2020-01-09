@@ -179,7 +179,7 @@
                                             <th style='width: 20%; text-align: center;'><span data-toggle='tooltip' title='' data-original-title='Total de equipos que corresponden al PO.'> Total </span></th>
                                             <th style='width: 20%; text-align: center;'><span data-toggle='tooltip' title='' data-original-title='Total de equipos que ya se ecuentran facturados.'> Facturados </span></th>
                                             <th style='width: 20%; text-align: center;'><span data-toggle='tooltip' title='' data-original-title='Son los equipos restantes por facturar, se calcula del total de equipos, menos los equipos ya facturados.'> No Facturados </span></th>
-                                            <th style='width: 20%; text-align: center;'><span data-toggle='tooltip' title='' data-original-title='Son equipos que ya fueron calibrados, por lo tanto están disponibles para enviar a facturar.'> Pendientes </span></th>
+                                            <th style='width: 20%; text-align: center;'><span data-toggle='tooltip' title='' data-original-title='Son equipos que ya fueron calibrados, por lo tanto están disponibles para enviar a facturar.'>Equipos para facturar</span></th>
                                           </tr>
                                           <tr>
                                             <td align='center'><span class='badge bg-green'>". $idpo ."</span></td>

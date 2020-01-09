@@ -225,24 +225,42 @@
             $('#acreditaciones_id').val(bitacora.acreditacion).change();
             $('#calibraciones_id').val(bitacora.tipo_cal).change();
             $('#usuarios_calibracion_id').val(bitacora.tecnico_cal).change();
-
+                      
             var porciento = validar_equipo_vigenciacal(bitacora.equipos_id);
-            if(porciento == 0 ){
-                $("[type='submit']").attr('disabled','disabled');              
-                $("[name='informevalidacion']").remove();
-                var valor= "<p> <h4>El equipo aún no se ha calibrado. ¿Estas seguro de ingresar el equipo una vez más?</h4> <button type='button' class='btn btn-default' data-toggle='modal' data-target='#modal-default'>Confirmar <i class='fa fa-check fa-lg'></i> </button> </p>";
-                $("#alerta_informevalidacion").before(
-                    "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-info alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");           
+            var usuario_permiso=validar_usuario_confirmar();
+           
+            if(porciento == 0 ){ 
+                if(usuario_permiso==1){
+                    $("[name='informevalidacion']").remove();
+                    var valor= "<p> <h4>El equipo aún no se ha calibrado. Este usuario permite ingresar el equipo una vez más.</h4> </p>";
+                    $("#alerta_informevalidacion").before(
+                        "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-info alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");
+                }
+                else{                           
+                    $("[type='submit']").attr('disabled','disabled');              
+                    $("[name='informevalidacion']").remove();
+                    var valor= "<p> <h4>El equipo aún no se ha calibrado. ¿Estas seguro de ingresar el equipo una vez más?</h4> <button type='button' class='btn btn-default' data-toggle='modal' data-target='#modal-default'>Confirmar <i class='fa fa-check fa-lg'></i> </button> </p>";
+                    $("#alerta_informevalidacion").before(
+                        "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-info alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");
+                }
             }else if( porciento < 80 ){
+                if(usuario_permiso==1){
+                    $("[name='informevalidacion']").remove();
+                    var valor= "<p> <h4>La fecha de vencimiento aún no culminá. Este usuario permite ingresar el equipo una vez más.</p>";
+                    $("#alerta_informevalidacion").before(
+                        "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");   
+                }
+                else{
                 $("[type='submit']").attr('disabled','disabled');              
                 $("[name='informevalidacion']").remove();
                 var valor= "<p> <h4>La fecha de vencimiento aún no culminá. ¿Estas seguro de ingresar el equipo una vez más?</h4> <button type='button' class='btn btn-default' data-toggle='modal' data-target='#modal-default'>Confirmar <i class='fa fa-check fa-lg'></i> </button> </p>";
                 $("#alerta_informevalidacion").before(
-                    "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");                
+                    "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");
+                }
             }
             else{
                 $("[name='informevalidacion']").remove();           
-            }    
+            }                                          
     }    
    
 
@@ -262,7 +280,26 @@
         return value;
     }
 
-     function validar_equipo_vigenciacal(value){                
+    function validar_usuario_confirmar(){
+        var result=0;
+        $.ajax({            
+            url: "?c=recepcion&a=ajax_load_usuario_confirmar",
+            dataType: "json",
+            method: "POST",
+            data: "",
+            async: false,
+            success: function(data) {
+                var datos = data[0].accesoconfirmar;             
+               result = datos;
+            },
+            error: function(data) {
+                result = 0;
+            },
+        });             
+        return result;
+    }
+
+    function validar_equipo_vigenciacal(value){
         var result=0;
         $.ajax({            
             url: "?c=recepcion&a=ajax_load_ultimoid_equipo",
@@ -274,7 +311,7 @@
                 var datos = data;               
                 if(datos.length > 0){
                     fechacal=datos[0].fecha_calibracion;
-                    console.log(fechacal);                 
+                    //console.log(fechacal);                 
                     if(fechacal != ""){
                         result = Math.round(validar_ultimacal(datos[0].fecha_calibracion,datos[0].fecha_vencimiento));                                    
                     }                  

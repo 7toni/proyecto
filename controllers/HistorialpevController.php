@@ -15,7 +15,7 @@ class HistorialpevController{
             'usuario'=> new Usuario(),
             'sucursal'=> new Sucursal(),
         ];
-        $this->ext=$this->model['sucursal']->extension();
+        //$this->ext=$this->model['sucursal']->extension();
 
         $_SESSION['menu'] = 'control_pruebaelect';
         $_SESSION['submenu'] = $this->name;                
@@ -95,7 +95,7 @@ class HistorialpevController{
     }
 
     public function update(){
-        $tabla= $this->name.$this->ext;
+        $tabla= $this->name;
         $data= validate($_POST,[
             'id' => 'required|toInt|exists:'. $tabla .'',
             'equipos_id'=> 'required|toInt',
@@ -147,7 +147,7 @@ class HistorialpevController{
     }
 
     public function destroy(){
-        $tabla= $this->name.$this->ext;
+        $tabla= $this->name;
         $data = validate($_POST, [
             'id' => 'required|toInt|exists:'. $tabla .'', 
         ]);        
@@ -161,7 +161,7 @@ class HistorialpevController{
     private function prox_verificacion($data){
 
         $fecha= $data['fecha'];
-        $view_controlc=$this->model['control_pruebaelect']->find_by(['equipos_id' => $data['equipos_id']],'view_control_calidad'.$this->ext);
+        $view_controlc=$this->model['control_pruebaelect']->find_by(['equipos_id' => $data['equipos_id']],'view_control_pruebaelect');
         $vigencia=intval($view_controlc[0]['vigencia']);
 
         if($vigencia <= 12){

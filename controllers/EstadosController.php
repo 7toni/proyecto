@@ -43,7 +43,7 @@ class EstadosController {
 
     public function store() {
         $data = validate($_POST, [
-            'nombre' => 'required|trimlower',
+            'nombre' => 'required',
             'paises_id' => 'required|number|exists:paises:id',
         ]);
         if ($this->model['estado']->store($data)) {
@@ -56,7 +56,7 @@ class EstadosController {
     public function update() {
         $data = validate($_POST, [
             'id' => 'required|number|exists:estados',
-            'nombre' => 'required|trimlower',
+            'nombre' => 'required',
             'paises_id' => 'required|number|exists:paises:id',
         ]);
         if ($this->model['estado']->update($data)) {

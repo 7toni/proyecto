@@ -25,6 +25,37 @@ abstract class Db {
             
         }
     }
+
+    public function count_simple($data, $view = null) {
+
+        if ($view == null) {
+            $query = "SELECT count(*) as existe FROM " . $this->table . " WHERE ";
+            
+            foreach ($data as $key => $value) {
+                $query .= $key . " = '" . $value . "'";
+                $query .= " AND ";
+            }
+            $query = substr($query, 0, -5);
+            $query.=';';
+            $this->query = $query;
+            $this->get_results_from_query();            
+            return $this->rows;
+        } else {
+            $table_aux = $this->table;
+            $this->table = $view;
+            $query = "SELECT count(*) as existe FROM " . $this->table . " WHERE "; 
+            foreach ($data as $key => $value) {
+                $query .= $key . " = '" . $value . "'";
+                $query .= " AND ";
+            }
+            $query = substr($query, 0, -5);
+            $query .=';';
+            $this->query = $query;                
+            $this->get_results_from_query();            
+            return $this->rows;                        
+        }
+    }
+
     public function select2($view, $string, $page){
         $total_rows = 30;
         $fin = $page * $total_rows;

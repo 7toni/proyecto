@@ -52,8 +52,9 @@ $columns = array(
             }
         ),    
      array('db' => 'fecha_final', 'dt' => 16),
-    array('db' => 'proceso', 'dt' => 17),
-    array('db' => 'nombre_proceso', 'dt' => 18),
+    // array('db' => 'proceso', 'dt' => 17),
+    array('db' => 'nombre_proceso', 'dt' => 17),
+    array('db' => 'calibrado_por', 'dt' => 18)  
    
 );
 
