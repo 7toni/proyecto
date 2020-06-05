@@ -40,9 +40,9 @@ class HistorialcmController{
     }
 
     public function edit($id){
-        $data['get']= $this->model['historialcm']->find($id);        
+        $data['get']= $this->model['historialcm']->find($id);                   
         if(exists($data['get'])){
-            $data['usuarios']=$this->model['usuario']->find_by(['plantas_id'=>Session::get('plantas_id'),'activo'=>'si'],'view_usuarios');
+            $data['usuarios']=$this->model['usuario']->find_by(['plantas_id'=>Session::get('plantas_id'),'activo'=>'si'],'view_usuarios');                            
 
             $data['equipo'] = $this->model['equipo']->find_by(['id' => $data['get'][0]['equipos_id']],'view_equipos');
             include view($this->name.'.edit');
@@ -80,7 +80,7 @@ class HistorialcmController{
                     $control_calidad=$this->model['control_calidadc']->find_by(['equipos_id' => $data['equipos_id']]);
     
                     $data_controlc['id']= $control_calidad[0]['id'];
-                    $data_controlc['historialcm_id']= $historial[0]['id'];
+                    $data_controlc['historialm_id']= $historial[0]['id'];
                     $data_controlc['proxm']= $this->prox_mantenimiento($data['fecha']);
                                     
                     if($this->model['control_calidadc']->update($data_controlc)){
@@ -103,8 +103,10 @@ class HistorialcmController{
 
     public function update(){
         $tabla= $this->name.$this->ext;
+        $actualizarcontrol= false;
+
         $data= validate($_POST,[
-            'id' => 'required|toInt|exists:'. $tabla .'',
+            //'id' => 'required|toInt|exists:'. $tabla .'',
             'equipos_id'=> 'required|toInt',
             'fecha'=> 'fecha',            
             'comentario'=> 'comentario',
@@ -115,39 +117,42 @@ class HistorialcmController{
         $data['tipo']=  $this->tipomant[intval($_POST['tipo'])];
 
         //unset();
-        if(isset($_POST['actualizarm'])){           
+        if(isset($_POST['actualizarm'])){    
+            $actualizarcontrol= true;       
             unset($data['actualizarm']);
         }
                                
-        if($this->model['control_calidadc']->find_by(['equipos_id' => $data['equipos_id']])){
-            /* Preguntamos si existe ese registro con el mismo equipo, fecha y responsable, si existe muestra una alerta  */
-            if($this->model['historialcm']->find_by(['equipos_id' => $data['equipos_id'],'fecha'=> $data['fecha'],'responsable'=>$data['responsable'],'comentario'=>$data['comentario']])){
-                Flash::error(setError('015'));
-            }
-            else{
-                if($this->model['historialcm']->update($data)){
-                    if(isset($_POST['actualizarm'])){
-                        $historial=$this->model['historialcm']->find_by(['equipos_id' => $data['equipos_id'],'fecha'=> $data['fecha'],'responsable'=>$data['responsable'],'comentario'=>$data['comentario']]);
-                        $control_calidad=$this->model['control_calidadc']->find_by(['equipos_id' => $data['equipos_id']]);
-        
-                        $data_controlc['id']= $control_calidad[0]['id'];
-                        $data_controlc['historialcm_id']= $historial[0]['id'];
-                        $data_controlc['proxm']= $this->prox_mantenimiento($data['fecha']);
-                                        
-                        if($this->model['control_calidadc']->update($data_controlc)){
-                            redirect('?c=' . $this->name);
-                        }
-                        else{
-                            Flash::error(setError('002'));
-                        }                         
-                    }else{
+        if($this->model['control_calidadc']->find_by(['equipos_id' => $data['equipos_id']])){           
+            if( $actualizarcontrol== true){
+                if($this->model['historialcm']->update($data)){                   
+                    $historial=$this->model['historialcm']->find_by(['equipos_id' => $data['equipos_id'],'fecha'=> $data['fecha'],'responsable'=>$data['responsable'],'comentario'=>$data['comentario']]);
+                    $control_calidad=$this->model['control_calidadc']->find_by(['equipos_id' => $data['equipos_id']]);
+    
+                    $data_controlc['id']= $control_calidad[0]['id'];
+                    $data_controlc['historialm_id']= $historial[0]['id'];
+                    $data_controlc['proxm']= $this->prox_mantenimiento($data['fecha']);
+                                    
+                    if($this->model['control_calidadc']->update($data_controlc)){
                         redirect('?c=' . $this->name);
-                    }                                  
+                    }
+                    else{
+                        Flash::error(setError('002'));
+                    }                                                                            
                 }
                 else{
                     Flash::error(setError('002'));
                 } 
-            }                          
+            } 
+             /* Preguntamos si existe ese registro con el mismo equipo, fecha y responsable, si existe muestra una alerta  */
+            else if($this->model['historialcm']->find_by(['equipos_id' => $data['equipos_id'],'fecha'=> $data['fecha'],'responsable'=>$data['responsable'],'comentario'=>$data['comentario']])){
+                Flash::error(setError('015'));
+            }  else{
+                if($this->model['historialcm']->update($data)){ 
+                    redirect('?c=' . $this->name);
+                 } else{
+                    Flash::error(setError('002'));
+                }
+            } 
         }
         else{                      
             $_SESSION["error"] = ["data" => $errors, "id" => "001", "title" => "Alerta!", "data"=> array(["msg" => "Ha ocurrido un problema con la validación de los datos. El equipo no se encuentra en el Control de Calidad. "])];

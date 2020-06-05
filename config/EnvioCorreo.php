@@ -223,7 +223,7 @@ class EnvioCorreo{
                                         <table data-editable='text' class='text-block' width='100%' cellspacing='0' cellpadding='0' border='0' align='center'>
                                             <tbody><tr>                            
                                                 <td class='lh-3' valign='top' align='center' style='padding: 20px 50px 50px; margin: 0px; font-size: 16px; font-family: Times New Roman, Times, serif; line-height: 1.35;'>                                
-                                                    <span style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#262626; line-height:1.3;'>Este correo se envia de manera automatica, si tiene alguna duda, &nbsp;</span><div><span style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#262626; line-height:1.3;'> favor de entrar a nuestra pagina <a href='http://mypsa.com.mx/'>http://mypsa.com.mx/</a> y comunicarse a nuestros numeros telefonicos. Gracias! </span>                                   
+                                                    <span style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#262626; line-height:1.3;'>Este correo se envía de manera automática, si tiene alguna duda, &nbsp;</span><div><span style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#262626; line-height:1.3;'> favor de entrar a nuestra página <a href='http://mypsa.com.mx/'>http://mypsa.com.mx/</a> y comunicarse a nuestros números telefónicos. Gracias!
                                                 </div></td>
                                             </tr>
                                         </tbody></table>

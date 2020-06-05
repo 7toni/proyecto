@@ -306,10 +306,10 @@
                     }).fail(function(data) {}).always( function(data) {
                       //console.log(data);
                     });                     
-                  }
-                  else{
-                    alert("Alguna opción no esta seleccionado.Por favor verificar.");                  
-                  }                    
+                }
+                else{
+                  alert("Alguna opción no esta seleccionado.Por favor verificar.");                  
+                }                    
             });
 
             function validar_select(parametro){    

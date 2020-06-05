@@ -282,7 +282,7 @@
             },
             escapeMarkup: function(markup) {
                 return markup; },
-            minimumInputLength: 2
+            minimumInputLength: 1
         });
 
         $('.select2Marca').select2({
@@ -312,7 +312,7 @@
             },
             escapeMarkup: function(markup) {
                 return markup; },
-            minimumInputLength: 2
+            minimumInputLength: 1
         });
 
         $('.select2Descripcion').select2({
@@ -342,7 +342,7 @@
             },
             escapeMarkup: function(markup) {
                 return markup; },
-            minimumInputLength: 2,
+            minimumInputLength: 1,
 
         });
 
@@ -373,7 +373,7 @@
             },
             escapeMarkup: function(markup) {
                 return markup; },
-            minimumInputLength: 2
+            minimumInputLength: 1
         });
        
         // $('#idequipo').keyup(function(){ 

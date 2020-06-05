@@ -19,8 +19,9 @@ $(document).ready(function () {
             dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
             buttons: [
              {               
+                className: 'btn btn-default btn-lg',
                 extend: 'excel',
-                text: 'Excel',
+                text: '<span class="fa fa-download"></span> Exportar a Excel',
                 exportOptions: {
                     columns: [':not(:last-child)' ]
                 },
@@ -163,8 +164,9 @@ $(document).ready(function () {
             "order": [[ 1, "desc" ]],
             buttons: [
                  {
+                    className: 'btn btn-default btn-lg',
                     extend: 'excel',
-                    text: 'Excel',
+                    text: '<span class="fa fa-download"></span> Exportar a Excel',
                     exportOptions: {
                         columns: [':not(:last-child)' ]
                     },
@@ -348,8 +350,9 @@ $(document).ready(function () {
             "order": [[ 1, "desc" ]],
             buttons: [
                  {
+                    className: 'btn btn-default btn-lg',
                     extend: 'excel',
-                    text: 'Excel',
+                    text: '<span class="fa fa-download"></span> Exportar a Excel',
                     exportOptions: {
                         columns: [':not(:last-child)' ]
                     },                    
@@ -463,10 +466,10 @@ $(document).ready(function () {
         });
 
         $('#table_calibrar thead tr').clone(true).appendTo( '#table_calibrar thead' );
-            $('#table_calibrar thead tr:eq(1) th').each( function () {
-                var title = $(this).text();
-                $(this).html( '<input type="text" style="font-size:11px;" placeholder="'+title+'" />' );                        
-            } );  
+        $('#table_calibrar thead tr:eq(1) th').each( function () {
+            var title = $(this).text();
+            $(this).html( '<input type="text" style="font-size:11px;" placeholder="'+title+'" />' );                        
+        } );  
 
         var table_calibrar = $('#table_calibrar').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
@@ -480,8 +483,9 @@ $(document).ready(function () {
             dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
             buttons: [
                  {
+                    className: 'btn btn-default btn-lg',
                     extend: 'excel',
-                    text: 'Excel',
+                    text: '<span class="fa fa-download"></span> Exportar a Excel',
                     exportOptions: {
                         columns: [':not(:last-child)' ]
                     },
@@ -575,8 +579,9 @@ $(document).ready(function () {
             dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
             buttons: [
                  {
+                    className: 'btn btn-default btn-lg',
                     extend: 'excel',
-                    text: 'Excel',
+                    text: '<span class="fa fa-download"></span> Exportar a Excel',
                     exportOptions: {
                         columns: [':not(:last-child)' ]
                     },
@@ -635,13 +640,15 @@ $(document).ready(function () {
             dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
             buttons: [
                  {
+                    className: 'btn btn-default btn-lg',
                     extend: 'excel',
-                    text: 'Excel',
+                    text: '<span class="fa fa-download"></span> Exportar a Excel',
                     exportOptions: {
                         columns: [':not(:last-child)' ]
                     },
                 }                
-            ],                    
+            ],
+            fixedColumns: true,                   
             "columnDefs": [
                 {"targets":[16], "visible":false},               
                 //{"targets":[15], "visible":false},               
@@ -706,8 +713,9 @@ $(document).ready(function () {
             dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
             buttons: [
                 {
+                    className: 'btn btn-default btn-lg',
                     extend: 'excel',
-                    text: 'Excel',
+                    text: '<span class="fa fa-download"></span> Exportar a Excel',
                     exportOptions: {
                         columns: [':not(:last-child)' ]
                     },
@@ -774,8 +782,9 @@ $(document).ready(function () {
             "scrollX": true,            
             dom: '<"pull-left"l>fr<"dt-buttons"B>tip',           
             buttons: [ {
+                    className: 'btn btn-default btn-lg',
                     extend: 'excel',
-                    text: 'Excel',
+                    text: '<span class="fa fa-download"></span> Exportar a Excel',
                     exportOptions: {
                         columns: [':not(:last-child)' ]
                     },                    
@@ -828,7 +837,8 @@ $(document).ready(function () {
         var label= ["label-danger","label-success"];
         var hoy= moment().format('YYYY-MM-DD');
         var nextmonth= moment(hoy).add(1,'months').format('YYYY-MM-DD');                                                               
-              
+         
+        
 
     }        
 });

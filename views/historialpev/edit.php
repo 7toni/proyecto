@@ -125,6 +125,23 @@
                                                 </div>
                                                 <!-- /.input group -->
                                             </div>
+
+                                            <!-- Pendiente, a evaluar con Melissa  -->
+                                            <!-- <div class="form-group">      
+                                                <h4 >Vigencia</h4>                                                                                    
+                                                <input type="number" class="form-control" id="vigencia" name="vigencia" require="">                                                
+                                            </div>
+
+                                            <div class="form-group">                                      
+                                                <h4 for="fecha_vencimiento">Fecha de vencimiento</h4>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" class="form-control pull-right datepicker" id="fecha" name="fecha" require="">
+                                                </div>
+                                            </div> -->
+                                            
                                             <!-- /.form group -->
                                             <div class="form-group">
                                                 <h4><input type="checkbox" class="flat-red"  name="actualizarv">&nbsp; Actualizar el control de calidad</h4>                                                
