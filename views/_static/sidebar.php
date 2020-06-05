@@ -109,8 +109,10 @@
              <!-- Módulos de reportes  --> 
              <?php
                 $reportesm = ($_SESSION['menu']=='reportes') ? 'active' : '';
+
                 $rindexsm = ($_SESSION['submenu']=='reportes_tecnico') ? 'active' : '';
-                $rtecnicossm = ($_SESSION['submenu']=='reportes_tecnico') ? 'active' : '';
+                $rtecnicocalsm = ($_SESSION['submenu']=='reportes_tecnico_cal') ? 'active' : ''; //reporteTecnicocalibracionsubmenu
+                $rclientecalsm = ($_SESSION['submenu']=='reportes_tecnico') ? 'active' : '';
                 $rclientessm = ($_SESSION['submenu']=='reportes_cliente') ? 'active' : '';
                 $rproductsm = ($_SESSION['submenu']=='reportes_productividad') ? 'active' : '';
 
@@ -121,12 +123,14 @@
                             <i class='fa fa-pie-chart'></i> <span>Reportes</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
                         </a>
                         <ul class='treeview-menu'>
-                            <li class='". $rindexsm ."' ><a href='?c=reportes'><i class='fa fa-circle-o'></i>
-                            Técnico</a></li>                                                   
-                            <li class='". $rclientessm ."' ><a href='?c=reportes&a=cliente'><i class='fa fa-circle-o'></i>
+                            <li class='". $rindexsm ."' ><a href='#'><i class='fa fa-circle-o'></i>
+                            Default</a></li>                                                   
+                            <li class='". $rclientessm ."' ><a href='#'><i class='fa fa-circle-o'></i>
                             Clientes</a></li>
-                            <li class='". $rproductsm ."' ><a href='?c=reportes&a=productividad'><i class='fa fa-circle-o'></i>
-                            Productividad</a></li>                  
+                            <li class='". $rclientecalsm ."' ><a href='?c=reportes&a=cliente_cal'><i class='fa fa-circle-o'></i>
+                            Equipos Cal. x Cliente</a></li>
+                            <li class='". $rtecnicocalsm ."' ><a href='?c=reportes&a=tecnico_cal'><i class='fa fa-circle-o'></i>
+                            Equipos Cal. x Técnico</a></li>                   
                         </ul>
                         </li>";
                 }            

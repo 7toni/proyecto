@@ -62,21 +62,30 @@ $condicion="";
 /* #End vista de informes cliente #End */ 
 
 /* #Home Reportes */
-    if ($controller== "reportes") {  
-        $data=json_decode($ext);    
-        $table = 'view_'.$controller.$data[3]; // contiene la extension de la tabla a consultar 
-        $query_condicion="(fecha_calibracion between '".$data[1]."' and '".$data[2]."')";
-        if($data[4] != 0){
-             $query_condicion .= " and (tecnico_id=". $data[4].")"; 
-        }
-        if($data[0] != 0){
-            $query_condicion .= " and (calibraciones_id=". $data[0].")";
-        }        
-        $condicion= $query_condicion;             
+    if ($controller== "reportes") {   
+        $data=json_decode($ext);             
+        $table = 'view_'.$controller.$data[0]; // Tabla a consultar view_reporte_(sucursal)
+        
+        $query_condicion = "fecha_calibracion between '". $data[1] ."' and '". $data[2] ."'";        
+        $query_condicion .= " and tecnico_email='". $data[4] ."'";
+        
+        if($data[3] != "todos" ){
+            $query_condicion .= " and calibracion='". $data[3] . "'";
+        }                
+        // $table = 'view_'.$controller.$data[3]; // contiene la extension de la tabla a consultar 
+        // $query_condicion="(fecha_calibracion between '".$data[1]."' and '".$data[2]."')";
+        // if($data[4] != 0){
+        //      $query_condicion .= " and (tecnico_id=". $data[4].")"; 
+        // }
+        // if($data[0] != 0){
+        //     $query_condicion .= " and (calibraciones_id=". $data[0].")";
+        // }        
+        $condicion= $query_condicion;                   
     }
     if ($controller== "total_product") {  
         $data=json_decode($ext);  //Año,mes,sucursal
         $table = 'view_informes'.$data[3]; // contiene la extension de la tabla a consultar 
+
         if ($data[0]=="compara" ) {
             $query_condicion =" year(fecha_calibracion)='".$data[1]."' and month(fecha_calibracion) ='".$data[2]."'";
             $query_condicion .= " and estado_calibracion=1";

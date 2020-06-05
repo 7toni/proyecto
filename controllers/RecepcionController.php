@@ -29,7 +29,7 @@
 	}
 
 	public function index (){
-    //var_dump(Session::get('email')); //id usuario
+//    var_dump(Session::get('sucursal')); //Sucursal
     //?c=recepcion&a=index&p=2  
     if (isset($_GET['p'])) {
       $id=$_GET['p'];

@@ -8,9 +8,10 @@
             font-weight: bold;
             font-size: 15px;            
             cursor: pointer;
+            color: #367fa9;
         }
         tr.shown td.details-control {
-            color: Green;            
+            color: #00c0ef;
         }
         </style>
     </head>
@@ -147,7 +148,7 @@
 
             var requiere= ["No requiere","Requiere"];
             var badge= ["bg-red","bg-green"];
-            var label= ["label-success","label-success"];           
+            var label= ["label-info","label-success"];           
 
             var hoy= moment().format('YYYY-MM-DD');
             var nextmonth= moment(hoy).add(1,'months').format('YYYY-MM-DD');

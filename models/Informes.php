@@ -109,6 +109,7 @@ class Informes extends Model {
         $this->get_results_from_query();       
         return $this->rows;
     }
+
     //Esta función sirve para denegar el seguimiento a las personas no autorizadas (Técnicos)
     public function _redirec($rol,$proceso,$id){
         $array_pages= array('?c=recepcion','?c=calibracion&a=index&p=','?c=salida&a=index&p=','?c=factura&a=index&p=','?c=recepcion');
@@ -121,6 +122,24 @@ class Informes extends Model {
             if($proceso < 4){redirect($array_pages[$proceso].$id); }
             else{redirect($array_pages[$proceso]);}
         }   
+    }
+
+    public function get_reporte_tecnico_cal($data){     
+        $query= "SELECT id as informe,alias as clave, descripcion,marca,modelo,serie, cliente, fecha_inicio,calibracion as tipo_calibracion,fecha_calibracion,periodo_calibracion,fecha_vencimiento,tecnico_email,factura,precio,precio_extra,moneda,fecha_salida,proceso FROM view_reportes". $data['ext'] ." ";
+        $condicion= "WHERE ";
+
+        $condicion .="fecha_calibracion between '". $data['fecha_home']."' and '". $data['fecha_end']."' ";  //Filtro entre fechas
+
+        if($data['tipo_calibracion'] != "todos"){  //Filtro de tipo de calibracion          
+             $condicion .= " and calibracion='". $data['tipo_calibracion'] ."' ";
+        }
+        if($data['email'] != "todos" ){ // Filtro de tecnicos
+
+             $condicion .="and tecnico_email='". $data['email'] ."' ";
+        }                
+        $this->query = $query . $condicion.";";                                 
+        $this->get_results_from_query();       
+        return $this->rows;        
     }
 
     public function get_reporte_clientes($data){
@@ -148,7 +167,6 @@ class Informes extends Model {
         $this->query .= $condicion." ;";                                 
         $this->get_results_from_query();       
         return $this->rows;
-
     }
 
     public function get_productividad($data){

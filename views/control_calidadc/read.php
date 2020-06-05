@@ -147,7 +147,7 @@
 
             var requiere= ["No requiere","Requiere"];
             var badge= ["bg-red","bg-green"];
-            var label= ["label-danger","label-success"];
+            var label= ["label-info","label-success"];
             var hoy= moment().format('YYYY-MM-DD');
             var nextmonth= moment(hoy).add(1,'months').format('YYYY-MM-DD');
             

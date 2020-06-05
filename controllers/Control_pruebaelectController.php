@@ -263,23 +263,23 @@ class Control_pruebaelectController{
 
     private function prox_mantenimiento($data, $vigencia){
         $fecha= $data['fecha_calibracion'];
-        if($vigencia == 6){
-            $data['proxm'] = date('Y-m-d', strtotime($fecha . "+12 month"));          
-        }
-        else{
+        // if($vigencia == 6){
+        //     $data['proxm'] = date('Y-m-d', strtotime($fecha . "+12 month"));          
+        // }
+        // else{
             $data['proxm'] = date('Y-m-d', strtotime($fecha . "+6 month"));
-        }              
+        // }              
         return $data;
     }
     
     private function prox_verificacion($data, $vigencia){
         $fecha= $data['fecha_calibracion'];
-        if($vigencia == 6){
-            $data['proxv'] = date('Y-m-d', strtotime($fecha . "+12 month"));
-        }
-        else{
-            $data['proxv'] = date('Y-m-d', strtotime($fecha . "+6 month"));
-        }                
+        // if($vigencia <= 12){
+            $data['proxv'] = date('Y-m-d', strtotime($fecha . "+6 month"));            
+        // }
+        // else{
+        //     $data['proxv'] = date('Y-m-d', strtotime($fecha . "+12 month"));           
+        // }               
         return $data;
     }
 

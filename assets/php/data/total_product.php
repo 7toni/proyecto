@@ -39,18 +39,23 @@ $columns = array(
      array(
             'db' => 'fecha_hoja_salida',
             'dt' => 15,
-            'formatter'=> function( $d, $row ) {                
-                $start= strtotime($row[13]);              
-                $end= strtotime($d);
-                $count =0;
-                while(date('Y-m-d',$start)< date('Y-m-d',$end))
+            'formatter'=> function( $d, $row ) {               
+                if($d != null || $d!='')
                 {
-                    $count += date('N',$start) < 6 ? 1:0;
-                    $start = strtotime("+1 day",$start);
-                }
+                    $start= strtotime($row[13]);              
+                    $end= strtotime($d);
+                    $count =0;
+                    while(date('Y-m-d',$start)< date('Y-m-d',$end))
+                    {
+                        $count += date('N',$start) < 6 ? 1:0;
+                        $start = strtotime("+1 day",$start);
+                    }                    
+                } else{
+                    $count =0; 
+                }                             
                 return $count;
             }
-        ),    
+        ),
      array('db' => 'fecha_final', 'dt' => 16),
     // array('db' => 'proceso', 'dt' => 17),
     array('db' => 'nombre_proceso', 'dt' => 17),

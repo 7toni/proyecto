@@ -96,49 +96,50 @@ class HistorialpevController{
 
     public function update(){
         $tabla= $this->name;
+        $actualizarcontrol= false;
         $data= validate($_POST,[
-            'id' => 'required|toInt|exists:'. $tabla .'',
+            //'id' => 'required|toInt|exists:'. $tabla .'',
             'equipos_id'=> 'required|toInt',
             'fecha'=> 'fecha',            
             'comentario'=> 'comentario',
             'responsable'=> 'required|toInt',                     
         ]);
 
-        if(isset($_POST['actualizarv'])){           
+        if(isset($_POST['actualizarv'])){ 
+            $actualizarcontrol= true;
             unset($data['actualizarv']);
         }       
                       
-        if($this->model['control_pruebaelect']->find_by(['equipos_id' => $data['equipos_id']])){
-            /* Preguntamos si existe ese registro con el mismo equipo, fecha y responsable, si existe muestra una alerta  */
-            if($this->model['historialpev']->find_by(['equipos_id' => $data['equipos_id'],'fecha'=> $data['fecha'],'responsable'=>$data['responsable'],'comentario'=>$data['comentario']])){
-                Flash::error(setError('015'));
-            }
-            else{
-                if($this->model['historialpev']->update($data)){
-                    if(isset($_POST['actualizarv'])){
-                        $historial=$this->model['historialpev']->find_by(['equipos_id' => $data['equipos_id'],'fecha'=> $data['fecha'],'responsable'=>$data['responsable'],'comentario'=>$data['comentario']]);
-                        $control_calidad=$this->model['control_pruebaelect']->find_by(['equipos_id' => $data['equipos_id']]);
-        
-                        $data_controlc['id']= $control_calidad[0]['id'];
-                        $data_controlc['historialpev_id']= $historial[0]['id'];
-                        $data_controlc['proxv']= $this->prox_verificacion($data);
-                                        
-                        if($this->model['control_pruebaelect']->update($data_controlc)){
-                            redirect('?c=' . $this->name);
-                        }
-                        else{
-                            Flash::error(setError('002'));
-                        }  
-
-                    }else{
+        if($this->model['control_pruebaelect']->find_by(['equipos_id' => $data['equipos_id']])){            
+            if( $actualizarcontrol== true){
+                if($this->model['historialpev']->update($data)){                  
+                    $historial=$this->model['historialpev']->find_by(['equipos_id' => $data['equipos_id'],'fecha'=> $data['fecha'],'responsable'=>$data['responsable'],'comentario'=>$data['comentario']]);
+                    $control_calidad=$this->model['control_pruebaelect']->find_by(['equipos_id' => $data['equipos_id']]);
+    
+                    $data_controlc['id']= $control_calidad[0]['id'];
+                    $data_controlc['historialpev_id']= $historial[0]['id'];
+                    $data_controlc['proxv']= $this->prox_verificacion($data);
+                                    
+                    if($this->model['control_pruebaelect']->update($data_controlc)){
                         redirect('?c=' . $this->name);
                     }
-                                 
+                    else{
+                        Flash::error(setError('002'));
+                    }             
                 }
                 else{
                     Flash::error(setError('002'));
                 } 
-            }                          
+            }/* Preguntamos si existe ese registro con el mismo equipo, fecha y responsable, si existe muestra una alerta  */
+            else if($this->model['historialpev']->find_by(['equipos_id' => $data['equipos_id'],'fecha'=> $data['fecha'],'responsable'=>$data['responsable'],'comentario'=>$data['comentario']])){
+                Flash::error(setError('015'));
+            } else {
+                if($this->model['historialpev']->update($data)){ 
+                    redirect('?c=' . $this->name);
+                 } else{
+                    Flash::error(setError('002'));
+                }
+            }                         
         }
         else{                      
             $_SESSION["error"] = ["data" => $errors, "id" => "001", "title" => "Alerta!", "data"=> array(["msg" => "Ha ocurrido un problema con la validación de los datos. El equipo no se encuentra en el Control de Calidad. "])];
@@ -162,16 +163,19 @@ class HistorialpevController{
 
         $fecha= $data['fecha'];
         $view_controlc=$this->model['control_pruebaelect']->find_by(['equipos_id' => $data['equipos_id']],'view_control_pruebaelect');
-        $vigencia=intval($view_controlc[0]['vigencia']);
+                
+        $fechaproxv= date('Y-m', strtotime($fecha . "+6 month"));
 
-        if($vigencia <= 12){
-            $data = date('Y-m-d', strtotime($fecha . "+6 month"));
-            //$data['contadorv']= ($periodocal/6)-1;
-        }
-        else{
-            $data = date('Y-m-d', strtotime($fecha . "+12 month"));
-            //$data['contadorv']= ($periodocal/6);
-        }        
+        $fechavenc=$view_controlc[0]['fecha_vencimiento'];
+
+        $fechavencnew = date('Y-m', strtotime($fechavenc));  
+
+        if( $fechavencnew == $fechaproxv){
+            $data = date('Y-m-d', strtotime($fecha . "+12 month"));   
+        }else if ($fechaproxv < $fechavencnew) {
+            $data = date('Y-m-d', strtotime($fecha . "+6 month"));  
+        }                   
+                
         return $data;
     }
 

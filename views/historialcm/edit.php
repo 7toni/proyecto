@@ -106,8 +106,8 @@
                                                     <option value="">Seleccione una opción</option> 
                                                     <?php
                                                         foreach($data['usuarios'] as $usuario){
-                                                            if(($usuario["rol"] != "Administrador")){
-                                                                if($data['get']['responsable']== $usuario['id']){
+                                                            if(($usuario['rol'] != "Administrador")){
+                                                                if($data['get'][0]['responsable'] == $usuario['id']){
                                                                     echo '<option value="'.$usuario['id'].'" selected="selected">'. $usuario['email'].'</option>';
                                                                 }
                                                                 else{
@@ -140,6 +140,23 @@
                                                 </div>
                                                 <!-- /.input group -->
                                             </div>
+
+                                            <!-- Pendiente, a evaluar con Melissa  -->
+                                            <!-- <div class="form-group">      
+                                                <h4 >Vigencia</h4>                                                                                    
+                                                <input type="number" class="form-control" id="vigencia" name="vigencia" require="">                                                
+                                            </div>
+
+                                            <div class="form-group">                                      
+                                                <h4 for="fecha_vencimiento">Fecha de vencimiento</h4>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" class="form-control pull-right datepicker" id="fecha" name="fecha" require="">
+                                                </div>
+                                            </div> -->
+                                            
                                             <!-- /.form group -->
                                             <div class="form-group">
                                                 <h4><input type="checkbox" class="flat-red"  name="actualizarm">&nbsp; Actualizar el control de calidad</h4>                                                

@@ -173,13 +173,16 @@ class ReportesController{
 		unset($data['daterange']);
 		$data['fecha_home']=$cadena[0];
 		$data['fecha_end']=$cadena[1];
-		$ext="";		
+		$ext="";
+
 		$sucursal= strtolower($data['nombre_suc']);
+
     	if ($sucursal== 'nogales') {$ext="_n"; }
         else if($sucursal== 'hermosillo') {$ext="_h"; }
         else if($sucursal== 'guaymas') {$ext="_g"; }	        
         unset($data['nombre_suc']);
-        $data['ext']=$ext;			
+		$data['ext']=$ext;
+					
 		if ($data['tipo_busqueda']==1) {
 			$hoy= date('Y-m-d');
 			$_fhome= date('Y-m-d',strtotime($data['fecha_home']));
@@ -286,6 +289,66 @@ class ReportesController{
        $_SESSION['menu'] = 'pulso';
        $_SESSION['submenu'] = 'pulso';
 	   include view($this->name.'.prueba');
+	}
+
+	public function tecnico_cal(){
+		$_SESSION['menu'] = 'reportes';
+      	$_SESSION['submenu'] = $this->name.'_tecnico_cal';
+		$sucursal = Session::get('sucursal'); //Sucursal		
+		$data['tecnico']= $this->model['usuario']->find_by(['roles_id'=>'10003', 'sucursal'=> strtolower($sucursal)],'view_usuarios');
+		$data['tipocalibraciones']= $this->model['tipocalibracion']->all();
+		include view($this->name.'.tecnico_cal');
+	}
+	 
+	public function ajax_tecnico_cal(){
+		$data = array(
+			"daterange" =>$_POST['daterange'],
+			"tipo_calibracion" =>$_POST['tipo_calibracion'],
+			"email" => $_POST['email']		
+			);
+			
+		$cadena= explode(' - ', $data['daterange']);				
+		unset($data['daterange']);
+		$data['fecha_home']=$cadena[0];
+		$data['fecha_end']=$cadena[1];
+
+		$sucursal= array('nogales'=>'_n','hermosillo'=>'_h','guaymas'=>'_g');
+
+		$getsucursal = Session::get('sucursal'); //Sucursal	
+		$data['ext']= $sucursal[strtolower($getsucursal)];
+						
+		echo json_encode($this->model['informe']->get_reporte_tecnico_cal($data));
+	}
+
+	public function resultados_calibracion(){
+		$_SESSION['menu'] = 'reportes';
+		$_SESSION['submenu'] = $this->name.'_tecnico_cal';		
+		$sucursal= array('nogales'=>'_n','hermosillo'=>'_h','guaymas'=>'_g');
+		$getsucursal = Session::get('sucursal'); //Sucursal	
+		$data['ext']= $sucursal[strtolower($getsucursal)];
+
+		$date= explode(' - ', $_GET['var0']);						
+		
+		// 2019-12-16 - 2020-01-14 | todos | tecnico@mypsa.com.mx
+
+		$arreglo = json_encode(array(
+			$sucursal[strtolower($getsucursal)], // Sucursal
+			$date[0], // dateHome
+			$date[1],	// dateEnd
+			$_GET['var1'], //TipoCalibracion
+			$_GET['var2'] //tecnicoEmail
+			));
+
+		include view($this->name.'.resultados_calibracion');
+	}
+
+	public function cliente_cal(){
+		$_SESSION['menu'] = 'reportes';
+      	$_SESSION['submenu'] = $this->name.'_cliente_cal';
+		$sucursal = Session::get('sucursal'); //Sucursal			
+		$data['planta']= $this->model['planta']->find_by(['sucursal'=> strtolower($sucursal)],'view_plantas');
+		$data['tipocalibraciones']= $this->model['tipocalibracion']->all();
+		include view($this->name.'.cliente_cal');
 	}
 		
 }

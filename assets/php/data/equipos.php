@@ -4,11 +4,11 @@ $primary_key = 'id';
 
 $columns = array(
     array('db' => 'id', 'dt' => 0),
-    array('db' => 'alias', 'dt' => 1),
-    array('db' => 'serie', 'dt' => 2),
-    array('db' => 'descripcion', 'dt' => 3),
-    array('db' => 'marca', 'dt' => 4),
-    array('db' => 'modelo', 'dt' => 5),
+    array('db' => 'alias', 'dt' => 1),   
+    array('db' => 'descripcion', 'dt' => 2),
+    array('db' => 'marca', 'dt' => 3),
+    array('db' => 'modelo', 'dt' => 4),
+    array('db' => 'serie', 'dt' => 5),
     //array('db' => 'activo', 'dt' => 6),
     array(
         'db' => 'activo',
