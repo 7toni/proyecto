@@ -257,8 +257,8 @@
                     $usuariossm = ($_SESSION['submenu']=='usuarios') ? 'active' : '';
                     $usuariosrolsm = ($_SESSION['submenu']=='roles') ? 'active' : '';
                     $usuariosaltasm = ($_SESSION['submenu']=='usuariosalta') ? 'active' : '';            
-                    $usuarioclientesm = ($_SESSION['submenu']=='usuarioscliente') ? 'active' : '';            
-                    if(Session::has('roles_id',['10000','10002','10004'])){
+                    $usuarioclientesm = ($_SESSION['submenu']=='usuarioscliente') ? 'active' : ''; 
+                    if(Session::has('roles_id',['10000'])){
                         echo "<li class='".$usuariosm." treeview'>
                             <a href='#'>
                                 <i class='fa fa-user'></i> <span>Cuentas de usuarios</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
@@ -270,7 +270,32 @@
                                 <li class='".$usuariosaltasm. "'><a href='?c=usuarios&a=alta'><i class='fa fa-users'></i>Alta de Usuarios</a></li>                                
                             </ul>
                         </li>";
-                    }           
+                    }
+
+                    if(Session::has('roles_id',['10002','10004'])){
+                        echo "<li class='".$usuariosm." treeview'>
+                            <a href='#'>
+                                <i class='fa fa-user'></i> <span>Cuentas de usuarios</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
+                            </a>
+                            <ul class='treeview-menu'>
+                                <li class='".$usuariossm. "'><a href='?c=usuarios'><i class='fa fa-users'></i>Usuarios Mypsa</a></li>
+                                <li class='".$usuarioclientesm. "'><a href='?c=usuarios&a=cliente'><i class='fa fa-users'></i>Clientes</a></li>                                
+                            </ul>
+                        </li>";
+                    } 
+                    
+                    if(Session::has('roles_id',['10006','10003'])){
+                        echo "<li class='".$usuariosm." treeview'>
+                            <a href='#'>
+                                <i class='fa fa-user'></i> <span>Cuentas de usuarios</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
+                            </a>
+                            <ul class='treeview-menu'>                                
+                                <li class='".$usuarioclientesm. "'><a href='?c=usuarios&a=cliente'><i class='fa fa-users'></i>Clientes</a></li>                                
+                            </ul>
+                        </li>";
+                    }   
+                    
+                    
                     //adminsitración del LOG
                     $logm = ($_SESSION['menu']=='logs') ? 'active' : '';
                     $logsm = ($_SESSION['submenu']=='logs') ? 'active' : '';                            

@@ -426,6 +426,7 @@
           $data['proceso'] = intval('1');
         }
 
+
       $retorno = $this->model['informes']->validar_fecha($data['id'],$data['fecha'],$proceso_temp,$this->name,$view);
 
         //var_dump($retorno);

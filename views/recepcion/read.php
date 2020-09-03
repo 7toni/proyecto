@@ -523,11 +523,11 @@
                                     <div class="box-body">
                                         <div class="form-group">
                                         <label for="email">* Correo</label>
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Ingresar Correo">
+                                        <input type="email" class="form-control" id="email"  placeholder="Ingresar Correo">
                                         </div>
                                         <div class="form-group">
                                         <label for="password">* Contraseña</label>
-                                        <input type="password" class="form-control" id="password" name="password" placeholder="Ingresar Contraseña">
+                                        <input type="password" class="form-control" id="password"  placeholder="Ingresar Contraseña">
                                         </div>
                                         <p id="validacion"></p>                                                    
                                     </div>
