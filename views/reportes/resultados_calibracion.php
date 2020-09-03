@@ -212,6 +212,7 @@
 
                 var table_resultados = $('#table_resultados').DataTable({
                     "ajax": "assets/php/server_processing.php?controller=" + controller,
+                    "deferRender": true,
                     "processing": true,
                     "serverSide": true,
                     "dataType": "jsonp",

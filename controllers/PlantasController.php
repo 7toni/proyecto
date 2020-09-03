@@ -12,6 +12,7 @@ class PlantasController {
             'planta' => new Planta(),
             'empresa' => new Empresa(),
             'ciudad' => new Ciudad(),
+            'estado' => new Estado(),
             'sucursal' => new Sucursal(),
         ];
     }
@@ -29,15 +30,19 @@ class PlantasController {
     public function add() {
         $data['empresa'] = $this->model['empresa']->all();
         $data['ciudad'] = $this->model['ciudad']->all();
+        $data['estado'] = $this->model['estado']->all();
         $data['sucursal'] = $this->model['sucursal']->all();
         include view($this->name . '.add');
     }
 
     public function edit($id) {
         $data['planta'] = $this->model['planta']->find($id);
+        //var_dump($data['planta']);
+
         if (exists($data['planta'])) {
             $data['empresa'] = $this->model['empresa']->all();
             $data['ciudad'] = $this->model['ciudad']->all();
+            $data['estado'] = $this->model['estado']->all();
             $data['sucursal'] = $this->model['sucursal']->all();
             include view($this->name . '.edit');
         }
@@ -45,9 +50,11 @@ class PlantasController {
 
     public function delete($id) {
         $data['planta'] = $this->model['planta']->find($id);
+
         if (exists($data['planta'])) {
             $data['empresa'] = $this->model['empresa']->all();
             $data['ciudad'] = $this->model['ciudad']->all();
+            $data['estado'] = $this->model['estado']->all();
             $data['sucursal'] = $this->model['sucursal']->all();
             include view($this->name . '.delete');
         }
@@ -56,13 +63,16 @@ class PlantasController {
     public function store() {
         $data = validate($_POST, [
             'nombre' => 'required|ucname',
-            'empresas_id' => 'required|number|exists:empresas:id',
-            'ciudades_id' => 'required|number|exists:ciudades:id',
+            'empresas_id' => 'required|number|exists:empresas:id',           
             'sucursales_id' => 'required|number|exists:sucursales:id',
             'rfc'=> 'ucname',
-            'razon_social'=> 'ucname',
-            'direccion'=> 'required|ucname',           
+            'razon_social'=> 'ucname',            
+            'calle' => 'required',
+            'colonia' => 'required',
+            'ciudades_id' => 'required|number|exists:ciudades:id',
+            'estados_id' => 'required|number|exists:estados:id'                    
         ]);
+
         if ($this->model['planta']->store($data)) {
             redirect('?c=' . $this->name);
         } else {
@@ -74,12 +84,14 @@ class PlantasController {
         $data = validate($_POST, [
             'id' => 'required|number|exists:plantas',
             'nombre' => 'required|ucname',
-            'empresas_id' => 'required|number|exists:empresas:id',
-            'ciudades_id' => 'required|number|exists:ciudades:id',
+            'empresas_id' => 'required|number|exists:empresas:id',           
             'sucursales_id' => 'required|number|exists:sucursales:id',
             'rfc'=> 'ucname',
-            'razon_social'=> 'ucname',
-            'direccion'=> 'required|ucname',
+            'razon_social'=> 'ucname',           
+            'calle' => 'required',
+            'colonia' => 'required',
+            'ciudades_id' => 'required|number|exists:ciudades:id',
+            'estados_id' => 'required|number|exists:estados:id'
         ]);
         if ($this->model['planta']->update($data)) {
             redirect('?c=' . $this->name);

@@ -23,6 +23,13 @@ class UsuariosController {
         include view($this->name . '.read');
     }
 
+    public function cliente() {
+        $_SESSION['menu'] = 'usuarios';
+        $_SESSION['submenu'] = $this->name. "cliente";
+        include view($this->name . '.cliente');
+    }
+
+
     public function alta() {
         $_SESSION['menu'] = 'usuarios';
         $_SESSION['submenu'] = $this->name. "alta";
@@ -145,8 +152,7 @@ class UsuariosController {
         }
     }
 
-    public function update() {
-        
+    public function update() {        
         $data = validate($_POST, [
             'id' => 'required|exists:usuarios',
             'nombre' => 'required|ucwords',

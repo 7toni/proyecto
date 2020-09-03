@@ -224,7 +224,7 @@
             $('#periodo_calibracion').val(bitacora.vigencia)
             $('#acreditaciones_id').val(bitacora.acreditacion).change();
             $('#calibraciones_id').val(bitacora.tipo_cal).change();
-            $('#usuarios_calibracion_id').val(bitacora.tecnico_cal).change();
+            $('#usuarios_calibracion_id').val(bitacora.tecnico_cal).change();            
                       
             var porciento = validar_equipo_vigenciacal(bitacora.equipos_id);
             var usuario_permiso=validar_usuario_confirmar();
@@ -261,8 +261,7 @@
             else{
                 $("[name='informevalidacion']").remove();           
             }                                          
-    }    
-   
+    }       
 
     function validar_ultimacal(datehome,dateend){
         var value=0;
@@ -351,29 +350,74 @@
   } 
 
   var empresa_ajax_r = function() {
+
       $.ajax({
           url: "?c=recepcion&a=ajax_load_plantas",
           dataType: "json",
           method: "POST",
           data: "idempresa=" + $(".select2").val()
       }).done(function(data) {
-          var datos = data;
+          var datos = data;        
           var select = $('#idplanta_ajax_r');
           select.empty();
-          select.append($("<option />").val('').text('Seleccione una opción'));
+            select.append($("<option >").val('').text('Seleccione una opción'));
           $.each(datos, function() {
-              select.append($("<option />").val(this.id).text(this.nombre));
-          });
+              select.append($("<option >").val(this.id).text(this.nombre));
+          });                  
+          
+            if(datos.length == 1){
+            var optplanta= datos[0]['id'];
+            $('#idplanta_ajax_r').val(optplanta).change();            
+            }
+            else{
+                $('#direccion_planta').text('...'); 
+            }
+
           if (planta_temp.length > 0) {
               $('#idplanta_ajax_r').val(planta_temp).change();
               planta_temp = "";
-          } else {
-              $('#idplanta_ajax_r').val('').change();
-          }
+          } 
+        //   else  {
+        //       $('#idplanta_ajax_r').val('').change();
+        //   }     
+
       }).fail(function(data) {}).always(function(data) {
           // console.log(data);
       });
     }
+
+    var idplanta_ajax_r = function() {
+        var dato= $('#idplanta_ajax_r').val();
+        if(dato != ""){            
+            $.ajax({
+                url: "?c=recepcion&a=ajax_load_cliente",
+                dataType: "json",
+                method: "POST",
+                data: "idplanta=" + dato
+            }).done(function(data) {
+                var datos = data;
+
+                var label = $('#direccion_planta');
+                label.empty();
+                if (datos[0]['address'] != null){                    
+                    label.append($('#direccion_planta').text(datos[0]['address']));
+                    label.addClass('control-label pull-left');
+                }else{                    
+                    label.append($('#direccion_planta').text('Sin dirección'));
+                    label.addClass('control-label pull-left');
+                }                                
+            }).fail(function(data) {}).always(function(data) {
+                // console.log(data);
+            });
+        }
+        else{
+            //console.log("vacio");
+        }
+
+       
+      }
+    
+        
 
 /*  End empresa_ajax_r  */
 
@@ -629,7 +673,7 @@ function submit_acceso() {
     ultimo_numero_informe();
 
     // # Home Recepción   
-    $("#empresa_ajax_r").on('change', empresa_ajax_r);   
+    $("#empresa_ajax_r").on('change', empresa_ajax_r);        
 
     $("#factura_previa").click(function(e){
       factura_previa();
@@ -639,6 +683,7 @@ function submit_acceso() {
     $("#calibraciones_id").on('change', retorna_session_planta);
    
     $("#empresa_ajax").on('change', empresa_ajax);
+    $("#idplanta_ajax_r").on('change', idplanta_ajax_r);
 
     /**  # Datos de P.O **/
     $("#btn_noregistrar_po").click(function(e){           

@@ -165,7 +165,7 @@
                                     <div class="box-tools">                                       
                                     </div>
                                   </div>                                  
-                                  <div class="box-body table-responsive" style="overflow-y: scroll; height: 130px"> 
+                                  <div class="box-body table-responsive" style="overflow-y: scroll; height: 155px"> 
                                   <table id="table_equipo" class="table table-bordered table-striped table-hover" role="grid">
                                     <thead>
                                             <tr role="row">
@@ -250,6 +250,15 @@
                                       ?>
                                         </select>
                                       </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                      <label class="col-sm-3 control-label">Dirección :</label>
+                                      <div class="col-sm-9">                                         
+                                        <label id="direccion_planta" class="control-label pull-left"> <?php echo  isset($data['direccion'][0]['address']) ? $data['direccion'][0]['address']: '...' ; ?></label>
+
+                                        
+
                                     </div>
                                   </div>
                             </div>  

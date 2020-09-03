@@ -128,6 +128,15 @@ abstract class Db {
         }
     }
 
+    public function maxid($view = null) {        
+        if ($view == null) {
+            $this->query = "SELECT MAX(id) as id FROM " . $this->table . "";            
+            $this->get_results_from_query();
+            return $this->rows;
+        } 
+    }
+
+
     public function insert($data) {
         $query = "INSERT INTO ";
         $query .= $this->table . " (";

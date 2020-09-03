@@ -255,7 +255,10 @@ class ReportesController{
 		include view($this->name.'.total_product');
 	}
 
-	public function pulso(){
+	public function pulso(){	
+
+
+
 		Session::logged(['roles_id'=>'10000']);
         $suc = array("n","h","g");    
         for($i=0; $i<3; $i++)

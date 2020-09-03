@@ -37,27 +37,27 @@ function setError($errorNum) {
         ],[
             'id' => '009',
             'title' => 'Accion no realizada',
-            'data' => array(['msg' => 'Ha ocurrido un problema al enviar el correo, intentarlo más tarde o reportarlo al administrador'])
+            'data' => array(['msg' => 'Ha ocurrido un problema al enviar el correo, intentarlo más tarde o reportarlo al administrador.'])
         ],[
             'id' => '010',
             'title' => 'Fecha no permitida',
-            'data' => array(['msg' => 'La fecha a registrar es mayor a las fechas registradas de Calibración | Salida'])
+            'data' => array(['msg' => 'La fecha a registrar es mayor a las fechas registradas de Calibración/Salida.'])
         ],[
             'id' => '011',
             'title' => 'Fecha no permitida',
-            'data' => array(['msg' => 'La fecha a registrar es mayor a la fecha registrada de Calibración'])
+            'data' => array(['msg' => 'La fecha a registrar es mayor a la fecha registrada de Calibración.'])
         ],[
             'id' => '012',
             'title' => 'Fecha no permitida',
-            'data' => array(['msg' => 'La fecha a registrar es menor a la fecha registrada de Entrada'])
+            'data' => array(['msg' => 'La fecha a registrar es menor a la fecha registrada de Entrada/Salida.'])
         ],[
             'id' => '013',
             'title' => 'Fecha no permitida',
-            'data' => array(['msg' => 'La fecha a registrar es menor a las fechas registradas de Entrada| Calibración'])
+            'data' => array(['msg' => 'La fecha a registrar es menor a las fechas registradas de Entrada/Calibración.'])
         ],[
             'id' => '014',
             'title' => 'Fecha no permitida',
-            'data' => array(['msg' => 'La fecha a registrar es menor a las fechas registradas de Entrada| Salida'])
+            'data' => array(['msg' => 'La fecha a registrar es menor a las fechas registradas de Entrada/Salida.'])
         ],[
             'id' => '015',
             'title' => 'Registro no permitido',

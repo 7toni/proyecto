@@ -312,6 +312,7 @@
                        
 
             var _table= $('#table_reporte').DataTable({
+              "deferRender": true,
               "lengthMenu": [[15, 20, 50,100,200,500,1000,3000, -1], [15, 20, 50,100,200,500,1000,3000, "All"]],
               "autoWidth": true,           
               "scrollX": true,
