@@ -105,17 +105,23 @@
                                             <div class="col-sm-9"> 
                                             <select id="idplanta_ajax_r" class="form-control select2" style="width: 100%;" name="plantas_id" required="">
                                                     <option value="">Seleccione una opción</option>
-                                            <?php 
-                                            if (strlen($data['get'][0]['empresas_id'])> 0) {
-                                                foreach ($data['planta'] as $planta) {
-                                                if ($data['get'][0]['plantas_id'] === $planta['id']) {
-                                                    echo '<option value="'. $planta['id'] .'" selected="selected">'.$planta['nombre'].'</option>'; 
-                                                }else{echo '<option value="'. $planta['id'] .'">'.$planta['nombre'].'</option>';}
-                                                }
-                                            }
-                                            ?>
+                                              <?php 
+                                              if (strlen($data['get'][0]['empresas_id'])> 0) {
+                                                  foreach ($data['planta'] as $planta) {
+                                                  if ($data['get'][0]['plantas_id'] === $planta['id']) {
+                                                      echo '<option value="'. $planta['id'] .'" selected="selected">'.$planta['nombre'].'</option>'; 
+                                                  }else{echo '<option value="'. $planta['id'] .'">'.$planta['nombre'].'</option>';}
+                                                  }
+                                              }
+                                              ?>
                                             </select>
                                             </div>
+                                        </div>
+                                        <div class="form-group">
+                                          <label class="col-sm-3 control-label">Dirección :</label>
+                                          <div class="col-sm-9">                                         
+                                            <label id="direccion_planta" class="control-label pull-left"> ...  </label>
+                                          </div>
                                         </div>
                                     </div>
                                 </div>  
@@ -149,8 +155,7 @@
                                           </div>
                                         </div>                                    
                                       </div>                                  
-                                </div>
-                        
+                                </div>                        
                             </div>
                         </div>  
                         <div class="row">

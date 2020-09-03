@@ -295,6 +295,7 @@
 
                             $('#table_volumen').DataTable({
                                 data : obj,
+                                "deferRender" : true,
                                 "paging"      : true,                    
                                 "searching"   : true,
                                 "ordering"    : false,

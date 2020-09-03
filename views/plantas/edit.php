@@ -16,7 +16,7 @@
                         <div class="col-xs-12">
                             <div class="box box-primary">
                                 <div class="box-header  with-border">
-                                    <h3 class="box-title">Editar listados de <?php echo $this->name; ?></h3>
+                                    <h3 class="box-title">Editar <?php echo $this->name; ?></h3>
                                 </div>
                                 <div class="box-body">
                                     <?php if ($error = Flash::hasError()) { ?>
@@ -38,11 +38,11 @@
                                                 <input type="text" class="form-control" id="id" name="id" placeholder="Número de identificación" disabled="" value="<?php echo $data['planta'][0]['id']; ?>">
                                             </div>
                                             <div class="form-group">
-                                                <label for="nombre">Nombre</label>                                                    
+                                                <label for="nombre">Nombre *</label>                                                    
                                                 <input autofocus type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre" value="<?php echo $data['planta'][0]['nombre']; ?>" required="">
                                             </div>
                                             <div class="form-group">
-                                                <label for="empresas_id">Nombre de la empresa perteneciente</label>
+                                                <label for="empresas_id">Nombre de la empresa *</label>
                                                 <select  id="empresas_id" class="form-control select2" style="width: 100%;" name="empresas_id" required="">
                                                     <option value="">Seleccione una opción</option>
                                                     <?php
@@ -70,11 +70,71 @@
                                                 <label for="cp">Codigo postal</label>                                                    
                                                 <input min="0" type="text" class="form-control" name="cp" id="cp" placeholder="Codigo postal" value="<?php echo $data['planta'][0]['cp']; ?>" >
                                             </div>
+
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="calle">Calle *</label>  
+                                                        <input type="text" class="form-control" name="calle" id="calle" placeholder="Calle + Numero interior/exterior" value="<?php echo $data['planta'][0]['calle']; ?>" required="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="colonia">Colonia *</label>  
+                                                        <input type="text" class="form-control" name="colonia" id="colonia" placeholder="Col. Nombre" value="<?php echo $data['planta'][0]['colonia']; ?>" required="">
+                                                    </div>
+                                                </div>                                               
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="ciudades_id">Delegación/ Municipio/ Ciudad *</label>
+                                                        <select id="ciudades_id" class="form-control select2" style="width: 100%;" name="ciudades_id" required="">
+                                                            <option value="">Seleccione una opción</option>
+                                                            <?php
+                                                             foreach ($data['ciudad'] as $ciudad) {
+                                                                if($data['planta'][0]['ciudades_id'] == $ciudad['id'])
+                                                                {
+                                                                    echo '<option value="' . $ciudad['id'] . '" selected>' . $ciudad['nombre'] . '</option>';
+                                                                } else{
+                                                                    echo '<option value="' . $ciudad['id'] . '">' . $ciudad['nombre'] . '</option>';
+                                                                }                                                                
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="estado">Estado *</label>  
+                                                        <select id="estados_id" class="form-control select2" style="width: 100%;" name="estados_id" required="">
+                                                            <option value="">Seleccione una opción</option>
+                                                            <?php
+                                                             foreach ($data['estado'] as $estado) {
+                                                                if($data['planta'][0]['estados_id'] == $estado['id'])
+                                                                {
+                                                                    echo '<option value="' . $estado['id'] . '" selected>' . $estado['nombre'] . '</option>';
+                                                                } else{
+                                                                    echo '<option value="' . $estado['id'] . '">' . $estado['nombre'] . '</option>';
+                                                                }                                                                
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>                                               
+                                            </div> 
+
                                             <div class="form-group">
+                                                <label for="referencia">Referencia</label>                                                    
+                                                <input  type="text" class="form-control" name="referencia" id="referencia" placeholder="Entre cale y calle"  value="<?php echo $data['planta'][0]['referencia']; ?>">
+                                            </div>
+
+                                            <!-- <div class="form-group">
                                                 <label for="direccion">Direccion</label>                                                    
                                                 <input  type="text" class="form-control" name="direccion" id="direccion" placeholder="Direccion"  value="<?php echo $data['planta'][0]['direccion']; ?>">
-                                            </div>
-                                            <div class="form-group">
+                                            </div> -->
+
+                                            <!-- <div class="form-group">
                                                 <label for="ciudades_id">Ciudad de la planta perteneciente</label>
                                                 <select id="ciudades_id" class="form-control select2" style="width: 100%;" name="ciudades_id" required="">
                                                     <option value="">Seleccione una opción</option>
@@ -90,7 +150,8 @@
                                                     }
                                                     ?>
                                                 </select>
-                                            </div>
+                                            </div> -->
+
                                             <div class="form-group">
                                                 <label for="sucursales_id">Sucursal</label>
                                                 <select id="sucursales_id" class="form-control select2" style="width: 100%;" name="sucursales_id" required="">

@@ -64,6 +64,8 @@
                 $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
             } );
            var table = $('#table_alta').DataTable({
+            "ajax": "assets/php/server_processing.php?controller=" + controller+"_alta",
+            "deferRender": true,
             "dom": 'Zlfrtip',
             "colReorder": true,
             "processing": true,
@@ -71,8 +73,7 @@
             "dataType": "jsonp",
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
              "autoWidth": false,
-             "scrollX": true,
-            "ajax": "assets/php/server_processing.php?controller=" + controller+"_alta",
+             "scrollX": true,           
             "columnDefs": [{
                     "targets": -1,
                     "data": null,

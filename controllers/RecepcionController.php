@@ -36,7 +36,9 @@
       $view_informes="view_informes". $this->ext;      
        $data['get']=$this->model['informes']->get_recepcion($id, $view_informes);       
       $data['planta']= $this->model['planta']->find_by(['empresas_id'=>$data['get'][0]['empresas_id']]);
-      //var_dump($data['get']);  
+
+      $data['direccion']= $this->model['planta']->find_by(['id' => $data['get'][0]['plantas_id']], "view_plantas");
+     // var_dump($data['get']);  
       //exit;        
     }
     else{ 
@@ -506,10 +508,12 @@
     $proceso_temp = $data['proceso'];                
     
     //   # code...
+    //Pendiente-- Julio-03-2020 --- Corregir el parametro fecha, desde la base de datos que se generare la fecha con la funcion CURRENT_TIMESTAMP
     $hoy = date("Y-m-d H:i:s");
     $data['fecha_inicio'] = $hoy;
     
-    $iteraciones= $data['informeadd']; unset($data['informeadd']);     
+    $iteraciones= $data['informeadd']; unset($data['informeadd']); 
+
     //   /* Agregar PO , funcion store_po */    
       $po_id = $data['po_id']; unset($data['po_id']);        
       $cantidad = $data['cantidad']; unset($data['cantidad']);        
@@ -528,6 +532,7 @@
       $planta= $this->model['planta']->find_by(['id'=>$data['plantas_id']],'view_plantas');
       $nombreplanta= strtolower(str_replace(' ','',$planta[0]['nombre']));
       $cliente= ($nombreplanta=="planta1") ? $planta[0]['empresa']:$planta[0]['empresa'].', '.$planta[0]['nombre'];
+      
       for ($i=0; $i < $iteraciones; $i++) {
         # code...
         if ($this->model['informes']->store($data))  {          
@@ -545,6 +550,7 @@
             } 
           }                
         }
+
       }          
     }
     else{
@@ -693,10 +699,17 @@
   }
 
   public function ajax_load_plantas() {
-      $idempresa = $_POST['idempresa'];
-      $data = json_encode($data['planta'] = $this->model['planta']->find_by([ 'empresas_id' => $idempresa]));
+      $idempresa = $_POST['idempresa'];      
+      $data = json_encode($data['planta'] = $this->model['planta']->find_by(['empresas_id' => $idempresa]));
       echo $data;
-  }
+  } 
+
+  public function ajax_load_cliente() {
+    $id = $_POST['idplanta'];
+    $view="view_plantas";
+    $data = json_encode($data['planta'] = $this->model['planta']->find_by(['id' => $id], $view));
+    echo $data;
+} 
 
   public function ajax_load_po() {
       $idpo = $_POST['po_id'];       
@@ -724,6 +737,68 @@
     $query="SELECT accesoconfirmar FROM usuarios where id=". $usuario .";";                             
     $data=json_encode($this->model['usuario']->get_query($query));    
     echo $data;    
+  }
+
+  // Funcion en reparacion
+  public function storevol_enreparacion() {
+    $view="view_informes". $this->ext;    
+    $data = validate($_POST, [
+        'informeadd' => 'required|toInt',            
+        'plantas_id' => 'required|toInt',                
+    ]);
+    
+    $proceso_temp = $data['proceso'];                
+    
+    //   # code...
+    //Pendiente-- Julio-03-2020 --- Corregir el parametro fecha, desde la base de datos que se generare la fecha con la funcion CURRENT_TIMESTAMP
+    $hoy = date("Y-m-d H:i:s");
+    $data['fecha_inicio'] = $hoy;
+    
+    $iteraciones= $data['informeadd']; unset($data['informeadd']); 
+        
+    //   /* Agregar PO , funcion store_po */    
+      $po_id = $data['po_id']; unset($data['po_id']);        
+      $cantidad = $data['cantidad']; unset($data['cantidad']);        
+      $data['po_id']= $this->store_po($po_id,$cantidad);
+    //   /* renombrando las variables para insertar la hoja de entrada */
+      $hojaentrada_sucursal="view_hojas_entrada_aux".$this->ext;         
+      $hojas_entrada_id = $data['hojas_entrada_id']; unset($data['hojas_entrada_id']);//
+      $usuarios_id = $data['usuarios_id']; unset($data['usuarios_id']); // 
+      $fecha = $data['fecha']; unset($data['fecha']);//        
+    //   /* Agregar Hoja de entrada , funcion store_hoja_entrada */
+      $data['hojas_entrada_aux_id']= $this->store_hoja_entrada($hojas_entrada_id,$usuarios_id,$fecha,$hojaentrada_sucursal);
+
+    //     /* Comparar si si agrego bien el PO y la hoja de entrada */
+    if (strlen($data['hojas_entrada_aux_id'])> 0 && strlen($data['po_id'])>0) {
+      //si se agrego correctamente hoja de entrada y PO entonces se hara update sobre la tabla informes de los datos pendientes.
+      $planta= $this->model['planta']->find_by(['id'=>$data['plantas_id']],'view_plantas');
+      $nombreplanta= strtolower(str_replace(' ','',$planta[0]['nombre']));
+      $cliente= ($nombreplanta=="planta1") ? $planta[0]['empresa']:$planta[0]['empresa'].', '.$planta[0]['nombre'];
+      
+      for ($i=0; $i < $iteraciones; $i++) {
+        # code...
+        if ($this->model['informes']->store($data))  {          
+          // direccionarlo al siguiente proceso
+          $ultimo= $i +1;
+          if($iteraciones == $ultimo){
+            $roles_id= substr(Session::get('roles_id'),-1,1);                                      
+            if ($proceso_temp == 0) {              
+              Logs::this("Captura datos de recepción por volumen", "Recepción del equipo, cliente : {". $cliente ."}. Total de informes : ". $iteraciones);          
+              $this->download_excel($view,$data['plantas_id'],$iteraciones);
+              //include view($this->name.'.registrovol');
+            }
+            else {               
+              Flash::error(setError('002'));
+            } 
+          }                
+        }
+
+      }          
+    }
+    else{
+      Flash::error(setError('002'));           
+    } 
+
   }
 
 

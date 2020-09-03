@@ -9,7 +9,8 @@ $(document).ready(function () {
             } );
 
         var table = $('#table').DataTable({
-            "ajax": "assets/php/server_processing.php?controller=" + controller,            
+            "ajax": "assets/php/server_processing.php?controller=" + controller,
+            "deferRender": true,            
             "processing": true,
             "serverSide": true,
             "dataType": "jsonp",
@@ -91,6 +92,10 @@ $(document).ready(function () {
             },fixedHeader: true,
             "columnDefs": [                
                 { "searchable": false, "targets": -1 },
+                {
+                    "width": "30px",
+                   "targets": 0,
+                },
                 { "targets": -1 ,  "orderable" : false },
                 {
                     "targets": -1,
@@ -569,7 +574,8 @@ $(document).ready(function () {
         });
          
         var table_clientes = $('#table_clientes').DataTable({
-            "ajax": "assets/php/server_processing.php?controller=" + controller,            
+            "ajax": "assets/php/server_processing.php?controller=" + controller,  
+            "deferRender": true,          
             "processing": true,
             "serverSide": true,
             "dataType": "jsonp",
@@ -631,6 +637,7 @@ $(document).ready(function () {
 
         var table_clientesconti = $('#table_clientesconti').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
+            "deferRender": true,
             "processing": true,
             "serverSide": true,
             "dataType": "jsonp",
@@ -704,6 +711,7 @@ $(document).ready(function () {
 
         var table_reportec = $('#table_reportec').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
+            "deferRender": true,
             "processing": true,
             "serverSide": true,
             "dataType": "jsonp",
@@ -774,6 +782,7 @@ $(document).ready(function () {
 
         var table_totalproduct = $('#table_totalproduct').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
+            "deferRender": true,
             "processing": true,
             "serverSide": true,
             "dataType": "jsonp",

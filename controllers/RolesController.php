@@ -39,7 +39,7 @@ class RolesController {
 
     public function store() {
         $data = validate($_POST, [
-            'nombre' => 'required|trimlower|unique:roles',
+            'nombre' => 'required|ucwords|unique:roles',
         ]);
         if ($this->model['rol']->store($data)) {
             redirect('?c=' . $this->name);
@@ -51,7 +51,7 @@ class RolesController {
     public function update() {
         $data = validate($_POST, [
             'id' => 'required|number|exists:roles',
-            'nombre' => 'required|trimlower|except:roles:id',
+            'nombre' => 'required|ucwords|except:roles:id',
         ]);
         if ($this->model['rol']->update($data)) {
             redirect('?c=' . $this->name);

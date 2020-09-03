@@ -21,7 +21,7 @@
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                    <table id="table_users" class="table table-bordered table-striped table-hover">
+                                    <table id="table_usercliente" class="table table-bordered table-striped table-hover">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -68,8 +68,8 @@
         </script>
         <?php importView('_static.scripts'); ?>
         <script>            
-                $('#table_users thead tr').clone(true).appendTo( '#table_users thead' );
-                $('#table_users thead tr:eq(1) th').each( function () {
+                $('#table_usercliente thead tr').clone(true).appendTo( '#table_usercliente thead' );
+                $('#table_usercliente thead tr:eq(1) th').each( function () {
                     var title = $(this).text();
                     $(this).html( '<input type="text" style="width:100%; font-size:11px;" placeholder="'+title+'" />' );                        
                 } );
@@ -79,8 +79,8 @@
                 //     $(this).html( '<input type="text" style="width:100%;font-weight: 400;font-size: 13px;padding: 3px 2px;" placeholder=" '+title+'" />' );
                 // } );
 
-                var table = $('#table_users').DataTable({
-                    "ajax": "assets/php/server_processing.php?controller=" + controller +"_mypsa",
+                var table = $('#table_usercliente').DataTable({
+                    "ajax": "assets/php/server_processing.php?controller=" + controller +"_cliente",
                     //"dom": 'Zlfrtip',
                     "deferRender": true,
                     "processing": true,
@@ -114,7 +114,7 @@
                     });
                 });            
             
-                $('#table_users tbody').on('click', 'a', function () {
+                $('#table_usercliente tbody').on('click', 'a', function () {
                     var data = table.row($(this).parents('tr')).data();
                     if ($(this).data("type") == "edit") {
                         window.location.replace("?c=" + controller + "&a=edit&p=" + data[0]);

@@ -63,34 +63,73 @@
                                                 <input disabled=""  type="text" class="form-control" name="rfc" id="rfc" placeholder="RFC" value="<?php echo $data['planta'][0]['rfc']; ?>" >
                                             </div>
                                             <div class="form-group">
-                                                <label for="cp">Codigo postal</label>                                                    
-                                                <input disabled="" min="0" type="text" class="form-control" name="cp" id="cp" placeholder="Codigo postal" value="<?php echo $data['planta'][0]['cp']; ?>" >
-                                            </div>
-                                            <div class="form-group">
                                                 <label for="razon_social">Razoón Social</label>                                                    
                                                 <input disabled="" type="text"  class="form-control" name="razon_social" id="razon_social" placeholder="Razon Social" value="<?php echo $data['planta'][0]['razon_social']; ?>" >
                                             </div>
+                                                                                        
                                             <div class="form-group">
-                                                <label for="direccion">Direccion</label>                                                    
-                                                <input disabled=""  type="text" class="form-control" name="direccion" id="direccion" placeholder="Direccion" value="<?php echo $data['planta'][0]['direccion']; ?>">
+                                                <label for="cp">Codigo postal </label>                                                    
+                                                <input  disabled="" min="0" type="text"   class="form-control" name="cp" id="cp" placeholder="Codigo postal" value="<?php echo $data['planta'][0]['cp']; ?>">
                                             </div>
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="calle">Calle </label>  
+                                                        <input disabled="" type="text" class="form-control" name="calle" id="calle" placeholder="Calle + Numero interior/exterior" value="<?php echo $data['planta'][0]['calle']; ?>" >
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="colonia">Colonia </label>  
+                                                        <input disabled="" type="text" class="form-control" name="colonia" id="colonia" placeholder="Col. Nombre" value="<?php echo $data['planta'][0]['colonia']; ?>" >
+                                                    </div>
+                                                </div>                                               
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="ciudades_id">Delegación/ Municipio/ Ciudad</label>
+                                                        <select disabled="" id="ciudades_id" class="form-control select2" style="width: 100%;" name="ciudades_id" >                                                            
+                                                            <?php
+                                                            foreach ($data['ciudad'] as $ciudad) {
+                                                                if($data['planta'][0]['ciudades_id'] == $ciudad['id'])
+                                                                {
+                                                                    echo '<option value="' . $ciudad['id'] . '" selected>' . $ciudad['nombre'] . '</option>';
+                                                                } else{
+                                                                    echo '<option value="' . $ciudad['id'] . '">' . $ciudad['nombre'] . '</option>';
+                                                                }
+                                                                
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="estado">Estado </label>  
+                                                        <select disabled="" id="estados_id" class="form-control select2" style="width: 100%;" name="estados_id" >                                                            
+                                                            <?php
+                                                            foreach ($data['estado'] as $estado) {
+                                                                if($data['planta'][0]['estados_id'] == $estado['id'])
+                                                                {
+                                                                    echo '<option value="' . $estado['id'] . '" selected>' . $estado['nombre'] . '</option>';
+                                                                } else{
+                                                                    echo '<option value="' . $estado['id'] . '">' . $estado['nombre'] . '</option>';
+                                                                }
+                                                                
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>                                               
+                                            </div>
+
                                             <div class="form-group">
-                                                <label for="ciudades_id">Ciudad de la planta perteneciente</label>
-                                                <select disabled="" id="ciudades_id" class="form-control select2" style="width: 100%;" name="ciudades_id" required="">
-                                                    <option value="">Seleccione una opción</option>
-                                                    <?php
-                                                    foreach ($data['ciudad'] as $ciudad) {
-                                                        if($data['planta'][0]['ciudades_id'] == $ciudad['id'])
-                                                        {
-                                                            echo '<option value="' . $ciudad['id'] . '" selected>' . $ciudad['nombre'] . '</option>';
-                                                        } else{
-                                                            echo '<option value="' . $ciudad['id'] . '">' . $ciudad['nombre'] . '</option>';
-                                                        }
-                                                        
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
+                                                <label for="referencia">Referencia</label>                                                    
+                                                <input  disabled="" type="text" class="form-control" name="referencia" id="referencia" placeholder="Entre cale y calle"  value="<?php echo $data['planta'][0]['refereencia']; ?>">
+                                            </div>                                            
+                                           
                                             <div class="form-group">
                                                 <label for="sucursales_id">Sucursal</label>
                                                 <select disabled="" id="sucursales_id" class="form-control select2" style="width: 100%;" name="sucursales_id" required="">

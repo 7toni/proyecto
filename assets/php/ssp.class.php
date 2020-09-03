@@ -49,9 +49,11 @@ class SSP {
      */
     static function limit($request, $columns) {
         $limit = '';
+
         if (isset($request['start']) && $request['length'] != -1) {
             $limit = "LIMIT " . intval($request['start']) . ", " . intval($request['length']);
         }
+        
         return $limit;
     }
     /**

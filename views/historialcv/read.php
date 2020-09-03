@@ -103,7 +103,8 @@
                 } );
                 
                 var table_historialcv = $('#table_historialcv').DataTable({
-                    "ajax": "assets/php/server_processing.php?controller=" + controller,            
+                    "ajax": "assets/php/server_processing.php?controller=" + controller, 
+                    "deferRender": true,           
                     "processing": true,
                     "serverSide": true,
                     "dataType": "jsonp",

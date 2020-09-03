@@ -21,8 +21,9 @@
         <!-- </div> -->
         <ul class="sidebar-menu">
             <li class="header">MENÚ DE NAVEGACIÓN</li>
+
             <?php             
-                if(Session::has('rol',['Administrador','Ingenieros','Calidad'])){ 
+                if(Session::has('roles_id',['10000','10002','10004'])){ 
                     $pulsom = ($_SESSION['menu']=='pulso') ? 'active' : '' ;                   
                     echo "<li class='". $pulsom ." treeview'>
                             <a href='?c=reportes&a=pulso'>
@@ -36,7 +37,7 @@
                 echo "<li class='". $bitacoram ." treeview'>";                
             ?>            
                 <?php
-                    if(Session::has('rol',['Administrador','Ingenieros','Almacén','Técnicos','Calidad'])){ 
+                    if(Session::has('roles_id',['10000','10002','10003','10006','10004'])){ 
                 echo "
                 <a href='#'>
                     <i class='fa fa-table'></i> <span>Bitacora</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
@@ -50,26 +51,26 @@
                     $recepcionactvolsm = ($_SESSION['submenu']=='actualizarvol') ? 'active' : '';
                     $procesosm = ($_SESSION['submenu']=='proceso') ? 'active' : '';               
                     $acalibrarsm = ($_SESSION['submenu']=='acalibrar') ? 'active' : '';               
-                        if(Session::has('rol',['Administrador','Técnicos','Ingenieros','Almacén'])){
+                        if(Session::has('roles_id',['10000','10003','10002','10006'])){
                             echo "
                                 <li class='". $recepcionsm ."'><a href='?c=recepcion'><i class='fa fa-circle-o'></i>Recepción de equipo</a></li>                                
                                 <li class='". $completasm ."'><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitacora completa</a></li>                                
                                 <li class='". $procesosm ."'><a href='?c=informes&a=proceso'><i class='fa fa-circle-o'></i>Equipos en proceso</a></li>                                
                            ";
                         }
-                        if(Session::has('rol',['Administrador','Almacén'])){
+                        if(Session::has('roles_id',['10000','10006'])){
                             echo "<li class='". $recepcionvolsm ."'><a href='?c=recepcion&a=registrovol'><i class='fa fa-circle-o'></i>Recepción por volumen</a></li>
                             <li class='". $recepcionactvolsm ."'><a href='?c=recepcion&a=volumen'><i class='fa fa-circle-o'></i>Actualizar informes (*.csv)</a></li>";
                         }
-                        if(Session::has('rol',['Administrador','Técnicos'])){
+                        if(Session::has('roles_id',['10000','10003'])){
                             echo "                                
                                 <li class='". $acalibrarsm ."'><a href='?c=informes&a=calibrar'><i class='fa fa-circle-o'></i>Equipos a calibrar</a></li>
                            ";
                         }                        
-                        // if(Session::has('rol',['Administrador'])){
+                        // if(Session::has('roles_id',['10000'])){
                         //     echo " <li><a href='?c=login&a=sucursal'><i class='fa fa-circle-o'></i>Sucursal</a></li> ";
                         // } 
-                        if(Session::has('rol',['Calidad'])){
+                        if(Session::has('roles_id',['10004'])){
                             echo "         
                                 <li class='". $completasm ."'><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitacora Terminada</a></li>                                                 
                                 <li class='". $procesosm ."'><a href='?c=informes&a=proceso'><i class='fa fa-circle-o'></i>Equipos en proceso</a></li>
@@ -87,7 +88,7 @@
                 $iavencersm = ($_SESSION['submenu']=='iavencer') ? 'active' : '';
                 $ivencidossm = ($_SESSION['submenu']=='ivencidos') ? 'active' : '';
 
-                if(Session::has('rol',['Administrador','Ingenieros','Almacén','Servicios','Calidad'])){
+                if(Session::has('roles_id',['10000','10002','10006','10005','10004'])){
                         echo "<li class='". $informesm ." treeview'>
                         <a href='#''>
                             <i class='fa fa-files-o'></i> <span>Informes</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
@@ -97,7 +98,7 @@
                             echo "<li class='". $ihistorialsm ."' ><a href='?c=clienteinformes&a=continental'><i class='fa fa-circle-o'></i>Historial informes</a></li>";
                         }   
                         else{echo "<li class='". $ihistorialsm ."' ><a href='?c=clienteinformes'><i class='fa fa-circle-o'></i>Historial informes</a></li>";} 
-                        if(Session::get('plantas_id')=='758' && Session::has('rol',['Administrador'])){
+                        if(Session::get('plantas_id')=='758' && Session::has('roles_id',['10000'])){
                         echo "<li class='". $icontim ."' ><a href='?c=clienteinformes&a=continental'><i class='fa fa-circle-o'></i>Historial informes conti</a></li>"; 
                         }
                          echo "<li class='". $iavencersm ."' ><a href='?c=clienteinformes&a=recalibrar'><i class='fa fa-circle-o'></i>Equipos a vencer</a></li>";
@@ -117,7 +118,7 @@
                 $rproductsm = ($_SESSION['submenu']=='reportes_productividad') ? 'active' : '';
 
                 //<li class='". $rtecnicossm ."' ><a href='?c=reportes'><i class='fa fa-circle-o'></i>Técnicos</a></li>     
-                if(Session::has('rol',['Administrador','Ingenieros','Calidad']) || Session::has('email',['drodriguez@mypsa.com.mx'])){             
+                if(Session::has('roles_id',['10000','10002','10004']) || Session::has('email',['drodriguez@mypsa.com.mx'])){             
                     echo "<li class='". $reportesm ." treeview'>
                         <a href='#'>
                             <i class='fa fa-pie-chart'></i> <span>Reportes</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
@@ -139,7 +140,7 @@
 
             <!-- End Menu Calidad -->
             <?php
-            if(Session::has('rol',['Administrador','Ingenieros','Calidad'])){
+            if(Session::has('roles_id',['10000','10002','10004'])){
                     echo "<li class='header'>CALIDAD</li>";
 
                     //adminsitración de equipos
@@ -193,7 +194,7 @@
             <!-- Módulos de administración  -->
             <?php                
 
-                if(Session::has('rol',['Administrador','Ingenieros','Almacén','Técnicos','Calidad'])){
+                if(Session::has('roles_id',['10000','10002','10006','10003','10004'])){
                     echo "<li class='header'>ADMINISTRACIÓN</li>";
                     //adminsitración de equipos
                     $equiposm = ($_SESSION['menu']=='equipos') ? 'active' : '';
@@ -256,22 +257,24 @@
                     $usuariossm = ($_SESSION['submenu']=='usuarios') ? 'active' : '';
                     $usuariosrolsm = ($_SESSION['submenu']=='roles') ? 'active' : '';
                     $usuariosaltasm = ($_SESSION['submenu']=='usuariosalta') ? 'active' : '';            
-                    if(Session::has('rol',['Administrador','Ingenieros','Calidad'])){
+                    $usuarioclientesm = ($_SESSION['submenu']=='usuarioscliente') ? 'active' : '';            
+                    if(Session::has('roles_id',['10000','10002','10004'])){
                         echo "<li class='".$usuariosm." treeview'>
                             <a href='#'>
                                 <i class='fa fa-user'></i> <span>Cuentas de usuarios</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
                             </a>
                             <ul class='treeview-menu'>
-                                <li class='".$usuariossm. "'><a href='?c=usuarios'><i class='fa fa-users'></i>Usuarios</a></li>
+                                <li class='".$usuariossm. "'><a href='?c=usuarios'><i class='fa fa-users'></i>Usuarios Mypsa</a></li>
+                                <li class='".$usuarioclientesm. "'><a href='?c=usuarios&a=cliente'><i class='fa fa-users'></i>Clientes</a></li>
                                 <li class='".$usuariosrolsm. "'><a href='?c=roles'><i class='fa fa-cogs'></i>Roles de usuarios</a></li>
-                                <li class='".$usuariosaltasm. "'><a href='?c=usuarios&a=alta'><i class='fa fa-users'></i>Alta de Usuarios</a></li>
+                                <li class='".$usuariosaltasm. "'><a href='?c=usuarios&a=alta'><i class='fa fa-users'></i>Alta de Usuarios</a></li>                                
                             </ul>
                         </li>";
                     }           
                     //adminsitración del LOG
                     $logm = ($_SESSION['menu']=='logs') ? 'active' : '';
                     $logsm = ($_SESSION['submenu']=='logs') ? 'active' : '';                            
-                    if(Session::has('rol',['Administrador'])){
+                    if(Session::has('roles_id',['10000'])){
                         echo  "<li class='". $logm ." treeview'>
                             <a href='#'>
                                 <i class='fa fa-cog'></i> <span>Administración</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>

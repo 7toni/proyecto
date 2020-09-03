@@ -109,7 +109,8 @@
                 } );
                 
                 var table_inventarioc = $('#table_inventarioc').DataTable({
-                    "ajax": "assets/php/server_processing.php?controller=" + controller,            
+                    "ajax": "assets/php/server_processing.php?controller=" + controller, 
+                    "deferRender": true,           
                     "processing": true,
                     "serverSide": true,
                     "dataType": "jsonp",

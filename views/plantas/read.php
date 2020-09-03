@@ -25,12 +25,12 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Empresa</th>
-                                                <th>Planta</th>
+                                                <th>Nombre de la empresa</th>
+                                                <th>Planta/Sucursal </th>
                                                 <th>Direccion</th>
-                                                <th>C.P.</th>
-                                                <th>Ciudad</th>
-                                                <th>Estado</th>
+                                                <th>Referencia</th>
+                                                <!-- <th>Ciudad</th>
+                                                <th>Estado</th> -->
                                                 <th>RFC</th>
                                                 <th>Razon Social</th>
                                                 <th>Comentarios</th>
@@ -44,9 +44,9 @@
                                                 <th>Empresa</th>
                                                 <th>Planta</th>
                                                 <th>Direccion</th>
-                                                <th>C.P.</th>
-                                                <th>Ciudad</th>
-                                                <th>Estado</th>
+                                                <th>Referencia</th>
+                                                <!-- <th>Ciudad</th>
+                                                <th>Estado</th> -->
                                                 <th>RFC</th>
                                                 <th>Razon Social</th>
                                                 <th>Comentarios</th>
