@@ -99,8 +99,8 @@ $(document).ready(function () {
                 { "targets": -1 ,  "orderable" : false },
                 {
                     "targets": -1,
-                    "data": null,
-                    "defaultContent": "<a href='#' data-type='edit' class='btn btn-xs btn-primary btn-flat'>Editar</a> <a href='#' data-type='delete' class='btn btn-xs btn-danger btn-flat'>Eliminar</a>"
+                    "data": null,                    
+                    "defaultContent": "<a href='#' data-type='edit' class='btn btn-social-icon badge bg-blue' title='Editar'><i class='fa fa-pencil'></i></a><a href='#' data-type='delete' class='btn btn-social-icon badge bg-red' title='Eliminar'><i class='fa fa-trash'></i></a>"
                 }],
             "language": {
                 "sProcessing": "Procesando...",
