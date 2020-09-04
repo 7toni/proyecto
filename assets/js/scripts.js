@@ -174,6 +174,37 @@
 
         });
     } 
+
+    var idplanta_ajax = function() {
+        var dato= $('#idplanta_ajax').val();
+        if(dato != ""){            
+            $.ajax({
+                url: "?c=recepcion&a=ajax_load_cliente",
+                dataType: "json",
+                method: "POST",
+                data: "idplanta=" + dato
+            }).done(function(data) {
+                var datos = data;
+
+                var label = $('#direccion_planta');
+                label.empty();
+                if (datos[0]['address'] != null){                    
+                    label.append($('#direccion_planta').text(datos[0]['address']));
+                    label.addClass('control-label pull-left');
+                }else{                    
+                    label.append($('#direccion_planta').text('Sin dirección'));
+                    label.addClass('control-label pull-left');
+                }                                
+            }).fail(function(data) {}).always(function(data) {
+                // console.log(data);
+            });
+        }
+        else{
+            //console.log("vacio");
+        }
+
+       
+      }
    
     function _accesovalidacion(parametro){
         
@@ -245,7 +276,8 @@
             }
         });
         // # Empresa / Usuario           
-        $("#empresa_ajax").on('change', empresa_ajax);   
+        $("#empresa_ajax").on('change', empresa_ajax);
+        $("#idplanta_ajax").on('change', idplanta_ajax);  
 
         //Fin busqueda
         $('.sidebar-toggle').on('click', function() {

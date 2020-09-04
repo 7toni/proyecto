@@ -18,15 +18,27 @@ class UsuariosController {
     }
 
     public function index() {
+        $rol =substr(Session::get('roles_id'),-2);
+
         $_SESSION['menu'] = 'usuarios';
         $_SESSION['submenu'] = $this->name;
         include view($this->name . '.read');
     }
 
     public function cliente() {
+        $rol =substr(Session::get('roles_id'),-2);
+
         $_SESSION['menu'] = 'usuarios';
         $_SESSION['submenu'] = $this->name. "cliente";
         include view($this->name . '.cliente');
+    }
+
+    public function mypsa() {
+        $rol =substr(Session::get('roles_id'),-2);
+        
+        $_SESSION['menu'] = 'usuarios';
+        $_SESSION['submenu'] = $this->name. "mypsa";
+        include view($this->name . '.mypsa');
     }
 
 
@@ -85,6 +97,7 @@ class UsuariosController {
             $empresas_id = $empresa[0]['empresas_id'];
             $data['empresa'] = $this->model['empresa']->all();
             $data['planta'] = $this->model['planta']->find_by(['empresas_id'=>$empresas_id]);
+            $data['direccion']= $this->model['planta']->find_by(['id' => $plantas_id ], "view_plantas");
             $data['rol'] = $this->model['rol']->all();
             include view($this->name . '.edit');
             }         
@@ -99,11 +112,12 @@ class UsuariosController {
                 redirect('?c=error&a=error_403');
             }
             else{
-                $idplanta = $data['usuario'][0]['plantas_id'];
-                $empresa = $this->model['planta']->find_by(['id'=>$idplanta]);
-                $idempresa = $empresa[0]['empresas_id'];
+                $plantas_id = $data['usuario'][0]['plantas_id'];
+                $empresa = $this->model['planta']->find_by(['id'=>$plantas_id]);
+                $empresas_id = $empresa[0]['empresas_id'];
                 $data['empresa'] = $this->model['empresa']->all();
-                $data['planta'] = $this->model['planta']->find_by(['empresas_id'=>$idempresa]);
+                $data['planta'] = $this->model['planta']->find_by(['empresas_id'=>$empresas_id]);
+                $data['direccion']= $this->model['planta']->find_by(['id' => $plantas_id], "view_plantas");
                 $data['rol'] = $this->model['rol']->all();
                 include view($this->name . '.delete');
             }

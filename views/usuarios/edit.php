@@ -88,6 +88,10 @@
                                                     }
                                                     ?>
                                                 </select>
+                                            </div>                                            
+                                            <div class="form-group">
+                                                <label for="dirección" >Dirección</label>
+                                                <label disabled id="direccion_planta" class="form-control"> <?php echo  isset($data['direccion'][0]['address']) ? $data['direccion'][0]['address']: '...' ; ?></label>                                                
                                             </div>
                                             <hr>
                                             <div class="form-group">

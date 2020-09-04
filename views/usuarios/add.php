@@ -70,6 +70,11 @@
                                                     <option value="">Seleccione una opción</option>
                                                 </select>
                                             </div>
+                                            
+                                            <div class="form-group">
+                                                <label for="dirección" >Dirección</label>
+                                                <label disabled id="direccion_planta"  class="form-control">...</label>
+                                            </div>
                                             <hr>
                                             <div class="form-group">
                                                 <label for="password">Contraseña</label>                                                    
@@ -82,7 +87,6 @@
                                                     <option value="">Seleccione una opción</option>
                                                     <?php
                                                     foreach ($data['rol'] as $rol) {
-
                                                         if ($rol['id'] != '10000') {
                                                             echo '<option value="' . $rol['id'] . '">' . ucwords($rol['nombre']) . '</option>';
                                                         } 

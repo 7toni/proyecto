@@ -255,10 +255,7 @@
                                     <div class="form-group">
                                       <label class="col-sm-3 control-label">Dirección :</label>
                                       <div class="col-sm-9">                                         
-                                        <label id="direccion_planta" class="control-label pull-left"> <?php echo  isset($data['direccion'][0]['address']) ? $data['direccion'][0]['address']: '...' ; ?></label>
-
-                                        
-
+                                        <label id="direccion_planta" class="control-label pull-left"> <?php echo  isset($data['direccion'][0]['address']) ? $data['direccion'][0]['address']: '...' ; ?></label>                                        
                                     </div>
                                   </div>
                             </div>  

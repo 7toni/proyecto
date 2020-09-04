@@ -64,10 +64,12 @@
             <?php importView('_static.footer'); ?>
         </div>
         <script>
-            var controller = "<?php echo $this->name; ?>";
+            var controller = "<?php echo $this->name.' '.$rol; ?>";
         </script>
         <?php importView('_static.scripts'); ?>
-        <script>            
+        <script> 
+         var _arrayCtrl=controller.split(" "); 
+
                 $('#table_usercliente thead tr').clone(true).appendTo( '#table_usercliente thead' );
                 $('#table_usercliente thead tr:eq(1) th').each( function () {
                     var title = $(this).text();
@@ -80,7 +82,7 @@
                 // } );
 
                 var table = $('#table_usercliente').DataTable({
-                    "ajax": "assets/php/server_processing.php?controller=" + controller +"_cliente",
+                    "ajax": "assets/php/server_processing.php?controller=" + _arrayCtrl[0] +"_cliente",
                     //"dom": 'Zlfrtip',
                     "deferRender": true,
                     "processing": true,
@@ -91,9 +93,21 @@
                     "autoWidth": true,           
                     "scrollX": true,                                
                     "columnDefs": [{
+                        "width": "50px",
                             "targets": -1,                       
                             "data": null,
-                            "defaultContent": "<a href='#' data-type='edit' class='btn btn-xs btn-primary btn-flat'>Editar</a> <a href='#' data-type='delete' class='btn btn-xs btn-danger btn-flat'>Eliminar</a> <a href='#' data-type='password' class='btn btn-xs btn-warning btn-flat' title='Restablecer contraseña'><i class='fa fa-key' aria-hidden='true'></i></a> <a href='#' data-type='turn_off' class='btn btn-xs btn-default btn-flat' title='Suspender usuario'><i class='fa fa-power-off' aria-hidden='true'></i></a>"
+                            "render": function(data,type, row){
+                                var menu="";                                                                
+                                menu += "<a href='#' data-type='edit' class='btn btn-social-icon badge bg-blue' title='Editar'><i class='fa fa-pencil'></i></a>";                                
+
+                                if(_arrayCtrl[1] == '00' || _arrayCtrl[1] == '04'|| _arrayCtrl[1] == '02'){
+                                menu += 
+                                "<a href='#' data-type='delete' class='btn btn-social-icon badge bg-red' title='Eliminar'><i class='fa fa-trash'></i></a>"+
+                                "<a href='#' data-type='password' class='btn btn-social-icon badge bg-orange' title='Restablecer contraseña'><i class='fa fa-key' aria-hidden='true'></i></a>"+
+                                "<a href='#' data-type='turn_off' class='btn btn-social-icon badge bg-gray' title='Suspender usuario'><i class='fa fa-power-off' aria-hidden='true'></i></a>";
+                                }
+                                    return menu;
+                                }
                         }],
                         "language": { "url": "assets/json/datatables.spanish.json",
                             "oAria": {
@@ -117,13 +131,17 @@
                 $('#table_usercliente tbody').on('click', 'a', function () {
                     var data = table.row($(this).parents('tr')).data();
                     if ($(this).data("type") == "edit") {
-                        window.location.replace("?c=" + controller + "&a=edit&p=" + data[0]);
-                    } else if($(this).data("type") == "delete") {
-                        window.location.replace("?c=" + controller + "&a=delete&p=" + data[0]);
-                    } else if($(this).data("type") == "password") {
-                            window.location.replace("?c=" + controller + "&a=password&p=" + data[0]);
-                    } else if($(this).data("type") == "turn_off") {
-                            window.location.replace("?c=" + controller + "&a=turn_off&p=" + data[0]);
+                        window.location.replace("?c=" + _arrayCtrl[0] + "&a=edit&p=" + data[0]);
+                    } else 
+                    if(_arrayCtrl[1] == '00' || _arrayCtrl[1] == '04'|| _arrayCtrl[1] == '02'){
+                        if($(this).data("type") == "delete") {
+                            window.location.replace("?c=" + _arrayCtrl[0] + "&a=delete&p=" + data[0]);
+                        } 
+                        else if($(this).data("type") == "password") {
+                            window.location.replace("?c=" + _arrayCtrl[0] + "&a=password&p=" + data[0]);
+                        } else if($(this).data("type") == "turn_off") {
+                                window.location.replace("?c=" + _arrayCtrl[0] + "&a=turn_off&p=" + data[0]);
+                        }
                     }
                 });          
 
