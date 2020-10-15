@@ -479,7 +479,7 @@
                                               echo '<option value="'.$registradopor['id'].'" selected="selected">'.$registradopor['nombre'].' '.$registradopor['apellido'].'</option>';
                                                     }
                                               else{ echo '<option value="'.$registradopor['id'].'">'.$registradopor['nombre'].' '.$registradopor['apellido'].'</option>'; }  
-                                          }                                       
+                                           }                                       
                                          ?> 
                                         </select>                                          
                                       </div>
@@ -487,11 +487,21 @@
                                     <div class="form-group">
                                       <label for="fecha" class="col-sm-3 control-label">Fecha :</label>
                                       <div class="col-sm-9">
-                                      <?php                                                                                    
+                                        <!-- <input type="text" name="fecha" id="fecha" class="form-control pull-right datepickerVentas" required=""> -->
+
+                                      <?php 
                                         if (strlen($data['get'][0]['fecha']) > 0) {
                                          echo '<input type="text" name="fecha" id="fecha" class="form-control pull-right datepicker_aux" value="'.$data['get'][0]['fecha'].'" required="">';
                                         }
-                                        else{echo '<input type="text" name="fecha" id="fecha" class="form-control pull-right datepicker" required="">';} ?>
+                                        else{
+                                            if( Session::get("roles_id") == "10001"){
+                                              echo '<input type="text" name="fecha" id="fecha" class="form-control pull-right datepickerhome" required="">';
+                                            }else{
+                                              echo '<input type="text" name="fecha" id="fecha" class="form-control pull-right datepicker" required="">';
+                                            }                                                                                                                              
+                                          } 
+                                                                                    
+                                          ?>
                                       </div>
                                     </div>                                    
                                   </div>   
@@ -552,6 +562,7 @@
         <script>
             var controller = "<?php echo $this->name; ?>";   
         </script>       
-        <?php importView('_static.scripts'); ?>       
+        <?php importView('_static.scripts'); ?>      
+
     </body>
 </html>

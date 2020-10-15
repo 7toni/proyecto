@@ -1,5 +1,4 @@
-<?php
- 
+<?php 
 /*
  * DataTables example server-side processing script.
  *
@@ -63,23 +62,14 @@ $condicion="";
 
 /* #Home Reportes */
     if ($controller== "reportes") {   
-        $data=json_decode($ext);             
-        $table = 'view_'.$controller.$data[0]; // Tabla a consultar view_reporte_(sucursal)
-        
-        $query_condicion = "fecha_calibracion between '". $data[1] ."' and '". $data[2] ."'";        
+        $data=json_decode($ext); 
+        $table = 'view_'.$controller.$data[0]; // Tabla a consultar view_reporte_(sucursal)        
+        $query_condicion = "fecha_calibracion between '". $data[1] ."' and '". $data[2] ."'";                               
+        //Filtrar tipos de calibracion        
+        $query_condicion .="and calibraciones_id in (". $data[3][0] .")";
+
         $query_condicion .= " and tecnico_email='". $data[4] ."'";
-        
-        if($data[3] != "todos" ){
-            $query_condicion .= " and calibracion='". $data[3] . "'";
-        }                
-        // $table = 'view_'.$controller.$data[3]; // contiene la extension de la tabla a consultar 
-        // $query_condicion="(fecha_calibracion between '".$data[1]."' and '".$data[2]."')";
-        // if($data[4] != 0){
-        //      $query_condicion .= " and (tecnico_id=". $data[4].")"; 
-        // }
-        // if($data[0] != 0){
-        //     $query_condicion .= " and (calibraciones_id=". $data[0].")";
-        // }        
+              
         $condicion= $query_condicion;                   
     }
     if ($controller== "total_product") {  
@@ -99,7 +89,6 @@ $condicion="";
             $query_condicion .= " and plantas_id=".$data[4];
         }                    
         $condicion= $query_condicion;
-
     }
 /* #End Reportes */
 

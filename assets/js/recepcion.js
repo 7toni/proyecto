@@ -754,9 +754,17 @@ function submit_acceso() {
       $("#btn_noregistrar_factura").click(function(e){           
         opciones_factura('no_registrar');
         e.preventDefault();
-      });
-         
-    
+      });        
+
+        //var todayDate = new Date().getDate();
+        //var endD= new Date(new Date().setDate(todayDate + 15));
+        var currDate = new Date();
+        $('.datepickerhome').datepicker({
+            format: 'yyyy-mm-dd',                       
+            autoclose: true,
+            startDate : currDate, //endD,
+            // endDate : endD
+        }).datepicker('setDate', 'today');      
 
   }); 
   

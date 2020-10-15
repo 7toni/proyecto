@@ -112,4 +112,11 @@ class PlantasController {
         }
     }
 
+    public function ajax_load_plantamypsa() {
+        $sucursal = $_POST['sucursal'];
+        $view="view_plantas";
+        $data = json_encode($this->model['planta']->find_by(['sucursal' => $sucursal], $view));
+        echo $data;
+    }
+
 }

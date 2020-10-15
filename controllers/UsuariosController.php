@@ -41,7 +41,6 @@ class UsuariosController {
         include view($this->name . '.mypsa');
     }
 
-
     public function alta() {
         $_SESSION['menu'] = 'usuarios';
         $_SESSION['submenu'] = $this->name. "alta";
@@ -279,6 +278,13 @@ class UsuariosController {
             echo json_encode($arraydefault);
         }
     }
+
+    public function ajax_load_usermypsa() {
+        $sucursal = $_POST['sucursal'];
+        $view="view_usuarios_mypsa";
+        $data = json_encode($this->model['usuario']->find_by(['sucursal' => $sucursal, 'roles_id'=>'10003'], $view));
+        echo $data;
+    } 
 
 
 }

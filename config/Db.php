@@ -104,9 +104,7 @@ abstract class Db {
                 $query .= " AND ";
             }
             $query = substr($query, 0, -5);
-            $this->query = $query;  
-            //vadump($this->query);
-            //exit;
+            $this->query = $query;            
             $this->get_results_from_query();
             $this->table = $table_aux;           
             return $this->rows;

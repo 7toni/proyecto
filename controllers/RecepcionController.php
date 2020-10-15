@@ -29,7 +29,8 @@
 	}
 
 	public function index (){
-//    var_dump(Session::get('sucursal')); //Sucursal
+   // var_dump(Session::get("roles_id")); //Sucursal
+    // Rol de ventas : 10001
     //?c=recepcion&a=index&p=2  
     if (isset($_GET['p'])) {
       $id=$_GET['p'];
@@ -687,11 +688,11 @@
   }
   
   public function ajax_load_historial() {
-      $idequipo = $_POST['idequipo']; 
-      $view_informes="view_informes". $this->ext;
-      $data = json_encode($data['informes'] = $this->model['informes']->find_by(['alias' => $idequipo],$view_informes));
-      echo $data;
-    }
+    $idequipo = $_POST['idequipo']; 
+    $view_informes="view_informes". $this->ext;
+    $data = json_encode($data['informes'] = $this->model['informes']->find_by(['alias' => $idequipo],$view_informes));
+    echo $data;
+  }
 
   public function ajax_load_equipo() {
       $idequipo = $_POST['idequipo'];                    
@@ -710,7 +711,7 @@
     $view="view_plantas";
     $data = json_encode($data['planta'] = $this->model['planta']->find_by(['id' => $id], $view));
     echo $data;
-} 
+  } 
 
   public function ajax_load_po() {
       $idpo = $_POST['po_id'];       

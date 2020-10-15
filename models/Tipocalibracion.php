@@ -7,5 +7,6 @@ class TipoCalibracion extends Model {
         $this->primary_key = 'id';
     }
    
+    
 
 }

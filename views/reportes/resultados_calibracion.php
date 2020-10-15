@@ -4,26 +4,39 @@
         <?php importView('_static.head'); ?>
         <style>
             td.details-equipo {
-                display: block;
+              display: block;
+              font-weight: bold;
+              font-size: 15px;            
+              cursor: pointer;
+              color: #0073b7;                
+          }
+          tr.shown td.details-equipo {
+            color: #00c0ef;           
+          }
+
+          td.details-factura {
+              display: block;
+              font-weight: bold;
+              font-size: 15px;            
+              cursor: pointer;
+              color: #00a65a;                
+          }
+          tr.shown td.details-factura {
+            color: #07de7b;           
+          }
+
+          td.details-direccion {
+                /* display: block; */
                 font-weight: bold;
-                font-size: 15px;            
+                font-size: 15px;
                 cursor: pointer;
-                color: #367fa9;                
-            }
-            tr.shown td.details-equipo {
-                color: #00c0ef;           
+                color: #00c0ef;     
+                          
+            } 
+            tr.shown td.details-direccion {
+                color: #0073b7;           
             }
 
-            td.details-factura {
-                display: block;
-                font-weight: bold;
-                font-size: 15px;            
-                cursor: pointer;
-                color: #00a65a;                
-            }
-            tr.shown td.details-factura {
-                color: #07de7b;           
-            }
         </style>           
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
@@ -46,13 +59,16 @@
                                     <table id="table_resultados" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>                                                
-                                                <th>Informe</th>                                               
+                                                <th>Informe</th>                                                
                                                 <th>Clave</th>
                                                 <th>Descripción</th>
                                                 <th>Marca</th>
                                                 <th>Modelo</th>
                                                 <th>Serie</th>
                                                 <th>Cliente (Sucursal/Departamento)</th>
+                                                <th>Dirección</th>
+                                                <th>Referencia</th>
+                                                <th>Fecha de captura</th>
                                                 <th>Fecha de inicio</th>
                                                 <th>Tipo de calibración</th>
                                                 <th>Fecha de calibración</th>
@@ -68,44 +84,20 @@
                                                 <th>Días antes de calibración</th>
                                                 <th>Días despues de calibración</th>
                                                 <th>Total de días en laboratorio</th>
-                                                <!-- <th>	Informe	</th>
-                                                <th>	 id_equipo	</th>
-                                                <th>	Clave	</th>
-                                                <th>	Descripción	</th>
-                                                <th>	Marca	</th>
-                                                <th>	Modelo	</th>
-                                                <th>	Serie	</th>
-                                                <th>	 activo	</th>
-                                                <th>	 cliente_id	</th>
-                                                <th>	Cliente (Sucursal/Departamento)	</th>
-                                                <th>	 estado_calibracion	</th>
-                                                <th>	Proceso	</th>
-                                                <th>	 calibraciones_id	</th>
-                                                <th>	Tipo de calibración	</th>
-                                                <th>	Factura	</th>
-                                                <th>	Precio	</th>
-                                                <th>	Precio Extra	</th>
-                                                <th>	Moneda	</th>
-                                                <th>	Fecha inicio	</th>
-                                                <th>	Fecha calibración	</th>
-                                                <th>	Vigencia	</th>
-                                                <th>	Fecha vencimiento	</th>
-                                                <th>	 tecnico_id	</th>
-                                                <th>	Técnico	</th>
-                                                <th>	Correo Técnico	</th>
-                                                <th>	Fecha Salida	</th> -->
-
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr> 
-                                            <th>Informe</th>                                                
+                                                <th>Informe</th>                                                
                                                 <th>Clave</th>
                                                 <th>Descripción</th>
                                                 <th>Marca</th>
                                                 <th>Modelo</th>
                                                 <th>Serie</th>
                                                 <th>Cliente (Sucursal/Departamento)</th>
+                                                <th>Dirección</th>
+                                                <th>Referencia</th>
+                                                <th>Fecha de captura</th>
                                                 <th>Fecha de inicio</th>
                                                 <th>Tipo de calibración</th>
                                                 <th>Fecha de calibración</th>
@@ -120,33 +112,7 @@
                                                 <th>Proceso</th>
                                                 <th>Días antes de calibración</th>
                                                 <th>Días despues de calibración</th>
-                                                <th>Total de días en laboratorio</th>
-                                                <!-- <th>	Informe	</th>
-                                                <th>	 id_equipo	</th>
-                                                <th>	Clave	</th>
-                                                <th>	Descripción	</th>
-                                                <th>	Marca	</th>
-                                                <th>	Modelo	</th>
-                                                <th>	Serie	</th>
-                                                <th>	 activo	</th>
-                                                <th>	 cliente_id	</th>
-                                                <th>	Cliente (Sucursal/Departamento)	</th>
-                                                <th>	 estado_calibracion	</th>
-                                                <th>	Proceso	</th>
-                                                <th>	 calibraciones_id	</th>
-                                                <th>	Tipo de calibración	</th>
-                                                <th>	Factura	</th>
-                                                <th>	Precio	</th>
-                                                <th>	Precio Extra	</th>
-                                                <th>	Moneda	</th>
-                                                <th>	Fecha inicio	</th>
-                                                <th>	Fecha calibración	</th>
-                                                <th>	Vigencia	</th>
-                                                <th>	Fecha vencimiento	</th>
-                                                <th>	 tecnico_id	</th>
-                                                <th>	Técnico	</th>
-                                                <th>	Correo Técnico	</th>
-                                                <th>	Fecha Salida	</th> -->
+                                                <th>Total de días en laboratorio</th>                                               
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -160,7 +126,7 @@
             <?php importView('_static.footer'); ?>                        
         </div>        
         <script>
-            var controller = '<?php echo 'reportes'.' '.$arreglo.' '; ?>'; 
+            var controller = '<?php echo 'reportes'.' '.$arreglo.''; ?>'; 
 
         </script> 
         <?php importView('_static.scripts'); ?>
@@ -192,19 +158,38 @@
 
             function data_factura ( d ) {
                 // 'd' is the original data object for the row
+                var precio= (d[15] == null)  ? "" : '$ '+d[15];
+                var precioex= (d[16] == null)  ? "" : '$ '+d[16];
+                var moneda= (d[17] == null)  ? "" : d[17];
                 return '<table class="table table-hover" >'+
                     '<tr>'+
                         '<td>Precio:</td>'+
-                        '<td> $ '+d[15]+'</td>'+
+                        '<td>'+precio+'</td>'+
                     '</tr>'+
                     '<tr>'+
                         '<td>Precio extra:</td>'+
-                        '<td> $ '+d[16]+'</td>'+
+                        '<td>'+precioex+'</td>'+
                     '</tr>'+
                     '<tr>'+
                         '<td>Moneda:</td>'+
-                        '<td>'+d[17]+'</td>'+
+                        '<td>'+moneda+'</td>'+
                     '</tr>'+                                   
+                '</table>';
+            }
+
+            function data_direccion ( d ) {
+                // 'd' is the original data object for the row              
+               var referencia= (d[27] == null)  ? "" : d[27];
+              
+                return '<table class="table table-hover" >'+
+                    '<tr>'+
+                        '<td>Dirección:</td>'+
+                        '<td> '+d[26]+'</td>'+
+                    '</tr>'+
+                    '<tr>'+
+                        '<td>Referencia:</td>'+
+                        '<td> '+referencia+'</td>'+
+                    '</tr>'+                                                      
                 '</table>';
             }
               
@@ -223,18 +208,21 @@
                     buttons: [
                         {
                             className: 'btn btn-default btn-lg',
-                            extend: 'excel',
-                            text: '<span class="fa fa-download"></span> Exportar a Excel',
-                            exportOptions: {
-                                columns: ':visible'
+                            extend: 'excelHtml5',
+                            text: '<span class="fa fa-download"></span> Exportar todo a Excel',
+                            exportOptions: {                         
+                                modifier: {
+                                    search: 'applied',
+                                    order: 'applied'
+                                }
                             },
                             title: 'Reporte_EquiposCalibrados',
                         },                                  
-                    ],                    
+                    ],               
                     fixedColumns: true,
                     fixedHeader: true,
                     "columns": [
-                        {   "data": 0},   //"id"
+                        {   "data": 0},   //"id"                       
                         {
                             "className":      'details-equipo',                        
                             "data":           2,
@@ -248,13 +236,22 @@
                             "visible" : false}, // "modelo"
                         { "data":  6,
                             "visible" : false}, // "serie"                 
-                        { "data": 9}, // "cliente"
-                        { "data": 18}, //"fecha_inicio"
+                        { 
+                            "className":      'details-direccion',  
+                            "data": 9,          // "cliente"
+                            "defaultContent": ''                        
+                        }, 
+                        { "data": 26,   // "direccion"                                              
+                        "visible" : false},                                    
+                        { "data": 27,                                   
+                        "visible" : false }, // "referencia"
+                        { "data": 18}, //"fecha_captura"
+                        { "data": 19}, //"fecha_inicio"
                         { "data": 13}, // "tipo_calibracion"
-                        { "data": 19 }, // "fecha_calibracion"
-                        { "data": 20 }, // "periodo_calibracion"
-                        { "data": 21 }, // "fecha_vencimiento"
-                        { "data": 24 }, // "tecnico"
+                        { "data": 20 }, // "fecha_calibracion"
+                        { "data": 21 }, // "periodo_calibracion"
+                        { "data": 22 }, // "fecha_vencimiento"
+                        { "data": 25 }, // "tecnico"
                         { 
                             "className":      'details-factura',  
                             "data":           14, // "factura"
@@ -266,13 +263,13 @@
                         "visible" : false }, // "precio_extra"
                         { "data": 17,
                         "visible" : false }, // "moneda"
-                        { "data": 25 }, // "fecha_salida"
+                        { "data": 26 }, // "fecha_salida"
                         { "data": 11 }, //proceso 
-                        { "data": 18}, //"fecha_inicio"
+                        { "data": 19}, //"fecha_inicio"
                         { "data": 25 }, // "fecha_salida"
-                        { "data": 25 } // "fecha_salida"   
+                        { "data": 26 } // "fecha_salida"   
                     ],
-                    "columnDefs": [ 
+                    "columnDefs": [                       
                         { "targets": [7, 17] , "width": "70px" },                   
                         {
                             "render": function(data,type,row){
@@ -280,11 +277,11 @@
                                 var proceso=["Recepcion","Calibracion","Salida","Facturacion","Terminado"];                              
                                 return "<span class='badge "+ bg_color[rowvalue] +"'>"+ proceso[rowvalue]+"</span>";                         
                             },
-                            "targets":18
+                            "targets":21
                         },{
                             "render": function(data,type,row){                          
-                                var datehome=row[18];
-                                var dateend=row[19];                          
+                                var datehome=row[19];
+                                var dateend=row[20];                          
                                 var count=0;
                                 if(datehome == null || dateend== null){
                                     count=0;
@@ -295,11 +292,11 @@
                                 }                                                                  
                                 return "<span class='badge bg-black'>"+ count +"</span>";
                             },
-                            "targets":19
+                            "targets":22
                         },{
                             "render": function(data,type,row){
-                                var datehome=row[19];
-                                var dateend=row[25];
+                                var datehome=row[20];
+                                var dateend=row[26];
                                 var count=0;
                                 if(datehome == null || dateend== null){
                                     count=0;
@@ -310,15 +307,15 @@
                                 }                                                                  
                                 return "<span class='badge bg-black'>"+ count +"</span>";
                             },
-                            "targets":20
+                            "targets":23
                         },{
                             "render": function(data,type,row){
                                 var proceso= row[11];
                                 var count=0;
                                 if(proceso == 4){
-                                    var dateinicio=row[18];
-                                    var datecal=row[19];
-                                    var datesal=row[25];                          
+                                    var dateinicio=row[19];
+                                    var datecal=row[20];
+                                    var datesal=row[26];                          
                                     if(dateinicio == null || datecal== null || datesal== null){
                                     count=0;
                                     } else{
@@ -336,7 +333,7 @@
                                 }                                                                                       
                                 return "<span class='badge bg-black'>"+ count +"</span>";                     
                             },
-                            "targets":21
+                            "targets":24
                         }
                     ]
                 });
@@ -384,6 +381,22 @@
                         tr.addClass('shown');
                     }
                 } ); 
+
+                $('#table_resultados tbody').on('click', 'td.details-direccion', function () {
+                    var tr = $(this).closest('tr');
+                    var row = table_resultados.row( tr );
+                                
+                    if ( row.child.isShown() ) {
+                        // This row is already open - close it
+                        row.child.hide();
+                        tr.removeClass('shown');
+                    }
+                    else {
+                        // Open this row
+                        row.child( data_direccion(row.data()) ).show();
+                        tr.addClass('shown');
+                    }
+                } );
 
             });
 

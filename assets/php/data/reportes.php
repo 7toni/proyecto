@@ -89,14 +89,19 @@ $columns = array(
     array('db' => 'precio', 'dt' => 15),
     array('db' => 'precio_extra', 'dt' => 16),
     array('db' => 'moneda', 'dt' => 17),
-    array('db' => 'fecha_inicio', 'dt' => 18),
-    array('db' => 'fecha_calibracion', 'dt' => 19),
-    array('db' => 'periodo_calibracion', 'dt' => 20),
-    array('db' => 'fecha_vencimiento', 'dt' => 21),
-    array('db' => 'tecnico_id', 'dt' => 22),
-    array('db' => 'tecnico', 'dt' => 23),
-    array('db' => 'tecnico_email', 'dt' => 24),  
-    array('db' => 'fecha_salida', 'dt' => 25)
+
+    array('db' => 'fecha_captura', 'dt' => 18),
+    //Revisar los javascrip si el campo 18 no altera alguna opcion, que correspondia a la fecha_inicio
+    array('db' => 'fecha_inicio', 'dt' => 19),
+    array('db' => 'fecha_calibracion', 'dt' => 20),
+    array('db' => 'periodo_calibracion', 'dt' => 21),
+    array('db' => 'fecha_vencimiento', 'dt' => 22),
+    array('db' => 'tecnico_id', 'dt' => 23),
+    array('db' => 'tecnico', 'dt' => 24),
+    array('db' => 'tecnico_email', 'dt' => 25),  
+    array('db' => 'fecha_salida', 'dt' => 26),
+    array('db' => 'direccion', 'dt' => 27),
+    array('db' => 'referencia', 'dt' => 28)
 );
 
 ?>

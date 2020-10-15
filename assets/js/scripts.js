@@ -130,7 +130,7 @@
 /* validar campos  */
     function validar_text(id) {        
     var bool = true;
-    if (id == "") {
+    if (id == "" || id === null) {
         bool = false;
     }       
     return bool;
@@ -214,9 +214,9 @@
     $(window).load(function() {
         // Mostrar equipos a calibrar en area de notificaciones
         $.ajax({
-                url: "?c=informes&a=get_a_calibrar",
-                dataType: "json",
-                method: "GET",
+            url: "?c=informes&a=get_a_calibrar",
+            dataType: "json",
+            method: "GET",
             }).done(function(data) {
             var count = data.length;
             if(count >0){$('#notification_number').text(count);}
@@ -505,5 +505,4 @@
     function espacio_blanco(value){                      
          return value.trim();
     }   
-
-    // $("#numero_informe").val();
+    

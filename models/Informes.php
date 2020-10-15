@@ -124,23 +124,114 @@ class Informes extends Model {
         }   
     }
 
-    public function get_reporte_tecnico_cal($data){     
-        $query= "SELECT id as informe,alias as clave, descripcion,marca,modelo,serie, cliente, fecha_inicio,calibracion as tipo_calibracion,fecha_calibracion,periodo_calibracion,fecha_vencimiento,tecnico_email,factura,precio,precio_extra,moneda,fecha_salida,proceso FROM view_reportes". $data['ext'] ." ";
+    /*
+        // Funcion para obtener un reporte de la bitacora (dependiendo de la sucursal), con 3 tipos de filtrado
+        // 1. Entre fechas
+        // 2. Tipos de calibracion (inter, externa,...)
+        // 3. Proceso del informe  (inicio, calibración, ...)
+    */
+
+    public function get_reporte_bitacora($data){
+        $query= "SELECT id as informe,alias as clave, descripcion,marca,modelo,serie, cliente,fecha_captura, fecha_inicio,calibracion as tipo_calibracion,fecha_calibracion,periodo_calibracion,fecha_vencimiento,tecnico_email,factura,precio,precio_extra,moneda,fecha_salida,proceso,direccion,referencia FROM view_reportes". $data['ext'] ." ";
         $condicion= "WHERE ";
 
-        $condicion .="fecha_calibracion between '". $data['fecha_home']."' and '". $data['fecha_end']."' ";  //Filtro entre fechas
-
-        if($data['tipo_calibracion'] != "todos"){  //Filtro de tipo de calibracion          
-             $condicion .= " and calibracion='". $data['tipo_calibracion'] ."' ";
+        $condicion .="fecha_captura between '". $data['fecha_home']."' and '". $data['fecha_end']."' ";  //Filtro entre fechas       
+       
+        //Filtrar tipos de calibracion
+        $tipocal="";
+        foreach ($data['tipo_calibracion'] as $value) {                
+            $tipocal .= $value . ", ";               
         }
-        if($data['email'] != "todos" ){ // Filtro de tecnicos
+        $tipocal = substr($tipocal, 0, -2);
+        $condicion .="and calibraciones_id in (". $tipocal .")";    
+           
+         //Filtrar los procesos
+         $proceso="";
+         foreach ($data['proceso'] as $value) {                
+             $proceso .= $value . ", ";               
+         }
+         $proceso = substr($proceso, 0, -2);
+         $condicion .="and proceso in (". $proceso .")";    
 
-             $condicion .="and tecnico_email='". $data['email'] ."' ";
-        }                
-        $this->query = $query . $condicion.";";                                 
+        $this->query = $query . $condicion.";"; 
+
         $this->get_results_from_query();       
-        return $this->rows;        
+        return $this->rows;                
     }
+
+    //Reportes en actualziacion  
+    public function get_reporte_tecnico_cal($data){
+        $query= "SELECT id as informe,alias as clave, descripcion,marca,modelo,serie, cliente,fecha_captura, fecha_inicio,calibracion as tipo_calibracion,fecha_calibracion,periodo_calibracion,fecha_vencimiento,tecnico_email,factura,precio,precio_extra,moneda,fecha_salida,proceso,direccion,referencia FROM view_reportes". $data['ext'] ." ";
+        $condicion= "WHERE ";
+
+        $condicion .="fecha_calibracion between '". $data['fecha_home']."' and '". $data['fecha_end']."' ";  //Filtro entre fechas       
+       
+        //Filtrar tipos de calibracion
+        $tipocal="";
+        foreach ($data['tipo_calibracion'] as $value) {                
+            $tipocal .= $value . ", ";               
+        }
+        $tipocal = substr($tipocal, 0, -2);
+        $condicion .="and calibraciones_id in (". $tipocal .")";
+
+        //Filtrar los usuarios
+        $usuario_id="";
+        foreach ($data['tecnico'] as $value) {                
+            $usuario_id .= $value . ", ";               
+        }
+        $usuario_id = substr($usuario_id, 0, -2);
+        $condicion .="and tecnico_id in (". $usuario_id .")";
+                       
+        $this->query = $query . $condicion.";"; 
+
+        $this->get_results_from_query();       
+        return $this->rows;                
+    }
+
+    public function get_reporte_cliente_cal($data){
+      
+        $query= "SELECT id as informe,alias as clave, descripcion,marca,modelo,serie,cliente,fecha_captura, fecha_inicio,calibracion as tipo_calibracion,fecha_calibracion,periodo_calibracion,fecha_vencimiento,tecnico_email,factura,precio,precio_extra,moneda,fecha_salida,proceso,direccion,referencia FROM view_reportes". $data['ext'] ." ";
+        $condicion= "WHERE ";
+
+        $condicion .="fecha_inicio between '". $data['fecha_home']."' and '". $data['fecha_end']."' ";  //Filtro entre fechas       
+       
+        //Filtrar tipos de calibracion
+        $tipocal="";
+        foreach ($data['tipo_calibracion'] as $value) {                
+            $tipocal .= $value . ", ";               
+        }
+        $tipocal = substr($tipocal, 0, -2);
+        $condicion .=" and calibraciones_id in (". $tipocal .")";
+
+        //Filtrar los proceso 
+        $proceso="";
+        foreach ($data['proceso'] as $value) {                
+            $proceso .= $value . ", ";               
+        }
+        $proceso = substr($proceso, 0, -2);
+        $condicion .=" and proceso in (". $proceso .")";
+
+         //Filtrar las plantas 
+         $planta="";   
+         $isall= false;    
+         foreach ($data['planta'] as $value) {
+             if($value != "all"){
+                $planta .= $value . ", ";                
+             }  else{
+                $isall = true;
+             }                                       
+         }        
+        if(!$isall){
+            $planta = substr($planta, 0, -2);
+            $condicion .=" and cliente_id in (". $planta .")";
+        }
+
+        $this->query = $query . $condicion.";";    
+
+        $this->get_results_from_query();       
+        return $this->rows;                
+    }
+    // Fin apartado de reportes
 
     public function get_reporte_clientes($data){
         $cliente_temp="";             
@@ -163,8 +254,10 @@ class Informes extends Model {
             $this->query .= " LEFT Outer JOIN (select temp2.alias from (SELECT * FROM view_informes". $data['ext'] ." where fecha_calibracion >= '". $data['fecha_home']."' ". $cliente_temp .") as temp2) r1 ON l.alias=r1.alias LEFT Outer JOIN (select temp3.alias from (SELECT * FROM view_informes". $data['ext'] ." where alias is not null and proceso < 4 ". $cliente_temp .") as temp3) r2 ON l.alias=r2.alias";
 
             $condicion .="and r1.alias is null and r2.alias is null and fecha_vencimiento between '". $data['fecha_home']."' and '". $data['fecha_end']."' ". $cliente_temp .""; 
-        }        
-        $this->query .= $condicion." ;";                                 
+        }          
+        
+        $this->query .= $condicion." ;";   
+       
         $this->get_results_from_query();       
         return $this->rows;
     }

@@ -37,7 +37,7 @@
                 echo "<li class='". $bitacoram ." treeview'>";                
             ?>            
                 <?php
-                    if(Session::has('roles_id',['10000','10002','10003','10006','10004'])){ 
+                    if(Session::has('roles_id',['10000','10001','10002','10003','10006','10004'])){ 
                 echo "
                 <a href='#'>
                     <i class='fa fa-table'></i> <span>Bitacora</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
@@ -50,8 +50,8 @@
                     $recepcionvolsm = ($_SESSION['submenu']=='recepcionvol') ? 'active' : '';
                     $recepcionactvolsm = ($_SESSION['submenu']=='actualizarvol') ? 'active' : '';
                     $procesosm = ($_SESSION['submenu']=='proceso') ? 'active' : '';               
-                    $acalibrarsm = ($_SESSION['submenu']=='acalibrar') ? 'active' : '';               
-                        if(Session::has('roles_id',['10000','10003','10002','10006'])){
+                    $acalibrarsm = ($_SESSION['submenu']=='acalibrar') ? 'active' : '';              
+                        if(Session::has('roles_id',['10000','10001','10003','10002','10006'])){
                             echo "
                                 <li class='". $recepcionsm ."'><a href='?c=recepcion'><i class='fa fa-circle-o'></i>Recepción de equipo</a></li>                                
                                 <li class='". $completasm ."'><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitacora completa</a></li>                                
@@ -61,6 +61,8 @@
                         if(Session::has('roles_id',['10000','10006'])){
                             echo "<li class='". $recepcionvolsm ."'><a href='?c=recepcion&a=registrovol'><i class='fa fa-circle-o'></i>Recepción por volumen</a></li>
                             <li class='". $recepcionactvolsm ."'><a href='?c=recepcion&a=volumen'><i class='fa fa-circle-o'></i>Actualizar informes (*.csv)</a></li>";
+                        }elseif(Session::has('roles_id',['10001'])){
+                            echo "<li class='". $recepcionvolsm ."'><a href='?c=recepcion&a=registrovol'><i class='fa fa-circle-o'></i>Recepción por volumen</a></li>";
                         }
                         if(Session::has('roles_id',['10000','10003'])){
                             echo "                                
@@ -108,30 +110,29 @@
                     }
                 ?>              
              <!-- Módulos de reportes  --> 
-             <?php
-                $reportesm = ($_SESSION['menu']=='reportes') ? 'active' : '';
+             <?php                  
+                if(Session::has('roles_id',['10000','10002','10004']) || Session::has('email',['drodriguez@mypsa.com.mx'])){                    
+                    $reportesm = ($_SESSION['menu']=='reportes') ? 'active' : '';
 
-                $rindexsm = ($_SESSION['submenu']=='reportes_tecnico') ? 'active' : '';
-                $rtecnicocalsm = ($_SESSION['submenu']=='reportes_tecnico_cal') ? 'active' : ''; //reporteTecnicocalibracionsubmenu
-                $rclientecalsm = ($_SESSION['submenu']=='reportes_tecnico') ? 'active' : '';
-                $rclientessm = ($_SESSION['submenu']=='reportes_cliente') ? 'active' : '';
-                $rproductsm = ($_SESSION['submenu']=='reportes_productividad') ? 'active' : '';
+                    $rindexsm = ($_SESSION['submenu']=='reportes_index') ? 'active' : '';
+                    //$rtecnicocalsm = ($_SESSION['submenu']=='reportes_tecnico_cal') ? 'active' : ''; //reporteTecnicocalibracionsubmenu
+                    $rtecnicocalsm = ($_SESSION['submenu']=='reportes_tecnico') ? 'active' : '';
+                    $rclientessm = ($_SESSION['submenu']=='reportes_cliente') ? 'active' : '';
+                    //$rproductsm = ($_SESSION['submenu']=='reportes_productividad') ? 'active' : '';
 
-                //<li class='". $rtecnicossm ."' ><a href='?c=reportes'><i class='fa fa-circle-o'></i>Técnicos</a></li>     
-                if(Session::has('roles_id',['10000','10002','10004']) || Session::has('email',['drodriguez@mypsa.com.mx'])){             
+                    //<li class='". $rtecnicossm ."' ><a href='?c=reportes'><i class='fa fa-circle-o'></i>Técnicos</a></li>   
+
                     echo "<li class='". $reportesm ." treeview'>
                         <a href='#'>
-                            <i class='fa fa-pie-chart'></i> <span>Reportes</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
+                            <i class='fa fa-pie-chart'></i><span>Reportes</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
                         </a>
                         <ul class='treeview-menu'>
-                            <li class='". $rindexsm ."' ><a href='#'><i class='fa fa-circle-o'></i>
-                            Default</a></li>                                                   
-                            <li class='". $rclientessm ."' ><a href='#'><i class='fa fa-circle-o'></i>
-                            Clientes</a></li>
-                            <li class='". $rclientecalsm ."' ><a href='?c=reportes&a=cliente_cal'><i class='fa fa-circle-o'></i>
-                            Equipos Cal. x Cliente</a></li>
+                            <li class='". $rindexsm ."' ><a href='?c=reportes'><i class='fa fa-circle-o'></i>
+                            Bitácora</a></li>
                             <li class='". $rtecnicocalsm ."' ><a href='?c=reportes&a=tecnico_cal'><i class='fa fa-circle-o'></i>
-                            Equipos Cal. x Técnico</a></li>                   
+                            Equipos Cal. x Técnico</a></li>                           
+                            <li class='". $rclientecalsm ."' ><a href='?c=reportes&a=cliente_cal'><i class='fa fa-circle-o'></i>
+                            Equipos Cal. x Cliente</a></li>                                              
                         </ul>
                         </li>";
                 }            
@@ -194,7 +195,7 @@
             <!-- Módulos de administración  -->
             <?php                
 
-                if(Session::has('roles_id',['10000','10002','10006','10003','10004'])){
+                if(Session::has('roles_id',['10000','10001','10002','10006','10003','10004'])){
                     echo "<li class='header'>ADMINISTRACIÓN</li>";
                     //adminsitración de equipos
                     $equiposm = ($_SESSION['menu']=='equipos') ? 'active' : '';
@@ -230,37 +231,39 @@
                             </ul>
                         </li>";
                         //adminsitración de modulos
-                    $modulosm = ($_SESSION['menu']=='modulos') ? 'active' : '';
+                    if(Session::has('roles_id',['10000','10002','10006','10003','10004'])){                        
+                        $modulosm = ($_SESSION['menu']=='modulos') ? 'active' : '';
 
-                    $paissm = ($_SESSION['submenu']=='paises') ? 'active' : '';
-                    $estadosm = ($_SESSION['submenu']=='estados') ? 'active' : '';
-                    $ciudadsm = ($_SESSION['submenu']=='ciudades') ? 'active' : '';
-                    $tipocalsm = ($_SESSION['submenu']=='calibraciones') ? 'active' : '';
-                    $sucursalsm = ($_SESSION['submenu']=='sucursales') ? 'active' : '';
-                    $acreditacionsm = ($_SESSION['submenu']=='acreditaciones') ? 'active' : '';
-                    echo "<li class='". $modulosm ." treeview'>
-                        <a href='#'>
-                            <i class='fa fa-th'></i> <span>Módulos</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
-                        </a>
-                        <ul class='treeview-menu'>
-                            <li class='". $paissm ."'><a href='?c=paises'><i class='fa fa-globe'></i>Paises</a></li>
-                            <li class='". $estadosm ."'><a href='?c=estados'><i class='fa fa-globe'></i>Estados</a></li>
-                            <li class='". $ciudadsm ."'><a href='?c=ciudades'><i class='fa fa-globe'></i>Ciudades</a></li>
-                            <li class='". $tipocalsm ."'><a href='?c=calibraciones'><i class='fa fa-cog'></i>Tipo de calibración</a></li>
-                            <li class='". $sucursalsm ."'><a href='?c=sucursales'><i class='fa fa-suitcase'></i>Sucursales</a></li>
-                            <li class='". $acreditacionsm ."'><a href='?c=acreditaciones'><i class='fa fa-certificate'></i>Acreditaciones</a></li>
-                        </ul>
-                    </li>";                            
+                        $paissm = ($_SESSION['submenu']=='paises') ? 'active' : '';
+                        $estadosm = ($_SESSION['submenu']=='estados') ? 'active' : '';
+                        $ciudadsm = ($_SESSION['submenu']=='ciudades') ? 'active' : '';
+                        $tipocalsm = ($_SESSION['submenu']=='calibraciones') ? 'active' : '';
+                        $sucursalsm = ($_SESSION['submenu']=='sucursales') ? 'active' : '';
+                        $acreditacionsm = ($_SESSION['submenu']=='acreditaciones') ? 'active' : '';
+                        echo "<li class='". $modulosm ." treeview'>
+                            <a href='#'>
+                                <i class='fa fa-th'></i> <span>Módulos</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
+                            </a>
+                            <ul class='treeview-menu'>
+                                <li class='". $paissm ."'><a href='?c=paises'><i class='fa fa-globe'></i>Paises</a></li>
+                                <li class='". $estadosm ."'><a href='?c=estados'><i class='fa fa-globe'></i>Estados</a></li>
+                                <li class='". $ciudadsm ."'><a href='?c=ciudades'><i class='fa fa-globe'></i>Ciudades</a></li>
+                                <li class='". $tipocalsm ."'><a href='?c=calibraciones'><i class='fa fa-cog'></i>Tipo de calibración</a></li>
+                                <li class='". $sucursalsm ."'><a href='?c=sucursales'><i class='fa fa-suitcase'></i>Sucursales</a></li>
+                                <li class='". $acreditacionsm ."'><a href='?c=acreditaciones'><i class='fa fa-certificate'></i>Acreditaciones</a></li>
+                            </ul>
+                        </li>";                            
+                    }
                     //adminsitración de usuarios
-                    $usuariosm = ($_SESSION['menu']=='usuarios') ? 'active' : '';
-
-                    $usuariossm = ($_SESSION['submenu']=='usuarios') ? 'active' : '';
-                    $usuariosrolsm = ($_SESSION['submenu']=='roles') ? 'active' : '';
-                    $usuariosaltasm = ($_SESSION['submenu']=='usuariosalta') ? 'active' : '';            
-                    $usuarioclientesm = ($_SESSION['submenu']=='usuarioscliente') ? 'active' : ''; 
-                    $usuariomypsasm = ($_SESSION['submenu']=='usuariosmypsa') ? 'active' : ''; 
+                     
 
                     if(Session::has('roles_id',['10000'])){
+                        $usuariosm = ($_SESSION['menu']=='usuarios') ? 'active' : '';
+                        $usuariossm = ($_SESSION['submenu']=='usuarios') ? 'active' : '';
+                        $usuariosrolsm = ($_SESSION['submenu']=='roles') ? 'active' : '';
+                        $usuariosaltasm = ($_SESSION['submenu']=='usuariosalta') ? 'active' : '';            
+                        $usuarioclientesm = ($_SESSION['submenu']=='usuarioscliente') ? 'active' : ''; 
+                        $usuariomypsasm = ($_SESSION['submenu']=='usuariosmypsa') ? 'active' : '';
                         echo "<li class='".$usuariosm." treeview'>
                             <a href='#'>
                                 <i class='fa fa-user'></i> <span>Cuentas de usuarios</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>

@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="assets/css/ionicons.min.css">
         <!-- daterange picker -->
         <link rel="stylesheet" href="assets/plugins/daterangepicker/daterangepicker.css">
-        <link rel="stylesheet" href="assets/plugins/datepicker/datepicker3.css">        
+         <link rel="stylesheet" href="assets/plugins/datepicker/datepicker3.css">            
         <!-- iCheck for checkboxes and radio inputs -->
         <link rel="stylesheet" href="assets/plugins/iCheck/all.css">
         <link rel="stylesheet" href="assets/plugins/select2/select2.min.css"> 

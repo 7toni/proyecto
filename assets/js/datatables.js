@@ -276,26 +276,27 @@ $(document).ready(function () {
                 {
                     "targets": -1, //
                     "render": function(data,type, row){
-                     var proceso=parseInt(row[31]);   
+                    var proceso=parseInt(row[31]);   
                     var enable=[
                     ["","disabled","disabled","disabled"],
                     ["","disabled","disabled","disabled"],
                     ["","","disabled","disabled"],
                     ["","","","disabled"],
                     ["","","",""]
-                    ];
-                    var menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_black' id='btn_recepcion'  class='btn btn-social-icon badge bg-red"+ enable[proceso][0] +"' data-original-title='Recepción'><i class='fa fa-sign-in'></i></a>"+                              
-                    "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_black' id='btn_calibracion'  class='btn btn-social-icon badge bg-yellow "+ enable[proceso][1] +"' data-original-title='Calibración'><i class='fa fa-sliders'></i></a>";                                
+                    ];                    
+                    
+                    if(_arrayCtrl[4] == '01'){
+                        var menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_black' id='btn_recepcion'  class='btn btn-social-icon badge bg-red"+ enable[proceso][0] +"' data-original-title='Recepción'><i class='fa fa-sign-in'></i></a>";                        
+                    }else{
+                        var menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_black' id='btn_recepcion'  class='btn btn-social-icon badge bg-red"+ enable[proceso][0] +"' data-original-title='Recepción'><i class='fa fa-sign-in'></i></a>"+                              
+                        "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_black' id='btn_calibracion'  class='btn btn-social-icon badge bg-yellow "+ enable[proceso][1] +"' data-original-title='Calibración'><i class='fa fa-sliders'></i></a>";
+                    }
 
-                    if(_arrayCtrl[4] == '00' || _arrayCtrl[4] == '02'|| _arrayCtrl[4] == '04'|| _arrayCtrl[4] == '06'){
-                    menu +="<a href='?c=salida&a=index&p="+row[0]+"' target='_black' id='btn_salida' class='btn btn-social-icon badge bg-blue "+ enable[proceso][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
-                    "<a href='?c=factura&a=index&p="+row[0]+"' target='_black' id='btn_factura' class='btn btn-social-icon badge bg-navy "+ enable[proceso][3] +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";   
+                    if( _arrayCtrl[4] == '00' ||  _arrayCtrl[4] == '01' ||  _arrayCtrl[4] == '02' || _arrayCtrl[4] == '04'|| _arrayCtrl[4] == '06'){                      
+                        menu +="<a href='?c=salida&a=index&p="+row[0]+"' target='_black' id='btn_salida' class='btn btn-social-icon badge bg-blue "+ enable[proceso][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
+                        "<a href='?c=factura&a=index&p="+row[0]+"' target='_black' id='btn_factura' class='btn btn-social-icon badge bg-navy "+ enable[proceso][3] +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";   
                     }
-                    else
-                    {
-                    menu +="<a href='#' id='btn_salida' class='btn btn-social-icon badge bg-blue "+ enable[proceso][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
-                    "<a href='#' id='btn_factura' class='btn btn-social-icon badge bg-navy "+ enable[proceso][3] +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";   
-                    }
+                    
                         return  menu;                     
                     }
             }],
@@ -417,17 +418,17 @@ $(document).ready(function () {
                     if(row[22]=='pendiente'){disabledf=enable[2][3];} 
                     else {disabledf=enable[proceso][3];}
                     //opciones del menu que siempre estaran habilitados
-                    var menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_blank' id='btn_recepcion'  class='btn btn-social-icon badge bg-red"+ enable[proceso][0] +"' title='Recepción'><i class='fa fa-sign-in'></i></a>"+                              
-                    "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_blank' id='btn_calibracion'  class='btn btn-social-icon badge bg-yellow "+ enable[proceso][1] +"' title='Calibración'><i class='fa fa-sliders'></i></a>";
 
-                    if(_arrayCtrl[4] == '00' || _arrayCtrl[4] == '02'|| _arrayCtrl[4] == '04'|| _arrayCtrl[4] == '06'){
-                    menu +="<a href='?c=salida&a=index&p="+row[0]+"'  target='_blank' id='btn_salida'  class='btn btn-social-icon badge bg-blue "+ enable[proceso][2] +"' title='Salida'><i class='fa fa-sign-out'></i></a>"+
-                    "<a href='?c=factura&a=index&p="+row[0]+"' target='_blank' id='btn_factura'  class='btn btn-social-icon badge bg-navy "+ disabledf  +"' title='Facturación'><i class='fa fa-file-archive-o'></i></a>";                
-                    } 
-                    else{
-                    menu +="<a href='#' id='btn_salida' class='btn btn-social-icon badge bg-blue "+ enable[proceso][2] +"' title='Salida'><i class='fa fa-sign-out'></i></a>"+
-                    "<a href='#' id='btn_factura'  class='btn btn-social-icon badge bg-navy "+ disabledf  +"' title='Facturación'><i class='fa fa-file-archive-o'></i></a>";                
-                    }                        
+                    if(_arrayCtrl[4] == '01'){
+                        var menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_black' id='btn_recepcion'  class='btn btn-social-icon badge bg-red"+ enable[proceso][0] +"' data-original-title='Recepción'><i class='fa fa-sign-in'></i></a>";                        
+                    }else{
+                        var menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_black' id='btn_recepcion'  class='btn btn-social-icon badge bg-red"+ enable[proceso][0] +"' data-original-title='Recepción'><i class='fa fa-sign-in'></i></a>"+                              
+                        "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_black' id='btn_calibracion'  class='btn btn-social-icon badge bg-yellow "+ enable[proceso][1] +"' data-original-title='Calibración'><i class='fa fa-sliders'></i></a>";
+                    }
+                    if( _arrayCtrl[4] == '00' ||  _arrayCtrl[4] == '01' ||  _arrayCtrl[4] == '02' || _arrayCtrl[4] == '04'|| _arrayCtrl[4] == '06'){                      
+                        menu +="<a href='?c=salida&a=index&p="+row[0]+"' target='_black' id='btn_salida' class='btn btn-social-icon badge bg-blue "+ enable[proceso][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
+                        "<a href='?c=factura&a=index&p="+row[0]+"' target='_black' id='btn_factura' class='btn btn-social-icon badge bg-navy "+ disabledf +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";   
+                    }
                     return  menu;
                 }
             } 
