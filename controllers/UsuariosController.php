@@ -77,6 +77,7 @@ class UsuariosController {
     }
 
     public function add() {
+        $_SESSION['pageback']=$_SERVER['HTTP_REFERER'];
         //var_dump(Session::get("rol")); //Administrador         
         $data['rol'] = $this->model['rol']->all();
         $data['empresa'] = $this->model['empresa']->all();
@@ -84,6 +85,8 @@ class UsuariosController {
     }
 
     public function edit($id) {
+        $_SESSION['pageback']=$_SERVER['HTTP_REFERER'];
+
         $data['usuario'] = $this->model['usuario']->find($id);
         //var_dump($data['usuario'][0]['roles_id']);
         if (exists($data['usuario'])) {  
@@ -98,6 +101,8 @@ class UsuariosController {
             $data['planta'] = $this->model['planta']->find_by(['empresas_id'=>$empresas_id]);
             $data['direccion']= $this->model['planta']->find_by(['id' => $plantas_id ], "view_plantas");
             $data['rol'] = $this->model['rol']->all();
+            
+
             include view($this->name . '.edit');
             }         
             
@@ -105,6 +110,7 @@ class UsuariosController {
     }
 
     public function delete($id) {
+        $_SESSION['pageback']=$_SERVER['HTTP_REFERER'];
         $data['usuario'] = $this->model['usuario']->find($id);
         if (exists($data['usuario'])) {
             if (intval($data['usuario'][0]['roles_id']) == 10000 and Session::get("rol") != "Administrador") {
@@ -145,8 +151,11 @@ class UsuariosController {
             ])){
                 $data["imagen"] = $avatar['timestamp_ext'];
                 if ($this->model['usuario']->store($data)) {
-                    Storage::upload_image('avatares',700, $avatar['name'], $avatar['tmp_name']);
-                    redirect('?c=' . $this->name);
+                    Storage::upload_image('avatares',700, $avatar['name'], $avatar['tmp_name']);                    
+                    
+                    redirect($_SESSION['pageback']);
+
+                    //redirect('?c=' . $this->name);
                 } else {
                     Flash::error(setError('002'));
                 }
@@ -158,14 +167,18 @@ class UsuariosController {
                 if(Session::get('id') == $data['id']){
                     Session::renew();
                 }
-                redirect('?c=' . $this->name);
+                redirect($_SESSION['pageback']);
+
+                //redirect('?c=' . $this->name);
             } else {
                 Flash::error(setError('002'));
             }
         }
     }
 
-    public function update() {        
+    public function update() {  
+        
+        
         $data = validate($_POST, [
             'id' => 'required|exists:usuarios',
             'nombre' => 'required|ucwords',
@@ -175,6 +188,7 @@ class UsuariosController {
             'roles_id' => 'required|trimlower|exists:roles:id',
             'activo' => 'required|toInt',
         ]);
+
         /* ..................................... */
         /*      Envio de notificacion            */
         /* ..................................... */
@@ -210,7 +224,12 @@ class UsuariosController {
                     if(Session::get('id') == $data['id']){
                         Session::renew();
                     }
-                    redirect('?c=' . $this->name);
+
+                    redirect($_SESSION['pageback']);
+
+                    //header('Location: ' . $_SERVER['HTTP_REFERER']);
+
+                    //redirect('?c=' . $this->name);
                 } else {
                     Flash::error(setError('002'));
                 }
@@ -222,7 +241,8 @@ class UsuariosController {
                 if(Session::get('id') == $data['id']){
                     Session::renew();
                 }
-                redirect('?c=' . $this->name);
+
+                redirect($_SESSION['pageback']);
             } else {
                 Flash::error(setError('002'));
             }
@@ -235,7 +255,8 @@ class UsuariosController {
         ]);
         if ($this->model['usuario']->destroy($data)) {
             Logs::this('Delete','Se elimino el usuario '.json_encode($data));
-            redirect('?c=' . $this->name);
+            redirect($_SESSION['pageback']);            
+            //redirect('?c=' . $this->name);
         } else {
             Flash::error(setError('002'));
         }
@@ -263,7 +284,9 @@ class UsuariosController {
         ]);
         $data["password"] = Crypt::encrypt($data["password"]);
         if ($this->model['usuario']->update($data)) {
-            redirect('?c=' . $this->name);
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+
+            //redirect('?c=' . $this->name);
         } else {
             Flash::error(setError('002'));
         }

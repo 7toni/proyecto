@@ -38,6 +38,15 @@ class InformesController
         $_SESSION['submenu'] = 'proceso';
 		include view($this->name.'.proceso');
 	}
+
+	public function cancelar(){
+		$usuario =Session::get('id');		
+		$rol =substr(Session::get('roles_id'),-2); // solo se abstrae el ultimo numero del rol todos empiesan con 100 00
+		$_SESSION['menu'] = 'bitacora';
+        $_SESSION['submenu'] = 'cancelar';
+		include view($this->name.'.cancelar');
+	}
+
 	public function calibrar(){		
 		Session::logged([
 			//'roles_id' => '10003|10000',
@@ -81,4 +90,58 @@ class InformesController
 	public function get_a_calibrar(){
         echo $data = json_encode($data['informe'] = $this->model['informe']->equipos_calibrar_notification());
 	}
+
+	public function ajax_turn_off(){
+		$id = $_POST['id'];
+
+		$data['informe'] = $this->model['informe']->find($id);
+		
+        if (exists($data['informe'])) {  
+            if (Session::get("rol") != "Administrador") {
+				redirect('?c=error&a=error_403');
+            }
+            else{                				
+				$data = [
+				    'id' => $id,
+					'equipos_id' => null,
+					'plantas_id' => null,
+					'po_id' => null,
+					'acreditaciones_id' => null,
+					'calibraciones_id' => null,
+					'hojas_entrada_aux_id' => null,
+					'usuarios_calibracion_id' => null,
+					'periodo_calibracion' => null,
+					'usuarios_informe_id' => null,
+					'fecha_vencimiento' => null,
+					'fecha_calibracion' => null,
+					'hojas_salida_id' => null,
+					'precio' => null,
+					'precio_extra' => null,
+					'factura' => null,
+					'monedas_id' => null,
+					'fecha_finalizacion' => null,
+					'comentarios' => null,
+					'prioridad' => null,
+					'periodo_id' => null
+				];
+				$disponible = $data['informe'][0]['calibrado'];
+                if($disponible < 2){
+					$data['calibrado'] = 2;
+					$data['proceso'] = 0;
+                } else{
+					$data['calibrado'] = 0;
+					$data['proceso'] = 0;
+                }
+				unset($data['informe']);								
+				
+                if ($this->model['informe']->update($data)) {
+					Logs::this("Suspención de informe", "Número de informe: ".$data['id']." supendido."); 
+                    echo json_encode("exitoso");
+                } else {
+                   echo json_encode("error");
+                }
+            }
+        }
+	}
+	
 }

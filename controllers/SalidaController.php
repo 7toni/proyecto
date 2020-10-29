@@ -13,7 +13,7 @@ class SalidaController {
     'informes'=> new Informes(),
     'sucursal' => new Sucursal(),
     'po' => new PO(),
-    'salida' => new Salida(),
+    'salida' => new Salida(),    
     ];
     $this->ext=$this->model['sucursal']->extension();
     $this->sucursal= strtoupper(Session::get('sucursal'));
@@ -30,7 +30,8 @@ class SalidaController {
             
         $cliente= $data['cliente'][0]['cliente'];
 
-        $data['get']=$this->model['informes']->get_salida($id, $view_informes);           
+        $data['get']=$this->model['informes']->get_salida($id, $view_informes);        
+
         $planta =$data['get'][0]['plantas_id'];
 
         $idpo= strtolower($data['get'][0]['po_id']);
@@ -97,8 +98,13 @@ class SalidaController {
       if ($this->model['informes']->find_by(['id' => $data['id']])){
         $usuarios_id = $data['usuario_hoja_salida']; unset($data['usuario_hoja_salida']);
         $numero = $data['hojas_salida_id']; unset($data['hojas_salida_id']);
-        $fecha = $data['fecha']; unset($data['fecha']);                 
-        //existe hoja de salida       
+        $fecha = $data['fecha']; unset($data['fecha']);  
+        /* 
+          //Verificar en la tabla Salida, si existe la hoja de salida, se pregunta por el id de la hoja de salida.
+          //Una vez confirmado que existe, se pregunta por el id correspondiente para despues registrarlo en la tabla de Bitacora
+          //Sino existe hoja de salida, se tiene que registrar y preguntar por el id.
+        */
+        //Existe hoja de salida
         if ($this->model['salida']->find_by(['numero' => $numero])) {
          //si existe - update                 
           $id =$this->model['salida']->find_by(['numero' => $numero]);                
@@ -129,34 +135,39 @@ class SalidaController {
                 Flash::error(setError('002'));
               }
             }
-          }           
+        } 
+        
+        // Una vez que se obtuvo el id de la hoja de salida, se procede a capturar ese id al infrome.
         if (is_null($data['hojas_salida_id']) === false) {
-
+          
             if ($this->model['informes']->update($data)) {
                // direccionarlo al siguiente proceso     
               $roles_id= substr(Session::get('roles_id'),-1,1);            
               $po= $numero=$this->model['po']->po_pendiente($data['id']);
               if ($proceso_temp === 2 && $po !="pendiente") {
                 Logs::this("Captura en salida", "Se capturo los datos de salida. Informe: ".$data['id']);
-                  redirect('?c=factura&a=index&p='.$data['id']);
+                  //redirect('?c=factura&a=index&p='.$data['id']);                  
                   $this->model['informes']->_redirec($roles_id, $data['proceso'] ,$data['id']);              
                 }
               else if ($proceso_temp === 3 && $po !="pendiente") {
                 Logs::this("Captura en salida", "Actualización datos de salida. Informe: ".$data['id']);
-                  $this->model['informes']->_redirec($roles_id, $data['proceso'] ,$data['id']);               
+                  
+                $this->model['informes']->_redirec($roles_id, $data['proceso'] ,$data['id']);               
                 }
               else if ($proceso_temp === 4) {
-              Logs::this("Actualización en salida", "Actualización en salida, ya se encontraba el informe terminado. Informe: ".$data['id']); 
+              Logs::this("Actualización en salida", "Actualización en sa lida, ya se encontraba el informe terminado. Informe: ".$data['id']); 
+              
               $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
               } 
               else{
               redirect('?c=informes&a=proceso');
              }              
             }
+
             else {               
               Flash::error(setError('002'));
             }
-        }
+        }        
         else{           
           Flash::error(setError('002'));
         }
@@ -185,7 +196,7 @@ class SalidaController {
     echo json_encode($data);
   }
 
-  public function _sendemail(){    
+  public function _sendemail(){
     $view="view_informes". $this->ext;    
     $data = [
           'po' => $_POST['po'],

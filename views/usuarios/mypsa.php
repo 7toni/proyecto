@@ -45,7 +45,7 @@
                                                 <th>Apellido</th>
                                                 <th>Empresa</th>
                                                 <th>Planta</th>
-                                                <th>Dirección</th>]
+                                                <th>Dirección</th>
                                                 <th>Puesto</th>
                                                 <th>Telefono</th>
                                                 <th>Email</th>

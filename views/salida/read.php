@@ -58,9 +58,9 @@
                                       </div>
                                   </div> 
                                   <div class="box-body"> 
-                                    <div class="box-body form-horizontal">
+                                    <div class="box-body form-horizontal">                                      
                                       <div class="form-group">
-                                            <label class="col-sm-3 control-label"></label>
+                                            <label class="col-sm-3 control-label"></label>                                            
                                             <div class="col-sm-9">                                                        
                                               <?php
                                                 if($data['get'][0]['po_id'] == 'pendiente'){
@@ -72,6 +72,13 @@
                                               ?>                                       
                                             </div>
                                       </div>
+                                      <div class="form-group">                                             
+                                            <label class="col-sm-3 control-label">Tipo de calibración: </label>                                            
+                                            <div class="col-sm-9">                                                        
+                                            <input type="text" class="form-control" disabled="" value="<?php echo $data['get'][0]['calibracion']; ?>">
+                                            </div>
+                                        </div>
+
                                       <div class="form-group" id="alerta_hojasalida">
                                         <label class="col-sm-3 control-label"># Hoja de salida :</label>
                                             <div class="col-sm-9">
@@ -80,7 +87,7 @@
                                                     if (is_null($data['get'][0]['numero_hoja_salida']) === false) {
                                                       echo ' <input type="text" name="hojas_salida_id" id="hojas_salida_id" class="form-control" minlength="4" maxlength="7"  placeholder="# hoja de salida" value="'. $data['get'][0]['numero_hoja_salida'] .'" required>';
                                                     }
-                                                    else{echo ' <input type="text" name="hojas_salida_id" id="hojas_salida_id" class="form-control" minlength="4" maxlength="7" placeholder="# hoja de salida" required>';}
+                                                    else{echo '<input type="text" name="hojas_salida_id" id="hojas_salida_id" class="form-control" minlength="4" maxlength="7" placeholder="# hoja de salida" required>';}
                                                 ?>
                                                   <span class="input-group-btn">
                                                       <button type="button" name="buscar" id="buscar_hoja_salida" class="btn btn-flat"> <i class="fa fa-magic"></i>&nbsp; Buscar </button> 
@@ -161,7 +168,7 @@
                           echo"<div class='col-lg-12'>
                                 <div class='box box-default'>
                                   <div class='box-header with-border'>
-                                    <h3 class='box-title'>Datos de PO</h3>
+                                    <h3 class='box-title'>Solicitud para facturar PO</h3>
                                   </div>
                                   <div class='box-body form-horizontal'>";         
                                       if($countpototal > $cantidadpo){

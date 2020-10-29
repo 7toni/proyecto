@@ -32,12 +32,12 @@ $condicion="";
         $table = 'view_'.$controller;
         $table.=$ext;		
         if ($tipo == 4) {
-        	$condicion="proceso=4";
+            $condicion="proceso=4 ";            
         }
         if ($tipo == 1) {
             $condicion="proceso=1";
         }
-        if($tipo == 3){$condicion ="proceso <=". $tipo;}    
+        if($tipo == 3){$condicion ="estado_calibracion<>2 and proceso <=". $tipo;}    
         if($rol == '10003'){$condicion .=" and usuarios_calibracion_id=".$usuario;}    
     }
     else{$table = 'view_'.$controller.$ext;}

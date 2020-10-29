@@ -597,7 +597,7 @@
         $("#btn_noregistrar_factura").prop("disabled", true);
         $("#precio").val('0');
         $("#precio_extra").val('0');           
-        $("#factura").val('No existe');
+        $("#factura").val('Sin factura');
         $("#monedas_id").val('1').change();            
     }
     //registrar

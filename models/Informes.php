@@ -65,7 +65,7 @@ class Informes extends Model {
         return $this->rows;
     }
     public function get_salida($id,$view){
-        $this->query= "SELECT id as id,numero_hoja_salida,usuario_id_hoja_salida as usuario_hoja_salida,fecha_hoja_salida as fecha,entrega_hoja_salida as fecha_entrega,comentarios,proceso,po_id,cantidad,plantas_id  FROM ".$view." WHERE id = ". $id.";";
+        $this->query= "SELECT id as id,numero_hoja_salida,usuario_id_hoja_salida as usuario_hoja_salida,fecha_hoja_salida as fecha,entrega_hoja_salida as fecha_entrega,comentarios,proceso,po_id,cantidad,plantas_id,calibraciones_id,calibracion   FROM ".$view." WHERE id = ". $id.";";
         $this->get_results_from_query();       
         return $this->rows;
     }
@@ -78,7 +78,7 @@ class Informes extends Model {
 
     public function get_factura($id,$view){ // Consulta informacion de factura, cuando entra como opción para actualizar
         
-        $this->query= "SELECT id as id,precio,precio_extra,factura,monedas_id,po_id,comentarios,proceso,descripcion,estado_calibracion,calibracion FROM ".$view." WHERE id = ". $id.";";
+        $this->query= "SELECT id as id,precio,precio_extra,factura,monedas_id,po_id,comentarios,proceso,descripcion,estado_calibracion,calibracion,calibraciones_id FROM ".$view." WHERE id = ". $id.";";
         $this->get_results_from_query();       
         return $this->rows;
     }

@@ -233,7 +233,7 @@ $(document).ready(function () {
                         doc.styles.tableBodyOdd.margin  = [10,4,0,4];
                     }}
             ],            
-            "columnDefs": [
+            "columnDefs": [                
                 {"searchable": false, "targets": [-1,-2] },
                 {"orderable" : false, "targets": [-1,-2] },
                 { "targets":[7], "visible":true}, 
@@ -275,13 +275,14 @@ $(document).ready(function () {
                    },                
                 {
                     "targets": -1, //
+                    "data": null,
                     "render": function(data,type, row){
                     var proceso=parseInt(row[31]);   
-                    var enable=[
-                    ["","disabled","disabled","disabled"],
+                    var enable=[                  
                     ["","disabled","disabled","disabled"],
                     ["","","disabled","disabled"],
                     ["","","","disabled"],
+                    ["","","",""],
                     ["","","",""]
                     ];                    
                     
@@ -295,11 +296,14 @@ $(document).ready(function () {
                     if( _arrayCtrl[4] == '00' ||  _arrayCtrl[4] == '01' ||  _arrayCtrl[4] == '02' || _arrayCtrl[4] == '04'|| _arrayCtrl[4] == '06'){                      
                         menu +="<a href='?c=salida&a=index&p="+row[0]+"' target='_black' id='btn_salida' class='btn btn-social-icon badge bg-blue "+ enable[proceso][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
                         "<a href='?c=factura&a=index&p="+row[0]+"' target='_black' id='btn_factura' class='btn btn-social-icon badge bg-navy "+ enable[proceso][3] +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";   
+                    }                   
+                    if( _arrayCtrl[4] == '00' ||  _arrayCtrl[4] == '06'){ 
+                        menu +="<button onclick='informes_off("+row[0]+")' data-type='turn_off' class='btn btn-social-icon badge bg-gray' data-original-title='Cancelar Informe'><i class='fa fa-power-off'></i></button>";
                     }
-                    
-                        return  menu;                     
-                    }
-            }],
+
+                    return  menu;                     
+                }
+            }],           
             "language": {
                 "sProcessing": "Procesando...",
                 "sLengthMenu": "Mostrar _MENU_ registros",
@@ -335,8 +339,9 @@ $(document).ready(function () {
                         .draw();
                 }
             });
-        });
-            
+        });                        
+
+        
         $('#table_proceso thead tr').clone(true).appendTo( '#table_proceso thead' );
         $('#table_proceso thead tr:eq(1) th').each( function () {
             var title = $(this).text();
@@ -362,7 +367,7 @@ $(document).ready(function () {
                     exportOptions: {
                         columns: [':not(:last-child)' ]
                     },                    
-                }
+                },                
             ],            
             //fixedColumns: true,           
             "rowCallback": function( row, data, index ) {
@@ -377,7 +382,7 @@ $(document).ready(function () {
                      $node.addClass('bg-light-blue')
                   }
               },
-            "columnDefs": [
+            "columnDefs": [              
                 {"searchable": false, "targets": [-1,-2] },
                 {"orderable" : false, "targets": [-1,-2] },
                 { "targets":[7], "visible":true}, 
@@ -407,33 +412,125 @@ $(document).ready(function () {
                 {
                     "targets": -1, //
                     "render": function(data,type, row){
-                    var proceso=parseInt(row[31]);                      
-                    var enable=[
-                    ["","disabled","disabled","disabled"],
-                    ["","","disabled","disabled"],
-                    ["","","","disabled"],
-                    ["","","",""],                    
-                    ];
-                    var disabledf="";
-                    if(row[22]=='pendiente'){disabledf=enable[2][3];} 
-                    else {disabledf=enable[proceso][3];}
-                    //opciones del menu que siempre estaran habilitados
+                        var proceso=parseInt(row[31]);                      
+                        var enable=[
+                        ["","disabled","disabled","disabled"],
+                        ["","","disabled","disabled"],
+                        ["","","","disabled"],
+                        ["","","",""],                    
+                        ];
+                        var disabledf="";
+                        if(row[22]=='pendiente'){disabledf=enable[2][3];} 
+                        else {disabledf=enable[proceso][3];}
+                        //opciones del menu que siempre estaran habilitados
 
-                    if(_arrayCtrl[4] == '01'){
-                        var menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_black' id='btn_recepcion'  class='btn btn-social-icon badge bg-red"+ enable[proceso][0] +"' data-original-title='Recepción'><i class='fa fa-sign-in'></i></a>";                        
-                    }else{
-                        var menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_black' id='btn_recepcion'  class='btn btn-social-icon badge bg-red"+ enable[proceso][0] +"' data-original-title='Recepción'><i class='fa fa-sign-in'></i></a>"+                              
-                        "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_black' id='btn_calibracion'  class='btn btn-social-icon badge bg-yellow "+ enable[proceso][1] +"' data-original-title='Calibración'><i class='fa fa-sliders'></i></a>";
+                        if(_arrayCtrl[4] == '01'){
+                            var menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_black' id='btn_recepcion'  class='btn btn-social-icon badge bg-red"+ enable[proceso][0] +"' data-original-title='Recepción'><i class='fa fa-sign-in'></i></a>";                        
+                        }else{
+                            var menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_black' id='btn_recepcion'  class='btn btn-social-icon badge bg-red"+ enable[proceso][0] +"' data-original-title='Recepción'><i class='fa fa-sign-in'></i></a>"+                              
+                            "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_black' id='btn_calibracion'  class='btn btn-social-icon badge bg-yellow "+ enable[proceso][1] +"' data-original-title='Calibración'><i class='fa fa-sliders'></i></a>";
+                        }
+                        if( _arrayCtrl[4] == '00' ||  _arrayCtrl[4] == '01' ||  _arrayCtrl[4] == '02' || _arrayCtrl[4] == '04'|| _arrayCtrl[4] == '06'){                      
+                            menu +="<a href='?c=salida&a=index&p="+row[0]+"' target='_black' id='btn_salida' class='btn btn-social-icon badge bg-blue "+ enable[proceso][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
+                            "<a href='?c=factura&a=index&p="+row[0]+"' target='_black' id='btn_factura' class='btn btn-social-icon badge bg-navy "+ disabledf +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";   
+                        }
+                        if( _arrayCtrl[4] == '00' ||  _arrayCtrl[4] == '06'){ 
+                            menu +="<button onclick='informes_off("+row[0]+")' data-type='turn_off' class='btn btn-social-icon badge bg-gray' data-original-title='Cancelar Informe'><i class='fa fa-power-off'></i></button>";
+                        }
+                        
+                        return  menu;
                     }
-                    if( _arrayCtrl[4] == '00' ||  _arrayCtrl[4] == '01' ||  _arrayCtrl[4] == '02' || _arrayCtrl[4] == '04'|| _arrayCtrl[4] == '06'){                      
-                        menu +="<a href='?c=salida&a=index&p="+row[0]+"' target='_black' id='btn_salida' class='btn btn-social-icon badge bg-blue "+ enable[proceso][2] +"' data-original-title='Salida'><i class='fa fa-sign-out'></i></a>"+
-                        "<a href='?c=factura&a=index&p="+row[0]+"' target='_black' id='btn_factura' class='btn btn-social-icon badge bg-navy "+ disabledf +"' data-original-title='Facturación'><i class='fa fa-file-archive-o'></i></a>";   
-                    }
-                    return  menu;
-                }
             } 
-
-            ],
+            ],                                               
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros de _START_ a _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
+        });        
+           
+        table_proceso.columns().every( function () {
+            var that = this;
+            $( 'input', this.header() ).on( 'keyup change', function () {
+                if ( that.search() !== this.value ) {
+                    that                        
+                        .search(this.value)
+                        .draw();
+                }
+            });
+        });
+       
+        var table_cancelar = $('#table_cancelar').DataTable({
+            "ajax": "assets/php/server_processing.php?controller=" + controller,
+            "deferRender": true,
+            "processing": true,
+            "serverSide": true,
+            "dataType": "jsonp",
+            "lengthMenu": [[10, 20, 50,100,200,500,1000,3000], [10, 20, 50,100,200,500,1000,3000]],
+            "autoWidth": true,            
+            "scrollX": true,                                                                          
+            dom: '<"pull-left"l>fr<"dt-buttons"B>tip',
+            "order": [[ 1, "desc" ]],
+            buttons: [
+                 {
+                    className: 'btn btn-default btn-lg',
+                    extend: 'excel',
+                    text: '<span class="fa fa-download"></span> Exportar a Excel',
+                    exportOptions: {
+                        columns: [':not(:last-child)' ]
+                    },                    
+                },                
+            ],            
+            //fixedColumns: true,                       
+            "columnDefs": [             
+                { "targets":[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28], "visible":false},
+                {                 
+                    "targets": 29, //Estado
+                    "render": function(data,type, row){                     
+                       var color=['danger'];
+                       var text_color=['#5F5F5F'];                                       
+                       var menu="<span class='label label-danger'>Cancelado </span>";
+                       return  menu;
+                   }
+                },
+                {                 
+                    "targets": 31, //Proceso
+                    "render": function(data,type, row){                     
+                       var color=['danger','warning','info','primary'];
+                       var text_color=['#5F5F5F','#FFFFFF','#FFFFFF','#FFFFFF'];                                       
+                       var menu="<div class='progress progress-striped active'>"+
+                       "<div class='progress-bar progress-bar-"+ color[row[31]]+"' role='progressbar' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100' style='width:"+(parseInt(row[31])*100)/4+"%; color:"+ text_color[row[31]]+"'> "+(parseInt(row[31])*100)/4+"% </div>"+                    
+                       "</div>";                   
+                       return  menu;
+                   }
+                },                                                                         
+                {
+                    "targets": -1, //
+                    "render": function(data,type, row){
+                        var menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_black' id='btn_recepcion'  class='btn btn-social-icon badge bg-red' data-original-title='Recepción'><i class='fa fa-sign-in'></i></a>";                    
+                        return  menu;
+                    }
+                }            
+            ],                                               
             "language": {
                 "sProcessing": "Procesando...",
                 "sLengthMenu": "Mostrar _MENU_ registros",
@@ -459,23 +556,13 @@ $(document).ready(function () {
                 }
             }
         }); 
-           
-        table_proceso.columns().every( function () {
-            var that = this;
-            $( 'input', this.header() ).on( 'keyup change', function () {
-                if ( that.search() !== this.value ) {
-                    that                        
-                        .search(this.value)
-                        .draw();
-                }
-            });
-        });
+
 
         $('#table_calibrar thead tr').clone(true).appendTo( '#table_calibrar thead' );
         $('#table_calibrar thead tr:eq(1) th').each( function () {
             var title = $(this).text();
             $(this).html( '<input type="text" style="font-size:11px;" placeholder="'+title+'" />' );                        
-        } );  
+        } );                
 
         var table_calibrar = $('#table_calibrar').DataTable({
             "ajax": "assets/php/server_processing.php?controller=" + controller,
@@ -846,11 +933,9 @@ $(document).ready(function () {
         var badge= ["bg-red","bg-green"];
         var label= ["label-danger","label-success"];
         var hoy= moment().format('YYYY-MM-DD');
-        var nextmonth= moment(hoy).add(1,'months').format('YYYY-MM-DD');                                                               
-         
-        
+        var nextmonth= moment(hoy).add(1,'months').format('YYYY-MM-DD');                
 
-    }        
+    }           
 });
 
 

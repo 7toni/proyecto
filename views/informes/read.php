@@ -62,7 +62,7 @@
                                                 <th>Proceso</th>                                                
                                                 <th>%</th>    
                                                 <th class="text-center">&nbsp;Ver&nbsp;</th>
-                                                <th>Acción</th>
+                                                <th>Editar</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
@@ -100,7 +100,7 @@
                                             <th>Proceso</th>                                                
                                             <th>%</th> 
                                             <th class="text-center">&nbsp;Ver&nbsp;</th>
-                                            <th >Acción</th> 
+                                            <th >Editar</th> 
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -109,21 +109,81 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="modal modal-default fade" id="modal-default">
+                      <div class="modal-dialog ">
+                        <div class="modal-content">
+                          <div class="modal-header bg-red" >                         
+                            <h2 class="modal-title"><i class="fa fa-bullhorn"></i> Confirmar </h2>
+                          </div>
+                          <div class="modal-body"> 
+                              <p id="modal_body_cancel"><p>
+                              <p id="modalvalidacion"></p>                         
+                          </div>
+                          <div class="modal-footer ">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-default pull-right bg-red" onclick="ajax_off();">Aceptar</button>
+                          </div>
+                        </div>
+                        <!-- /.modal-content -->
+                      </div>
+                      <!-- /.modal-dialog -->
+                    </div>
+                  <!-- /.modal -->
+
                 </section>
             </div>
             <?php importView('_static.footer'); ?>
         </div>
         <script>
-        var controller = "<?php echo $this->name.' '.$this->ext.' '.$proceso.' '.$usuario.' '.$rol.''; ?>";        
+        var controller = "<?php echo $this->name.' '.$this->ext.'_v1 '.$proceso.' '.$usuario.' '.$rol.''; ?>";        
         </script>
         <?php importView('_static.scripts'); ?>
         <script type="text/javascript">
-       $(window).load(function() {
-            new $.fn.dataTable.FixedColumns( table_informes ,{
-                leftColumns:1,
-                rightColumns:2
+            var id=0;
+            informes_off = function(value) {                
+                id=value;
+                $("[name='body_cancel']").remove();
+                var div="<h3 class='box-title' name='body_cancel'>Deseas cancelar el informe # <span class='badge bg-red'>"+ id +"</span> </h3>";
+                $("#modal_body_cancel").after(div);
+                $('#modal-default').modal('show');                                                                                    
+            }
+
+            function ajax_off(){
+                var parametro= {                  
+                    'id': id                        
+                };
+
+                $.ajax({
+                    url: "?c=informes&a=ajax_turn_off",
+                    dataType: "json",
+                    method: "POST",
+                    data: parametro
+                }).done(function(data) {
+                    var datos = data;
+                    if(datos=="exitoso"){                                                
+                        $('#table_informes').DataTable().draw();
+                        $('#modal-default').modal('hide');                      
+                    }
+                    else{
+                        $("[name='alerta_validacion']").remove();
+                            $("#modal_body_cancel").before(
+                            "<div class='form-group' name='alerta_validacion'> <div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4> Ocurrio un problema, favor de comunicarcarlo con el administrador.</div>" + "</div>" + "</div>");
+                    }                                           
+                }).fail(function(data) {}).always(function(data) {
+                    //console.log(data);             
+                }); 
+            }
+
+            $(window).load(function() {
+                    new $.fn.dataTable.FixedColumns( table_informes ,{
+                        leftColumns:1,
+                        rightColumns:2
+                    });
             });
-        });
+        
+       
+
         </script> 
     </body>
 </html>

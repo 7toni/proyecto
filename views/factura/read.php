@@ -2,6 +2,23 @@
 <html>
     <head>
         <?php importView('_static.head'); ?>
+
+        <style>
+              .example-modal .modal {
+                position: relative;
+                top: auto;
+                bottom: auto;
+                right: auto;
+                left: auto;
+                display: block;
+                z-index: 1;
+              }
+
+              .example-modal .modal {
+                background: transparent !important;
+              }
+      </style>
+
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
@@ -40,7 +57,7 @@
                               ?></ul>
                       </div>
                     <?php } ?>
-                  <form method="POST" novalidate="" autocomplete="off"  action="?c=<?php echo $this->name; ?>&a=store" role="form" enctype="multipart/form-data">                                                           
+                  <form method="POST" name="form1" id="form1" novalidate="" autocomplete="off"  action="?c=<?php echo $this->name; ?>&a=store" role="form">                                                           
                      <div class="row">
                         <div class="col-lg-6">
                             <div class="box box-default">
@@ -55,15 +72,23 @@
                                     </div>                                
                                   </div> 
                                   <div class="box-body">
+                                    <p id="validacion"></p>
                                     <div class="box-body form-horizontal">
+                                    <div class="form-group">                                             
+                                            <label class="col-sm-3 control-label">Tipo de calibración: </label>                                            
+                                            <div class="col-sm-9">                                                        
+                                            <input type="text" class="form-control" disabled="" value="<?php echo $data['get'][0]['calibracion']; ?>">
+                                            </div>
+                                        </div>
+
                                         <div class="form-group">
                                           <label  class="col-sm-3 control-label"># Factura :</label>
                                           <div class="col-sm-9">
                                           <?php   
                                               if(is_null($data['get'][0]['factura']) === false){
-                                                echo '<input type="text" class="form-control" name="factura" id="factura" value="'. strtoupper($data['get'][0]['factura']).'">';
+                                                echo '<input type="text" class="form-control" name="factura" id="factura" value="'. $data['get'][0]['factura'].'">';
                                               }
-                                              else{ echo '<input type="text" class="form-control"  placeholder="X123" name="factura" id="factura" >';}
+                                              else{ echo '<input type="text" class="form-control"  placeholder="X123" name="factura" id="factura">';}
     
                                             ?>
                                           </div>
@@ -126,12 +151,13 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-3"> </div>
-                                            <div class="col-sm-9">                                          
+                                            <div class="col-sm-9" > 
+                                                                                      
                                               <?php
                                                 if ($data['get'][0]['proceso'] != 3) {
-                                                  echo '<button type="submit" class="btn btn-info btn-block pull-right">Actualizar</button>';
+                                                  echo '<button type="button" onclick="submit_form()" class="btn btn-info btn-block pull-right">Actualizar</button>';
                                                 }
-                                                else{echo '<button type="submit" class="btn btn-info btn-block pull-right">Guardar</button>';}
+                                                else{echo '<button type="button" onclick="submit_form()" class="btn btn-info btn-block pull-right">Guardar</button>';}
                                               ?>
                                           </div>
                                         </div> 
@@ -174,8 +200,71 @@
                                 </div>
                           </div>
                         </div>                                                            
-                    </div> 
-                  </form>                   
+                    </div>
+                    </form> 
+
+                    <div class="modal modal-default fade" id="modal-default">
+                      <div class="modal-dialog ">
+                        <div class="modal-content">
+                          <div class="modal-header bg-blue" >                         
+                            <h2 class="modal-title"><i class="fa fa-bullhorn"></i> Confirmar </h2>
+                          </div>
+                          <div class="modal-body">                                                                                               
+                          <h4 class="box-title">Deseas terminar con el proceso de captura, para el informe # <span class="badge bg-blue"> <?php  echo $id; ?> </span> </h4>                                                                
+                          <h4 class="box-title"> Tipo de calibración : <span class="badge bg-blue">  <?php echo $data['get'][0]['calibracion']; ?> </span> <h4>
+                          <h4 class="box-title">  Presiona <span class="badge bg-blue"> <b>Aceptar</b> </span> para confirmar, de lo contrario presiona <b>Cancelar.</b><h4>                                                          
+                          
+                          </div>
+                          <div class="modal-footer ">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary pull-right bg-blue" onclick="submit_confirm('1');">Aceptar</button>
+                          </div>
+                        </div>
+                        <!-- /.modal-content -->
+                      </div>
+                      <!-- /.modal-dialog -->
+                  </div>
+                  <!-- /.modal -->
+
+                  <!-- /.modal -->
+                    <div class="modal modal-default fade" id="modal-permiso">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header bg-orange">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                              <h2 class="modal-title"> <i class="fa fa-key" aria-hidden="true"></i> Confirmar permiso</h2>
+                            </div>
+                              <div class="modal-body"> 
+                                <form id="form_acceso" name="form_acceso" action="#" >
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                          <label for="email">* Correo</label>
+                                          <input type="email" class="form-control" id="email" name="email" placeholder="Ingresar Correo">
+                                        </div>
+                                        <div class="form-group">
+                                          <label for="password">* Contraseña</label>
+                                          <input type="password" class="form-control" id="password" name="password" placeholder="Ingresar Contraseña">
+                                        </div>
+                                        <p id="modalvalidacion"></p>                                                    
+                                    </div>
+                                    
+                                    <!-- /.box-body -->
+                                    <div class="box-footer">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>  
+                                        <button type="button" class="btn btn-default pull-right bg-orange" onclick="submit_acceso()"> Enviar </button>                         
+                                    </div>                                                    
+                                </form>                                 
+                            </div>
+                            
+                          </div>
+                          <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                  <!-- /.modal -->
+
+                                  
                 </section>
             </div>                                               
         </div>
@@ -187,13 +276,84 @@
         <?php importView('_static.scripts'); ?>
         <script>
           var calibrado = "<?php echo $data['get'][0]['estado_calibracion']; ?>";
-            
+          var requierefactura ="<?php echo $data['calibraciones'][0]['requierefactura']; ?>";
+          var proceso ="<?php echo  $data['get'][0]['proceso'] ?>";
+         
+
           $(document).ready(function() {
+            if(requierefactura == 0 && proceso < 4) {                                      
+              $('#modal-default').modal('show');               
+            } 
+
             if(calibrado=="0"){
               opciones_factura('no_registrar');
             }
 
           });
+
+          function submit_form(){
+              if(requierefactura == 0){
+                $('#modal-permiso').modal('show');
+              }
+              else{
+                document.form1.submit();
+              }
+          }
+
+          /* Submit de acceso */
+            function submit_acceso() {
+                var email = document.getElementById("email").value;
+                var password = document.getElementById("password").value; 
+                var validado= true;                 
+                
+                if(email =="" || email === null ){validado=false;}
+                if(password== "" || password === null ){validado=false;}
+                
+                if(validado == true){
+                    var $logModal = $('#modal-permiso');
+                    var parametro= {                  
+                        'email': email.trim(),
+                        'password': password.trim()
+                    };
+                    $.ajax({
+                        url: "?c=login&a=ajax_load_acceso",
+                        dataType: "json",
+                        method: "POST",
+                        data: parametro
+                    }).done(function(data) {
+                        var datos = data;
+                        if(datos=="exitoso"){
+                            document.form1.submit();
+                        }
+                        else{
+                            $("[name='alerta_validacion']").remove();
+                            $("#modalvalidacion").before(
+                            "<div class='form-group' name='alerta_validacion'> <div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + datos + "</div>" + "</div>" + "</div>");                    
+                        }                                           
+                    }).fail(function(data) {}).always(function(data) {
+                        //console.log(data);             
+                    });                                           
+                }else{
+                    $("[name='alerta_validacion']").remove();
+                    $("#modalvalidacion").before(
+                    "<div class='form-group' name='alerta_validacion'> <div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + "Campo requerido,favor de ingresar información. Intente una vez más." + "</div>" + "</div>" + "</div>");                    
+                }                
+            }
+          /* Submit de acceso */
+
+
+          function submit_confirm(opcion) {
+            if (opcion == 1) {
+              $("#precio").val('0');
+              $("#precio_extra").val('0');           
+              $("#factura").val('Sin factura');
+              $("#monedas_id").val('1').change(); 
+              document.form1.submit();             
+            } else {
+              return false;
+            }           
+          }
+
         </script>
     </body>
 </html>

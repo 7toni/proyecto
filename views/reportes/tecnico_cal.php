@@ -77,9 +77,19 @@
                 <label><h4>Sucursal *</h4></label>
                 <select id="sucursal" name="sucursal" class="form-control select2" data-placeholder="Seleccionar sucursal" style="width: 100%;">                    
                   <option value="">Seleccionar sucursal</option>  
-                  <option value="nogales">Nogales</option>
-                  <option value="hermosillo">Hermosillo</option>
-                  <option value="guaymas">Guaymas</option> 
+                  <?php
+                      if( strtolower (Session::get('sucursal')) =="nogales"){
+                        echo '<option value="nogales">Nogales</option>';                                  
+                        echo '<option value="hermosillo">Hermosillo</option>';    
+                        echo '<option value="guaymas">Guaymas</option>';    
+                      }
+                      else if(strtolower(Session::get('sucursal')) == "hermosillo"){
+                        echo '<option value="hermosillo">Hermosillo</option>';
+                      }
+                      else if(strtolower(Session::get('sucursal')) == "guaymas"){
+                        echo '<option value="guaymas">Guaymas</option>';    
+                      }
+                  ?>  
                 </select>
               </div> 
               <div class="form-group">

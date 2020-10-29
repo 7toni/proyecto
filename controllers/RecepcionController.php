@@ -424,6 +424,7 @@
         $proceso_temp = $data['proceso'];
 
         if ($data['proceso'] === 0) {
+          $data['calibrado']=0;
           $data['proceso'] = intval('1');
         }
 
