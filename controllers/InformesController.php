@@ -15,7 +15,9 @@ class InformesController
         	'sucursal' => new Sucursal(),
   		];
        $this->ext=$this->model['sucursal']->extension();
-       $this->sucursal= strtoupper(Session::get('sucursal'));     
+	   $this->sucursal= strtoupper(Session::get('sucursal'));
+	   
+	   $_SESSION['script'] = '';
 	}
 
 	public function index(){
@@ -31,6 +33,7 @@ class InformesController
       	$_SESSION['submenu'] = 'completa';
 		include view($this->name.'.read');
 	}
+
 	public function proceso(){
 		$usuario =Session::get('id');		
 		$rol =substr(Session::get('roles_id'),-2); // solo se abstrae el ultimo numero del rol todos empiesan con 100 00
@@ -86,6 +89,15 @@ class InformesController
 			redirect('?c=error&a=error_412');
 		}
 	}
+
+	public function autorizacion(){
+		$usuario =Session::get('id');		
+		$rol =substr(Session::get('roles_id'),-2); // solo se abstrae el ultimo numero del rol todos empiesan con 100 00
+				
+		$_SESSION['menu'] = 'bitacora';
+      	$_SESSION['submenu'] = 'autorizacion';
+		include view($this->name.'.autorizacion');
+	}
 	
 	public function get_a_calibrar(){
         echo $data = json_encode($data['informe'] = $this->model['informe']->equipos_calibrar_notification());
@@ -96,11 +108,9 @@ class InformesController
 
 		$data['informe'] = $this->model['informe']->find($id);
 		
-        if (exists($data['informe'])) {  
-            if (Session::get("rol") != "Administrador") {
-				redirect('?c=error&a=error_403');
-            }
-            else{                				
+        if (exists($data['informe'])) {
+			$rol =substr(Session::get('roles_id'),-2); // solo se abstrae el ultimo numero del rol todos empiesan con 100 00
+			if($rol == "00" || $rol == "02" || $rol == "04"|| $rol == "06"){				                          				
 				$data = [
 				    'id' => $id,
 					'equipos_id' => null,
@@ -140,8 +150,56 @@ class InformesController
                 } else {
                    echo json_encode("error");
                 }
-            }
+            }else{
+				redirect('?c=error&a=error_403');
+			}
         }
+	}
+
+	public function ajax_autorizacion(){
+		$tipoaut = $_POST[0];
+		$datos = $_POST[1];								
+		
+		$usuario=Session::get('email');
+		$mensaje="";
+		
+		$retorno= array();				
+
+		for($i=0; $i< sizeof($datos);$i++){
+			//El data['id'] se actualizara su valor cada iteracion 
+			$data['id']= $datos[$i][0];			
+			$data['comentarios' ]= null;
+			$equipo=$datos[$i][1].', '. $datos[$i][2].', '. $datos[$i][3].', '.$datos[$i][4].', '.$datos[$i][5];
+			$informe=$datos[$i][0];
+
+			if($tipoaut==1){
+				$data['reqautorizacion']= 2;
+				//Cuando el proceso este en el inicio, cambiar el estado del proceso a calibracion				
+				if($datos[$i][31] == 0){
+					$data['proceso']=1;
+				}
+				$mensaje = "Aprobado, registro de equipo repetido: {$equipo}. del informe: {$informe}, autorizado por el usuario {$usuario}";
+				// Si el equipo es aprobado en repetir el equipo, se modificara el campo comentarios
+
+			}else{
+				$data['reqautorizacion']= 0;
+				$data['equipos_id']= null;
+				$mensaje ="Cancelado, no se registro el equipo {$equipo}, en el informe {$informe}, cancelado por el usuario {$usuario}";
+				// Si el registro es cancelado en repetir id del equipo, se eliminara todo contenido que se asocie con el informe
+			}		
+
+			/* Update  */
+			if ($this->model['informe']->update($data))  {
+				Logs::this("Solicitud de autorización", $mensaje);				
+				array_push($retorno, null);			
+			}
+			else{					
+				array_push($retorno,$data['id']);
+			}			
+		}			
+		
+		echo json_encode($retorno);
+
 	}
 	
 }

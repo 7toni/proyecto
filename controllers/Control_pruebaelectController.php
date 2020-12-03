@@ -20,6 +20,8 @@ class Control_pruebaelectController{
 
         $_SESSION['menu'] = $this->name;
         $_SESSION['submenu'] = $this->name; 
+
+        $_SESSION['script'] = '';
     }
 
     public function index(){                 

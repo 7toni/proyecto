@@ -14,7 +14,9 @@ class MensajesController {
         $this->subtitle = "Panel de control de módulos ";
         // $this->model=[
   		// 	'mensaje' => new Mensaje()
-  		// ];
+          // ];
+        
+          $_SESSION['script'] = '';
         
     }
 

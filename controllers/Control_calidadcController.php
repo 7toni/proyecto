@@ -20,6 +20,8 @@ class Control_calidadcController{
 
         $_SESSION['menu'] = $this->name;
         $_SESSION['submenu'] = $this->name; 
+
+        $_SESSION['script'] = '';
     }
 
     public function index(){                 

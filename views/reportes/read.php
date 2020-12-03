@@ -539,7 +539,7 @@
                       "targets":24
                   }
                 ],     
-                });
+            });
 
                 _table.columns().every( function () {
                     var that = this;
@@ -552,7 +552,8 @@
                     });
                 });            
 
-            // Add event listener for opening and closing details
+           
+                // Add event listener for opening and closing details
             $('#table_reporte tbody').on('click', 'td.details-equipo', function () {
                 var tr = $(this).closest('tr');
                 var row =  _table.row( tr );

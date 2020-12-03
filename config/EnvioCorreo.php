@@ -165,7 +165,7 @@ class EnvioCorreo{
                                                         <span style='font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:18px;font-weight:300;line-height:1.1;'>Usuario:</span>
                                                     </td>
                                                     <td  style='padding: 12px 10px; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;'>
-                                                        <span style='font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;'> {$email}</span>
+                                                        <span style='font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;'>{$email}</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -173,7 +173,7 @@ class EnvioCorreo{
                                                         <span style='font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:18px;font-weight:300;line-height:1.1;'>Contraseña:</span>
                                                     </td>
                                                     <td valign='top' style='padding: 12px 10px; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;'>
-                                                        <span style='font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;'> {$password}</span>
+                                                        <span style='font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;'>{$password}</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -181,7 +181,7 @@ class EnvioCorreo{
                                                         <span style='font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:18px;font-weight:300;line-height:1.1;'>Empresa:</span>
                                                     </td>
                                                     <td valign='top' style='padding: 12px 10px; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;'>
-                                                        <span style='font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;'> {$empresa}</span>
+                                                        <span style='font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;'>{$empresa}</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -189,7 +189,7 @@ class EnvioCorreo{
                                                         <span style='font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:18px;font-weight:300;line-height:1.1;'>Sucursal:</span>
                                                     </td>
                                                     <td valign='top' style='padding: 12px 10px; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;'>
-                                                        <span style='font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;'> {$sucursal}</span>
+                                                        <span style='font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;'>{$sucursal}</span>
                                                     </td>
                                                 </tr>                                                           
                                             </tbody>
@@ -223,7 +223,7 @@ class EnvioCorreo{
                                         <table data-editable='text' class='text-block' width='100%' cellspacing='0' cellpadding='0' border='0' align='center'>
                                             <tbody><tr>                            
                                                 <td class='lh-3' valign='top' align='center' style='padding: 20px 50px 50px; margin: 0px; font-size: 16px; font-family: Times New Roman, Times, serif; line-height: 1.35;'>                                
-                                                    <span style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#262626; line-height:1.3;'>Este correo se envía de manera automática, si tiene alguna duda, &nbsp;</span><div><span style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#262626; line-height:1.3;'> favor de entrar a nuestra página <a href='http://mypsa.com.mx/'>http://mypsa.com.mx/</a> y comunicarse a nuestros números telefónicos. Gracias!
+                                                    <span style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#262626; line-height:1.3;'>Este correo se envía de manera automática, si tiene alguna duda, &nbsp;</span><div><span style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#262626; line-height:1.3;'> favor de entrar a nuestra página <a href='http://mypsa.com.mx/'> http://mypsa.com.mx/ </a> o comunicarse a nuestros números telefónicos. Gracias! </span>
                                                 </div></td>
                                             </tr>
                                         </tbody></table>
@@ -298,7 +298,7 @@ class EnvioCorreo{
                                                 <tr>
                                                     <td class='lh-4' valign='top' align='left' style='padding: 0px 50px 34px; margin: 0px; background-color: rgb(255, 255, 255); font-size: 16px; font-family: Times New Roman, Times, serif; line-height: 1.45;'>
                                                         <p  style='font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#373737;line-height:1.3;'>Tu cuenta se dio de alta correctamente.</p>
-                                                        <p style='font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#373737;line-height:1.3; ¿'>A partir de este momento podrás ingresar al sistema.</p>
+                                                        <p style='font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#373737;line-height:1.3;'>A partir de este momento podrás ingresar al sistema.</p>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -314,7 +314,7 @@ class EnvioCorreo{
                                                         <span style='font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:18px;font-weight:300;line-height:1.1;'>Usuario:</span>
                                                     </td>
                                                     <td  style='padding: 12px 10px; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;'>
-                                                        <span style='font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;'> {$email}</span>
+                                                        <span style='font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;'>{$email}</span>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -354,7 +354,7 @@ class EnvioCorreo{
                                         <table data-editable='text' class='text-block' width='100%' cellspacing='0' cellpadding='0' border='0' align='center'>
                                             <tbody><tr>                            
                                                 <td class='lh-3' valign='top' align='center' style='padding: 20px 50px 50px; margin: 0px; font-size: 16px; font-family: Times New Roman, Times, serif; line-height: 1.35;'>                                
-                                                    <span style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#262626; line-height:1.3;'>Este correo se envia de manera automatica, si tiene alguna duda, &nbsp;</span><div><span style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#262626; line-height:1.3;'> favor de entrar a nuestra pagina <a href='http://mypsa.com.mx/'> http://mypsa.com.mx/ </a> y comunicarse a nuestros numeros telefonicos. Gracias! </span>                                   
+                                                    <span style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#262626; line-height:1.3;'>Este correo se envía de manera automática, si tiene alguna duda, &nbsp;</span><div><span style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#262626; line-height:1.3;'> favor de entrar a nuestra página <a href='http://mypsa.com.mx/'> http://mypsa.com.mx/ </a> o comunicarse a nuestros números telefónicos. Gracias! </span>
                                                 </div></td>
                                             </tr>
                                         </tbody></table>
@@ -615,7 +615,7 @@ class EnvioCorreo{
                                                     <tbody>
                                                         <tr>
                                                             <td valign='top' align='center' style='padding: 10px 0px 7px; margin: 0px; background-color:white; font-size: 16px; font-family: Times New Roman, Times, serif; line-height: 1.15;'>
-                                                                <span style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#8f8f8f; line-height:1.1;'>Este correo se envia de manera automatica, si tiene una pregunta, favor de comunicarse con el departamento correspondiente. Estamos para servirle.</span>
+                                                                <span style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#8f8f8f; line-height:1.1;'>Este correo se envía de manera automática, si tiene una pregunta, favor de comunicarse con el departamento correspondiente. Estamos para servirle.</span>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -699,7 +699,7 @@ class EnvioCorreo{
                                                     <span style='font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:18px;font-weight:300;line-height:1.1;'>Usuario:</span>
                                                 </td>
                                                 <td  style='padding: 12px 10px; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;'>
-                                                    <span style='font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;'> {$email}</span>
+                                                    <span style='font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;'>{$email}</span>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -707,7 +707,7 @@ class EnvioCorreo{
                                                     <span style='font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:18px;font-weight:300;line-height:1.1;'>Contraseña:</span>
                                                 </td>
                                                 <td  style='padding: 12px 10px; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;'>
-                                                    <span style='font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;'> {$password}</span>
+                                                    <span style='font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#161414;line-height:1.3;'>{$password}</span>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -741,7 +741,7 @@ class EnvioCorreo{
                                     <table data-editable='text' class='text-block' width='100%' cellspacing='0' cellpadding='0' border='0' align='center'>
                                         <tbody><tr>                            
                                             <td class='lh-3' valign='top' align='center' style='padding: 20px 50px 50px; margin: 0px; font-size: 16px; font-family: Times New Roman, Times, serif; line-height: 1.35;'>                                
-                                                <span style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#262626; line-height:1.3;'>Este correo se envia de manera automatica, si tiene alguna duda, &nbsp;</span><div><span style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#262626; line-height:1.3;'> favor de entrar a nuestra pagina <a href='http://mypsa.com.mx/'> http://mypsa.com.mx/ </a> y comunicarse a nuestros numeros telefonicos. Gracias! </span>                                   
+                                                <span style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#262626; line-height:1.3;'>Este correo se envía de manera automática, si tiene alguna duda, &nbsp;</span><div><span style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#262626; line-height:1.3;'> favor de entrar a nuestra página <a href='http://mypsa.com.mx/'> http://mypsa.com.mx/ </a> o comunicarse a nuestros números telefónicos. Gracias! </span>
                                             </div></td>
                                         </tr>
                                     </tbody></table>
@@ -760,6 +760,8 @@ class EnvioCorreo{
 
         return $html;
     }
+
+    
 
 }
 

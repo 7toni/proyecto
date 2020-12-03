@@ -11,6 +11,8 @@ class SucursalesController {
         $this->model = [
             'sucursal' => new Sucursal(),
         ];
+
+        $_SESSION['script'] = '';
     }
 
     public function index() {

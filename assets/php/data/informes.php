@@ -49,6 +49,7 @@ $columns = array(
     array('db' => 'nombre_proceso', 'dt' => 30),
     array('db' => 'proceso', 'dt' => 31),
     array('db' => 'prioridad', 'dt' => 32),
-    array('db' => 'entrega_hoja_salida', 'dt' => 33)
+    array('db' => 'entrega_hoja_salida', 'dt' => 33),
+    array('db' => 'reqautorizacion', 'dt' => 34)
 
 );

@@ -15,6 +15,8 @@ class UsuariosController {
             'sucursal' => new Sucursal(),
             'planta' => new Planta(),
         ];
+
+        $_SESSION['script'] = '';
     }
 
     public function index() {

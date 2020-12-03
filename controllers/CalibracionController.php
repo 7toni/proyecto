@@ -17,6 +17,8 @@ class CalibracionController {
   		];
       $this->ext=$this->model['sucursal']->extension();    
       $this->sucursal= strtoupper(Session::get('sucursal')); 
+
+      $_SESSION['script'] = '';
   	}
 
   	public function index (){   

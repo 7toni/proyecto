@@ -12,6 +12,7 @@ class AcreditacionesController {
             'acreditacion' => new Acreditacion(),
             'sucursal' => new Sucursal(),
         ];
+        $_SESSION['script'] = '';
     }
 
     public function index() {

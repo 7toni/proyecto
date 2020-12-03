@@ -167,7 +167,6 @@
             $.each(datos, function() {
                 select.append($("<option />").val(this.id).text(this.nombre));
             });
-
         }).fail(function(data) {
 
         }).always(function(data) {
@@ -217,7 +216,7 @@
             url: "?c=informes&a=get_a_calibrar",
             dataType: "json",
             method: "GET",
-            }).done(function(data) {
+        }).done(function(data) {
             var count = data.length;
             if(count >0){$('#notification_number').text(count);}
             $.each(data, function(i, item) {
@@ -238,10 +237,10 @@
             url: "?c=usuarios&a=get_usuario_alta",
             dataType: "json",
             method: "GET",
-            }).done(function(data) {
+        }).done(function(data) {
             var count = data.length;
             if(count >0){$('#notification_number_2').text(count);}
-            $.each(data, function(i, item) {                
+            $.each(data, function(i, item) {               
                 var date_home= new Date(item.fecha);          
                 var dayWrapper = moment(date_home);
                 var horas = moment().diff(dayWrapper, 'hours'); // Diff in hours
@@ -250,11 +249,10 @@
                 $('#notification_header_2').text('Tienes '+count+' Usuarios para dar de alta');                
                 $('#notification_menu_2').append('<li><a href="?c=usuarios&a=edit&p='+item.id+'&alta=true" title="'+nombre+'"><div class="pull-left"><img src="storage/avatares/default.png" class="img-circle" alt="User Image" width="20" height="20"></div><h4>'+ nombre +'<small><i class="fa fa-clock-o"></i> hace '+ horas +' horas </small></h4><p>'+ item.email +'</p></a></li>');
             });
+        }).fail(function(data) {
+        }).always(function(data) {
+        });
 
-            }).fail(function(data) {
-
-            }).always(function(data) {
-        });       
     });
 
     $(document).ready(function() {

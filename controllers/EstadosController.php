@@ -12,6 +12,7 @@ class EstadosController {
             'estado' => new Estado(),
             'pais' => new Pais(),
         ];
+        $_SESSION['script'] = '';
     }
 
     public function index() {

@@ -11,6 +11,8 @@ class RolesController {
         $this->model = [
             'rol' => new Rol(),
         ];
+
+        $_SESSION['script'] = '';
     }
 
     public function index() {

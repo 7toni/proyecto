@@ -16,8 +16,11 @@
                         <div class="col-xs-12">
                             <div class="box box-primary">
                                 <div class="box-header">
-                                    <h3 class="box-title">Listado de <?php echo $this->name; ?></h3>
-                                    <a href="?c=<?php echo $this->name; ?>&a=add" class="btn btn-primary btn-md pull-right btn-flat">Agregar nuevo</a>
+                                    <h3 class="box-title with-border">Listado de <?php echo $this->name; ?></h3>
+                                    <div class="box-tools pull-right">                                        
+                                        <a href="?c=<?php echo $this->name; ?>&a=add" class="btn btn-primary btn-md btn-flat">Agregar nuevo</a>
+                                        <!-- <a href="?c=<?php echo $this->name; ?>&a=volumen" class="btn btn-info btn-md btn-flat">Agregar por volumen</a> -->
+                                    </div>                                    
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
@@ -25,34 +28,20 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Nombre de la empresa</th>
-                                                <th>Planta/Sucursal </th>
-                                                <th>Alias </th>
-                                                <th>Direccion</th>
-                                                <th>Referencia</th>
-                                                <!-- <th>Ciudad</th>
-                                                <th>Estado</th> -->
-                                                <th>RFC</th>
-                                                <th>Razon Social</th>
+                                                <th>Solicitante</th>                                            
+                                                <th>Detalles</th>
                                                 <th>Comentarios</th>
-                                                <th>Mypsa Sucursal</th>
-                                                <th>Acción</th>
+                                                <th>Tiempo de solicitud</th>                                                
+                                                <th>Acción</th>                                                
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Empresa</th>
-                                                <th>Planta</th>
-                                                <th>Alias </th>
-                                                <th>Direccion</th>
-                                                <th>Referencia</th>
-                                                <!-- <th>Ciudad</th>
-                                                <th>Estado</th> -->
-                                                <th>RFC</th>
-                                                <th>Razon Social</th>
+                                                <th>Solicitante</th>                                            
+                                                <th>Detalles</th>
                                                 <th>Comentarios</th>
-                                                <th>Mypsa Sucursal</th>
+                                                <th>Tiempo de solicitud</th>                                                
                                                 <th>Acción</th>
                                             </tr>
                                         </tfoot>

@@ -18,7 +18,9 @@ class HistorialcvController{
         $this->ext=$this->model['sucursal']->extension();
 
         $_SESSION['menu'] = 'control_calidadc';
-        $_SESSION['submenu'] = $this->name;                
+        $_SESSION['submenu'] = $this->name; 
+        
+        $_SESSION['script'] = '';
     }
 
     public function index(){        

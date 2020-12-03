@@ -123,6 +123,12 @@
                                             <label id="direccion_planta" class="control-label pull-left"> ...  </label>
                                           </div>
                                         </div>
+                                        <div class="form-group">
+                                          <label class="col-sm-3 control-label">Nombre alternativo : :</label>
+                                          <div class="col-sm-9">                                         
+                                            <label id="alias_planta" class="control-label pull-left"> ...  </label>
+                                          </div>
+                                        </div>
                                     </div>
                                 </div>  
                             </div>

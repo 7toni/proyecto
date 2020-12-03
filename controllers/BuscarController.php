@@ -12,6 +12,7 @@ class BuscarController {
             'usuario' => new Usuario(),
             'informe' => new Informes(),
         ];
+        $_SESSION['script'] = '';
     }
     public function index($str) {
         if(strlen($str)>=0){

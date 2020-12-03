@@ -12,6 +12,7 @@ class CiudadesController {
             'ciudad' => new Ciudad(),
             'estado' => new Estado(),
         ];
+        $_SESSION['script'] = '';
     }
 
     public function index() {

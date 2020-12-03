@@ -17,7 +17,8 @@ class ClienteinformesController
 		 'planta' => new Planta(),
 		  'sucursal' => new Sucursal(),
         ];
-        $this->ext=$this->model['sucursal']->extension();
+		$this->ext=$this->model['sucursal']->extension();
+		$_SESSION['script'] = '';
 	}
 
 	public function index(){

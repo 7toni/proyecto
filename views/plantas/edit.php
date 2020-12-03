@@ -35,11 +35,11 @@
                                         <div class="box-body">
                                             <div class="form-group">
                                                 <label for="id">Número de identificación</label>
-                                                <input type="text" class="form-control" id="id" name="id" placeholder="Número de identificación" disabled="" value="<?php echo $data['planta'][0]['id']; ?>">
+                                                <input type="text" class="form-control" id="id" name="id" placeholder="Número de identificación" disabled="" value="<?php echo (isset($data['planta'][0]['id'])) ? $data['planta'][0]['id']: ''; ?>">
                                             </div>
                                             <div class="form-group">
                                                 <label for="nombre">Nombre *</label>                                                    
-                                                <input autofocus type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre" value="<?php echo $data['planta'][0]['nombre']; ?>" required="">
+                                                <input autofocus type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre" value="<?php echo (isset($data['planta'][0]['nombre'])) ? $data['planta'][0]['nombre']: ''; ?>" required="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="empresas_id">Nombre de la empresa *</label>
@@ -59,29 +59,33 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
+                                                <label for="alias">Alias (Nombre alternativo) </label>                                                    
+                                                <input  type="text" class="form-control" name="alias" id="alias" placeholder="Nombre alternativo de empresa y planta" value="<?php echo (isset($data['planta'][0]['alias'])) ? $data['planta'][0]['alias']: ''; ?>">
+                                            </div>
+                                            <div class="form-group">
                                                 <label for="rfc">RFC</label>                                                    
-                                                <input  type="text" class="form-control" name="rfc" id="rfc" placeholder="RFC" value="<?php echo $data['planta'][0]['rfc']; ?>" >
+                                                <input  type="text" class="form-control" name="rfc" id="rfc" placeholder="RFC" value="<?php echo (isset($data['planta'][0]['rfc'])) ? $data['planta'][0]['rfc']:''; ?>" >
                                             </div>
                                             <div class="form-group">
                                                 <label for="razon_social">Razoón Social</label>                                                    
-                                                <input  type="text"  class="form-control" name="razon_social" id="razon_social" placeholder="Razon Social" value="<?php echo $data['planta'][0]['razon_social']; ?>" >
+                                                <input  type="text"  class="form-control" name="razon_social" id="razon_social" placeholder="Razon Social" value="<?php echo (isset($data['planta'][0]['razon_social'])) ? $data['planta'][0]['razon_social'] :''; ?>" >
                                             </div>
                                             <div class="form-group">
                                                 <label for="cp">Codigo postal</label>                                                    
-                                                <input min="0" type="text" class="form-control" name="cp" id="cp" placeholder="Codigo postal" value="<?php echo $data['planta'][0]['cp']; ?>" >
+                                                <input min="0" type="text" class="form-control" name="cp" id="cp" placeholder="Codigo postal" value="<?php echo (isset($data['planta'][0]['cp'])) ? $data['planta'][0]['cp'] :''; ?>" >
                                             </div>
 
                                             <div class="row">
                                                 <div class="col-xs-6">
                                                     <div class="form-group">
                                                         <label for="calle">Calle *</label>  
-                                                        <input type="text" class="form-control" name="calle" id="calle" placeholder="Calle + Numero interior/exterior" value="<?php echo $data['planta'][0]['calle']; ?>" required="">
+                                                        <input type="text" class="form-control" name="calle" id="calle" placeholder="Calle + Numero interior/exterior" value="<?php echo (isset($data['planta'][0]['calle'])) ? $data['planta'][0]['calle'] : ''; ?>" required="">
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-6">
                                                     <div class="form-group">
                                                         <label for="colonia">Colonia *</label>  
-                                                        <input type="text" class="form-control" name="colonia" id="colonia" placeholder="Col. Nombre" value="<?php echo $data['planta'][0]['colonia']; ?>" required="">
+                                                        <input type="text" class="form-control" name="colonia" id="colonia" placeholder="Col. Nombre" value="<?php echo (isset($data['planta'][0]['colonia'])) ? $data['planta'][0]['colonia']:''; ?>" required="">
                                                     </div>
                                                 </div>                                               
                                             </div>
@@ -126,31 +130,8 @@
 
                                             <div class="form-group">
                                                 <label for="referencia">Referencia</label>                                                    
-                                                <input  type="text" class="form-control" name="referencia" id="referencia" placeholder="Entre cale y calle"  value="<?php echo $data['planta'][0]['referencia']; ?>">
+                                                <input  type="text" class="form-control" name="referencia" id="referencia" placeholder="Entre cale y calle"  value="<?php echo (isset($data['planta'][0]['referencia'])) ? $data['planta'][0]['referencia']:''; ?>">
                                             </div>
-
-                                            <!-- <div class="form-group">
-                                                <label for="direccion">Direccion</label>                                                    
-                                                <input  type="text" class="form-control" name="direccion" id="direccion" placeholder="Direccion"  value="<?php echo $data['planta'][0]['direccion']; ?>">
-                                            </div> -->
-
-                                            <!-- <div class="form-group">
-                                                <label for="ciudades_id">Ciudad de la planta perteneciente</label>
-                                                <select id="ciudades_id" class="form-control select2" style="width: 100%;" name="ciudades_id" required="">
-                                                    <option value="">Seleccione una opción</option>
-                                                    <?php
-                                                    foreach ($data['ciudad'] as $ciudad) {
-                                                        if($data['planta'][0]['ciudades_id'] == $ciudad['id'])
-                                                        {
-                                                            echo '<option value="' . $ciudad['id'] . '" selected>' . $ciudad['nombre'] . '</option>';
-                                                        } else{
-                                                            echo '<option value="' . $ciudad['id'] . '">' . $ciudad['nombre'] . '</option>';
-                                                        }
-                                                        
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div> -->
 
                                             <div class="form-group">
                                                 <label for="sucursales_id">Sucursal</label>
@@ -171,7 +152,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="comentarios">Comentarios</label>
-                                                <input  type="text" class="form-control" name="comentarios" id="comentarios" placeholder="Comentarios" value="<?php echo $data['planta'][0]['comentarios']; ?>">
+                                                <input  type="text" class="form-control" name="comentarios" id="comentarios" placeholder="Comentarios" value="<?php echo (isset($data['planta'][0]['comentarios'])) ?  $data['planta'][0]['referencia']:'' ; ?>">
                                             </div>
                                         </div>
                                         <div class="box-footer"><button type="submit" class="btn btn-primary btn-flat">Guardar cambios</button></div>

@@ -10,6 +10,7 @@ class Equipos_descripcionesController{
         $this->model = [
             'equipos_descripciones' => new EquipoDescripcion(),
         ];
+        $_SESSION['script'] = '';
     }
 
     public function index() {

@@ -117,7 +117,7 @@
                                         </div>
                                         <div class="box-footer">
                                         <?php
-                                            if(Session::has('rol',['Administrador'])){
+                                            if(Session::has('roles_id',['10000'])){
                                                 echo '<button type="submit" class="btn btn-primary btn-flat">Guardar cambios</button>';
                                             }
                                         ?>

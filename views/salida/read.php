@@ -164,7 +164,7 @@
                         </form>
                         <?php
  
-                          if(Session::has('rol',['Administrador','Almacén'])){
+                          if(Session::has('roles_id',['10000','10006','10007'])){
                           echo"<div class='col-lg-12'>
                                 <div class='box box-default'>
                                   <div class='box-header with-border'>

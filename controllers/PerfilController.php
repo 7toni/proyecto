@@ -11,6 +11,7 @@ class PerfilController {
         $this->model = [
             'usuario' => new Usuario(),
         ];
+        $_SESSION['script'] = '';
     }
 
     public function index() {

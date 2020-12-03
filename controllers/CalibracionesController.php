@@ -13,6 +13,7 @@ class CalibracionesController {
             'calibracion' => new Tipocalibracion(),
             'sucursal' => new Sucursal(),
         ];
+        $_SESSION['script'] = '';
     }
 
     public function index() {

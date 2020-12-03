@@ -23,9 +23,9 @@
        'periodo' => new Periodo(),
       ];
       $this->ext=$this->model['sucursal']->extension(); 
-      $this->sucursal= strtoupper(Session::get('sucursal'));
-      $_SESSION['script'] = 'recepcion';
-            
+      $this->sucursal= strtoupper(Session::get('sucursal'));  
+      
+      $_SESSION['script'] = 'recepcion';      
 	}
 
 	public function index (){
@@ -36,11 +36,11 @@
       $id=$_GET['p'];
       $view_informes="view_informes". $this->ext;      
        $data['get']=$this->model['informes']->get_recepcion($id, $view_informes);       
-      $data['planta']= $this->model['planta']->find_by(['empresas_id'=>$data['get'][0]['empresas_id']]);
+      $data['planta']= $this->model['planta']->find_by(['empresas_id'=>$data['get'][0]['empresas_id']]);      
 
-      $data['direccion']= $this->model['planta']->find_by(['id' => $data['get'][0]['plantas_id']], "view_plantas");
-     // var_dump($data['get']);  
-      //exit;        
+      $data['plataselect']= $this->model['planta']->find_by(['id' => $data['get'][0]['plantas_id']], "view_plantas");
+     //var_dump($data['plataselect']);  
+      //exit;               
     }
     else{ 
       
@@ -49,6 +49,8 @@
       'usuarios_calibracion_id' => '', 'calibraciones_id' => '', 'prioridad' => '', 'comentarios' => '', 'po_id' => '', 'cantidad' => '',
       'hojas_entrada_id' => '', 'usuarios_id' => '', 'fecha' => '', 'proceso' => '',
       )); 
+
+      
       //usuarios predefinidos para la hoja de entrada dependiendo la sucursal      
     }
     //var_dump(Session::get());  
@@ -75,8 +77,8 @@
       $data['tipocalibracion']=$this->model['tipocalibracion']->all();
       $data['periodo']=$this->model['periodo']->find_by();
       $_SESSION['menu'] = 'bitacora';
-      $_SESSION['submenu'] = 'recepcion';      
-      
+      $_SESSION['submenu'] = 'recepcion';     
+
   	include view($this->name.'.read');
   }
   
@@ -424,8 +426,8 @@
         $proceso_temp = $data['proceso'];
 
         if ($data['proceso'] === 0) {
-          $data['calibrado']=0;
-          $data['proceso'] = intval('1');
+            $data['calibrado']=0;
+           $data['proceso'] = intval('1');
         }
 
 
@@ -684,7 +686,7 @@
         echo json_encode($numero=$this->model['informes']->numero_informe());
   }
 
-  public function cookies() {                                                
+  public function cookies() {
     echo json_encode(Session::get('planta'));
   }
   
@@ -697,7 +699,7 @@
 
   public function ajax_load_equipo() {
       $idequipo = $_POST['idequipo'];                    
-       $data = json_encode($data['equipo'] = $this->model['equipo']->find_by(['alias' => $idequipo],'view_equipos'));
+      $data = json_encode($data['equipo'] = $this->model['equipo']->find_by(['alias' => $idequipo],'view_equipos'));
       echo $data;
   }
 

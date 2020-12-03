@@ -15,7 +15,9 @@ class ReportesController{
 		 'informe'=> new Informes(),
 		 'planta' => new Planta(),
         ];
-        $this->ext=$this->model['sucursal']->extension();        
+		$this->ext=$this->model['sucursal']->extension();
+		
+		$_SESSION['script'] = '';
 	}
 
 	public function index(){

@@ -55,7 +55,10 @@
                                                     ?>
                                                 </select>
                                             </div> -->
-                                            
+                                            <div class="form-group">
+                                                <label for="alias">Alias (Nombre alternativo) </label>                                                    
+                                                <input  type="text" class="form-control" name="alias" id="alias" placeholder="Nombre alternativo de empresa y planta" value="">
+                                            </div>
                                             <div class="form-group">
                                                 <label for="rfc">RFC</label>                                                    
                                                 <input  type="text"  class="form-control" name="rfc" id="rfc" placeholder="RFC" value="" >
@@ -66,7 +69,7 @@
                                             </div> 
                                             <div class="form-group">
                                                 <label for="cp">Codigo postal *</label>                                                    
-                                                <input  min="0" type="text"   class="form-control" name="cp" id="cp" placeholder="Codigo postal" value="" required="">
+                                                <input  type="text"   class="form-control" name="cp" id="cp" placeholder="Codigo postal" value="" required="" min="0" >
                                             </div>
                                             <div class="row">
                                                 <div class="col-xs-6">

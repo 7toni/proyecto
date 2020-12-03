@@ -13,7 +13,8 @@ class ErrorController
 		$this->name="error";
 		$this->title="Error";
 		$this->subtitle="Bitácora";		
-		$this->model = [];    
+		$this->model = [];
+		$_SESSION['script'] = '';
 	}
 	public function error_403(){
 		include view($this->name.'.403');

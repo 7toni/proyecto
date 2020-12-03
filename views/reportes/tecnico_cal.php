@@ -225,9 +225,9 @@
               <!-- /.box-tools -->
             </div>                      
           </div>
-        </div>
-      <!-- /.row --> 
-      </div>                
+        </div>    
+      </div>   
+      <!-- /.row -->              
             
       
     </section>
@@ -608,51 +608,51 @@
             } );
             
             $('#table_reporte tbody').on('click', 'td.details-direccion', function () {
-                    var tr = $(this).closest('tr');
-                    var row = _table.row( tr );
+                var tr = $(this).closest('tr');
+                var row = _table.row( tr );
                                 
-                    if ( row.child.isShown() ) {
-                        // This row is already open - close it
-                        row.child.hide();
-                        tr.removeClass('shown');
-                    }
-                    else {
-                        // Open this row
-                        row.child( data_direccion(row.data()) ).show();
-                        tr.addClass('shown');
-                    }
-              } );
+                if ( row.child.isShown() ) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                }
+                else {
+                    // Open this row
+                    row.child( data_direccion(row.data()) ).show();
+                    tr.addClass('shown');
+                }
+            });
           
             
-              var addData = function(labels,data){
-                if (config.data.datasets.length > 0) {
-                  for(var i in labels){
-                    //config.data.labels.push('técnico ' + config.data.labels.length ); //insertar labels
-                    config.data.labels.push(labels[i]); //insertar labels
-                    // generamos color al random
-                    var color = "rgba(" + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 195) + "," + Math.floor(Math.random() * 245) + ",";               
-                    config.data.datasets.forEach(function(dataset) {
-                      dataset.data.push(data[i]);
-                      dataset.backgroundColor.push(color + "1)");
-                    });
-                  }                
-                  myChart.update();                
-                }
+            var addData = function(labels,data){
+              if (config.data.datasets.length > 0) {
+                for(var i in labels){
+                  //config.data.labels.push('técnico ' + config.data.labels.length ); //insertar labels
+                  config.data.labels.push(labels[i]); //insertar labels
+                  // generamos color al random
+                  var color = "rgba(" + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 195) + "," + Math.floor(Math.random() * 245) + ",";               
+                  config.data.datasets.forEach(function(dataset) {
+                    dataset.data.push(data[i]);
+                    dataset.backgroundColor.push(color + "1)");
+                  });
+                }                
+                myChart.update();                
               }
+            }
 
-              var deleteData = function(){
-                if (config.data.labels.length > 0) {                
-                  var n=config.data.labels.length;         
-                  for(var j=n; j>0; j--){                  
-                      config.data.labels.splice(-1, 1);                  
-                      config.data.datasets.forEach((dataset) => {                      
-                        dataset.data.pop();
-                        dataset.backgroundColor.pop();
-                      });                   
-                  }      
-                  myChart.update();                                                                        
-                }                                                                                   
-              }
+            var deleteData = function(){
+              if (config.data.labels.length > 0) {                
+                var n=config.data.labels.length;         
+                for(var j=n; j>0; j--){                  
+                    config.data.labels.splice(-1, 1);                  
+                    config.data.datasets.forEach((dataset) => {                      
+                      dataset.data.pop();
+                      dataset.backgroundColor.pop();
+                    });                   
+                }      
+                myChart.update();                                                                        
+              }                                                                                   
+            }
 
             $("#submit").click ( function(){
               //Eliminar alertas si existen

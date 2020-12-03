@@ -279,9 +279,8 @@
           var requierefactura ="<?php echo $data['calibraciones'][0]['requierefactura']; ?>";
           var proceso ="<?php echo  $data['get'][0]['proceso'] ?>";
          
-
           $(document).ready(function() {
-            if(requierefactura == 0 && proceso < 4) {                                      
+            if(requierefactura == 0 && proceso < 4 ) {                                  
               $('#modal-default').modal('show');               
             } 
 

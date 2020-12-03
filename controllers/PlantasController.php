@@ -15,6 +15,7 @@ class PlantasController {
             'estado' => new Estado(),
             'sucursal' => new Sucursal(),
         ];
+        $_SESSION['script'] = '';
     }
 
     public function index() {

@@ -18,6 +18,7 @@ class InventariopeController{
 
         $_SESSION['menu'] = 'control_pruebaelect';
         $_SESSION['submenu']= $this->name;
+        $_SESSION['script'] = '';
     }
 
     public function index(){

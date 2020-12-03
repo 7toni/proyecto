@@ -11,6 +11,7 @@ class Equipos_marcasController {
         $this->model = [
             'equipos_marcas' => new EquipoMarca(),
         ];
+        $_SESSION['script'] = '';
     }
 
     public function index() {

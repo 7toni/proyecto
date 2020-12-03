@@ -5,7 +5,9 @@ class RegistroController {
     public function __construct() {
        $this->model = [
             'usuario' => new Usuario(),           
-        ];            
+        ];  
+        
+        $_SESSION['script'] = '';          
     }
 
     public function index() {    

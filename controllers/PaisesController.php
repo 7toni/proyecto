@@ -11,6 +11,7 @@ class PaisesController {
         $this->model = [
             'pais' => new Pais(),
         ];
+        $_SESSION['script'] = '';
     }
 
     public function index() {

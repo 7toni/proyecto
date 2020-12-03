@@ -11,6 +11,7 @@ class EmpresasController {
         $this->model = [
             'empresa' => new Empresa(),
         ];
+        $_SESSION['script'] = '';
     }
 
     public function index() {

@@ -22,6 +22,8 @@ class HistorialpemController{
         
         $this->estadom= array("Completo","Pendiente");
         $this->tipomant= array("Preventivo","Correctivo");
+
+        $_SESSION['script'] = '';
     }
 
     public function index(){        

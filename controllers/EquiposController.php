@@ -103,6 +103,15 @@ class EquiposController {
             Flash::error(setError('002'));
         }
     } 
+
+    public function autorizacion(){
+		$usuario =Session::get('id');		
+		$rol =substr(Session::get('roles_id'),-2); // solo se abstrae el ultimo numero del rol todos empiesan con 100 00		
+		$_SESSION['menu'] = 'equipos';
+      	$_SESSION['submenu'] = 'autorizacion';
+		include view($this->name.'.autorizacion');
+    }
+    
     
     public function ajax_load_validacionserie() {
         $serie=$_POST['serie'];

@@ -11,6 +11,8 @@ class LogsController {
         $this->model = [
             'log' => new Log(),
         ];
+        
+        $_SESSION['script'] = '';
     }
 
     public function index() {

@@ -42,60 +42,62 @@
                       </div>
                     <?php } ?>
                     <form method="POST" novalidate="" autocomplete="off" action="?c=<?php echo $this->name; ?>&a=store" role="form" enctype="multipart/form-data">
-                    <!-- Consulta del id del equipo/ generar número de informe-->                    
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="box box-default">
-                              <div class="box-header">
+                      <!-- Consulta del id del equipo/ generar número de informe-->                    
+                      <div class="row">
+                          <div class="col-lg-4">
+
+                            <div class="box box-solid">
+                              <div class="box-header with-border">
                                   <h3 class="box-title"> Buscar equipo </h3>
                                     <div class="box-tools">                                        
                                     </div>
                               </div>
                               <div class="box-body form-horizontal">
-                                <div class="form-group" id="alerta_idequipo">
-                                  <label for="idequipo" class="col-sm-3 control-label">Equipo :</label>
-                                  <div class="col-sm-9">
-                                    <div class="input-group">
-                                        <input type="text" id="idequipo" class="form-control" placeholder="id" required="" autofocus="">
-                                        <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default" id="buscar_idequipo"> <i class="fa fa-search"></i> &nbsp; Buscar</button>
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                            <span class="caret"></span>
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                          </button>
-                                          <ul class="dropdown-menu" role="menu">
-                                            <li class="divider"></li>
-                                          <li><a href="?c=recepcion&a=volumen" target="_blank"> <i class="fa fa-list-ol" aria-hidden="true"></i> &nbsp; Equipos por volumen</a></li>  <li class="divider"></li>
-                                            <li><a href="?c=equipos&a=add" target="_blank"><i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp; Agregar equipo</a></li> 
-                                            <li class="divider"></li>
-                                          </ul>                  
-                                        </div>             
-                                    </div>                                                                 
-                                  </div> 
-                                </div> 
+                                    <div class="form-group" id="alerta_idequipo">
+                                      <label for="idequipo" class="col-sm-3 control-label">Equipo :</label>
+                                      <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <input type="text" id="idequipo" class="form-control" placeholder="id" required="" autofocus="">
+                                            <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" id="buscar_idequipo"> <i class="fa fa-search"></i> &nbsp; Buscar</button>
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                <span class="caret"></span>
+                                                <span class="sr-only"></span>
+                                              </button>
+                                              <ul class="dropdown-menu" role="menu">
+                                                <li class="divider"></li>
+                                              <li><a href="?c=recepcion&a=volumen" target="_blank"> <i class="fa fa-list-ol" aria-hidden="true"></i> &nbsp; Equipos por volumen</a></li>  <li class="divider"></li>
+                                                <li><a href="?c=equipos&a=add" target="_blank"><i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp; Agregar equipo</a></li> 
+                                                <li class="divider"></li>
+                                              </ul>                  
+                                            </div>             
+                                        </div>                                                                 
+                                      </div>                                       
+                                    </div>                                   
                               </div>
                               <div id="overlay">
-                                     <i id="refresh" ></i> 
-                              </div> 
-                            </div>                       
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="box box-default">                                 
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">Informe</h3>
-                                    <div class="box-tools pull-right">
-                                      <label>Último informe : </label>
-                                        <span data-toggle="tooltip" title="Último informe" id="ultimo_informe" class="badge bg-yellow"></span> 
-                                        &nbsp;
-                                        <button class="btn btn-box-tool" id="refresh_informe"><i class="fa fa-refresh"></i></button>
-                                        <?php echo '<input type="hidden" name="proceso" id="proceso" value="'.$data['get'][0]['proceso'] .'">'; ?> 
-                                    </div>
-                                </div>                                 
-                                <div class="box-body form-horizontal"> 
-                                  <div class="form-group" id="alerta_informe">
-                                    <label for="numero_informe" class="col-sm-3 control-label">Informe :</label>
-                                    <div class="col-sm-9">    
-                                      <div class="input-group">
+                                      <i id="refresh" ></i> 
+                              </div>                              
+                            </div>         
+
+                            <div class="box box-solid">
+                              
+                              <div class="box-header with-border">
+                                  <h3 class="box-title">Informe</h3>
+                                  <div class="box-tools pull-right">
+                                    <label>Último informe : </label>
+                                      <span data-toggle="tooltip" title="Último informe" id="ultimo_informe" class="badge bg-yellow"></span> 
+                                      &nbsp;
+                                      <button class="btn btn-box-tool" id="refresh_informe"><i class="fa fa-refresh"></i></button>
+                                      <?php echo '<input type="hidden" name="proceso" id="proceso" value="'.$data['get'][0]['proceso'] .'">'; ?> 
+                                  </div>
+                              </div>
+
+                              <div class="box-body form-horizontal"> 
+                                <div class="form-group" id="alerta_informe">
+                                  <label for="numero_informe" class="col-sm-3 control-label">Informe :</label>
+                                  <div class="col-sm-9">
+                                    <div class="input-group">
                                       <?php
                                           if (strlen($data['get'][0]['id']) > 0) {
                                           echo '<input type="text" name="id" id="numero_informe" class="form-control"  placeholder="#000" readonly value="'.$data['get'][0]['id'].'">';
@@ -108,137 +110,120 @@
                                           echo '<button type="button" id="btn_generar_informe" class="btn btn-flat" onclick="generar_informe()"> <i class="fa fa-magic"></i>&nbsp; Generar informe </button></span>';
                                           }
                                       ?>
-                                      </div>
                                     </div>
                                   </div>
-                                    <br>
-                                </div>  
-                            </div>
-                        </div>
-                    </div> 
-                  <!-- Muestra el historial de informes que ha tenido el equipo escaneado-->
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="box box-default">
-                                  <div class="box-header">                                    
-                                    <h3 class="box-title"> Historial </h3>                                    
-                                  </div>
-                                  <div class="box-body table-responsive" style="overflow-y: scroll; height: 200px">
-                                    <table id="historial_informes" class="table table-bordered table-striped table-hover" role="grid">
-                                    <thead>
-                                        <tr role="row">
-                                          <th>ok</th>
-                                          <th># Informe</th>
-                                          <th>id equipo</th>
-                                          <th>Descripción</th>
-                                          <th>Marca</th>
-                                          <th>Modelo</th>
-                                          <th>Serie</th>                                          
-                                          <th>Cliente</th>
-                                          <th>Última calibración</th> <!-- Nuevo campo -->
-                                          <th>Vigencia</th>
-                                          <th>Fecha vencimiento</th> <!-- Nuevo campo -->
-                                          <th>Calibrado por</th> <!-- Nuevo campo -->
-                                          <th>Acreditación</th>
-                                          <th>Proceso</th> 
-                                        </tr>
-                                        </thead>
-                                         <tbody>
-                                        </tbody>
-                                    </table>    
-                                  </div> 
-                            </div>                             
-                        </div>                      
-                    </div>
-                    <!-- Alerta para la validacion de equipos en proceso de calibracion o recien calibrados -->
-                    <div class="row">
-                      <div class="col-lg-12" id="alerta_informevalidacion">                        
-                      </div>                      
-                    </div>
+                                </div>
+                                  <br>
+                              </div>
 
-                     <!-- Muestra y seleccionar equipo y la empresa-->
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="box box-default">                            
-                                  <div class="box-header">                                    
-                                  <h3 class="box-title"> Equipo </h3>
+                            </div>
+
+                          </div>
+                          <!-- Muestra el historial de informes que ha tenido el equipo escaneado-->
+                          <div class="col-lg-8">                            
+                              <div class="box box-default">
+                                  <div class="box-header">
+                                    <h3 class="box-title">Equipo</h3>
                                     <div class="box-tools">                                       
                                     </div>
                                   </div>                                  
-                                  <div class="box-body table-responsive" style="overflow-y: scroll; height: 155px"> 
-                                  <table id="table_equipo" class="table table-bordered table-striped table-hover" role="grid">
-                                    <thead>
-                                            <tr role="row">
-                                            <th>*</th>
-                                            <th>Id</th>
-                                            <th>Descripción</th>
-                                            <th>Marca</th>
-                                            <th>Modelo</th>
-                                            <th>Serie</th>
-                                            <th>Estado</th>
-                                            <th>Editar</th>
+                                  <div class="box-body"> 
+                                      <table id="table_equipo" class="table table-condenced table-striped  table-responsive form-inline dt-bootstrap">
+                                        <thead>
+                                            <tr>
+                                              <th></th>
+                                              <th>Id</th>
+                                              <th>Descripción</th>
+                                              <th>Marca</th>
+                                              <th>Modelo</th>
+                                              <th>Serie</th>
+                                              <th>Estado</th>
+                                              <th>Editar</th>
                                             </tr>
                                         </thead>
-                                         <tbody>
-                                         <?php 
-                                         if(strlen($data['get'][0]['idequipo'])> 0){
-                                          $estadoeq="";
-                                          $labeleq="";
-                                          $disabled="";
-                                          if ($data['get'][0]['equipo_activo']==1){
-                                              $estadoeq="Activo";
-                                              $labeleq="label-success";
-                                          }
-                                          else{
-                                              $estadoeq="Inactivo";
-                                              $labeleq="label-danger";
-                                              $disabled="disabled";
-                                          }   
-                                          echo '<tr>';  
-                                          echo '<td ><label> <input type="radio" name="equipos_id" class="minimal" value="'.$data['get'][0]['idequipo'] .'" checked '. $disabled .'></label></td>'; 
-                                          echo '<td >'.$data['get'][0]['equipos_id'] .'</td>';
-                                          echo '<td >'.$data['get'][0]['descripcion'] .'</td>';
-                                          echo '<td >'.$data['get'][0]['marca'] .'</td>';
-                                          echo '<td >'.$data['get'][0]['modelo'] .'</td>';
-                                          echo '<td >'.$data['get'][0]['serie'] .'</td>';
-                                          echo '<td > <span class="label '. $labeleq .'">' . $estadoeq . '</spam> </td>';                                               
-                                          echo '<td > <a class="btn btn-block btn-warning btn-sm" target="_blank" href="?c=equipos&a=edit&p='.$data['get'][0]['idequipo'].'"><i class="fa fa-pencil" aria-hidden="true"></i></a></td>';
-                                          echo '</tr>';
-                                          }
-                                         ?>
+                                        <tbody>                                   
                                         </tbody>
-                                    </table>
+                                      </table>
                                   </div>                             
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
+                              </div>                                                         
+                          </div>
+
+                      </div> 
+                    
+                      <!-- Alerta para la validacion de equipos en proceso de calibracion o recien calibrados -->
+                      <div class="row">
+                        <div class="col-lg-12" id="alerta_informevalidacion">                        
+                        </div>                      
+                      </div>
+
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <div class="box box-default">
+                              <div class="box-header">
+                                <h3 class="box-title"> Historial </h3>                                    
+                              </div>
+                              <div class="box-body">
+                               <p><b>Nota:</b></p>
+                               <p> Al seleccionar una opción del historial, el sistema llenara las datos de cliente y datos para la calibración (Vigencia, Acreditación, Técnico y Tipo de calibración). <br> El equipo seleccionado previamente no se cambia. </p>
+                                <table id="table_historial" class="table table-condenced table-striped table-responsive form-inline dt-bootstrap">
+                                    <thead>
+                                      <tr>
+                                        <th></th>
+                                        <th># Informe</th>
+                                        <th>id equipo</th>
+                                        <th>Descripción</th>
+                                        <th>Marca</th>
+                                        <th>Modelo</th>
+                                        <th>Serie</th>                                          
+                                        <th>Cliente (Empresa)</th>                                             
+                                        <th>Planta (Sucursal)</th>
+                                        <th>Última calibración</th> <!-- Nuevo campo -->
+                                        <th>Vigencia</th>
+                                        <th>Fecha vencimiento</th> <!-- Nuevo campo -->
+                                        <th>Calibrado por</th> <!-- Nuevo campo -->
+                                        <th>Acreditación</th>
+                                        <th>Proceso</th> 
+                                      </tr>
+                                  </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>    
+                              </div> 
+                          </div> 
+                        </div>   
+                     </div>
+
+                      <!-- Modulo de Cliente & Modulo P.O  -->
+                      <div class="row">
+                         <!-- Modulo de Cliente & Modulo P.O  -->
+                          <div class="col-lg-6">
                             <div class="box box-default">
-                                  <div class="box-header">
-                                  <h3 class="box-title">Cliente</h3>
-                                   <div class="box-tools ">                                       
-                                    </div>
+                              <div class="box-header">
+                                <h3 class="box-title">Cliente</h3>
+                                <div class="box-tools">                                       
+                                </div>
+                              </div>
+                              <div class="box-body form-horizontal">                                
+                                <div class="form-group">
+                                  <label for="empresa_ajax_r" class="col-sm-3 control-label">Empresa :</label>
+                                  <div class="col-sm-9"> 
+                                        <select id="empresa_ajax_r" class="form-control select2" style="width: 100%;" required="">
+                                          <option value="">Seleccione una empresa</option>
+                                            <?php
+                                                foreach ($data['empresa'] as $empresa) {
+                                                  if ($data['get'][0]['empresas_id'] === $empresa['id']) {
+                                                    echo '<option value="'. $empresa['id'] .'" selected="selected">'.$empresa['nombre'].'</option>'; 
+                                                  }else{echo '<option value="'. $empresa['id'] .'">'.$empresa['nombre'].'</option>';}
+                                                }
+                                            ?>
+                                        </select>                                                                             
                                   </div>
-                                  <div class="box-body form-horizontal">                                
-                                    <div class="form-group">
-                                      <label for="empresa_ajax_r" class="col-sm-3 control-label">Empresa :</label>
-                                      <div class="col-sm-9"> 
-                                            <select id="empresa_ajax_r" class="form-control select2" style="width: 100%;" required="">
-                                              <option value="">Seleccione una empresa</option>
-                                                <?php
-                                                    foreach ($data['empresa'] as $empresa) {
-                                                      if ($data['get'][0]['empresas_id'] === $empresa['id']) {
-                                                        echo '<option value="'. $empresa['id'] .'" selected="selected">'.$empresa['nombre'].'</option>'; 
-                                                      }else{echo '<option value="'. $empresa['id'] .'">'.$empresa['nombre'].'</option>';}
-                                                    }
-                                                ?>
-                                            </select>                                                                             
-                                      </div>
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="idplanta_ajax_r" class="col-sm-3 control-label">Planta / Sucursal :</label>
-                                      <div class="col-sm-9"> 
-                                        <select id="idplanta_ajax_r" class="form-control select2" style="width: 100%;" name="plantas_id" required="">
-                                              <option value="">Seleccione una opción</option>
+                                </div>
+                                <div class="form-group">
+                                  <label for="idplanta_ajax_r" class="col-sm-3 control-label">Planta / Sucursal :</label>
+                                  <div class="col-sm-9">
+                                    <select id="idplanta_ajax_r" class="form-control select2" style="width: 100%;" name="plantas_id" required="">
+                                          <option value="">Seleccione una opción</option>
                                       <?php 
                                       if (strlen($data['get'][0]['empresas_id'])> 0) {
                                           foreach ($data['planta'] as $planta) {
@@ -248,29 +233,68 @@
                                           }
                                       }
                                       ?>
-                                        </select>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-3 control-label">Dirección :</label>
+                                  <div class="col-sm-9">                                         
+                                    <label id="direccion_planta" class="control-label pull-left"> <?php echo  isset($data['plataselect'][0]['address']) ? $data['plataselect'][0]['address']: '...' ; ?></label> 
+                                  </div>                                    
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-sm-3 control-label">Nombre alternativo :</label>
+                                  <div class="col-sm-9">                                         
+                                    <label id="alias_planta" class="control-label pull-left"> <?php echo  isset($data['plataselect'][0]['alias']) ? $data['plataselect'][0]['alias']: '...' ; ?></label> 
+                                  </div>
+                                </div>
+                              </div>  
+                            </div>
+
+                            <div class="box box-default">
+                                  <div class="box-header">
+                                  <h3 class="box-title">Datos de P.O</h3>
+                                    <div class="box-tools">
+                                        <button class="btn btn-success btn-xs pull-right" id="btn_registrar_po">Registrar</button> 
+                                        <button class="btn btn-warning btn-xs pull-right" id="btn_pendiente_po">Pendiente</button> 
+                                        <button class="btn btn-danger btn-xs pull-right" id="btn_noregistrar_po">No registrar</button>                                        
+                                    </div>
+                                  </div>
+                                  <div class="box-body form-horizontal">                                 
+                                    <div class="form-group" id="alerta_po">
+                                      <label  class="col-sm-3 control-label">P.O :</label>
+                                      <div class="col-sm-9">
+                                        <div class="input-group">                                        
+                                        <input type="text" class="form-control" id="po_id" name="po_id" required="" placeholder="123" value="<?php echo isset($data['get'][0]['po_id']) ? $data['get'][0]['po_id'] : ''; ?>">
+                                          <span class="input-group-btn">
+                                          <button type="button"  id="buscar_po" class="btn btn-flat" > <i class="fa fa-magic"></i>&nbsp; Buscar </button>
+                                          </span>
+                                        </div>
                                       </div>
                                     </div>
-
                                     <div class="form-group">
-                                      <label class="col-sm-3 control-label">Dirección :</label>
-                                      <div class="col-sm-9">                                         
-                                        <label id="direccion_planta" class="control-label pull-left"> <?php echo  isset($data['direccion'][0]['address']) ? $data['direccion'][0]['address']: '...' ; ?></label>                                        
+                                      <label for="cantidad" class="col-sm-3 control-label">Equipos en P.O :</label>
+                                      <div class="col-sm-9">      
+                                        <input type="number" class="form-control" id="cantidad" name="cantidad" min="0" placeholder="0" value="<?php echo isset($data['get'][0]['cantidad']) ? $data['get'][0]['cantidad'] : ''; ?>">
+                                      </div>
+                                    </div>                                    
+                                    <div class="form-group">
+                                      <div class="col-sm-3"></div>
+                                      <div class="col-sm-9">
+                                        <button type="button" class="btn btn-box-tool" id="factura_previa"><i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp; Agregar factura previa</button>                                     
+                                        <!-- id del campo = numero_informe -->
+                                      </div>
                                     </div>
-                                  </div>
-                            </div>  
-                         </div>
-                    </div>  
-                     <div class="row">
-                        <div class="col-lg-6">
-                            <div class="box box-default">
-                                  <div class="box-header">                                    
-                                  <h3 class="box-title"> Datos del equipo para calibración </h3>
-                                    <div class="box-tools">                                        
-                                    </div>
-                                  </div>
-                                  <div class="box-body">                                                                                                         
-                                    <div class="box-body form-horizontal">                                        
+                                  </div>                                  
+                            </div>
+                          </div>
+                          <!-- Modulo de Datos de Calibracion & Modulo Hoja de entrada  -->
+                          <div class="col-lg-6">
+                              <div class="box box-default">
+                                    <div class="box-header">
+                                      <h3 class="box-title"> Datos del equipo para calibración </h3>                                        
+                                    </div>                                                                                                                                          
+                                    <div class="box-body form-horizontal">
                                         <div class="form-group">
                                           <label class="col-sm-3 control-label">Vigencia (Mes/Día):</label>
                                           <div class="col-sm-9">
@@ -283,52 +307,52 @@
                                                 else{ echo '<input type="number" class="form-control" name="periodo_calibracion" id="periodo_calibracion" min="0" placeholder="0" required="" value="12">';}
                                               ?>
 
-                                              <div class="input-group-btn">
-                                                <?php                                                                                    
-                                                  echo '<select name="periodo_id" id="periodo_id" class="form-control" style="width:100px">';
-                                                  for ($i=0; $i < sizeof($data['periodo']); $i++) {
-                                                    $value=$data['periodo'][$i]['id'];
-                                                    if ($value === $data['get'][0]['periodo_id']) {
-                                                        echo '<option value="'. $data['periodo'][$i]['id'] .'" selected>'. $data['periodo'][$i]['nombre'] .'</option>';
-                                                    }
-                                                    else{
-                                                      echo '<option value="'. $data['periodo'][$i]['id'] .'">'. $data['periodo'][$i]['nombre'] .'</option>';
-                                                    }  
-                                                  }                                              
-                                                  echo '</select>';
-                                                ?>
-                                              </div>                                         
+                                                <div class="input-group-btn">
+                                                  <?php                                                                                    
+                                                    echo '<select name="periodo_id" id="periodo_id" class="form-control" style="width:100px">';
+                                                    for ($i=0; $i < sizeof($data['periodo']); $i++) {
+                                                      $value=$data['periodo'][$i]['id'];
+                                                      if ($value === $data['get'][0]['periodo_id']) {
+                                                          echo '<option value="'. $data['periodo'][$i]['id'] .'" selected>'. $data['periodo'][$i]['nombre'] .'</option>';
+                                                      }
+                                                      else{
+                                                        echo '<option value="'. $data['periodo'][$i]['id'] .'">'. $data['periodo'][$i]['nombre'] .'</option>';
+                                                      }  
+                                                    }                                              
+                                                    echo '</select>';
+                                                  ?>
+                                                </div>                                         
                                             </div>
                                           </div>  
-                                        </div>                                                                        
+                                        </div>                                                                                                                
                                         <div class="form-group">
                                           <label for="acreditaciones_id" class="col-sm-3 control-label">Acreditación :</label> 
                                           <div class="col-sm-9">
                                                 <select name="acreditaciones_id" id="acreditaciones_id" class="form-control select2" style="width: 100%;" required="">
-                                                 <option value="">Seleccione una opción</option> 
-                                                 <?php
-                                                 $encontro = false;
-                                                 foreach ($data['acreditacion'] as $acreditacion) {
+                                                <option value="">Seleccione una opción</option> 
+                                                <?php
+                                                $encontro = false;
+                                                foreach ($data['acreditacion'] as $acreditacion) {
                                                   if ($data['get'][0]['acreditaciones_id'] === $acreditacion['id']) {
                                                     $encontro = true;
                                                   }
-                                                 }
-                                                 if ($encontro){
-                                                   foreach ($data['acreditacion'] as $acreditacion) {
+                                                }
+                                                if ($encontro){
+                                                  foreach ($data['acreditacion'] as $acreditacion) {
                                                     if ($data['get'][0]['acreditaciones_id'] === $acreditacion['id']) {
                                                       echo '<option value="'. $acreditacion['id'] .'" selected="selected">'.$acreditacion['nombre'].'</option>';
                                                     }
                                                     else{
                                                       echo '<option value="'. $acreditacion['id'] .'">'.$acreditacion['nombre'].'</option>'; }
                                                     }
-                                                 } else{
-                                                   foreach ($data['acreditacion'] as $acreditacion) {
+                                                } else{
+                                                  foreach ($data['acreditacion'] as $acreditacion) {
                                                       if (14 == $acreditacion['id'] and Session::get('plantas_id')== '758') {
                                                         echo '<option value="'. $acreditacion['id'] .'" selected="selected">'.$acreditacion['nombre'].'</option>';
                                                       }
                                                       else if(1 == $acreditacion['id']){
-                                                         echo '<option value="'. $acreditacion['id'] .'" selected="selected">'.$acreditacion['nombre'].'</option>'; 
-                                                       }                                                   
+                                                        echo '<option value="'. $acreditacion['id'] .'" selected="selected">'.$acreditacion['nombre'].'</option>'; 
+                                                      }                                                   
                                                         else{
                                                           echo '<option value="'. $acreditacion['id'] .'">'.$acreditacion['nombre'].'</option>';
                                                         }
@@ -352,7 +376,7 @@
                                                         }
                                                         else{
                                                           if ($tecnico['plantas_id'] != '758' and Session::get('plantas_id') != '758') {
-                                                           echo '<option value="'.$tecnico['id'].'">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>';
+                                                          echo '<option value="'.$tecnico['id'].'">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>';
                                                           }  
                                                           else if($tecnico['plantas_id'] == '758' and Session::get('plantas_id') == '758'){
                                                           echo '<option value="'.$tecnico['id'].'">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>';
@@ -360,7 +384,7 @@
                                                         }
                                                       }
                                                   }
-                                                 ?> 
+                                                ?> 
                                               </select>                                           
                                           </div>
                                         </div>                                      
@@ -376,7 +400,7 @@
                                                     }
                                                     else{ echo '<option value="'.$tipocalibracion['id'].'">'.$tipocalibracion['nombre'].'</option>'; }
                                                   }
-                                                 ?> 
+                                                ?> 
                                                 </select>                                           
                                           </div>
                                         </div>
@@ -392,7 +416,7 @@
                                                   echo '<label style="padding-left: 10%"> <input type="radio" name="prioridad" class="flat-red" value="0" checked>&nbsp;Normal </label>';
                                                   echo '<label style="padding-left: 25%"> <input type="radio" name="prioridad" class="flat-red" value="1">&nbsp;Express </label>';
                                                 }
-                                               ?>
+                                              ?>
                                           </div>
                                         </div> 
                                         <div class="form-group">
@@ -406,163 +430,100 @@
                                           ?>
                                           </div>
                                         </div> 
-                                    </div>
-                                  </div>
-                            </div>                                                                                                    
-                        </div>                                      
-                        <div class="col-lg-6">
-                            <div class="box box-default">
-                                  <div class="box-header">
-                                  <h3 class="box-title">Datos de P.O</h3>
-                                   <div class="box-tools">
-                                        <button class="btn btn-success btn-xs pull-right" id="btn_registrar_po">Registrar</button> 
-                                        <button class="btn btn-warning btn-xs pull-right" id="btn_pendiente_po">Pendiente</button> 
-                                        <button class="btn btn-danger btn-xs pull-right" id="btn_noregistrar_po">No registrar</button>                                        
-                                    </div>
-                                  </div>
-                                  <div class="box-body form-horizontal">                                 
-                                    <div class="form-group" id="alerta_po">
-                                      <label  class="col-sm-3 control-label">P.O :</label>
-                                      <div class="col-sm-9">
-                                        <div class="input-group">                                        
-                                        <input type="text" class="form-control" id="po_id" name="po_id" required="" placeholder="123" value="<?php echo isset($data['get'][0]['po_id']) ? $data['get'][0]['po_id'] : ''; ?>">
-                                          <span class="input-group-btn">
-                                           <button type="button"  id="buscar_po" class="btn btn-flat" > <i class="fa fa-magic"></i>&nbsp; Buscar </button>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="cantidad" class="col-sm-3 control-label">Equipos en P.O :</label>
-                                      <div class="col-sm-9">      
-                                        <input type="number" class="form-control" id="cantidad" name="cantidad" min="0" placeholder="0" value="<?php echo isset($data['get'][0]['cantidad']) ? $data['get'][0]['cantidad'] : ''; ?>">
-                                      </div>
                                     </div>                                    
-                                    <div class="form-group">
-                                    <div class="col-sm-3"></div>
-                                    <div class="col-sm-9">
-                                    <button type="button" class="btn btn-box-tool" id="factura_previa"><i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp; Agregar factura previa</button>                                     
-                                     <!-- id del campo = numero_informe -->
-                                    </div>
-                                    </div>
-                                  </div>                                  
-                            </div>  
-                            <div class="box box-default">
-                                  <div class="box-header">
-                                  <h3 class="box-title">Hoja de entrada</h3>
-                                   <div class="box-tools">
-                                        <button class="btn btn-success btn-xs pull-right" id="btn_registrar_hojae">Registrar</button> 
-                                        <button class="btn btn-danger btn-xs pull-right" id="btn_noregistrar_hojae">No registrar</button>
-                                    </div>
-                                  </div>
-                                  <div class="box-body form-horizontal">                                 
-                                    <div class="form-group" id="alerta_hojaentrada">
-                                      <label class="col-sm-3 control-label"># Hoja de entrada:</label>
-                                      <div class="col-sm-9">
-                                       <div class="input-group">
-                                          <input type="text" class="form-control" id="num_hojaent" name="hojas_entrada_id" required="" minlength="4" maxlength="7" placeholder="0000-17" value="<?php echo isset($data['get'][0]['hojas_entrada_id']) ? $data['get'][0]['hojas_entrada_id'] : ''; ?>">
-                                          <span class="input-group-btn">
-                                            <button type="button" id="buscar_hoja_entrada" class="btn btn-flat"> <i class="fa fa-magic"></i>&nbsp; Buscar </button> 
-                                            </span> 
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="usuarios_id" class="col-sm-3 control-label">Registrado por:</label>
-                                      <div class="col-sm-9">                                                                                        
-                                        <select  class="form-control select2" style="width: 100%;" name="usuarios_id" id="usuarios_id" required="">
-                                          <option value="">Seleccione una opción</option> 
-                                          <?php
-                                          //var_dump($data['get'][0]['usuarios_id']);                                                                        
-                                          foreach ($data['registradopor'] as $registradopor) {
-                                            if ($data['get'][0]['usuarios_id'] === $registradopor['id']) {
-                                              echo '<option value="'.$registradopor['id'].'" selected="selected">'.$registradopor['nombre'].' '.$registradopor['apellido'].'</option>';
-                                                    }
-                                              else{ echo '<option value="'.$registradopor['id'].'">'.$registradopor['nombre'].' '.$registradopor['apellido'].'</option>'; }  
-                                           }                                       
-                                         ?> 
-                                        </select>                                          
-                                      </div>
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="fecha" class="col-sm-3 control-label">Fecha :</label>
-                                      <div class="col-sm-9">
-                                        <!-- <input type="text" name="fecha" id="fecha" class="form-control pull-right datepickerVentas" required=""> -->
+                              </div>
 
-                                      <?php 
-                                        if (strlen($data['get'][0]['fecha']) > 0) {
-                                         echo '<input type="text" name="fecha" id="fecha" class="form-control pull-right datepicker_aux" value="'.$data['get'][0]['fecha'].'" required="">';
-                                        }
-                                        else{
-                                            if( Session::get("roles_id") == "10001"){
-                                              echo '<input type="text" name="fecha" id="fecha" class="form-control pull-right datepickerhome" required="">';
-                                            }else{
-                                              echo '<input type="text" name="fecha" id="fecha" class="form-control pull-right datepicker" required="">';
-                                            }                                                                                                                              
-                                          } 
-                                                                                    
-                                          ?>
+                              <div class="box box-default">
+                                    <div class="box-header">
+                                    <h3 class="box-title">Hoja de entrada</h3>
+                                    <div class="box-tools">
+                                          <button class="btn btn-success btn-xs pull-right" id="btn_registrar_hojae">Registrar</button> 
+                                          <button class="btn btn-danger btn-xs pull-right" id="btn_noregistrar_hojae">No registrar</button>
                                       </div>
-                                    </div>                                    
-                                  </div>   
-                                  <div class="box-footer">
-                                    <?php
-                                      if ($data['get'][0]['proceso'] != 0) {
-                                        echo '<button type="submit" class="btn btn-info btn-block pull-right">Actualizar</button>';
-                                      }
-                                      else{echo '<button type="submit" class="btn btn-info btn-block pull-right">Registrar</button>';}
-                                    ?>                                     
-                                  </div>                               
-                            </div>  
-                         </div>
-                    </div>                      
-                    </form>
-                    <!-- /.modal -->
-                      <div class="modal fade" id="modal-default">
-                        <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">Confirmar permiso</h4>
-                            </div>
-                            <div class="modal-body box box-info">                                     
-                                    <div class="box-body">
-                                        <div class="form-group">
-                                        <label for="email">* Correo</label>
-                                        <input type="email" class="form-control" id="email"  placeholder="Ingresar Correo">
-                                        </div>
-                                        <div class="form-group">
-                                        <label for="password">* Contraseña</label>
-                                        <input type="password" class="form-control" id="password"  placeholder="Ingresar Contraseña">
-                                        </div>
-                                        <p id="validacion"></p>                                                    
                                     </div>
-                                    
-                                    <!-- /.box-body -->
-                                    <div class="box-footer">
-                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>  
-                                    <button type="button" id="submit" class="btn btn-primary pull-right" onclick="submit_acceso()"> Enviar </button>                         
-                                    </div>                                                                                                                            
-                            </div>
-                        
-                        </div>
-                        <!-- /.modal-content -->
-                        </div>
-                        <!-- /.modal-dialog -->
-                      </div>
-                    <!-- /.modal -->
+                                    <div class="box-body form-horizontal">                                 
+                                      <div class="form-group" id="alerta_hojaentrada">
+                                        <label class="col-sm-3 control-label"># Hoja de entrada:</label>
+                                        <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="num_hojaent" name="hojas_entrada_id" required="" minlength="4" maxlength="7" placeholder="0000-17" value="<?php echo isset($data['get'][0]['hojas_entrada_id']) ? $data['get'][0]['hojas_entrada_id'] : ''; ?>">
+                                            <span class="input-group-btn">
+                                              <button type="button" id="buscar_hoja_entrada" class="btn btn-flat"> <i class="fa fa-magic"></i>&nbsp; Buscar </button> 
+                                              </span> 
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="usuarios_id" class="col-sm-3 control-label">Registrado por:</label>
+                                        <div class="col-sm-9">                                                                                        
+                                          <select  class="form-control select2" style="width: 100%;" name="usuarios_id" id="usuarios_id" required="">
+                                            <option value="">Seleccione una opción</option> 
+                                            <?php
+                                            //var_dump($data['get'][0]['usuarios_id']);                                                                        
+                                            foreach ($data['registradopor'] as $registradopor) {
+                                              if ($data['get'][0]['usuarios_id'] === $registradopor['id']) {
+                                                echo '<option value="'.$registradopor['id'].'" selected="selected">'.$registradopor['nombre'].' '.$registradopor['apellido'].'</option>';
+                                                      }
+                                                else{ echo '<option value="'.$registradopor['id'].'">'.$registradopor['nombre'].' '.$registradopor['apellido'].'</option>'; }  
+                                            }                                       
+                                          ?> 
+                                          </select>                                          
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="fecha" class="col-sm-3 control-label">Fecha :</label>
+                                        <div class="col-sm-9">
+                                          <!-- <input type="text" name="fecha" id="fecha" class="form-control pull-right datepickerVentas" required=""> -->
 
-                    
+                                        <?php 
+                                          if (strlen($data['get'][0]['fecha']) > 0) {
+                                          echo '<input type="text" name="fecha" id="fecha" class="form-control pull-right datepicker_aux" value="'.$data['get'][0]['fecha'].'" required="">';
+                                          }
+                                          else{
+                                              if( Session::get("roles_id") == "10001"){
+                                                echo '<input type="text" name="fecha" id="fecha" class="form-control pull-right datepickerhome" required="">';
+                                              }else{
+                                                echo '<input type="text" name="fecha" id="fecha" class="form-control pull-right datepicker" required="">';
+                                              }                                                                                                                              
+                                            } 
+                                                                                      
+                                            ?>
+                                        </div>
+                                      </div>                                    
+                                    </div>   
+                                    <div class="box-footer">                                                                       
+                                    </div>                               
+                              </div>                                                                                                   
+                          </div>
+
+                      </div>                        
+
+                      <div class="row"> 
+                          <div class="col-lg-6">  <!-- Espacio --> </div>                          
+                          <div class="col-lg-6">                              
+                              <!--  Button de submit/ Envio de Form-->
+                              <?php
+                                if ($data['get'][0]['proceso'] != 0) {
+                                  echo '<button type="submit" class="btn btn-lg btn-warning btn-block pull-right">Actualizar</button>';
+                                }
+                                else{echo '<button type="submit" class="btn btn-lg btn-primary btn-block pull-right">Registrar</button>';}
+                              ?>                                        
+                          </div>
+                      </div> 
+
+                    </form>                                       
 
                 </section>
             </div>                                                      
             <?php importView('_static.footer'); ?>
         </div>    
         <script>
-            var controller = "<?php echo $this->name; ?>";   
+            var controller = "<?php echo $this->name; ?>"; 
+            var informe = "<?php echo ($data['get'][0]['id'] != '') ? $data['get'][0]['id']:null;  ?>";
+            var getalias = "<?php echo ($data['get'][0]['equipos_id'] !='')? $data['get'][0]['equipos_id']: null; ?>"; 
+            var getidequipo = "<?php echo ($data['get'][0]['idequipo'] != '')? $data['get'][0]['idequipo']:null; ?>"; 
+                        
         </script>       
-        <?php importView('_static.scripts'); ?>      
-
+        <?php importView('_static.scripts'); ?>             
     </body>
 </html>

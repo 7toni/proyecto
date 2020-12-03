@@ -182,7 +182,7 @@ abstract class Db {
             $query .= " WHERE " . $this->primary_key . "='" . $data[$this->primary_key] . "';"; 
         }         
         $this->query = $query;
-        //var_dump($this->query);
+        //return $this->query;
         //exit;           
         return $this->execute_single_query();
     }
