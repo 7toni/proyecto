@@ -44,49 +44,57 @@
                 </a>";
                 }?>
                 <ul class='treeview-menu'>
-                 <?php 
-                    $completasm = ($_SESSION['submenu']=='completa') ? 'active' : '';
-                    $recepcionsm = ($_SESSION['submenu']=='recepcion') ? 'active' : '';
-                    $recepcionvolsm = ($_SESSION['submenu']=='recepcionvol') ? 'active' : '';
-                    $recepcionactvolsm = ($_SESSION['submenu']=='actualizarvol') ? 'active' : '';
-                    $procesosm = ($_SESSION['submenu']=='proceso') ? 'active' : '';               
-                    $cancelarsm = ($_SESSION['submenu']=='cancelar') ? 'active' : '';  
-                    $acalibrarsm = ($_SESSION['submenu']=='acalibrar') ? 'active' : ''; 
-                                 
-                        if(Session::has('roles_id',['10000','10001','10003','10002','10006','10007'])){
-                            echo "
-                                <li class='". $recepcionsm ."'><a href='?c=recepcion'><i class='fa fa-circle-o'></i>Recepción de equipo</a></li>                                
-                                <li class='". $completasm ."'><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitacora completa</a></li>                                
-                                <li class='". $procesosm ."'><a href='?c=informes&a=proceso'><i class='fa fa-circle-o'></i>Equipos en proceso</a></li>                                
-                           ";
-                        }
-                        if(Session::has('roles_id',['10000','10002','10003','10004','10006','10007'])){
-                            echo "<li class='". $cancelarsm ."'><a href='?c=informes&a=cancelar'><i class='fa fa-circle-o'></i>Informes cancelados</a></li>";
-                        }
-                        if(Session::has('roles_id',['10000','10006','10007'])){
-                            echo "<li class='". $recepcionvolsm ."'><a href='?c=recepcion&a=registrovol'><i class='fa fa-circle-o'></i>Recepción por volumen</a></li>
-                            <li class='". $recepcionactvolsm ."'><a href='?c=recepcion&a=volumen'><i class='fa fa-circle-o'></i>Actualizar informes (*.csv)</a></li>";
-                        }elseif(Session::has('roles_id',['10001'])){
-                            echo "<li class='". $recepcionvolsm ."'><a href='?c=recepcion&a=registrovol'><i class='fa fa-circle-o'></i>Recepción por volumen</a></li>";
-                        }
-                        if(Session::has('roles_id',['10000','10003'])){
-                            echo "                                
-                                <li class='". $acalibrarsm ."'><a href='?c=informes&a=calibrar'><i class='fa fa-circle-o'></i>Equipos a calibrar</a></li>
-                           ";
-                        }                        
-                        // if(Session::has('roles_id',['10000'])){
-                        //     echo " <li><a href='?c=login&a=sucursal'><i class='fa fa-circle-o'></i>Sucursal</a></li> ";
-                        // } 
-                        if(Session::has('roles_id',['10004'])){
-                            echo "         
-                                <li class='". $completasm ."'><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitacora Terminada</a></li>                                                 
-                                <li class='". $procesosm ."'><a href='?c=informes&a=proceso'><i class='fa fa-circle-o'></i>Equipos en proceso</a></li>
-                                <li class='". $acalibrarsm ."'><a href='?c=informes&a=calibrar'><i class='fa fa-circle-o'></i>Equipos a calibrar</a></li>
-                           ";
-                        }                                                            
-                ?>             
+                    <?php
+                        $completasm = ($_SESSION['submenu']=='completa') ? 'active' : '';
+                        $recepcionsm = ($_SESSION['submenu']=='recepcion') ? 'active' : '';
+                        $recepcionvolsm = ($_SESSION['submenu']=='recepcionvol') ? 'active' : '';
+                        $recepcionactvolsm = ($_SESSION['submenu']=='actualizarvol') ? 'active' : '';
+                        $procesosm = ($_SESSION['submenu']=='proceso') ? 'active' : '';               
+                        $cancelarsm = ($_SESSION['submenu']=='cancelar') ? 'active' : '';  
+                        $acalibrarsm = ($_SESSION['submenu']=='acalibrar') ? 'active' : '';
+                        $autorizacionsm = ($_SESSION['submenu']=='autorizacion') ? 'active' : '';
+                                    
+                            if(Session::has('roles_id',['10000','10001','10003','10002','10006','10007'])){
+                                echo "
+                                    <li class='". $recepcionsm ."'><a href='?c=recepcion'><i class='fa fa-circle-o'></i>Recepción de equipo</a></li>                                
+                                    <li class='". $completasm ."'><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitacora completa</a></li>                                
+                                    <li class='". $procesosm ."'><a href='?c=informes&a=proceso'><i class='fa fa-circle-o'></i>Equipos en proceso</a></li>                                
+                            ";
+                            }
+                            if(Session::has('roles_id',['10000','10002','10004','10007'])){
+                                echo "<li class='". $autorizacionsm ."'><a href='?c=informes&a=autorizacion'><i class='fa fa-circle-o'></i>Informes por autorizar</a></li>";
+                            }
+
+                            if(Session::has('roles_id',['10000','10002','10003','10004','10006','10007'])){
+                                echo "<li class='". $cancelarsm ."'><a href='?c=informes&a=cancelar'><i class='fa fa-circle-o'></i>Informes cancelados</a></li>";
+                            }
+                        
+
+                            if(Session::has('roles_id',['10000','10006','10007'])){
+                                echo "<li class='". $recepcionvolsm ."'><a href='?c=recepcion&a=registrovol'><i class='fa fa-circle-o'></i>Recepción por volumen</a></li>
+                                <li class='". $recepcionactvolsm ."'><a href='?c=recepcion&a=volumen'><i class='fa fa-circle-o'></i>Actualizar informes (*.csv)</a></li>";
+                            }elseif(Session::has('roles_id',['10001'])){
+                                echo "<li class='". $recepcionvolsm ."'><a href='?c=recepcion&a=registrovol'><i class='fa fa-circle-o'></i>Recepción por volumen</a></li>";
+                            }
+                            if(Session::has('roles_id',['10000','10003'])){
+                                echo "                                
+                                    <li class='". $acalibrarsm ."'><a href='?c=informes&a=calibrar'><i class='fa fa-circle-o'></i>Equipos a calibrar</a></li>
+                            ";
+                            }                        
+                            // if(Session::has('roles_id',['10000'])){
+                            //     echo " <li><a href='?c=login&a=sucursal'><i class='fa fa-circle-o'></i>Sucursal</a></li> ";
+                            // } 
+                            if(Session::has('roles_id',['10004'])){
+                                echo "         
+                                    <li class='". $completasm ."'><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitacora Terminada</a></li>                                                 
+                                    <li class='". $procesosm ."'><a href='?c=informes&a=proceso'><i class='fa fa-circle-o'></i>Equipos en proceso</a></li>
+                                    <li class='". $acalibrarsm ."'><a href='?c=informes&a=calibrar'><i class='fa fa-circle-o'></i>Equipos a calibrar</a></li>
+                            ";
+                            }                                                            
+                    ?>             
                 </ul>
             </li>
+            <!-- Menu informes  -->
             <?php
                 $informesm = ($_SESSION['menu']=='informes') ? 'active' : '';
 
@@ -94,6 +102,7 @@
                 $icontim = ($_SESSION['submenu']=='iconti') ? 'active' : '';
                 $iavencersm = ($_SESSION['submenu']=='iavencer') ? 'active' : '';
                 $ivencidossm = ($_SESSION['submenu']=='ivencidos') ? 'active' : '';
+                $cartastrazsm = ($_SESSION['submenu']=='cartastraz') ? 'active' : '';
 
                 if(Session::has('roles_id',['10000','10002','10006','10005','10004'])){
                         echo "<li class='". $informesm ." treeview'>
@@ -108,12 +117,26 @@
                         if(Session::get('plantas_id')=='758' && Session::has('roles_id',['10000'])){
                         echo "<li class='". $icontim ."' ><a href='?c=clienteinformes&a=continental'><i class='fa fa-circle-o'></i>Historial informes conti</a></li>"; 
                         }
-                         echo "<li class='". $iavencersm ."' ><a href='?c=clienteinformes&a=recalibrar'><i class='fa fa-circle-o'></i>Equipos a vencer</a></li>";
-                          echo "<li class='". $ivencidossm ."' ><a href='?c=clienteinformes&a=vencidos'><i class='fa fa-circle-o'></i>Equipos vencidos</a></li>";
-                           //echo '<li><a href="#"><i class="fa fa-circle-o"></i>Cartas de trazabilidad</a></li>';
-                           echo "</ul> </li>";
+                        echo "<li class='". $iavencersm ."' ><a href='?c=clienteinformes&a=recalibrar'><i class='fa fa-circle-o'></i>Equipos a vencer</a></li>";
+                        echo "<li class='". $ivencidossm ."' ><a href='?c=clienteinformes&a=vencidos'><i class='fa fa-circle-o'></i>Equipos vencidos</a></li>";
+                        echo "<li class='". $cartastrazsm ."' ><a href='?c=cartastraz'><i class='fa fa-circle-o'></i>Cartas de trazabilidad</a></li>";
+                        echo "</ul> </li>";
                     }
-                ?>              
+                ?>
+                <!-- Carta de trazabilidad -->
+                <?php
+                $cartastrazm = ($_SESSION['menu']=='cartastraz') ? 'active' : '';                
+                $cartastrazsm = ($_SESSION['submenu']=='cartas') ? 'active' : '';
+                if(Session::has('roles_id',['10000','10002','10006','10005','10004'])){
+                        echo "<li class='". $cartastrazm ." treeview'>
+                        <a href='#''>
+                            <i class='fa fa-file-pdf-o'></i> <span>Cartas Trazabilidad</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
+                        </a>";
+                        echo "<ul class='treeview-menu'>";                                                                       
+                            echo "<li class='". $cartastrazsm ."' ><a href='?c=cartastraz'><i class='fa fa-circle-o'></i>Ver cartas</a></li>";
+                        echo "</ul> </li>";
+                    }
+                ?>               
              <!-- Módulos de reportes  --> 
              <?php                  
                 if(Session::has('roles_id',['10000','10002','10004','10007'])){                    

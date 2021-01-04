@@ -30,18 +30,33 @@
                              </div>                                                
                         </div>
                     </div>
-                    <?php if ($error = Flash::hasError()) { ?>
-                      <div class="alert alert-warning alert-dismissible">
+                    <?php 
+                     /// if ($error = Flash::hasError()) { 
+                    ?>
+                      <!-- <div class="alert alert-warning alert-dismissible">
                           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                          <h4><i class="icon fa fa-warning"></i> <?php echo $error['title']; ?> #<?php echo $error['id']; ?> </h4>
-                          <ul><?php
-                              foreach ($error['data'] as $err) {
-                                  echo '<li>' . $err['msg'] . '</li>';
-                              }
-                              ?></ul>
-                      </div>
-                    <?php } ?>
-                    <form method="POST" novalidate="" autocomplete="off" action="?c=<?php echo $this->name; ?>&a=store" role="form" enctype="multipart/form-data">
+                          <h4><i class="icon fa fa-warning"></i> -->
+                          <?php 
+                          // echo $error['title']; 
+                          ?>
+                           <!-- # -->
+                           <?php 
+                           //echo $error['id']; 
+                          ?> 
+                          <!-- </h4>
+                          <ul> -->
+                          <?php
+                              // foreach ($error['data'] as $err) {
+                              //     echo '<li>' . $err['msg'] . '</li>';
+                              // }
+                              ?>
+                              <!-- </ul>
+                      </div>  -->
+                    <?php 
+                    //    }
+                    ?>                                        
+
+                    <!-- <form method="POST" novalidate="" autocomplete="off" action="?c=<?php echo $this->name; ?>&a=store" role="form" enctype="multipart/form-data"> -->
                       <!-- Consulta del id del equipo/ generar número de informe-->                    
                       <div class="row">
                           <div class="col-lg-4">
@@ -90,6 +105,7 @@
                                       &nbsp;
                                       <button class="btn btn-box-tool" id="refresh_informe"><i class="fa fa-refresh"></i></button>
                                       <?php echo '<input type="hidden" name="proceso" id="proceso" value="'.$data['get'][0]['proceso'] .'">'; ?> 
+                                      <input type="hidden" name="tiposubmit" id="tiposubmit" value="registrar">'
                                   </div>
                               </div>
 
@@ -152,7 +168,7 @@
                     
                       <!-- Alerta para la validacion de equipos en proceso de calibracion o recien calibrados -->
                       <div class="row">
-                        <div class="col-lg-12" id="alerta_informevalidacion">                        
+                        <div class="col-lg-12" id="alerta_equipoinforme">                        
                         </div>                      
                       </div>
 
@@ -405,7 +421,7 @@
                                           </div>
                                         </div>
                                         <div class="form-group">
-                                          <label for="inputcomentario" class="col-sm-3 control-label">Prioridad :</label>
+                                          <label for="inputprioridad" class="col-sm-3 control-label">Prioridad :</label>
                                           <div class="col-sm-9">                                           
                                               <?php  
                                                 if ($data['get'][0]['prioridad'] === '1') {
@@ -446,7 +462,7 @@
                                         <label class="col-sm-3 control-label"># Hoja de entrada:</label>
                                         <div class="col-sm-9">
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="num_hojaent" name="hojas_entrada_id" required="" minlength="4" maxlength="7" placeholder="0000-17" value="<?php echo isset($data['get'][0]['hojas_entrada_id']) ? $data['get'][0]['hojas_entrada_id'] : ''; ?>">
+                                            <input type="text" class="form-control" id="num_hojaent" name="num_hojaent" required="" minlength="4" maxlength="7" placeholder="0000-17" value="<?php echo isset($data['get'][0]['hojas_entrada_id']) ? $data['get'][0]['hojas_entrada_id'] : ''; ?>">
                                             <span class="input-group-btn">
                                               <button type="button" id="buscar_hoja_entrada" class="btn btn-flat"> <i class="fa fa-magic"></i>&nbsp; Buscar </button> 
                                               </span> 
@@ -474,7 +490,6 @@
                                         <label for="fecha" class="col-sm-3 control-label">Fecha :</label>
                                         <div class="col-sm-9">
                                           <!-- <input type="text" name="fecha" id="fecha" class="form-control pull-right datepickerVentas" required=""> -->
-
                                         <?php 
                                           if (strlen($data['get'][0]['fecha']) > 0) {
                                           echo '<input type="text" name="fecha" id="fecha" class="form-control pull-right datepicker_aux" value="'.$data['get'][0]['fecha'].'" required="">';
@@ -500,18 +515,26 @@
 
                       <div class="row"> 
                           <div class="col-lg-6">  <!-- Espacio --> </div>                          
-                          <div class="col-lg-6">                              
-                              <!--  Button de submit/ Envio de Form-->
-                              <?php
-                                if ($data['get'][0]['proceso'] != 0) {
-                                  echo '<button type="submit" class="btn btn-lg btn-warning btn-block pull-right">Actualizar</button>';
-                                }
-                                else{echo '<button type="submit" class="btn btn-lg btn-primary btn-block pull-right">Registrar</button>';}
-                              ?>                                        
+                          <div class="col-lg-6">
+                          <div class="box box-solid">                               
+                              <div class="box-body">
+                                <div class="row">
+                                  <div id="alertavalidacion">                        
+                                  </div>                      
+                                </div>
+                                <!--  Button de submit/ Envio de Form- se actualiza desde el Script-->
+                                <input type="submit" class="btn btn-lg btn-primary btn-block pull-right" value="Registrar"/>
+                              </div>                                                         
+                              <div id="overlay_submit">
+                                <i id="refresh_submit"></i>
+                              </div>
+                          </div>                                                                                                  
+                             
                           </div>
+                          
                       </div> 
 
-                    </form>                                       
+                    <!-- </form> -->
 
                 </section>
             </div>                                                      
@@ -519,9 +542,14 @@
         </div>    
         <script>
             var controller = "<?php echo $this->name; ?>"; 
-            var informe = "<?php echo ($data['get'][0]['id'] != '') ? $data['get'][0]['id']:null;  ?>";
+            //var informe = "<?php echo ($data['get'][0]['id'] != '') ? $data['get'][0]['id']:null;  ?>";
             var getalias = "<?php echo ($data['get'][0]['equipos_id'] !='')? $data['get'][0]['equipos_id']: null; ?>"; 
-            var getidequipo = "<?php echo ($data['get'][0]['idequipo'] != '')? $data['get'][0]['idequipo']:null; ?>"; 
+            var getidequipo = "<?php echo ($data['get'][0]['idequipo'] !='')? $data['get'][0]['idequipo']: null; ?>";
+            
+            var usuario = "<?php echo Session::get('email'); ?>"; 
+            var reqautorizacion = "<?php echo ($data['get'][0]['reqautorizacion'] !='')? $data['get'][0]['reqautorizacion']: null; ?>";
+            var proceso = "<?php echo ($data['get'][0]['proceso'] !='')? $data['get'][0]['proceso']: null; ?>";
+            
                         
         </script>       
         <?php importView('_static.scripts'); ?>             

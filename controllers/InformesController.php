@@ -98,9 +98,13 @@ class InformesController
       	$_SESSION['submenu'] = 'autorizacion';
 		include view($this->name.'.autorizacion');
 	}
-	
+		
 	public function get_a_calibrar(){
         echo $data = json_encode($data['informe'] = $this->model['informe']->equipos_calibrar_notification());
+	}
+
+	public function get_a_autorizar(){
+        echo $data = json_encode($data['informe'] = $this->model['informe']->equipos_autorizar_notification());
 	}
 
 	public function ajax_turn_off(){
@@ -201,5 +205,7 @@ class InformesController
 		echo json_encode($retorno);
 
 	}
+
+	
 	
 }

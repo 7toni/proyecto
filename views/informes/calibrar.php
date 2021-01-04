@@ -21,7 +21,7 @@
                                 <!-- /.box-header -->
                                 <div class="box-body">
                                 <!-- /* Agregar contenido */-->
-                                    <table id="table_calibrar" class="table table-bordered table-striped table-hover" cellspacing="0" width="100%">
+                                    <table id="table_calibrar" class="table table-bordered table-striped table-hover table-condensed">
                                         <thead >
                                             <tr>
                                                 <th>Informe</th>

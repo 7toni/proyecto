@@ -13,4 +13,6 @@ class Equipo extends Model {
         return $this->rows;
     }
 
+    
+
 }

@@ -41,19 +41,39 @@
         $("[name='alertas']").remove();
         if (tipo == 'correcto') {
             $("#" + alerta + "").before(
-                "<div class='form-group' name='alertas'>" + "<div class='col'> " + "<div class='alert alert-success alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-check'></i> Alerta!</h4>" + "Resultados correctos." + "</div>" + "</div>" + "</div>");
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-success alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-check'></i> Alerta!</h4>" + "Resultados correctos." + "</div>" + "</div>" + "</div>");
         }
         if (tipo == 'vacio') {
             $("#" + alerta + "").before(
-                "<div class='form-group' name='alertas'>" + "<div class='col'> " + "<div class='alert alert-info alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-info'></i> Alerta!</h4>" + "No se ha encontrado resultados, verifique su información." + valor + "</div>" + "</div>" + "</div>");
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-info alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-info'></i> Alerta!</h4>" + "No se ha encontrado resultados, verifique su información." + valor + "</div>" + "</div>" + "</div>");
         }
         if (tipo == 'requerido') {
             $("#" + alerta + "").before(
-                "<div class='form-group' name='alertas'>" + "<div class='col'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + "Campo requerido, favor de ingresar " + valor + " correctamente. Intente una vez más." + "</div>" + "</div>" + "</div>");
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + "Campo requerido, favor de ingresar " + valor + " correctamente. Intente una vez más." + "</div>" + "</div>" + "</div>");
         }
         if (tipo == 'error') {
             $("#" + alerta + "").before(
-                "<div class='form-group' name='alertas'>" + "<div class='col'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + valor + " </div>" + "</div>" + "</div>");
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + valor + " </div>" + "</div>" + "</div>");
+        }
+    }
+
+    function alertas_col12(alerta, tipo, valor) {
+        $("[name='alertas']").remove();
+        if (tipo == 'success') {
+            $("#" + alerta + "").before(
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-success alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-check'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");
+        }
+        if (tipo == 'info') {
+            $("#" + alerta + "").before(
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-info alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-info'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");
+        }
+        if (tipo == 'warning') {
+            $("#" + alerta + "").before(
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-warning alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" +  valor + "</div>" + "</div>" + "</div>");
+        }
+        if (tipo == 'danger') {
+            $("#" + alerta + "").before(
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + valor + " </div>" + "</div>" + "</div>");
         }
     }
     
@@ -248,6 +268,34 @@
                 var nombre= item.nombre +' '+ item.apellido;
                 $('#notification_header_2').text('Tienes '+count+' Usuarios para dar de alta');                
                 $('#notification_menu_2').append('<li><a href="?c=usuarios&a=edit&p='+item.id+'&alta=true" title="'+nombre+'"><div class="pull-left"><img src="storage/avatares/default.png" class="img-circle" alt="User Image" width="20" height="20"></div><h4>'+ nombre +'<small><i class="fa fa-clock-o"></i> hace '+ horas +' horas </small></h4><p>'+ item.email +'</p></a></li>');
+            });
+        }).fail(function(data) {
+        }).always(function(data) {
+        });
+
+        $.ajax({
+            url: "?c=informes&a=get_a_autorizar",
+            dataType: "json",
+            method: "GET",
+        }).done(function(data) {
+            var count = data.length;
+            if(count >0){$('#notification_number_3').text(count);}            
+            $.each(data, function(i, item) {               
+                var date_home= new Date(item.fecha);          
+                var dayWrapper = moment(date_home);
+
+                var horas = moment().diff(dayWrapper, 'hours'); // Diff in hours
+                var tiempo="";
+                if( horas < 24){
+                    tiempo = "<i class='fa fa-clock-o'></i> Hace "+ horas +" horas";
+                }else{
+                    var days = moment().diff(dayWrapper, 'days'); // Diff in hours                                    
+                    tiempo = "<i class='fa fa-clock-o'></i> Hace "+ days +" días";
+                }                               
+                
+                $('#notification_header_3').text('Tienes '+count+' informe(s) por autorizar');                
+                $('#notification_menu_3').append('<li> <a href="#"> <div class="pull-left"> <i class="img-circle fa fa-file-pdf-o" alt="User Image"></i> </div> <h4> # '+ item.id +' <small>'+ tiempo +'</small> </h4> <p> <small> '+ item.equipo +' </small></p> </a> </li>');
+
             });
         }).fail(function(data) {
         }).always(function(data) {

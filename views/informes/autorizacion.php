@@ -98,7 +98,7 @@
                             }, 
                             {
                                 className: 'btn btn-primary',                                
-                                text: 'Actualizar',                               
+                                text: 'Refrescar',                               
                             }, 
                             {
                                 className: 'btn btn-primary',
@@ -120,7 +120,7 @@
                             { "data": 1}, //"equipoalias"
                             { "data": 28}, //"comentarios"
                             { "data": 28}, //"comentarios"
-                            { "data": 19} // "fecha_inicio"                                                                                                        
+                            { "data": 12} // "fecha_inicio"                                                                                                        
                         ],                    
                         "columnDefs": [                             
                             {
@@ -181,7 +181,7 @@
                             },
                             {                                        
                                 "render": function(data,type,row){                          
-                                    var datehome= new Date(row[19]);
+                                    var datehome= new Date(row[12]);
                                     var dayWrapper = moment(datehome);
                                     var horas = moment().diff(dayWrapper, 'hours'); // Diff in hours
                                     if( horas < 24){
@@ -231,7 +231,7 @@
                         var data= read_table();
                         var tipo= 0;
                         ajax_autorizacion(tipo,data);
-                    } else if(this.text() == "Actualizar" ){                                                
+                    } else if(this.text() == "Refrescar" ){                                                
                         _table.ajax.reload();
                     } 
 

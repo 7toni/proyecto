@@ -759,7 +759,146 @@ class EnvioCorreo{
         </html>";
 
         return $html;
-    }
+    } 
+    
+    public static function _bodysolicitudcarta($data){
+        $cliente=$data['cliente'];       
+        $correo=$data['de'];
+        $asunto=$data['asunto'];       
+        $sucursal=$data['sucursal'];       
+        $mensaje=$data['mensaje'];       
+
+        $html="<!DOCTYPE html>
+        <html>
+            <head>
+                <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+                <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+                <meta name='viewport' content='width=device-width, initial-scale=1' />
+                <meta name='x-apple-disable-message-reformatting' />
+                <title>Solicitud de carta de trazabilidad</title>
+            </head>
+            <body data-getresponse='true' style='margin: 0; padding: 0; background-color:#ffffff'>
+                <div class='wrap' style='width: 100%; min-width: 320px; table-layout: fixed; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;'>
+                <table data-mobile='true' dir='ltr' data-width='600' width='100%' cellspacing='0' cellpadding='0' border='0' align='center' style='font-size: 16px; background-color: rgb(255, 255, 2255);'>
+                    <tbody> 
+                        <tr>
+                            <td style='margin:0;padding:0;' valign='top' align='center'>
+                            <table class='wrapper' width='600' cellspacing='0' cellpadding='0' border='0' align='center' style='width: 600px;'>
+                                <tbody>
+                                <tr>
+                                    <td style='margin:0;padding:0;' valign='top' align='center'>
+                                        <table data-editable='text' class='text-block' width='100%' cellspacing='0' cellpadding='0' border='0' align='center'>
+                                            <tbody><tr>
+                                                <td class='lh-1' valign='top' align='center' style='padding: 12px 0px 34px; margin: 0px; font-size: 16px; font-family: Times New Roman, Times, serif; line-height: 1.15;'><span style='font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:11px;font-weight:300;line-height:1.1;'></span></td>
+                                            </tr>
+                                        </tbody></table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style='margin:0;padding:0;' valign='top' align='center'>
+                                        <table data-editable='image' data-mobile-width='0' cellspacing='0' cellpadding='0' border='0' align='center' width='158'>
+                                            <tbody><tr>
+                                                <td style='margin: 0px; padding: 0px 0px 15px; display: inline-block;' class='tdBlock' valign='top' align='left'><a href='http://mypsa.mx/' target='_blank'><img createnew='true' src='https://mypsa.mx/firmas/logo-mypsa.gif' alt='mypsa' data-src='https://mypsa.mx/firmas/logo-mypsa.gif' data-origsrc='https://mypsa.mx/firmas/logo-mypsa.gif' width='165' height='80' border='0'></a></td>
+                                            </tr>
+                                        </tbody></table>
+                                    </td>
+                                </tr>                        
+                                <tr>
+                                    <td style='padding:0;margin:0;' valign='top' align='left'>
+                                        <table data-editable='text' class='text-block' width='100%' cellspacing='0' cellpadding='0' border='0' align='center'>
+                                            <tbody><tr>
+                                                <td class='lh-1' valign='top' align='left' style='padding: 43px 50px 40px; margin: 0px; background-color: rgb(255, 255, 255); font-size: 14px; font-family: Times New Roman, Times, serif; line-height: 1.15;'>
+                                                    <span style='font-family:Helvetica,Arial,sans-serif;font-size:24px;font-weight:300;color:#00afec; line-height:1.1;'>Solicitud de carta de trazabilidad</span>
+                                                </td>
+                                            </tr>
+                                        </tbody></table>
+                                    </td>
+                                </tr>                                
+                                <tr>
+                                    <td class='lh-4' valign='top' align='left' style='padding: 0px 50px 34px; margin: 0px; background-color: rgb(255, 255, 255); font-size: 16px; font-family: Times New Roman, Times, serif; line-height: 1.45;' >
+                                        <table data-editable='image' style='margin: 0; padding: 0;' data-mobile-width='0' id='edir9bvr' cellspacing='0' cellpadding='0' border='0' align='left' width='76'>
+                                            <tbody>
+                                                <tr>
+                                                    <td  align='left' style='padding: 12px 0px 15px 0px;; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;'>
+                                                        <span style='font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:18px;font-weight:300;line-height:1.1;'>Cliente:</span>
+                                                    </td>
+                                                    <td  style='padding: 12px 10px; margin: 0px; font-size: 14px; font-family: Times New Roman, Times, serif; line-height: 1.3;'>
+                                                        <span style='font-family:Helvetica,sans-serif;font-size:14px;font-weight:400;color:#161414;line-height:1.3;'>{$cliente}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td  align='left' style='padding: 12px 0px 15px 0px;; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;'>
+                                                        <span style='font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:18px;font-weight:300;line-height:1.1;'>Correo:</span>
+                                                    </td>
+                                                    <td  style='padding: 12px 10px; margin: 0px; font-size: 14px; font-family: Times New Roman, Times, serif; line-height: 1.3;'>
+                                                        <span style='font-family:Helvetica,sans-serif;font-size:14px;font-weight:400;color:#161414;line-height:1.3;'>{$correo}</span>
+                                                    </td>
+                                                </tr>                                                
+                                                <tr>
+                                                    <td valign='top' align='left' style='padding: 12px 0px 15px 0px; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;'>
+                                                        <span style='font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:18px;font-weight:300;line-height:1.1;'>Asunto:</span>
+                                                    </td>
+                                                    <td valign='top' style='padding: 12px 10px; margin: 0px; font-size: 14px; font-family: Times New Roman, Times, serif; line-height: 1.3;'>
+                                                        <span style='font-family:Helvetica,sans-serif;font-size:14px;font-weight:400;color:#161414;line-height:1.3;'>{$asunto}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td valign='top' align='left' style='padding: 12px 0px 15px 0px; margin: 0px; font-size: 18px; font-family: Times New Roman, Times, serif; line-height: 1.3;'>
+                                                        <span style='font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:18px;font-weight:300;line-height:1.1;'>Sucursal:</span>
+                                                    </td>
+                                                    <td valign='top' style='padding: 12px 10px; margin: 0px; font-size: 14px; font-family: Times New Roman, Times, serif; line-height: 1.3;'>
+                                                        <span style='font-family:Helvetica,sans-serif;font-size:14px;font-weight:400;color:#161414;line-height:1.3;'>{$sucursal}</span>
+                                                    </td>
+                                                </tr>                                                           
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                <tr>
+                                <tr>
+                                    <td style='padding:0;margin:0;' align='left'>
+                                        <table data-editable='text' class='text-block' width='100%' cellspacing='0' cellpadding='0' border='0' align='center'>
+                                            <tbody>
+                                                <tr>
+                                                    <td class='lh-4' valign='top' align='left' style='padding: 0px 50px 34px; margin: 0px; background-color: rgb(255, 255, 255); font-size: 16px; font-family: Times New Roman, Times, serif; line-height: 1.35;'>                                                                        
+                                                        <p style='font-family:Helvetica,sans-serif;font-size:18px;font-weight:400;color:#373737;line-height:1.3;'>{$mensaje}</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                <tr>
+                                <tr>
+                                    <td style='margin:0;padding:0;' valign='top' align='center'>
+                                        <table data-editable='text' class='text-block' width='100%' cellspacing='0' cellpadding='0' border='0' align='center'>
+                                            <tbody><tr>
+                                                <td class='lh-1' valign='top' align='center' style='padding: 5px 0px 5px; margin: 0px; font-size: 5px; font-family: Times New Roman, Times, serif; line-height: 1.15;'><span style='font-family:Helvetica, Arial,sans-serif;color:#8f8f8f;font-size:11px;font-weight:100;line-height:1.1;'></span></td>
+                                            </tr>
+                                        </tbody></table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style='padding:0;margin:0;' valign='top' align='left'>
+                                        <table data-editable='text' class='text-block' width='100%' cellspacing='0' cellpadding='0' border='0' align='center'>
+                                            <tbody><tr>                            
+                                                <td class='lh-3' valign='top' align='center' style='padding: 20px 50px 50px; margin: 0px; font-size: 16px; font-family: Times New Roman, Times, serif; line-height: 1.35;'>                                
+                                                    <span style='font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:300;color:#262626; line-height:1.3;'>Este correo se envía de manera automática. &nbsp;</span>
+                                                </div></td>
+                                            </tr>
+                                        </tbody></table>
+                                    </td>
+                                </tr>
+                        </tr>
+                    </tbody>
+                </table>                                                                                
+                                <tr>
+                                    <td style='padding:0;margin:0;' valign='top' align='left'>                        
+                </td></tr><tr><td></td></tr></tbody></table></td></tr></tbody></table>
+                </div>
+            </body>
+        </html>";
+
+        return $html;
+    } 
 
     
 

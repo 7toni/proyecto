@@ -123,7 +123,7 @@
                     if(password== "" || password === null ){validado=false;}
                     
                     if(validado == true){
-                        var $logModal = $('#modal-default');
+                        var logModal = $('#modal-default');
                         var parametro= {                  
                             'email': email.trim(),
                             'password': password.trim()
@@ -137,7 +137,7 @@
                             var datos = data;
                             if(datos=="exitoso"){
                                 $('[type="submit"]').removeAttr('disabled');
-                                $logModal.modal('hide');
+                                logModal.modal('hide');
                                 $("[name='numeroserie']").remove();
                             }
                             else{

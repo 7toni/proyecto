@@ -61,8 +61,8 @@ function setError($errorNum) {
         ],[
             'id' => '015',
             'title' => 'Registro no permitido',
-            'data' => array(['msg' => 'Este resgistro ya existe, no se permite un registro duplicado.'])
-        ]   
+            'data' => array(['msg' => 'Este registro ya existe, no se permite un registro duplicado.'])
+        ] 
            
     );
     foreach ($dictionary as $error) {

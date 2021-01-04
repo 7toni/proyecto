@@ -26,7 +26,7 @@
                                 <!-- /.box-header -->
                                 <div class="box-body table-responsive">
                                     <!-- /* Agregar contenido */-->
-                                    <table id="table_informes" class="table table-bordered table-striped table-hover"> 
+                                    <table id="table_informes" class="table table-bordered table-striped table-hover table-condensed"> 
                                         <thead>
                                             <tr>
                                                 <th>Informe</th>

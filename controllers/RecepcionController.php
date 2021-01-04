@@ -25,7 +25,8 @@
       $this->ext=$this->model['sucursal']->extension(); 
       $this->sucursal= strtoupper(Session::get('sucursal'));  
       
-      $_SESSION['script'] = 'recepcion';      
+      $_SESSION['script'] = 'recepcion'; 
+      $this->roles_id= substr(Session::get('roles_id'),-1,1);     
 	}
 
 	public function index (){
@@ -39,7 +40,7 @@
       $data['planta']= $this->model['planta']->find_by(['empresas_id'=>$data['get'][0]['empresas_id']]);      
 
       $data['plataselect']= $this->model['planta']->find_by(['id' => $data['get'][0]['plantas_id']], "view_plantas");
-     //var_dump($data['plataselect']);  
+      //var_dump($data['get']);  
       //exit;               
     }
     else{ 
@@ -47,7 +48,7 @@
     $data ['get']=array(array(
       'id' => '', 'idequipo' => '', 'alias' => '', 'empresas_id' => '', 'plantas_id' => '', 'periodo_calibracion' => '', 'acreditaciones_id' => '',
       'usuarios_calibracion_id' => '', 'calibraciones_id' => '', 'prioridad' => '', 'comentarios' => '', 'po_id' => '', 'cantidad' => '',
-      'hojas_entrada_id' => '', 'usuarios_id' => '', 'fecha' => '', 'proceso' => '',
+      'hojas_entrada_id' => '', 'usuarios_id' => '', 'fecha' => '', 'proceso' => '0', 'periodo_id' => '1', 'reqautorizacion' => '0',
       )); 
 
       
@@ -423,6 +424,7 @@
             'proceso' => 'toInt',
             'periodo_id' => 'toInt',            
         ]);
+      
         $proceso_temp = $data['proceso'];
 
         if ($data['proceso'] === 0) {
@@ -431,76 +433,276 @@
         }
 
 
-      $retorno = $this->model['informes']->validar_fecha($data['id'],$data['fecha'],$proceso_temp,$this->name,$view);
+      //$retorno = $this->model['informes']->validar_fecha($data['id'],$data['fecha'],$proceso_temp,$this->name,$view);
 
-        //var_dump($retorno);
+        ////var_dump($retorno);
 
-        if ($retorno) {
-          # code...
-          $hoy = date("Y-m-d H:i:s");
-          $data['fecha_inicio'] = $hoy;
+        // if ($retorno) {
+        //   # code...
+        //   $hoy = date("Y-m-d H:i:s");
+        //   $data['fecha_inicio'] = $hoy;
                              
-          /* Agregar PO , funcion store_po */
-          $po_id = $data['po_id']; unset($data['po_id']);        
-          $cantidad = $data['cantidad']; unset($data['cantidad']);        
-          $data['po_id']= $this->store_po($po_id,$cantidad);
-          /* renombrando las variables para insertar la hoja de entrada */                
-          $hojaentrada_sucursal="view_hojas_entrada_aux".$this->ext;         
-          $hojas_entrada_id = $data['hojas_entrada_id']; unset($data['hojas_entrada_id']);//
-          $usuarios_id = $data['usuarios_id']; unset($data['usuarios_id']); // 
-          $fecha = $data['fecha']; unset($data['fecha']);//  
-          /* Agregar Hoja de entrada , funcion store_hoja_entrada */
-          $data['hojas_entrada_aux_id']= $this->store_hoja_entrada($hojas_entrada_id,$usuarios_id,$fecha,$hojaentrada_sucursal);
+        //   /* Agregar PO , funcion store_po */
+        //   $po_id = $data['po_id']; unset($data['po_id']);        
+        //   $cantidad = $data['cantidad']; unset($data['cantidad']);        
+        //   $data['po_id']= $this->store_po($po_id,$cantidad);
+        //   /* renombrando las variables para insertar la hoja de entrada */                
+        //   $hojaentrada_sucursal="view_hojas_entrada_aux".$this->ext;         
+        //   $hojas_entrada_id = $data['hojas_entrada_id']; unset($data['hojas_entrada_id']);//
+        //   $usuarios_id = $data['usuarios_id']; unset($data['usuarios_id']); // 
+        //   $fecha = $data['fecha']; unset($data['fecha']);//  
+        //   /* Agregar Hoja de entrada , funcion store_hoja_entrada */
+        //   $data['hojas_entrada_aux_id']= $this->store_hoja_entrada($hojas_entrada_id,$usuarios_id,$fecha,$hojaentrada_sucursal);
 
-            /* Comparar si si agrego bien el PO y la hoja de entrada */                                  
-          if (strlen($data['hojas_entrada_aux_id'])> 0 && strlen($data['po_id'])>0) {
-            //si se agrego correctamente hoja de entrada y PO entonces se hara update sobre la tabla informes de los datos pendientes.
-            $planta= $this->model['planta']->find_by(['id'=>$data['plantas_id']],'view_plantas');
-            $nombreplanta= strtolower(str_replace(' ','',$planta[0]['nombre']));
-            $cliente= ($nombreplanta=="planta1") ? $planta[0]['empresa']:$planta[0]['empresa'].', '.$planta[0]['nombre'];
-            if ($this->model['informes']->update($data))  {
-              // direccionarlo al siguiente proceso 
-              $roles_id= substr(Session::get('roles_id'),-1,1);                                      
-              if ($proceso_temp == 0) {
-                Logs::this("Captura datos de recepción", "Recepción del equipo, cliente : {". $cliente ."} y datos de calibración del informe: ".$data['id']); 
-              $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
-              }
-              else if($proceso_temp == 1) {
-                Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de recepción. Informe: ".$data['id']);              
-                $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
-              }              
-              else if($proceso_temp == 2) {
-                Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de salida. Informe: ".$data['id']);  
-                $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
-              }
-              else if ($proceso_temp == 3) {
-                Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de facturación. Informe:".$data['id']);                
-                $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
-              } 
-              else if ($proceso_temp == 4) {                
-                Logs::this("Actualización en recepción", "Actualización en recepción, ya se encontraba el informe terminado. Informe:".$data['id']); 
-                $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
-              } 
-              else{
-                redirect('?c=informes&a=proceso');
-              }
-            }
-            else {               
-               Flash::error(setError('002'));
-            }  
-          }
-          else{
-            Flash::error(setError('002'));           
-          }           
+        //     /* Comparar si si agrego bien el PO y la hoja de entrada */                                  
+        //   if (strlen($data['hojas_entrada_aux_id'])> 0 && strlen($data['po_id'])>0) {
+        //     //si se agrego correctamente hoja de entrada y PO entonces se hara update sobre la tabla informes de los datos pendientes.
+        //     $planta= $this->model['planta']->find_by(['id'=>$data['plantas_id']],'view_plantas');
+        //     $nombreplanta= strtolower(str_replace(' ','',$planta[0]['nombre']));
+        //     $cliente= ($nombreplanta=="planta1") ? $planta[0]['empresa']:$planta[0]['empresa'].', '.$planta[0]['nombre'];
+        //     if ($this->model['informes']->update($data))  {
+        //       // direccionarlo al siguiente proceso 
+        //       $roles_id= substr(Session::get('roles_id'),-1,1);                                      
+        //       if ($proceso_temp == 0) {
+        //         Logs::this("Captura datos de recepción", "Recepción del equipo, cliente : {". $cliente ."} y datos de calibración del informe: ".$data['id']); 
+        //       $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
+        //       }
+        //       else if($proceso_temp == 1) {
+        //         Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de recepción. Informe: ".$data['id']);              
+        //         $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
+        //       }              
+        //       else if($proceso_temp == 2) {
+        //         Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de salida. Informe: ".$data['id']);  
+        //         $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
+        //       }
+        //       else if ($proceso_temp == 3) {
+        //         Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de facturación. Informe:".$data['id']);                
+        //         $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
+        //       } 
+        //       else if ($proceso_temp == 4) {                
+        //         Logs::this("Actualización en recepción", "Actualización en recepción, ya se encontraba el informe terminado. Informe:".$data['id']); 
+        //         $this->model['informes']->_redirec($roles_id, $proceso_temp,$data['id']);
+        //       } 
+        //       else{
+        //         redirect('?c=informes&a=proceso');
+        //       }
+        //     }
+        //     else {               
+        //        Flash::error(setError('002'));
+        //     }  
+        //   }
+        //   else{
+        //     Flash::error(setError('002'));           
+        //   }           
+        // }
+        // else{
+        //     if ($proceso_temp = 2) {
+        //       Flash::error(setError('011'));
+        //     }
+        //     else if($proceso_temp > 2){
+        //       Flash::error(setError('010'));
+        //     }
+        // }      
+  }
+
+  public function ajax_store() { 
+    $validado= true;
+    $dictionary = array(      
+      'id' => '000',
+      'title' => 'Exitoso',    
+    );        
+
+    $view="view_informes". $this->ext;        
+    $return="";
+
+    $tiposubmit= $_POST[14];  
+    /** registrar | actualizar |  solicitud | actualizaraut | sinpermiso |  */
+    $data = array(
+      'id' => (int)$_POST[0],
+      'equipos_id' => (int) $_POST[1],
+      'plantas_id' => (int) $_POST[2],          
+      'periodo_calibracion' => (int) $_POST[3],
+      'periodo_id' => (int) $_POST[4],
+
+      'acreditaciones_id' => (int) $_POST[5],
+      'usuarios_calibracion_id' => (int)$_POST[6],
+      'calibraciones_id' => (int) $_POST[7],
+      'po_id' =>$_POST[8],
+      'cantidad' =>(int) $_POST[9],
+      
+      'prioridad' => (int) $_POST[10],
+
+      'hojas_entrada_id' => $_POST[11],
+      'usuarios_id' =>(int) $_POST[12],
+      'fecha' =>$_POST[13],
+      'comentarios' =>$_POST[16],
+    );       
+       
+    $proceso_temp = (int) $_POST[15];
+
+    if($tiposubmit == "registrar" ){
+      $validado= true;
+    }else if ($tiposubmit == "actualizar" ){
+      /** Valida la fecha de la hoja de entrada que no se mayor a la de calibracion o salida  */
+      $validar = $this->model['informes']->validar_fecha($data['id'],$data['fecha'],$proceso_temp,$this->name,$view);       
+      if(!$validar){
+        $validado= false;
+        if ($proceso_temp = 2) {
+          $return= setError('011');              
         }
-        else{
-            if ($proceso_temp = 2) {
-              Flash::error(setError('011'));
-            }
-            else if($proceso_temp > 2){
-              Flash::error(setError('010'));
-            }
-        }      
+        else if($proceso_temp > 2){
+          $return=  setError('010');              
+        }
+      }
+    }else if ($tiposubmit == "solicitud" ){
+      if($proceso_temp == 0){
+        //Cambiar el estado de la autorizacion
+        $data['reqautorizacion']=1;      
+        $validado= true;
+      }else{ // proceso > 0
+        /** Validar informe que se esta solcitando que el id del equipo concide con el que se esta actualizando */
+        $informeigual = $this->model['informes']->validar_informe_equipo($data['id'],$data['equipos_id'],$view);
+        if(!$informeigual){
+          $dictionary ['data'] = array(['msg' => 'Este Informe no se puede actualizar, El equipo no coincide con el informe que se autorizo. Si se desea usar una vez más este informe, debe cancelarlo e iniciar su uso.']);
+          $return= $dictionary;
+          $validado= false;
+        } 
+      }      
+    }else if ($tiposubmit == "actualizaraut"){
+      /** Validar informe autorizado que el id del equipo concide con el que se esta actualizando */
+      $informeigual = $this->model['informes']->validar_informe_equipo($data['id'],$data['equipos_id'],$view);
+      if(!$informeigual){
+        $dictionary ['data'] = array(['msg' => 'Este Informe no se puede actualizar, el equipo no coincide con el informe autorizado. Si se desea usar una vez más este informe, debe cancelarlo e iniciar su uso.' ]);
+        $return= $dictionary;
+        $validado= false;
+      }else{        
+        /** Valida la fecha de la hoja de entrada que no se mayor a la de calibracion o salida  */
+        $validar = $this->model['informes']->validar_fecha($data['id'],$data['fecha'],$proceso_temp,$this->name,$view);
+        if(!$validar){
+          $validado= false;
+          if ($proceso_temp = 2) {
+            $return= setError('011');              
+          }
+          else if($proceso_temp > 2){
+            $return=  setError('010');           
+          }
+        }
+      }                
+    }else if ($tiposubmit == "sinpermiso"){
+
+      if($this->roles_id == 0 || $this->roles_id== 2 || $this->roles_id==4 || $this->roles_id==7){        
+        /** Validar informe autorizado que el id del equipo concide con el que se esta actualizando */
+        $informeigual = $this->model['informes']->validar_informe_equipo($data['id'],$data['equipos_id'],$view);
+        if(!$informeigual){
+          $dictionary ['data'] = array(['msg' => 'Este Informe no se puede actualizar, El equipo no coincide con el informe a autorizar. Cancelar o confirmar autorización desde el listado.' ]);
+          $return= $dictionary;
+          $validado= false;
+        }else{
+          //Cambiar el estado de la autorizacion 
+          $data['reqautorizacion']=2;
+        }
+      }else{
+        $dictionary ['data'] = array(['msg' => 'Este Informe no se puede actualizar, esta en espera de autorización. Solicite cancelar o confirmar autorización.' ]);
+        $return= $dictionary;
+        $validado= false;
+      }        
+    }             
+
+    if ($validado) {
+      # code...
+      //$hoy = date("Y-m-d H:i:s");
+      //$data['fecha_inicio'] = $hoy;
+
+      if ($proceso_temp === 0) {
+        $data['calibrado']=0;
+        $data['proceso'] = intval('1');
+      }
+                          
+      /* Agregar PO , funcion store_po */
+      $po_id = $data['po_id']; unset($data['po_id']);        
+      $cantidad = $data['cantidad']; unset($data['cantidad']);        
+      $data['po_id'] = $this->store_po($po_id,$cantidad);
+
+      /* renombrando las variables para insertar la hoja de entrada */                
+      $hojaentrada_sucursal="view_hojas_entrada_aux".$this->ext;         
+      $hojas_entrada_id = $data['hojas_entrada_id']; unset($data['hojas_entrada_id']);//
+      $usuarios_id = $data['usuarios_id']; unset($data['usuarios_id']); // 
+      $fecha = $data['fecha']; unset($data['fecha']);//  
+      /* Agregar Hoja de entrada , funcion store_hoja_entrada */
+      $data['hojas_entrada_aux_id']= $this->store_hoja_entrada($hojas_entrada_id,$usuarios_id,$fecha,$hojaentrada_sucursal);
+
+        /* Comparar si si agrego bien el PO y la hoja de entrada */                                  
+      if (strlen($data['hojas_entrada_aux_id'])> 0 && strlen($data['po_id'])>0) {
+        //si se agrego correctamente hoja de entrada y PO entonces se hara update sobre la tabla informes de los datos pendientes.
+        $planta= $this->model['planta']->find_by(['id'=>$data['plantas_id']],'view_plantas');
+        $nombreplanta= strtolower(str_replace(' ','',$planta[0]['nombre']));
+        
+        $cliente= ($nombreplanta=="planta1") ? $planta[0]['empresa']:$planta[0]['empresa'].', '.$planta[0]['nombre'];          
+
+        if ($this->model['informes']->update($data))  {
+          // direccionarlo al siguiente proceso 
+          $roles_id= substr(Session::get('roles_id'),-1,1);
+
+          $arrayequipo=  $this->model['equipo']->find_by(['id'=>$data['equipos_id']],'view_equipos');
+
+          $logtitle= array(
+            'registrar' => "Registro de datos en recepción",
+            'actualizar'=> "Actualización de datos en recepción",
+            'solicitud'=> "Solicitud de registro con equipo duplicado",
+            'actualizaraut'=> "Actualización de registro con equipo duplicado",
+            'sinpermiso'=> "Actualización  de Equipo sin permiso"
+          );
+
+          $logdetails= array(
+            'registrar' => "Captura de información en el Informe: {$data['id']}. Se asignó el cliente: {$cliente}, con la fecha de entrada: {$fecha}",
+            'actualizar'=> "Actualización del Informe: {$data['id']}. Cliente: {$cliente} asignado, con la fecha de entrada {$fecha} estando en el proceso: {$proceso_temp} ",
+            'solicitud'=> "Solicitud de registro de un equipo duplicado para el informe: {$data['id']}. Datos del equipo [{$arrayequipo[0]['alias']},{$arrayequipo[0]['descripcion']},{$arrayequipo[0]['marca']},{$arrayequipo[0]['modelo']},{$arrayequipo[0]['serie']}]. Cliente : {$cliente}",
+            'actualizaraut'=> "Aprobación de registro de un equipo duplicado para el informe: {$data['id']}. Datos del equipo [{$arrayequipo[0]['alias']},{$arrayequipo[0]['descripcion']},{$arrayequipo[0]['marca']},{$arrayequipo[0]['modelo']},{$arrayequipo[0]['serie']}]. Cliente : {$cliente}",
+            'sinpermiso'=> "Actualización de registro sin previa autorización de un equipo duplicado para el informe: {$data['id']}. Datos del equipo [{$arrayequipo[0]['alias']},{$arrayequipo[0]['descripcion']},{$arrayequipo[0]['marca']},{$arrayequipo[0]['modelo']},{$arrayequipo[0]['serie']}]. Cliente : {$cliente}"
+          );
+          
+          Logs::this($logtitle[$tiposubmit], $logdetails[$tiposubmit]);                 
+
+          if ($proceso_temp == 0) {            
+            $dictionary ['data'] = array(['msg' => $this->model['informes']->_redirecajax($roles_id, $proceso_temp,$data['id']) ]);
+            $return= $dictionary;
+          }
+          else if($proceso_temp == 1) {
+            //Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de recepción. Informe: ".$data['id']);                
+            $dictionary ['data'] = array(['msg' => $this->model['informes']->_redirecajax($roles_id, $proceso_temp,$data['id']) ]);
+            $return= $dictionary;
+          }              
+          else if($proceso_temp == 2) {
+            //Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de salida. Informe: ".$data['id']);  
+            $dictionary ['data'] = array(['msg' => $this->model['informes']->_redirecajax($roles_id, $proceso_temp,$data['id']) ]);
+            $return= $dictionary;
+          }
+          else if ($proceso_temp == 3) {
+            //Logs::this("Actualización en recepción", "Actualización en recepción, se encuentra en proceso de facturación. Informe:".$data['id']);                
+            $dictionary ['data'] = array(['msg' => $this->model['informes']->_redirecajax($roles_id, $proceso_temp,$data['id']) ]);
+            $return= $dictionary;
+          } 
+          else if ($proceso_temp == 4) {                
+            //Logs::this("Actualización en recepción", "Actualización en recepción, ya se encontraba el informe terminado. Informe:".$data['id']); 
+            $dictionary ['data'] = array(['msg' => $this->model['informes']->_redirecajax($roles_id, $proceso_temp,$data['id']) ]);
+            $return= $dictionary;
+          } 
+          else{ 
+            $dictionary['data'] = array(['msg' => '?c=informes&a=proceso']); 
+            $return= $dictionary;              
+          }
+        }
+        else {               
+          $return= setError('002');              
+        }  
+      }
+      else{
+        $return= setError('002');           
+      }           
+    }           
+
+    echo json_encode($return);
+        
   }
 
   public function storevol() {
@@ -599,7 +801,7 @@
        //si existe - update                 
         if($this->model['po']->update(['id'=> $po_id ,'cantidad'=>$cantidad])) {                
             $_po=$po_id;
-            Logs::this("Editar", "Se edito el PO".$_po." , ".$cantidad);                          
+            Logs::this("Editar", "Se actualizo el PO ".$_po." , ".$cantidad);                          
         } else {              
           Flash::error(setError('002'));
         }
@@ -635,7 +837,7 @@
                 $id_hoja_entrada_aux = $this->model['hojaentradaaux']->find_by(['numero_hoja' => $hojas_entrada_id,'usuarios_id'=> $usuarios_id,'fecha'=>$fecha],$hojaentrada_sucursal);
                 $id_hoja_aux= $id_hoja_entrada_aux[0]['id'];                       
                 $_hojaent=$id_hoja_aux;
-                Logs::this("Agregar", "Se agrego la hoja de entrada". $id_hoja_aux);                    
+                Logs::this("Agregar", "Se agrego la hoja de entrada en tabla hojaentradaauxiliar. Num de hoja: {$id_hoja_aux} con la fecha: {$fecha} y el usuario id: {$usuarios_id}");                    
             } 
             else {
               Flash::error(setError('002'));
@@ -652,7 +854,7 @@
                 $id_hoja_entrada_aux = $this->model['hojaentradaaux']->find_by(['numero_hoja' => $hojas_entrada_id,'usuarios_id'=> $usuarios_id,'fecha'=>$fecha],$hojaentrada_sucursal);
                 $id_hoja_aux= $id_hoja_entrada_aux[0]['id'];                      
                 $_hojaent=$id_hoja_aux;
-                  Logs::this("Agregar", "Se agrego la hoja de entrada". $id_hoja_aux);
+                Logs::this("Agregar", "Se agrego la hoja de entrada en tabla hojaentradaauxiliar. Num de hoja: {$id_hoja_aux} con la fecha: {$fecha} y el usuario id: {$usuarios_id}");
               }
               else {
                 Flash::error(setError('002'));

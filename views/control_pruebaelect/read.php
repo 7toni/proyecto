@@ -168,6 +168,8 @@
                 "lengthMenu": [[15, 20, 50,100,200,500,1000,3000, -1], [15, 20, 50,100,200,500,1000,3000, "All"]],
                 "autoWidth": true,           
                 "scrollX": true,
+                "scrollY": "500px",
+                "scrollCollapse": true,
                 "columns": [
                     {   "data": 0 },   //"id"
                     {

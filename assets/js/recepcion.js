@@ -1,8 +1,8 @@
-/* Inicio de variables de recepción */
-    var historial = {};
+/* Inicio de variables de recepción */    
     //var count_check_equipo = 0;
     var count_numinforme=0;
-    var planta_temp = "";      
+    var planta_temp = "";  
+    var detalles="";  
 /* End variables de inicio */
  
 /* Generar número de informe  */
@@ -43,80 +43,7 @@
     }
 /* End  ultimo_numero_informe */
 
-/* asignar_equipo_cliente */
-    // var asignar_equipo_cliente = function(index) {
-    //     //count_check_equipo++;
-    //     //if (count_check_equipo < 2) {
-    //         $('#table_equipo').removeClass( "table-scroll" );
-    //         $('#table_equipo tbody').remove();                        
-    //         //console.log( historial);                
-    //         var bitacora = historial[index];            
-    //         planta_temp = bitacora.plantas_id;
-        
-    //         if (bitacora.equipo_activo=="1"){
-    //         estadoeq="Activo";
-    //         labeleq="label-success";                        
-    //         }
-    //         else{
-    //             estadoeq="Inactivo";
-    //             labeleq="label-danger";
-    //             disabled="disabled";
-    //         }        
-
-    //         var nuevafila = "<tr>" +
-    //             "<td><label> <input type='radio' class='minimal' name='equipos_id' value='" + bitacora.equipos_id + "' checked></label></td>" +
-    //             "<td>" + bitacora.alias + "</td>" +
-    //             "<td>" + bitacora.descripcion + "</td>" +
-    //             "<td>" + bitacora.marca + "</td>" +
-    //             "<td>" + bitacora.modelo + "</td>" +
-    //             "<td>" + bitacora.serie + "</td>" +
-    //             "<td > <span class='label "+ labeleq +"'>" + estadoeq + "</spam> </td>" +
-    //             "<td> <a class='btn btn-block btn-warning btn-sm' target='_blank'  href='?c=equipos&a=edit&p=" + bitacora.equipos_id + "'><i class='fa fa-pencil' aria-hidden='true'></i></a></td>" +
-    //             +"</tr>"
-    //         $("#table_equipo").append(nuevafila);
-
-    //         $('#empresa_ajax_r').val(bitacora.empresas_id).change();
-    //         $('#periodo_calibracion').val(bitacora.vigencia)
-    //         $('#acreditaciones_id').val(bitacora.acreditacion).change();
-    //         $('#calibraciones_id').val(bitacora.tipo_cal).change();
-    //         $('#usuarios_calibracion_id').val(bitacora.tecnico_cal).change();            
-                      
-    //         var porciento = validar_equipo_vigenciacal(bitacora.equipos_id);
-    //         var usuario_permiso=validar_usuario_confirmar();
-           
-    //         if(porciento == 0 ){ 
-    //             if(usuario_permiso==1){
-    //                 $("[name='informevalidacion']").remove();
-    //                 var valor= "<p> <h4>El equipo aún no se ha calibrado. Este usuario permite ingresar el equipo una vez más.</h4> </p>";
-    //                 $("#alerta_informevalidacion").before(
-    //                     "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-info alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");
-    //             }
-    //             else{                           
-    //                 $("[type='submit']").attr('disabled','disabled');              
-    //                 $("[name='informevalidacion']").remove();
-    //                 var valor= "<p> <h4>El equipo aún no se ha calibrado. ¿Estas seguro de ingresar el equipo una vez más?</h4> <button type='button' class='btn btn-default' data-toggle='modal' data-target='#modal-default'>Confirmar <i class='fa fa-check fa-lg'></i> </button> </p>";
-    //                 $("#alerta_informevalidacion").before(
-    //                     "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-info alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");
-    //             }
-    //         }else if( porciento < 80 ){
-    //             if(usuario_permiso==1){
-    //                 $("[name='informevalidacion']").remove();
-    //                 var valor= "<p> <h4>La fecha de vencimiento aún no culminá. Este usuario permite ingresar el equipo una vez más.</p>";
-    //                 $("#alerta_informevalidacion").before(
-    //                     "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");   
-    //             }
-    //             else{
-    //             $("[type='submit']").attr('disabled','disabled');              
-    //             $("[name='informevalidacion']").remove();
-    //             var valor= "<p> <h4>La fecha de vencimiento aún no culminá. ¿Estas seguro de ingresar el equipo una vez más?</h4> <button type='button' class='btn btn-default' data-toggle='modal' data-target='#modal-default'>Confirmar <i class='fa fa-check fa-lg'></i> </button> </p>";
-    //             $("#alerta_informevalidacion").before(
-    //                 "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");
-    //             }
-    //         }
-    //         else{
-    //             $("[name='informevalidacion']").remove();           
-    //         }                                          
-    // }       
+/* asignar_equipo_cliente */  
 
     function validar_ultimacal(datehome,dateend){
         var value=0;
@@ -251,7 +178,7 @@
         else{
             //console.log("vacio");
         }       
-      }
+        }
     
         
 
@@ -494,14 +421,10 @@ function submit_acceso() {
     var buscar_historialequipo = function () {
         //count_check_equipo=0;
 
-        // $('[type="submit"]').removeAttr('disabled');
-        // $("[name='informevalidacion']").remove();
-
-        $('#overlay').addClass('overlay');
-        $('#refresh').addClass('fa fa-refresh fa-spin');
-
-        if (validar_text($("#idequipo").val().trim())== true) {          
-
+        //$('[type="submit"]').removeAttr('disabled');
+        $("[name='informevalidacion']").remove();
+            activarcargando(1);
+        if (validar_text($("#idequipo").val().trim())== true) {
             $.ajax({
                 url: "?c=recepcion&a=ajax_load_historial",
                 dataType: "json",
@@ -516,8 +439,7 @@ function submit_acceso() {
                 }                 
                 buscar_tablaequipo($("#idequipo").val().trim());
 
-                $('#overlay').removeClass('overlay');
-                $('#refresh').removeClass('fa fa-refresh fa-spin');
+                activarcargando(0);
 
             }).fail(function (data) {
             }).always(function (data) {
@@ -526,8 +448,7 @@ function submit_acceso() {
         } 
         else{
             alertas_tipo_valor('alerta_idequipo','requerido','id del equipo');
-            $('#overlay').removeClass('overlay');
-            $('#refresh').removeClass('fa fa-refresh fa-spin');               
+            activarcargando(0);              
         }        
     };
 
@@ -545,10 +466,12 @@ function submit_acceso() {
                     _table.clear();
                     _table.rows.add(datos).draw();
                     if(datos.length ==1){
-                        $("input[type='radio'][name='r1'][value='"+datos[0]['id']+"']").prop('checked', true); 
-                        //$("#historial_informes tbody, input[type='radio'][value='"+datos[0]['id']+"']").prop('checked', true); 
+                        $("input[type='radio'][name='r1'][value='"+datos[0]['id']+"']").prop('checked', true);                        
                         comprobar_informeequipo(datos[0]['id']);
-                    }                  
+                    }else if(getidequipo != null){
+                        $("input[type='radio'][name='r1'][value='"+getidequipo+"']").prop('checked', true);  
+                        comprobar_informeequipo(getidequipo);
+                    }    
                 } else{
                     alertas_tipo_valor('alerta_idequipo', 'vacio', "<p><a href='?c=equipos&a=add' target='_blank' class='btn btn-primary' style='text-decoration:none;'><i class='fa fa-plus-circle'></i> &nbsp; Agregar equipo</a></li></p>");
                 }          
@@ -561,85 +484,164 @@ function submit_acceso() {
         }
     };
 
-    var comprobar_informeequipo = function(val) {
-        $("[name='informevalidacion']").remove();
+    var comprobar_informeequipo = function(val) {        
+        $("[name='informevalidacion']").remove();       
+        // Agregar un validacion de equipo mas informe, ya que solo valida el etatus del equipo, pero no juntamente con el informe
+            
+            var numinforme= $("#numero_informe").val();
+            var reqaut_infactual= reqautorizacion;
+            var proceso_infactual= proceso;
+            var equipo_infactual= getidequipo;
+            var valuesubmit=["Actualizar","En espera de autorización","Actualizar","Estado [requiere autorización]", "Solicitar registro","Solicitar registro","Registrar","Actualizar","Actualizar"]; 
+            var tiposubmit= ["actualizar","sinpermiso","actualizaraut","sinpermiso","solicitud","solicitud","registrar","actualizar","actualizar"];
+            var disabledsubmit= [false,true,false,true,false,false,false,false,false];
+            var disablebusqueda= [false,true,true,true,false,false,false,false,false];
+            var btncolor=["btn-warning","btn-danger","btn-info","btn-danger","btn-warning","btn-warning","btn-primary","btn-warning","btn-warning"];
+            var valuealerta=[
+                "Este equipo corresponde a este informe, puedes hacer alguna modificación en los datos del Cliente, PO, datos de calibración, en la hoja de entrada o cambiar de equipo, siempre y cuando este disponible.",
+                "Este informe está en espera que se autorice para ingresar el equipo duplicado. Si deseas ingresar otro id, solicita cancelarlo a tu supervisor.",
+                "Este equipo corresponde a este informe, está autorizado para continuar con el proceso de registro.",
+                "Este Equipo no se puede usar, ya que esta se encuentra en un estado que requiere autorización. Si deseas ingresar este equipo, solicita cancelar el informe que tiene asignado, a tu supervisor.",                
+                "Este Equipo no se puede usar, ya que esta se encuentra vigente en su fecha de calibración. Pero, si deseas ingresar este equipo, solicita la autorización a tu supervisor.",
+                "Este Equipo no se puede usar, ya que esta se encuentra en proceso. Pero, si deseas ingresar este equipo, solicita la autorización a tu supervisor.",
+                "Este Equipo ha superado su fecha de vencimiento <span class='badge bg-red'> URGENTE! </span>. Puedes ingresar el equipo ya que este informe no tiene asignado ningun otro equipo.",
+                "Este Equipo ha superado su fecha de vencimiento <span class='badge bg-red'> URGENTE! </span>. <h3> Ojo! </h3> Este informe ya tiene asigando otro equipo, pero puedes actualizarlo.",
+                "<h3> Ojo! </h3> Este informe tiene asignado otro equipo y se encuentra en proceso, pero puedes actualizarlo."
+            ];
+
             $.ajax({
                 url: "?c=recepcion&a=ajax_load_ultimoid_equipo",
                 dataType: "json",
                 method: "POST",
                 data: "idequipo=" + val
             }).done(function(data) {
-                var datos = data;  
-                //console.log(datos);             
-                if (datos.length > 0) { 
-                    if(datos[0]['reqautorizacion'] == 0){
-                        //Evalua si el equipo se encuentra repetido
-                        if(datos[0]['id'] != informe){
-                            if(datos[0]['proceso'] < 4){
-                                var proceso=["Inicio","Calibración","Salida","Facturación","Finalizado"];
+                var datos = data;                                                               
+                //Si el datos.length es igual a cero, quiere decir que no tiene ningun informe asociado.                
+                    if (datos.length > 0) {
+                        var num_infbuscado= datos[0]['id'];
+                        var equipo_infbuscado= datos[0]['idequipo'];
+                        var proceso_infbuscado= datos[0]['proceso'];
+                        var reqauto_infbuscado= datos[0]['reqautorizacion'];
+                        var vigencia_infbuscado= "";  
+                        if(proceso_infbuscado == 4){
+                            vigencia_infbuscado= validar_ultimacal(datos[0]['fecha_calibracion'], datos[0]['fecha_vencimiento']);
+                        }                                              
+
+                        // Revisar si el informe actual es igual al encontrado
+                        if(numinforme == num_infbuscado && equipo_infactual == equipo_infbuscado){
+                            //Este alerta es para los informes que pasaron a un estado de reqautizacion                            
+                            if(reqaut_infactual > 0 && proceso_infactual < 4){
+                                //alerta                                                            
                                 $("[name='informevalidacion']").remove();
-                                var valor= "<p>Este equipo está en proceso de  <span class='badge bg-red'>"+ proceso[datos[0]['proceso']]+"</span> .";                                
-                                 valor += "</br> Si deseas registrarlo nuevamente en este informe, el sistema enviara la solicitud a tu supervisor. </br> ";
-                                 valor += "Puedes continuar llenado la información, y esperar la autorización.</p>";
-                                $("#alerta_informevalidacion").before(
-                                    "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-warning alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");
-                                //Cambio de boton de submit
-
-                                //console.log("No se puede registrar ya que este equipa esta en proceso : "+ datos[0]['proceso']);                            
-                            }else{
-                                var statusequipo= validar_ultimacal(datos[0]['fecha_calibracion'], datos[0]['fecha_vencimiento']);                                                                
-                                if(statusequipo< 80){
+                                alertas_col12('alerta_equipoinforme', 'warning', valuealerta[reqaut_infactual] );                            
+                            }else if(proceso_infactual < 4){
+                                $("[name='informevalidacion']").remove();
+                                alertas_col12('alerta_equipoinforme', 'info', valuealerta[reqaut_infactual] );                            
+                            }else if(proceso_infactual == 4){
+                                $("[name='informevalidacion']").remove();
+                                alertas_col12('alerta_equipoinforme', 'info',  "Este equipo corresponde a este informe y finalizado el proceso, si deseas realizar alguna actualización esta permitido." );
+                            }                           
+                            
+                            //Submit
+                            $('[type="submit"]').prop('disabled', disabledsubmit[reqaut_infactual]);                             
+                            $('[type="submit"]').prop('value', valuesubmit[reqaut_infactual]);
+                            $('[name="tiposubmit"]').prop('value',tiposubmit[reqaut_infactual]);
+                            $('[type="submit"]').removeClass('btn-primary').addClass(btncolor[reqaut_infactual]);
+                            
+                            //Opciones de busqueda
+                            $('#buscar_idequipo').prop('disabled', disablebusqueda[reqaut_infactual]);
+                            $('#idequipo').prop('disabled', disablebusqueda[reqaut_infactual]);                            
+                            
+                        }else if(numinforme != num_infbuscado){ //Analizar cuando un equipo o el informe no son iguales, 
+                            var numtemp=0;                            
+                            /**
+                             * 1. Revisar si el equipo esta asignado a un informe que esta en proceso
+                             * 2. Revisar si el equipo esta asignado a un informe que no ha finalizado su vigencia de calibracion.
+                             * 3. Revisar si el equipo no se encuentra en proceso de autorizacion.
+                             * 4. Revisar si el informe no tiene asignado un equipo ya. 
+                             */
+                            if(reqauto_infbuscado == 0){
+                                if(proceso_infbuscado < 4 && proceso_infactual<4){
+                                    numtemp=5;
                                     $("[name='informevalidacion']").remove();
-                                var valor= "<p>Este equipo se encuentra calibrado y su periodo aún no está vencido. El porcentaje esta en <span class='badge bg-red'>"+ Math.round(statusequipo) +"%</span>.";                                
-                                 valor += "</br> Si deseas registrarlo nuevamente en este informe, el sistema enviara la solicitud a tu supervisor. </br> ";
-                                 valor += "Puedes continuar llenado la información, y esperar la autorización.</p>";
-                                $("#alerta_informevalidacion").before(
-                                    "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-warning alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");
-                                //Cambio de boton de submit
-                                }else{
-                                    var valor="";
-                                    if(statusequipo > 100){
-                                        valor= "<p>Puedes ingresar el equipo seleccionado sin problema. Pero este equipo ha superado su fecha de vencimiento. <span class='badge bg-red'> Ingrésalo urgentemente</span></p>";
-                                    }
-                                    else{
-                                        valor= "<p>Puedes ingresar el equipo seleccionado sin problema. Ya que esta próximamente a vencer.</p>";
-                                    }                                                                        
-                                    $("#alerta_informevalidacion").before(
-                                        "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-success alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-check'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");
-                                        //Cambio de boton de submit= Registrar
-                                    //console.log("Sin problema, puede ingresar el equipo");
-                                }                               
-                            }
-                        } else{
-                            var valor= "<p>Puedes ingresar el equipo seleccionado sin problema.</p>";                                
-                            $("#alerta_informevalidacion").before(
-                                "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-success alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-check'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");
-                                //Cambio de boton de submit= Registrar
-                            //console.log("Este equipo corresponde al informe, se ignora las validaciones.");
-                        }
-                    }else if(datos[0]['reqautorizacion'] == 1){
-                        var valor= "<p>Este informe está en espera que se autorice para ingresar el equipo duplicado. <br> Si deseas ingresar otro id, solicita cancelar la solicitud a tu supervisor.</p>";
-                        $("#alerta_informevalidacion").before(
-                        "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");
-                            //Cambio de boton de submit= desabilitar
+                                    alertas_col12('alerta_equipoinforme', 'warning', valuealerta[numtemp] );                                     
+                                    detalles= usuario + "_"+"Último número de informe ("+ num_infbuscado +") encontrado que pertenece al cliente "+  datos[0]['empresa'] +","+  datos[0]['planta']  +", el proceso actual es "+ datos[0]['proceso'];
 
-                        //No se permitira registrar, ya que se encuentra en espera de autorizacion
-                        //console.log("Equipo en espera de autorizacion");
-                    }
-                    else if(datos[0]['reqautorizacion'] == 2){
-                        var valor= "<p>Equipo repetido, pero está autorizado para registrarlo.</p>";                                
-                        $("#alerta_informevalidacion").before(
-                            "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-info alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-info'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");
-                        //Enviar una alerta de que este equipo esta repetido, pero ya esta autorizado
-                        console.log("Equipo repetido, pero autorizado");
-                    }                       
-                }else{
-                    var valor= "<p>Puedes ingresar el equipo seleccionado sin problema. No se encontró ninguna coincidencia con algún informe.</p>";
-                    $("#alerta_informevalidacion").before(
-                        "<div class='form-group' name='informevalidacion' id='informevalidacion'><div class='col-sm-12'> " + "<div class='alert alert-success alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-check'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");
-                        //Cambio de boton de submit= Registrar
-                }
-                
+                                } else if(proceso_infbuscado>3  && vigencia_infbuscado > 100  && equipo_infactual == ""){
+                                    numtemp=6;
+                                    $("[name='informevalidacion']").remove();
+                                    alertas_col12('alerta_equipoinforme', 'warning', valuealerta[numtemp]);
+                                }
+                                else if( proceso_infbuscado>3  && vigencia_infbuscado > 100  && proceso_infactual < 4 && equipo_infactual != null ){
+                                    numtemp=7;
+                                    $("[name='informevalidacion']").remove();
+                                    alertas_col12('alerta_equipoinforme', 'warning', valuealerta[numtemp]);
+                                }                             
+                                else if(vigencia_infbuscado < 80 ){
+                                    numtemp=4;
+                                    $("[name='informevalidacion']").remove();
+                                    alertas_col12('alerta_equipoinforme', 'warning', valuealerta[numtemp] );                                    
+                                    detalles= usuario + "_"+"Último número de informe ("+ num_infbuscado +") encontrado que pertenece al cliente "+  datos[0]['empresa'] +","+  datos[0]['planta']  +", con fecha de vencimiento :"+  datos[0]['fecha_vencimiento'];
+                                } 
+                                                          
+
+                                $('[type="submit"]').prop('disabled',disabledsubmit[numtemp] );
+                                $('[type="submit"]').prop('value', valuesubmit[numtemp]);
+                                $('[name="tiposubmit"]').prop('value',tiposubmit[numtemp]);
+                                $('[type="submit"]').removeClass('btn-primary').addClass(btncolor[numtemp]);
+
+                            }
+                            else{                           
+                                //alerta 
+                                if(reqauto_infbuscado > 0 && proceso_infbuscado < 4){
+                                    numtemp=3;
+                                    $("[name='informevalidacion']").remove();
+                                    alertas_col12('alerta_equipoinforme', 'warning', valuealerta[numtemp] );                                    
+                                }                              
+                                else if( reqauto_infbuscado > 0 && vigencia_infbuscado < 80){
+                                    numtemp=4;
+                                    $("[name='informevalidacion']").remove();
+                                    alertas_col12('alerta_equipoinforme', 'warning', valuealerta[numtemp] );
+                                    detalles= usuario + "_"+"Último número de informe ("+ num_infbuscado +") encontrado que pertenece al cliente "+  datos[0]['empresa'] +","+  datos[0]['planta']  +", con fecha de vencimiento :"+  datos[0]['fecha_vencimiento'];
+                                }                             
+
+                                $('[type="submit"]').prop('disabled',disabledsubmit[numtemp] );
+                                $('[type="submit"]').prop('value', valuesubmit[numtemp]);
+                                $('[name="tiposubmit"]').prop('value',tiposubmit[numtemp]);
+                                $('[type="submit"]').removeClass('btn-primary').addClass(btncolor[numtemp]);
+                            }                            
+
+                        }                 
+                    }else{
+                        // Comprobar si el informe actual tiene alguna restriccion, por ejemplo que este esperando alguna autorizacion y sea haya confirmado
+                        if(reqautorizacion === null || reqautorizacion === "0"){
+                            var valor= "<p>Puedes ingresar el equipo seleccionado sin problema. No se encontró ninguna coincidencia con algún informe.</p>";
+                            alertas_col12('alerta_equipoinforme', 'success', valor );                    
+                            //Cambio de boton de submit= Registrar
+                            $('[type="submit"]').prop('value', 'Registrar');
+                            $('[name="tiposubmit"]').prop('value','registrar');
+                        }else{
+                            var numtemp=0;    
+                            
+                            if(reqautorizacion == 2 ){
+                                numtemp=3;
+                                alertas_col12('alerta_equipoinforme', 'warning', valuealerta[numtemp] );                    
+                                //Cambio de boton de submit= Registrar
+                                $('[type="submit"]').prop('disabled', disabledsubmit[numtemp]);                             
+                                $('[type="submit"]').prop('value', valuesubmit[numtemp]);
+                                $('[name="tiposubmit"]').prop('value',tiposubmit[numtemp]);
+                            }else{
+                                numtemp=1;
+                                alertas_col12('alerta_equipoinforme', 'warning', valuealerta[numtemp] );                    
+                                //Cambio de boton de submit= Registrar
+                                $('[type="submit"]').prop('disabled', disabledsubmit[numtemp]);                             
+                                $('[type="submit"]').prop('value', valuesubmit[numtemp]);
+                                $('[name="tiposubmit"]').prop('value',tiposubmit[numtemp]);
+                            }
+                           
+                        }
+                        
+                    }                
             }).fail(function(data) {}).always(function(data) {
                 // console.log(data);
             });       
@@ -660,8 +662,7 @@ function submit_acceso() {
 
     $("#idequipo").keypress(function(e) {
       if (e.which == 13) {   
-        $(this).val(espacio_blanco($(this).val()));      
-          //buscar_idequipo_historial();
+        $(this).val(espacio_blanco($(this).val()));          
           buscar_historialequipo();
           e.preventDefault();
       }
@@ -683,20 +684,20 @@ function submit_acceso() {
     $("#idplanta_ajax_r").on('change', idplanta_ajax_r);
 
     /**  # Datos de P.O **/
-    $("#btn_noregistrar_po").click(function(e){           
+    $("#btn_noregistrar_po").click(function(e){
         opciones_po('no_registrar');
         e.preventDefault();
-      });
+    });
 
-      $("#btn_pendiente_po").click(function(e){           
-        opciones_po('pendiente');
-        e.preventDefault();
-      });
+    $("#btn_pendiente_po").click(function(e){
+    opciones_po('pendiente');
+    e.preventDefault();
+    });
 
-      $("#btn_registrar_po").click(function(e){           
-        opciones_po('registrar');
-        e.preventDefault();
-      });
+    $("#btn_registrar_po").click(function(e){
+    opciones_po('registrar');
+    e.preventDefault();
+    });
 
     $("#buscar_po").on('click', buscar_po);
 
@@ -708,15 +709,15 @@ function submit_acceso() {
         }
     });
     /**  # Hoja de entrada  **/
-    $("#btn_noregistrar_hojae").click(function(e){           
+    $("#btn_noregistrar_hojae").click(function(e){
         opciones_hoja_entrada('no_registrar');
         e.preventDefault();
-      });
+    });
 
-      $("#btn_registrar_hojae").click(function(e){           
-        opciones_hoja_entrada('registrar');
-        e.preventDefault();
-      });     
+    $("#btn_registrar_hojae").click(function(e){           
+    opciones_hoja_entrada('registrar');
+    e.preventDefault();
+    });     
 
     $("#buscar_hoja_entrada").on('click', buscar_hoja_entrada);
     
@@ -814,7 +815,7 @@ function submit_acceso() {
                 "orderable": false
             } ], 
         'order': [[1, 'asc']]                                                                   
-});
+    });
 
     var _table2 = $("#table_historial").DataTable({
             "deferRender": true,                                                
@@ -846,18 +847,13 @@ function submit_acceso() {
                 targets: 0,
                 render: function (data, type, row) {
                     var _input="";
-                    _input='<input type="radio" name="r2" value="'+ row['id'] +'">';
-                    // if(row['proceso'] < 4 ){
-                    //     _input= '<input type="checkbox" class="editor-historial" value="'+ row['id'] +'" disabled>';
-                    // }else{
-                    //     _input='<input type="checkbox" class="editor-historial" value="'+ row['id'] +'">';
-                    // }                 
+                    _input='<input type="radio" name="r2" value="'+ row['id'] +'">';                                  
                     return _input;                    
                 },                
                 orderable: false,
                 searchable: false
             },{
-                targets: 13,
+                targets: 14,
                 render: function (data, type, row) {
                     var proceso=["Inicio","Calibración","Salida","Facturación","Finalizado"];
                     var bgcolor=["bg-red","bg-yellow","bg-aqua","bg-blue","bg-green"];
@@ -865,11 +861,7 @@ function submit_acceso() {
                 },                
                 orderable: false,
                 searchable: false  
-            }
-            // {
-            //   "targets": 0,
-            //   "orderable": false
-            //   } 
+            }           
             ], 
             'order': [[1, 'asc']]                                                                  
     });
@@ -888,8 +880,7 @@ function submit_acceso() {
     $("#table_historial tbody").on("change", "input[type='radio'][name='r2']", function(){
         if(this.checked){
             var val = $("input[type='radio'][name='r2']:checked").val(); 
-            console.log(val);
-            //comprobar_informeequipo(val); 
+            //console.log(val);           
                var datos= [];                    
                 //console.log(catch_ids[i]);
                 _table2.rows().eq(0).each( function ( index ) {
@@ -899,37 +890,127 @@ function submit_acceso() {
                     if(val == data['id']){
                         datos.push(data);                         
                     }                            
-                });                      
-
-                console.log(datos[0]);
+                });
+                //console.log(datos[0]);
                 $("input[type='number'][name='periodo_calibracion']").val(datos[0]['periodo_calibracion']);
                 $("#periodo_id").val(datos[0]['periodo_id']);
-
                 $("#acreditaciones_id").val(datos[0]['acreditaciones_id']).change();
                 $("#usuarios_calibracion_id").val(datos[0]['usuarios_calibracion_id']).change();
                 $("#calibraciones_id").val(datos[0]['calibraciones_id']).change();
                 $("#empresa_ajax_r").val(datos[0]['empresas_id']).change();
                 planta_temp= datos[0]['plantas_id'];
-
-                //$("#idplanta_ajax_r").val(datos[0]['plantas_id']).change();
-                
-
-                // 
-                // datos[0]['calibraciones_id']
-                // datos[0]['calibrado_por']
-                // datos[0]['periodo_calibracion']
-                // datos[0]['periodo_id'] // Meses o dias
-                // datos[0]['empresas_id']
-                // datos[0]['plantas_id']
-                
-
-
-
         }              
     }); 
 
+    $("input[type='submit']").click ( function(){
+        activarcargandosubmit(1);
+        //Variable de validacion
+          var validacion= true;    
+        //Array de los campos capturados                      
+          var parametro = {
+             0:$("#numero_informe").val(),
+             1:$("input[type='radio'][name='r1']:checked").val() ,
+             2:$("#idplanta_ajax_r").val(),
+
+             3:$("input[name='periodo_calibracion']").val(),
+             4:$("#periodo_id").val(),
+
+             5:$("#acreditaciones_id").val(),
+
+             6:$("#usuarios_calibracion_id").val(),
+
+             7:$("#calibraciones_id").val(),
+
+             8:$("#po_id").val(),
+             9:$("#cantidad").val(),
+
+             10:$("input[type='radio'][name='prioridad']:checked").val(),
+
+             11:$("input[name='num_hojaent']").val(),
+             12:$("#usuarios_id").val(),
+             13:$("input[name='fecha']").val(),                         
+          };
+
+          for(var i=0; i < 14; i++){  //Iteracion hasta 14
+             if(validar(parametro[i]) == false){
+              validacion= false;
+             }
+          }               
+
+          if(validacion == true){                        
+            parametro[14]=$("#tiposubmit").val(),
+            parametro[15]=$("#proceso").val();
+
+            var comentario= $('#comentario').val();            
+            if(detalles == ""){
+                parametro[16]=comentario;
+            }else{
+                if(comentario == "" || comentario== null){
+                    comentario= "Sin comentarios";
+                }
+                parametro[16]= detalles + "_"+ comentario;
+            }                             
+
+            $.ajax({
+              type: 'post',
+              url: "?c=recepcion&a=ajax_store",                        
+              data: parametro
+            }).done(function(data) {
+              var datos = data;              
+              var obj= JSON.parse(datos);
+
+              if(obj.title == "Exitoso"){
+                var url=obj.data[0]['msg'];  
+                //console.log(url);                             
+                window.open(url,'_self'); 
+              }else{
+                var valor= obj.data[0]['msg'];
+                alertas_col12('alertavalidacion', 'danger', valor );                    
+              }             
+              
+              activarcargandosubmit(0);
+            }).fail(function(data) {}).always( function(data) {
+              //console.log(data);
+              activarcargandosubmit(0);
+            });
+
+          }
+          else{
+            // Mostrar alerta de campos no ingresados o seleccionados
+            var valor= "<p>Campo requerido, revisar que no existan campos vacios e intentelo una vez más.</p>";
+            alertas_col12('alertavalidacion', 'danger', valor );
+            activarcargandosubmit(0);
+          }
+
+      });  
    
-   
+    var validar= function(data) {
+        var bool = true;
+        if (data === "" || data === null || data=== 'undefined') {
+            bool = false;
+        }       
+        return bool;
+    }
+
+    var activarcargando= function(activo){
+        if(activo == 1){
+          $('#overlay').addClass('overlay');
+          $('#refresh').addClass('fa fa-refresh fa-spin');
+        }else if(activo == 0){
+          $('#overlay').removeClass('overlay');
+          $('#refresh').removeClass('fa fa-refresh fa-spin');
+        }         
+    }
+
+    var activarcargandosubmit= function(activo){
+        if(activo == 1){
+          $('#overlay_submit').addClass('overlay');
+          $('#refresh_submit').addClass('fa fa-refresh fa-spin');
+        }else if(activo == 0){
+          $('#overlay_submit').removeClass('overlay');
+          $('#refresh_submit').removeClass('fa fa-refresh fa-spin');
+        }         
+    }
 
 }); 
   

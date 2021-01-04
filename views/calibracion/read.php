@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <?php importView('_static.head'); ?>
+        <?php importView('_static.head'); ?>        
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
@@ -181,13 +181,7 @@
                                       <div class="form-group">
                                         <label class="col-sm-3 control-label">Fecha de venc :</label>
                                         <div class="col-sm-9">                                         
-                                         <?php 
-                                          if (strlen($data['get'][0]['fecha_vencimiento']) > 0) {
-                                          echo '<input type="text" name="fecha_vencimiento" id="datepicker_venc" class="form-control pull-right datepicker_aux" value="'.$data['get'][0]['fecha_vencimiento'].'">';
-                                          }
-                                          else{echo '<input type="text" name="fecha_vencimiento" id="datepicker_venc" class="form-control pull-right datepicker">';}                                        
-                                          ?>
-
+                                          <input type="text" name="fecha_vencimiento"  class="form-control pull-right datepicker_venc">
                                         </div>                                        
                                       </div>                                                                        
                                       <div class="form-group">
@@ -304,29 +298,37 @@
         </script>
         <?php importView('_static.scripts'); ?>
         <script>        
-        var fecha_venc= <?php echo isset($data['get'][0]['fecha_vencimiento']) ? $data['get'][0]['fecha_vencimiento']: 'false'; ?>;        
+        var fecha_venc=  <?php echo isset($data['get'][0]['fecha_vencimiento']) ?  "'" .$data['get'][0]['fecha_vencimiento'] . "'": 'false'; ?> ;        
 
           function calcular_fecha(){                      
-            var datecal= $('#fecha_calibracion').val();
+            var datecal= $("#fecha_calibracion").datepicker("getDate");
             var periodo= $('#periodo_calibracion').val();
             var vigencia= $('#periodo_id').val();
-            var setdate= ["","M","days"];
-            
-            var datetemp=moment(datecal);
-            var fechavenc= datetemp.add(periodo, setdate[vigencia]).format('YYYY-MM-DD');  
-            
-            $('#datepicker_venc').datepicker({                
-                autoclose: true,
-                format: 'yyyy-mm-dd'
-            }).datepicker('setDate', fechavenc);
-          }         
+            var setdate= ["","M","days"];            
+            var datetemp=moment(datecal);                        
+            var fechavenc= datetemp.add(periodo, setdate[vigencia]).format('YYYY-MM-DD');
+            var currDate= new Date(datecal);                                
+            $('.datepicker_venc').datepicker({                
+                format: 'yyyy-mm-dd',
+                autoclose: true,                             
+            }).datepicker('setDate', fechavenc);               
+            $('.datepicker_venc').datepicker('setStartDate', currDate);                          
+          }               
 
-        $(document).ready(function() {
-          
+        $(document).ready(function() {                   
           if(fecha_venc == false){
             calcular_fecha();
+          }else{
+            var datecal= $("#fecha_calibracion").datepicker("getDate");
+            var currDate= new Date(datecal);              
+            $('.datepicker_venc').datepicker({                
+                format: 'yyyy-mm-dd',
+                autoclose: true,              
+                //startDate : currDate, //endD,                
+            }).datepicker('setDate', fecha_venc);              
+            $('.datepicker_venc').datepicker('setStartDate', currDate);           
           }
-        
+                
           $( "#periodo_id" ).change(function() {
             calcular_fecha();
           });

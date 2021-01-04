@@ -14,6 +14,9 @@
          <script src="assets/plugins/datepicker/bootstrap-datepicker.js"></script>               
 
         <script src="assets/plugins/daterangepicker/moment.min.js"></script>
+        <script src="assets/plugins/daterangepicker/moment-locales.js"></script>
+        
+
         <script src="assets/plugins/daterangepicker/daterangepicker.js"></script>
         <script src="assets/plugins/iCheck/icheck.js"></script>
         <script src="assets/plugins/input-mask/jquery.inputmask.bundle.js"></script>

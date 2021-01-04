@@ -57,24 +57,25 @@
             <!-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\  -->
             <!--                                                   -->
             <!--          Notificaciones para administradores      -->            
-            <!--     Autorización de equipos con series repetidas  -->
+            <!--       Autorización de equipos para registrar      -->
+            <!--                en otro informe                    -->
             <!--                                                   -->
             <!-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
 
             <?php if(Session::has('roles_id',['10000','10002','10007'])){ ?>
                 <li class="dropdown messages-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                      <i class="fa fa-cubes text-white"></i>
+                      <i class="fa fa-file-pdf-o text-white"></i>
                       <span class="label label-warning" id="notification_number_3"></span>
                     </a>
                     <ul class="dropdown-menu">
-                      <li class="header" id="notification_header_3">No hay Equipos pendientes por autorizar</li>
+                      <li class="header" id="notification_header_3">No hay informes pendientes por autorizar</li>
                       <li>                        
                         <ul class="menu" id="notification_menu_3">
                            
                         </ul>
                       </li>
-                      <li class="footer"><a href="?c=equipos&a=autorizacion">Ver lista completa</a></li>
+                      <li class="footer"><a href="?c=informes&a=autorizacion">Ver lista completa</a></li>
                     </ul>
                 </li>
             <?php } ?>  
@@ -85,23 +86,8 @@
             <!--                                                   -->
             <!-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
 
-            <?php if(Session::has('roles_id',['10000','10002','10007'])){ ?>
-                <li class="dropdown messages-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                      <i class="fa fa-file-pdf-o text-white"></i>
-                      <span class="label label-warning" id="notification_number_4"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                      <li class="header" id="notification_header_4">No hay informes pendientes por autorizar</li>
-                      <li>                        
-                        <ul class="menu" id="notification_menu_4">
-                           
-                        </ul>
-                      </li>
-                      <li class="footer"><a href="?c=informes&a=autorizacion">Ver lista completa</a></li>
-                    </ul>
-                </li>
-            <?php } ?> 
+        
+
             <!-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\  -->
             <!--                                                   -->
             <!--             Notificaciones para PO                -->            

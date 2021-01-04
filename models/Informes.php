@@ -22,6 +22,12 @@ class Informes extends Model {
         $this->get_results_from_query();
         return $this->rows;
     }
+
+    public function equipos_autorizar_notification(){
+        $this->query= "SELECT id, fecha_hoja_entrada as fecha, CONCAT(alias,',', descripcion,',',marca,',',modelo,',',serie) as equipo, CONCAT(empresa,',',planta) as cliente FROM view_".$this->table." WHERE reqautorizacion = 1;";        
+        $this->get_results_from_query();
+        return $this->rows;
+    }
     
 
     public function datos_equipo($id){
@@ -53,7 +59,7 @@ class Informes extends Model {
 
     public function get_recepcion($id,$view){
         //$this->query= "SELECT id as id, idequipo, alias as equipos_id,descripcion,marca,modelo,serie,empresas_id,plantas_id,periodo_calibracion,acreditaciones_id,usuarios_calibracion_id,calibraciones_id,prioridad,comentarios,po_id,cantidad,numero_hoja_entrada as hojas_entrada_id,usuarios_id_hoja_entrada as usuarios_id,fecha_hoja_entrada as fecha,proceso  FROM ".$view." WHERE id = ". $id.";";
-        $this->query= "SELECT id as id, idequipo, alias as equipos_id,descripcion,marca,modelo,serie,equipo_activo,empresas_id,plantas_id,periodo_calibracion,acreditaciones_id,usuarios_calibracion_id,calibraciones_id,prioridad,comentarios,po_id,cantidad,numero_hoja_entrada as hojas_entrada_id,usuarios_id_hoja_entrada as usuarios_id,fecha_hoja_entrada as fecha,proceso,periodo_id  FROM ".$view." WHERE id = ". $id.";";
+        $this->query= "SELECT id as id, idequipo, alias as equipos_id,descripcion,marca,modelo,serie,equipo_activo,empresas_id,plantas_id,periodo_calibracion,acreditaciones_id,usuarios_calibracion_id,calibraciones_id,prioridad,comentarios,po_id,cantidad,numero_hoja_entrada as hojas_entrada_id,usuarios_id_hoja_entrada as usuarios_id,fecha_hoja_entrada as fecha,proceso,periodo_id,reqautorizacion  FROM ".$view." WHERE id = ". $id.";";
         $this->get_results_from_query();       
         return $this->rows;
     }    
@@ -122,6 +128,35 @@ class Informes extends Model {
             if($proceso < 4){redirect($array_pages[$proceso].$id); }
             else{redirect($array_pages[$proceso]);}
         }   
+    }
+
+    public function _redirecajax($rol,$proceso,$id){
+
+        $retorno="";
+        $array_pages= array('?c=recepcion','?c=calibracion&a=index&p=','?c=salida&a=index&p=','?c=factura&a=index&p=','?c=recepcion');
+        // 1 condición de recepción si el técnico esta en proceso de entrada, lo  va a pasar a calibración
+        if($rol==3 and ($proceso==0 || $proceso==1) ){
+             $retorno= $array_pages[1].$id;
+        } 
+        else if($rol != 3 and $proceso==0){
+            $retorno=$array_pages[$proceso];
+        }else if($rol != 3 and $proceso==1){
+            $retorno=$array_pages[$proceso].$id;
+        }
+        // 2 condición de recepción si el técnico esta en proceso calibracion, lo regresa a su lista de equipos a calibrar
+        if($rol==3 and $proceso > 1) {
+            $retorno= '?c=informes&a=calibrar';
+        } // Regreso al técnico a su historial de equipos.
+        else if($proceso > 1){ 
+            // proceso [2,3,4]
+            if($proceso < 4){
+                $retorno=$array_pages[$proceso].$id; 
+            }
+            else{
+                $retorno=$array_pages[$proceso];
+            }
+        } 
+        return $retorno;  
     }
 
     /*
@@ -467,6 +502,13 @@ class Informes extends Model {
         return $retorno;
     }
     
+    public function validar_informe_equipo($id,$equipo,$table){
+        $this->query= "SELECT count(*) as estado FROM ". $table ." where id=". $id ." and idequipo=". $equipo. ";";
+        $this->get_results_from_query();         
+        $data= $this->rows;        
+        $retorno = ($data[0]['estado'] == 1) ? true:false;
+        return $retorno;
+    }
 
 
 }

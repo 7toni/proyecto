@@ -91,7 +91,9 @@
                     //"colReorder": true,                
                     "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
                     "autoWidth": true,           
-                    "scrollX": true,                                
+                    "scrollX": true,
+                    "scrollY": "500px",
+                    "scrollCollapse": true,                                
                     "columnDefs": [{
                             "width": "50px",
                             "targets": -1,                       

@@ -72,8 +72,10 @@
             "serverSide": true,
             "dataType": "jsonp",
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-             "autoWidth": false,
-             "scrollX": true,           
+            "autoWidth": false,
+            "scrollX": true,
+            "scrollY": "500px",
+            "scrollCollapse": true,           
             "columnDefs": [{
                     "targets": -1,
                     "data": null,
