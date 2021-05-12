@@ -25,15 +25,15 @@
         $("[name='alertas']").remove();
         if (tipo == 'correcto') {
             $("#" + alerta + "").before(
-                "<div class='form-group' name='alertas'>" + "<div class='col-sm-3'> </div>" + "<div class='col-sm-9'> " + "<div class='alert alert-success alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-check'></i> Alerta!</h4>" + "Resultados correctos." + "</div>" + "</div>" + "</div>");
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-3'> </div>" + "<div class='col-sm-9'> " + "<div class='alert alert-success alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-check'></i> Alerta!</h4><h4>Resultados correctos.</h4></div>" + "</div>" + "</div>");
         }
         if (tipo == 'vacio') {
             $("#" + alerta + "").before(
-                "<div class='form-group' name='alertas'>" + "<div class='col-sm-3'> </div>" + "<div class='col-sm-9'> " + "<div class='alert alert-info alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-info'></i> Alerta!</h4>" + "No se ha encontrado resultados, verifique su información." + valor + "</div>" + "</div>" + "</div>");
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-3'> </div>" + "<div class='col-sm-9'> " + "<div class='alert alert-info alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-info'></i> Alerta!</h4><h4>No se ha encontrado resultados, verifique su información." + valor + "</h4></div>" + "</div>" + "</div>");
         }
         if (tipo == 'requerido') {
             $("#" + alerta + "").before(
-                "<div class='form-group' name='alertas'>" + "<div class='col-sm-3'> </div>" + "<div class='col-sm-9'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + "Campo requerido, favor de ingresar " + valor + " correctamente. Intente una vez más." + "</div>" + "</div>" + "</div>");
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-3'> </div>" + "<div class='col-sm-9'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4><h4>Campo requerido, favor de ingresar " + valor + " correctamente. Intente una vez más.</h4></div>" + "</div>" + "</div>");
         }
     }
 
@@ -41,19 +41,19 @@
         $("[name='alertas']").remove();
         if (tipo == 'correcto') {
             $("#" + alerta + "").before(
-                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-success alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-check'></i> Alerta!</h4>" + "Resultados correctos." + "</div>" + "</div>" + "</div>");
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-success alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-check'></i> Alerta!</h4><h4><h4>Resultados correctos.</h4></div>" + "</div>" + "</div>");
         }
         if (tipo == 'vacio') {
             $("#" + alerta + "").before(
-                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-info alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-info'></i> Alerta!</h4>" + "No se ha encontrado resultados, verifique su información." + valor + "</div>" + "</div>" + "</div>");
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-info alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-info'></i> Alerta!</h4><h4>" + "No se ha encontrado resultados, verifique su información." + valor + "</h4></div>" + "</div>" + "</div>");
         }
         if (tipo == 'requerido') {
             $("#" + alerta + "").before(
-                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + "Campo requerido, favor de ingresar " + valor + " correctamente. Intente una vez más." + "</div>" + "</div>" + "</div>");
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4><h4>" + "Campo requerido, favor de ingresar " + valor + " correctamente. Intente una vez más. </h4></div>" + "</div>" + "</div>");
         }
         if (tipo == 'error') {
             $("#" + alerta + "").before(
-                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + valor + " </div>" + "</div>" + "</div>");
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4><h4>" + valor + "</h4> </div>" + "</div>" + "</div>");
         }
     }
 
@@ -61,19 +61,19 @@
         $("[name='alertas']").remove();
         if (tipo == 'success') {
             $("#" + alerta + "").before(
-                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-success alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-check'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-success alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-check'></i> Alerta!</h4><h4>" + valor + "</h4></div>" + "</div>" + "</div>");
         }
         if (tipo == 'info') {
             $("#" + alerta + "").before(
-                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-info alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-info'></i> Alerta!</h4>" + valor + "</div>" + "</div>" + "</div>");
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-info alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-info'></i> Alerta!</h4><h4>" + valor + "</h4></div>" + "</div>" + "</div>");
         }
         if (tipo == 'warning') {
             $("#" + alerta + "").before(
-                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-warning alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4>" +  valor + "</div>" + "</div>" + "</div>");
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-warning alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-warning'></i> Alerta!</h4><h4>" + valor + "</h4></div>" + "</div>" + "</div>");
         }
         if (tipo == 'danger') {
             $("#" + alerta + "").before(
-                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4>" + valor + " </div>" + "</div>" + "</div>");
+                "<div class='form-group' name='alertas'>" + "<div class='col-sm-12'> " + "<div class='alert alert-danger alert-dismissible'>" + "<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>" + "<h4><i class='icon fa fa-ban'></i> Alerta!</h4><h4>" + valor + "</h4> </div>" + "</div>" + "</div>");
         }
     }
     
@@ -502,7 +502,7 @@
             format: 'yyyy-mm-dd'
         }); 
 
-        /* Datarange libreria*/
+        /* Datarange libreria*/        
         $('#daterange-text').daterangepicker(
             {
           ranges: {

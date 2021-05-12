@@ -16,7 +16,7 @@
                         <div class="col-xs-12">
                             <div class="box box-primary">
                                 <div class="box-header">
-                                    <h3 class="box-title with-border">Listado de <?php echo $this->name; ?></h3>
+                                    <h3 class="box-title with-border">Autorización de equipo(s)</h3>
                                     <div class="box-tools pull-right">                                        
                                         <a href="?c=<?php echo $this->name; ?>&a=add" class="btn btn-primary btn-md btn-flat">Agregar nuevo</a>
                                         <!-- <a href="?c=<?php echo $this->name; ?>&a=volumen" class="btn btn-info btn-md btn-flat">Agregar por volumen</a> -->

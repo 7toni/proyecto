@@ -11,24 +11,7 @@
               <section class="content-header">
                     <h1><?php echo $this->title; ?><small><?php echo $this->subtitle.' '. $this->sucursal; ?></small></h1>
               </section>
-              <section class="content">
-                  <div class="row">
-                        <div class="col-xs-12">
-                            <div class="box box-default">
-                                <div class="box-header">
-                                    <h3 class="box-title">Proceso De <?php echo $this->title; ?></h3>
-                                    <hr>
-                                   <div class="progress progress-striped active">                              
-                                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 25%"> 25%                  
-                                    </div>                                     
-                                    </div>
-                                </div>
-                                <!-- /.box-header -->
-                                <div class="box-body">                                
-                                </div>                            
-                             </div>                                                
-                        </div>
-                  </div>
+              <section class="content">                 
                     <?php if ($error = Flash::hasError()) { ?>
                       <div class="alert alert-warning alert-dismissible">
                           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -43,7 +26,7 @@
                 <form method="POST" novalidate="" autocomplete="off"  action="?c=<?php echo $this->name; ?>&a=store" role="form" enctype="multipart/form-data"> 
                   <div class="row">
                     <div class="col-lg-6">
-                        <div class="box box-default">                                 
+                        <div class="box box-primary">
                               <div class="box-header">
                                 <h3 class="box-title"> Datos de <?php echo $this->title; ?></h3>
                                 <div class="box-tools pull-right">
@@ -75,7 +58,7 @@
                                             <option value="">Seleccione una opción</option> 
                                             <?php
                                             foreach ($data['tecnico'] as $tecnico) {
-                                              if($tecnico['roles_id']== '10003' || $tecnico['roles_id']== '10002' || $tecnico['roles_id']== '10004'){
+                                              if($tecnico['roles_id']== '10003' || $tecnico['roles_id']== '10002' || $tecnico['roles_id']== '10004' || $tecnico['roles_id']== '10007'){
                                                 if ($data['get'][0]['usuarios_calibracion_id'] === $tecnico['id']) {
                                                   echo '<option value="'.$tecnico['id'].'" selected="selected">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>';
                                                 }
@@ -100,7 +83,7 @@
                                             <option value="">Seleccione una opción</option> 
                                             <?php
                                             foreach ($data['tecnico'] as $tecnico) {
-                                              if($tecnico['roles_id']== '10003' || $tecnico['roles_id']== '10002' || $tecnico['roles_id']== '10004'){
+                                              if($tecnico['roles_id']== '10003' || $tecnico['roles_id']== '10002' || $tecnico['roles_id']== '10004'|| $tecnico['roles_id']== '10007'){
                                                   if (strlen($data['get'][0]['usuarios_informe_id']) > 0 and $data['get'][0]['usuarios_informe_id'] === $tecnico['id']) {echo '<option value="'.$tecnico['id'].'" selected="selected">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>';
                                                       }
                                                   else if ($data['get'][0]['usuarios_informe_id'] === $tecnico['id']) {
@@ -211,7 +194,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <div class="box box-default">                                 
+                        <div class="box box-primary">
                               <div class="box-header">
                                 <h3 class="box-title"> Datos del equipo</h3>
                               </div>
@@ -246,7 +229,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        <div class="box box-default">                                 
+                        <div class="box box-primary">                                 
                               <div class="box-header">
                                 <h3 class="box-title"> Datos del cliente</h3>
                               </div>

@@ -16,7 +16,7 @@
                         <div class="col-xs-12">
                             <div class="box box-primary">
                                 <div class="box-header  with-border">
-                                    <h3 class="box-title">Eliminación de <?php echo $this->name; ?></h3>
+                                    <h3 class="box-title">Eliminar modelo</h3>
                                 </div>
                                 <div class="box-body">
                                     <?php if ($error = Flash::hasError()) { ?>

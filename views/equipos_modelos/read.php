@@ -16,7 +16,7 @@
                         <div class="col-xs-12">
                             <div class="box box-primary">
                                 <div class="box-header">
-                                    <h3 class="box-title">Listado de <?php echo $this->name; ?></h3>
+                                    <h3 class="box-title">Listado de modelos</h3>
                                     <a href="?c=<?php echo $this->name; ?>&a=add" class="btn btn-primary btn-md pull-right btn-flat">Agregar nuevo</a>
                                 </div>
                                 <!-- /.box-header -->

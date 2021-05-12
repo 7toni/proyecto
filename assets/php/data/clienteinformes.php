@@ -32,18 +32,19 @@ $array1 = array(
     array('db' => 'comentarios', 'dt' => 13),
     array('db' => 'estado_calibracion', 'dt' => 14),    
     array('db' => 'proceso', 'dt' => 15),
+    array('db' => 'id_equipo', 'dt' => 16),
 );
     if($ext=="_nconti")
     {
         $array2= array(
-            array('db'=> 'continental_id','dt'=>16),    
-            array('db'=> 'um','dt'=>17),
-            array('db'=> 'inv_date','dt'=>18),
-            array('db'=> 'actual','dt'=>19),
-            array('db'=> 'location','dt'=>20),
-            array('db'=> 'cal_cycle','dt'=>21),
-            array('db'=> 'frecuency','dt'=>22),
-            array('db'=> 'cost_center','dt'=>23),   
+            array('db'=> 'continental_id','dt'=>17),    
+            array('db'=> 'um','dt'=>18),
+            array('db'=> 'inv_date','dt'=>19),
+            array('db'=> 'actual','dt'=>20),
+            array('db'=> 'location','dt'=>21),
+            array('db'=> 'cal_cycle','dt'=>22),
+            array('db'=> 'frecuency','dt'=>23),
+            array('db'=> 'cost_center','dt'=>24),   
 
             );
     }

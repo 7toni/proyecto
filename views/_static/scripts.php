@@ -9,15 +9,13 @@
         <script src="assets/plugins/fastclick/fastclick.js"></script>
         <script src="assets/plugins/select2/select2.full.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/i18n/es.js"></script>
-         <!-- date-range-picker -->
-
-         <script src="assets/plugins/datepicker/bootstrap-datepicker.js"></script>               
-
+         <!-- date-range-picker -->         
         <script src="assets/plugins/daterangepicker/moment.min.js"></script>
-        <script src="assets/plugins/daterangepicker/moment-locales.js"></script>
+        <!-- <script src="assets/plugins/daterangepicker/moment-locales.js"></script>         -->
+        <script src="assets/plugins/daterangepicker/daterangepicker.js"></script>                
+        <!-- bootstrap datepicker -->
+        <script src="assets/plugins/datepicker/bootstrap-datepicker.js"></script>
         
-
-        <script src="assets/plugins/daterangepicker/daterangepicker.js"></script>
         <script src="assets/plugins/iCheck/icheck.js"></script>
         <script src="assets/plugins/input-mask/jquery.inputmask.bundle.js"></script>
         <script src="assets/plugins/slimScroll/jquery.slimscroll.js"></script>
@@ -45,8 +43,10 @@
         <script src="assets/js/scripts.js"></script>
         
         <?php
-        if($_SESSION['script'] != NULL){                
-                echo '<script src="assets/js/'.$_SESSION['script'].'.js"></script>';
+        if($_SESSION['script'] != NULL){ 
+                if($_SESSION['submenu'] != 'actualizarvol'){
+                        echo '<script src="assets/js/'.$_SESSION['script'].'.js"></script>';
+                }               
         }
         ?>
         

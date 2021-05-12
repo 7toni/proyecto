@@ -12,63 +12,8 @@
                     <h1><?php echo $this->title; ?><small><?php echo $this->subtitle; ?></small></h1>
                 </section>
                 <section class="content">
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <div class="box box-solid">
-                                <div class="box-header with-border">
-                                <h3 class="box-title">Actualizar informes por volumen</h3>
-
-                                <div class="box-tools">
-                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                    </button>
-                                </div>
-                                </div>
-                                <div class="box-body no-padding">
-                                <ul class="nav nav-pills nav-stacked">
-                                    <li class="active"><a data-toggle="modal" data-target="#modal-default"><i class="fa fa-upload"></i>Importar </a></li>                                 
-                                    <li><a href="#"><i class="fa fa-envelope-o"></i> Comprobar datos</a></li>
-                                    <li><a href="#"><i class="fa fa-file-text-o"></i> Actualizar informe</a></li>                                    
-                                </ul>
-                                </div>
-                                <!-- /.box-body -->
-                            </div>
-                        </div>
-                        <div class="col-lg-9">
-                        </div> 
-                        
-                        <div class="modal modal-default fade" id="modal-default">
-                            <div class="modal-dialog ">
-                                <div class="modal-content">
-                                <div class="modal-header bg-blue" >                         
-                                    <h2 class="modal-title"><i class="fa fa-bullhorn"></i> Importar datos </h2>
-                                </div>
-                                <div class="modal-body"> 
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <div class="btn btn-default bg-blue btn-file">
-                                                    <i class="fa fa-paperclip"></i> Seleccionar archivo
-                                                    <input type="file" name="attachment">                                            
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-9" style="padding: 10 10 10 10 px">
-                                            <spam class="help-block pull-left">Max. 32MB</spam>
-                                        </div>
-                                    </div>                                
-                                </div>
-                                <div class="modal-footer ">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-primary pull-right bg-blue">Aceptar</button>
-                                </div>
-                                </div>
-                                <!-- /.modal-content -->
-                            </div>
-                            <!-- /.modal-dialog -->
-                        </div>
-                        <!-- /.modal -->
-
-                        <!-- <div class="col-md-12">
+                    <div class="row">                                          
+                        <div class="col-md-12">
                             <div class="box box-primary">
                                 <div class="box-header with-border">
                                     <h3 class="box-title">Actualización de informes por volumen</h3>
@@ -83,7 +28,7 @@
                                             <div class="form-group">
                                                 <div class="btn btn-default btn-file btn-block">
                                                     <span class="mailbox-attachment-icon"><i class="fa fa-file-excel-o"></i></span>
-                                                    <input type="file" id="file" accept="..xlsx">                                                    
+                                                    <input type="file" id="file" accept=".csv">                                                    
                                                 </div>                                                 
                                                 <div class="mailbox-attachment-info" id="infofile">
                                                     <label class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> *.csv</label>
@@ -109,7 +54,8 @@
                                                             <div class="info-box-content">
                                                                 <span class="info-box-text">Cargar</span>
                                                                 <span class="info-box-number">Información</span>
-                                                            </div>                                                            
+                                                            </div>
+                                                            <!-- /.info-box-content -->
                                                         </div>                                            
                                                     </div>
                                                 </div>
@@ -135,6 +81,7 @@
                                                             <span class="info-box-text">Validar</span>
                                                             <span class="info-box-number">Información</span>
                                                             </div>
+                                                            <!-- /.info-box-content -->
                                                         </div>                                                 
                                                     </div>                                                
                                                 </div>
@@ -160,6 +107,7 @@
                                                             <span class="info-box-text">Actualizar</span>
                                                             <span class="info-box-number">Bitacora</span>
                                                             </div>
+                                                            <!-- /.info-box-content -->
                                                         </div> 
                                                     </div>                                                 
                                                 </div>
@@ -174,7 +122,8 @@
 
                                     <div class="row" id="row_table1">
                                         <div class="col-md-12 ">
-                                            <div class="box-body">                                                 
+                                            <div class="box-body">
+                                                 <!-- <div class="table-responsive no-padding"> -->
                                                 <div class="table-responsive">
                                                     <table id="table_volumen" class="table table-bordered table-hover" rol="grid"> 
                                                         <thead>
@@ -234,6 +183,7 @@
                                     <div class="row" id="row_table2">
                                         <div class="col-md-12 ">
                                             <div class="box-body">
+                                                <!-- <div class="table-responsive no-padding"> -->
                                                 <div class="table-responsive">
                                                     <table id="table_volumen2" class="table table-bordered table-hover" rol="grid"> 
                                                         <thead>
@@ -247,7 +197,8 @@
                                                                 <td>Empresa</td>
                                                                 <td>Planta</td>
                                                                 <td>PO</td>
-                                                                <td>Cantidad</td>                                                                                                                     
+                                                                <td>Cantidad</td>
+                                                                <!-- <td>id Planta</td> -->                                                        
                                                                 <td>Acreditación</td>
                                                                 <td>Tipo Calibración</td>
                                                                 <td>Hoja Ent.</td>
@@ -274,7 +225,8 @@
                                                                 <td>Empresa</td>
                                                                 <td>Planta</td>
                                                                 <td>PO</td>
-                                                                <td>Cantidad</td>                                                                
+                                                                <td>Cantidad</td>
+                                                                <!-- <td>id Planta</td> -->                                                        
                                                                 <td>Acreditación</td>
                                                                 <td>Tipo Calibración</td>
                                                                 <td>Hoja Ent.</td>
@@ -300,8 +252,8 @@
                                 <div class="box-footer">                                    
                                 </div>
                             </div>
-                        </div> -->
-                    </div>
+                        </div>
+                </div>
                 </section>
             </div>
             <?php importView('_static.footer'); ?>
@@ -310,6 +262,7 @@
             var controller = "<?php echo $this->name; ?>";
         </script>        
         <?php importView('_static.scripts'); ?>
+
         <script type="text/javascript"> 
             var dataBitacora="";
             $(document).ready(function() {
@@ -644,41 +597,43 @@
                     $('#overlay3').addClass('overlay');
                     $('#refresh3').addClass('fa fa-refresh fa-spin');
 
-                    $.ajax({
-                        url: '?c=recepcion&a=ajax_storevolcsv',                                                
-                        type:'POST',                        
-                        data: {data:frmData},                                              
-                        success:function(data) {
-                            var datos = data;                            
-                            var obj= JSON.parse(datos);
-                            //console.log(obj);                                                      
-                            if(obj==true){
-                                alertas_tipo_valor_col12('alerta_volumen','correcto','Los datos fueron registrados correctamente.');                                
-                                var table = $('#table_volumen2').DataTable();
-                                    table
-                                        .clear();
-                                $('#row_table1').hide();
-                                $('#row_table2').hide();
-                                /* ******************************** */
-                                $('#cargarfile').hide();
-                                $('#cargarfiledisabled').show();
-                                $('#comprobardatos').hide();
-                                $('#comprobardatosdisabled').show();
-                                $('#submit').hide();
-                                $('#submitdisabled').show();
-                                /* ******************************** */
-                                document.getElementById("file").disabled = false;
-                            }
-                            else{
-                                alertas_tipo_valor_col12('alerta_volumen','error','Error al actualizar la bitacora, revisar si alguna información esta incorrecta y favor de reportar el error con el administrador. Gracias!');
-                            }
-                            $('#overlay3').removeClass('overlay');
-                            $('#refresh3').removeClass('fa fa-refresh fa-spin');
-                        },
-                        error: function (response) {
-                            console.log(response);                            
-                        }
-                    });                    
+                    console.log(frmData);
+
+                    // $.ajax({
+                    //     url: '?c=recepcion&a=ajax_storevolcsv',                                                
+                    //     type:'POST',                        
+                    //     data: {data:frmData},                                              
+                    //     success:function(data) {
+                    //         var datos = data;                            
+                    //         var obj= JSON.parse(datos);
+                    //         //console.log(obj);                                                      
+                    //         if(obj==true){
+                    //             alertas_tipo_valor_col12('alerta_volumen','correcto','Los datos fueron registrados correctamente.');                                
+                    //             var table = $('#table_volumen2').DataTable();
+                    //                 table
+                    //                     .clear();
+                    //             $('#row_table1').hide();
+                    //             $('#row_table2').hide();
+                    //             /* ******************************** */
+                    //             $('#cargarfile').hide();
+                    //             $('#cargarfiledisabled').show();
+                    //             $('#comprobardatos').hide();
+                    //             $('#comprobardatosdisabled').show();
+                    //             $('#submit').hide();
+                    //             $('#submitdisabled').show();
+                    //             /* ******************************** */
+                    //             document.getElementById("file").disabled = false;
+                    //         }
+                    //         else{
+                    //             alertas_tipo_valor_col12('alerta_volumen','error','Error al actualizar la bitacora, revisar si alguna información esta incorrecta y favor de reportar el error con el administrador. Gracias!');
+                    //         }
+                    //         $('#overlay3').removeClass('overlay');
+                    //         $('#refresh3').removeClass('fa fa-refresh fa-spin');
+                    //     },
+                    //     error: function (response) {
+                    //         console.log(response);                            
+                    //     }
+                    // });                    
                     
                 });
                 

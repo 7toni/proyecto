@@ -11,24 +11,7 @@
                 <section class="content-header">
                     <h1><?php echo $this->title; ?><small><?php echo $this->subtitle.' '. $this->sucursal; ?></small></h1>
                 </section>
-                <section class="content">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="box box-default">
-                                <div class="box-header">
-                                    <h3 class="box-title">Proceso De <?php echo $this->title; ?></h3>
-                                    <hr>
-                                    <div class="progress progress-striped active">                              
-                                      <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 50%"> 50%                  
-                                      </div>                                     
-                                    </div>
-                                </div>
-                                <!-- /.box-header -->
-                                <div class="box-body">                                
-                                </div>                            
-                             </div>                                                
-                        </div>
-                    </div>
+                <section class="content">                    
                     <?php if ($error = Flash::hasError()) { ?>
                       <div class="alert alert-warning alert-dismissible">
                           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -45,7 +28,7 @@
                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <form method="POST" novalidate="" autocomplete="off"  action="?c=<?php echo $this->name; ?>&a=store" role="form" enctype="multipart/form-data">
                           <div class="col-lg-12">
-                              <div class="box box-default">
+                              <div class="box box-primary">
                                   <div class="box-header with-border">
                                       <h3 class="box-title">Datos de <?php echo $this->title; ?></h3>
                                       <div class="box-tools pull-right">
@@ -273,7 +256,7 @@
                       <!-- ******** ////////////////////////////////////////////////////////////////// ******** -->
                       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="col-lg-12">
-                          <div class="box box-default"> <div class="box-header">
+                          <div class="box box-primary"> <div class="box-header">
                                   <h3 class="box-title"> Datos del equipo</h3>
                                 </div>
                                 <div class="box-body"> 
@@ -307,7 +290,7 @@
                           </div>
                         </div>
                         <div class="col-lg-12">
-                          <div class="box box-default">
+                          <div class="box box-primary">
                               <div class="box-header">
                                 <h3 class="box-title"> Datos del cliente</h3>
                               </div>

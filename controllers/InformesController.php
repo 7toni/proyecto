@@ -165,8 +165,7 @@ class InformesController
 		$datos = $_POST[1];								
 		
 		$usuario=Session::get('email');
-		$mensaje="";
-		
+		$mensaje="";		
 		$retorno= array();				
 
 		for($i=0; $i< sizeof($datos);$i++){
@@ -200,12 +199,63 @@ class InformesController
 			else{					
 				array_push($retorno,$data['id']);
 			}			
-		}			
-		
+		}					
 		echo json_encode($retorno);
 
 	}
 
+	public function scaninforme(){								
+		include view($this->name.'.scaninforme');
+	}
+
+	public function ajax_scaninforme(){			
+		$sucursal= array('NOGALES'=>'_n','HERMOSILLO'=>'_h','GUAYMAS'=>'_g');		
+		$array = $_POST['data'];									
+		$data= array();
+		foreach($array as $row => $value ){											
+			if($value != ""){
+				$nombre_fichero = 'storage/informes'.$sucursal[$this->sucursal].'/'. $value.'.pdf';	
+				if (!file_exists($nombre_fichero)){
+					$data[]= $value;
+				}
+			}																			
+		}
+		echo json_encode($data);
+	}
+
+	public function existsinforme(){
+		if (isset($_POST['id'])){
+			$id=$_POST['id'];
+			$file='storage/informes'.$this->ext.'/'.$id.'.pdf';	
+			if (is_file($file)) {
+				$return=true;
+			}else{
+				$return=false;
+			}
+		}else{
+			$return=false;
+		}
+		echo json_encode($return);
+	}
+
+	public function ajax_historial(){
+		$id = $_POST['informe'];			
+		$view_informes="view_informes". $this->ext."_v1";				
+		$query="SELECT * FROM {$view_informes} where idequipo = (select idequipo from {$view_informes} where id={$id}) order by id desc;";
+		
+		$data=$this->model['informe']->get_query_informe($query);		
+		if(sizeof($data) > 0){
+			foreach($data as $row => $value){				
+				$file='storage/informes'.$this->ext.'/'. $value['id'].'.pdf';
+				if (is_file($file)) {
+					$data[$row]['isfile']="1";
+				}else{
+					$data[$row]['isfile']="0";
+				}
+			}
+		}
+		echo json_encode($data);
+	}
 	
 	
 }

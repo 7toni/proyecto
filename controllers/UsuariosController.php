@@ -178,9 +178,7 @@ class UsuariosController {
         }
     }
 
-    public function update() {  
-        
-        
+    public function update() {        
         $data = validate($_POST, [
             'id' => 'required|exists:usuarios',
             'nombre' => 'required|ucwords',
@@ -287,7 +285,6 @@ class UsuariosController {
         $data["password"] = Crypt::encrypt($data["password"]);
         if ($this->model['usuario']->update($data)) {
             header('Location: ' . $_SERVER['HTTP_REFERER']);
-
             //redirect('?c=' . $this->name);
         } else {
             Flash::error(setError('002'));

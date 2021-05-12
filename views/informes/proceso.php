@@ -63,8 +63,8 @@
                                                 <th>Comentarios</th>
                                                 <th>Estado</th>
                                                 <th>Proceso</th>                                                
-                                                <th>%</th>
-                                                <th>Capturar</th>
+                                                <th>Proceso </th>
+                                                <th>+ opciones</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
@@ -100,8 +100,8 @@
                                                 <th>Comentarios</th>
                                                 <th>Estado</th>
                                                 <th>Proceso</th>                                                
-                                                <th>%</th>
-                                                <th>Capturar</th>
+                                                <th>Proceso</th>
+                                                <th>+ opciones</th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -143,7 +143,6 @@
         <script type="text/javascript">
 
             var id=0;
-
             informes_off = function(value) {                
                 id=value;
                 $("[name='body_cancel']").remove();

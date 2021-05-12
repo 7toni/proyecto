@@ -18,7 +18,7 @@
                                 <div class="box-header with-border">
                                     <h3 class="box-title"> Registro de equipos por volumen</h3>
                                     <div class="pull-right box-tools">
-                                    <button type="button" class="btn btn-info " id="downloadcsv"><i class="fa fa-download"></i> Descargar formato.csv</button>
+                                    <button type="button" class="btn btn-default " id="downloadcsv"><i class="fa fa-download"></i> Descargar formato.csv</button>
                                         <button type="button" class="btn btn-primary btn-sm" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">                                        
                                         <i class="fa fa-minus"></i></button>                                         
                                     </div>
@@ -150,7 +150,7 @@
                                             <div class="box-body">
                                                  <!-- <div class="table-responsive no-padding"> -->
                                                 <div class="table-responsive">
-                                                    <table id="table_volumen" class="table table-bordered table-hover" rol="grid"> 
+                                                    <table id="table_volumen" class="table table-bordered table-condensed" rol="grid"> 
                                                         <thead>
                                                             <tr>                                                                
                                                                 <td>Clave</td>
@@ -354,8 +354,7 @@
 
                 $("#comprobardatos").click(function(){
                     var table = $('#table_volumen').DataTable();
-                        table
-                            .clear();                                    
+                        table.clear();
                     var frmData= JSON.stringify(dataEquipo);
                     //console.log(frmData);
                     var entro=false;                    
@@ -414,6 +413,10 @@
                                             if(row[9] == "0"){ 
                                                 entro=true;
                                                 retorno="<span data-toggle='tooltip' title='' class='badge bg-red' data-original-title='El modelo no se encuentra registrado.Verificar información antes de registrar.'>Alerta!</span>";
+                                            } 
+                                            if(row[10] == "1"){ 
+                                                entro=true;
+                                                retorno="<span data-toggle='tooltip' title='' class='badge bg-red' data-original-title='Detectamos que entre los registros hay claves repetidas, favor de verificar.'>Alerta!</span>";
                                             }                                                                                      
                                             return retorno;
                                         }
@@ -475,7 +478,7 @@
                 $("#submit").click(function(){
                     var frmData= JSON.stringify(dataEquipo);                    
                     $('#overlay3').addClass('overlay');
-                    $('#refresh3').addClass('fa fa-refresh fa-spin');
+                    $('#refresh3').addClass('fa fa-refresh fa-spin');                
 
                     $.ajax({
                         url: '?c=equipos&a=ajax_storevolcsv',                                                
@@ -483,29 +486,34 @@
                         data: {data:frmData},                                              
                         success:function(data) {
                             var datos = data;                            
-                            var obj= JSON.parse(datos);
-                            console.log(obj);                                                      
-                            
-                            // if(obj==true){
-                            //     alertas_tipo_valor_col12('alerta_volumen','correcto','Los datos fueron registrados correctamente.');                                
-                            //     var table = $('#table_volumen2').DataTable();
-                            //         table
-                            //             .clear();
-                            //     $('#row_table1').hide();
-                            //     $('#row_table2').hide();
-                            //     /* ******************************** */
-                            //     $('#cargarfile').hide();
-                            //     $('#cargarfiledisabled').show();
-                            //     $('#comprobardatos').hide();
-                            //     $('#comprobardatosdisabled').show();
-                            //     $('#submit').hide();
-                            //     $('#submitdisabled').show();
-                            //     /* ******************************** */
-                            //     document.getElementById("file").disabled = false;
-                            // }
-                            // else{
-                            //     alertas_tipo_valor_col12('alerta_volumen','error','Error al actualizar el catalogo de equipos, revisar si alguna información esta incorrecta. Gracias!');
-                            // }
+                            var obj= JSON.parse(datos);                            
+                            if(obj==true){
+                                alertas_tipo_valor_col12('alerta_volumen','correcto','Los datos fueron registrados correctamente.');                                
+                                var table = $('#table_volumen2').DataTable();
+                                    table.clear();
+                                    table.draw();
+                                $('#row_table1').hide();
+                                //$('#row_table2').hide();
+                                /* ******************************** */
+                                $('#cargarfile').hide();
+                                $('#infofile').empty();
+                                $('#infofile').append(
+                                '<a href="#" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> &nbsp; *.csv</a>'+
+                                    '<span class="mailbox-attachment-size">'+
+                                    '&nbsp; 0 KB'+                           
+                                    '</span>'
+                                );
+                                $('#cargarfiledisabled').show();
+                                $('#comprobardatos').hide();
+                                $('#comprobardatosdisabled').show();
+                                $('#submit').hide();
+                                $('#submitdisabled').show();
+                                /* ******************************** */
+                                document.getElementById("file").disabled = false;
+                            } 
+                            else{
+                                alertas_tipo_valor_col12('alerta_volumen','error',obj);
+                            }
                             $('#overlay3').removeClass('overlay');
                             $('#refresh3').removeClass('fa fa-refresh fa-spin');
                         },
@@ -536,7 +544,7 @@
                             downloadLink.click();
                             document.body.removeChild(downloadLink);
                         }
-                    });
+                });
                                    
 
                 });

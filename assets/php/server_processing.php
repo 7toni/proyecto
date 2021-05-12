@@ -30,15 +30,20 @@ $condicion="";
 /* #Home vista de bitacora- porcesos #Home */ 
     if ($controller== "informes") {
         $table = 'view_'.$controller;
-        $table.=$ext;		
+        $table.=$ext; 
+        $version= substr($ext,2);
+        if($version=="_v1"){
+            $condicion="id in (SELECT max(id) as id FROM {$table} group by alias order by id desc)";
+        }
+       
         if ($tipo == 4) {
-            $condicion="proceso=4 ";            
+            $condicion.="proceso=4 ";            
         }
         if ($tipo == 1) {
-            $condicion="proceso=1";
+            $condicion.="proceso=1";
         }
-        if($tipo == 3){$condicion ="estado_calibracion<>2 and proceso <=". $tipo;}    
-        if($rol == '10003'){$condicion .=" and usuarios_calibracion_id=".$usuario;}    
+        if($tipo == 3){$condicion .="proceso <=". $tipo;}   //reqautorizacion<>1 and   
+        if($rol == '10003'){$condicion .="usuarios_calibracion_id=".$usuario;}    
     }
     else{$table = 'view_'.$controller.$ext;}
 
@@ -47,7 +52,15 @@ $condicion="";
 
 /* #Home vista de informes cliente #Home */ 
     if ($controller== "clienteinformes") {$table = 'view_'.$controller.$ext;} 
-    if($tipo== "clienteinformes"){$condicion= "plantas_id=". $usuario.'';}
+    if($tipo== "clienteinformes"){
+        //$condicion= "plantas_id=". $usuario.'';
+        $condicion="id IN (SELECT max(id) as id FROM view_clienteinformes{$ext} where plantas_id= '{$usuario}' group by alias order by id desc)";
+    }
+    if($tipo== "clienteconti"){
+        $table = 'view_clienteinformes_nconti';
+        //$condicion= "plantas_id=". $usuario.'';
+        $condicion="id IN (SELECT max(id) as id FROM mypsa_bitacoramyp.view_clienteinformes_nconti group by alias order by id desc)";
+    }
 
     $query='';
     if($tipo=="recalibrar"){

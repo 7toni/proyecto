@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <?php importView('_static.head'); ?>        
+        <?php importView('_static.head'); ?>              
     </head>
     <body class="hold-transition skin-black layout-top-nav">
         <div class="wrapper">
@@ -20,7 +20,7 @@
                   <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                     <ul class="nav navbar-nav">
                       <li class="active"><a href="?c=cartastraz">Cartas de Trazabilidad <span class="sr-only"></span></a></li>
-                      <li><a href="?c=cartastraz&a=ayuda">Tutorial de uso <span class="sr-only"></span></a></li>
+                      <li><a data-toggle="modal" data-target="#modal-tutorial">Tutorial de uso <span class="sr-only"></span></a></li>
                       
                       <!-- <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sucursal <span class="caret"></span></a>
@@ -105,58 +105,6 @@
 
                   <!-- Main content -->
                   <section class="content">
-
-                    <div class="row">
-                      <!-- <div class="col-lg-3 col-xs-6">
-                        <a href="#" class="small-box-footer">
-                          <div class="small-box bg-aqua">
-                            <div class="inner">
-                            <span class="pull-right"><i class="fa fa-flag-o"></i></span>
-                              <h3></h3> 
-                              <p>Multimetros</p>                             
-                            </div>                                                    
-                          </div>
-                        </a>
-                      </div> -->
-                      <!-- ./col -->
-                      <!-- <div class="col-lg-3 col-xs-6">
-                        <a href="#" class="small-box-footer">
-                          <div class="small-box bg-green">
-                            <div class="inner">
-                            <span class="pull-right"><i class="fa fa-flag-o"></i></span>
-                              <h3></h3> 
-                              <p>Calibrador multifunción</p>                             
-                            </div>                                                    
-                          </div>
-                        </a>
-                      </div> -->
-                      <!-- ./col -->
-                      <!-- <div class="col-lg-3 col-xs-6">                        
-                        <a href="#" class="small-box-footer">
-                          <div class="small-box bg-yellow">
-                            <div class="inner">
-                            <span class="pull-right"><i class="fa fa-flag-o"></i></span>
-                              <h3></h3> 
-                              <p>Juego de pesas</p>                             
-                            </div>                                                    
-                          </div>
-                        </a>
-                      </div> -->
-                      <!-- ./col -->
-                      <!-- <div class="col-lg-3 col-xs-6">                       
-                        <a href="#" class="small-box-footer">
-                          <div class="small-box bg-red">
-                            <div class="inner">
-                              <span class="pull-right"><i class="fa fa-flag-o"></i></span>
-                              <h3></h3> 
-                              <p>Juego de bloques patrón</p>                             
-                            </div>                                                    
-                          </div>
-                        </a>
-                      </div> -->
-                      <!-- ./col -->
-                    </div>
-
                     <div class=row>                      
                       <div class="col-lg-12 col-md-12">
                         <div class="box box-default">
@@ -206,7 +154,7 @@
                           <!-- /.box-body -->
                           <div class="box-footer clearfix">
                             <!-- <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Place New Order</a> -->
-                            <a  data-toggle="modal" data-target="#modal-mensaje" class="btn btn-sm btn-info btn-flat pull-right">Solicitar carta</a>
+                            <a data-toggle="modal" data-target="#modal-mensaje" class="btn btn-sm btn-info btn-flat pull-right">Solicitar carta</a>
                           </div>
                           <div id="overlay">
                               <i id="refresh"></i>
@@ -268,7 +216,89 @@
                       <!-- /.modal-dialog -->
                     </div>
                   <!-- /.modal -->
-
+                 
+                  <div class="modal modal-default fade" id="modal-tutorial">
+                      <div class="modal-dialog ">
+                        <div class="modal-content">
+                          <div class="modal-header bg-blue" >                         
+                            <h2 class="modal-title"><i class="fa fa-bars" aria-hidden="true"></i> Tutorial de uso</h2>
+                          </div>
+                          <div class="modal-body"> 
+                                <div class="row margin-bottom">                                   
+                                    <div class="col-sm-4">
+                                    <p class="text-muted text-center"  style="font-size:20px; margin: 10% 0 0 1%;" >Cada certificado corresponde a un equipo calibrado, por lo tanto, para buscar una carta debemos conocer que patrón o  <strong> patrones se utilizaron.</strong> </p>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <a href="storage/ayuda/cartatraz2.png" data-lightbox="perfil">
+                                            <img src="storage/ayuda/cartatraz2.png" class="img-responsive pad" alt="...">
+                                        </a>                                   
+                                    </div>
+                                </div>
+                                <div class="row margin-bottom">              
+                                    <div class="col-sm-8">
+                                        <a href="storage/ayuda/cartatraz1.png" data-lightbox="perfil">                
+                                        <img src="storage/ayuda/cartatraz1.png" alt="..." class="img-responsive pad" >                                
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <p class="text-muted text-center"  style="font-size:20px; margin: 10% 0 0 1%;" > Estamos de regreso a Mypsa Online. Con la  <strong>  identificación que observo en el certificado</strong>, sabrá que carta seleccionar o buscar.</p>
+                                    </div>                                
+                                </div>
+                                <div class="row margin-bottom">                                   
+                                    <div class="col-sm-4">
+                                    <p class="text-muted text-center"  style="font-size:20px; margin: 10% 0 0 1%;" > Una manera más sencilla de <strong>buscar, filtrar, ver historial y ver carta</strong>, lo podrá hacer con unos cuantos clics. ¡Inténtelo!</p>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <a href="storage/ayuda/cartatraz3.png" data-lightbox="perfil">
+                                            <img src="storage/ayuda/cartatraz3.png" class="img-responsive pad" alt="...">
+                                        </a>                                   
+                                    </div>
+                                </div>
+                                <div class="row margin-bottom">              
+                                    <div class="col-sm-8">
+                                        <a href="storage/ayuda/cartatraz4.png" data-lightbox="perfil">                
+                                        <img src="storage/ayuda/cartatraz4.png" alt="..." class="img-responsive pad" >                                
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <p class="text-muted text-center"  style="font-size:20px; margin: 10% 0 0 1%;" > Si ha dado clic en algún <strong> botón verde (ver carta)</strong>. ¡Sorpresa! Ahora está visualizando la trazabilidad de nuestro patrón.</p>
+                                    </div>                                
+                                </div>
+                                <div class="row margin-bottom">                                   
+                                    <div class="col-sm-4">
+                                    <p class="text-muted text-center"  style="font-size:20px; margin: 10% 0 0 1%;" >Si no pudo encontrar la carta, no hay de qué preocuparse <strong> ¡Hay otra opción! </strong> Podrá hacerlo dando clic en la opción <strong>“Solicitar carta”.</strong></p>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <a href="storage/ayuda/cartatraz5.png" data-lightbox="perfil">
+                                            <img src="storage/ayuda/cartatraz5.png" class="img-responsive pad" alt="...">
+                                        </a>                                   
+                                    </div>
+                                </div>
+                                <div class="row margin-bottom">                                                
+                                    <div class="col-sm-12">
+                                        <p class="text-muted text-center"  style="font-size:15px; margin: 0 0 0 0;" > Nota: El departamento correspondiente se comunicara con usted. Ademas, se recomienda estar al pendiente de la bandeja de entrada de su correo. </p>              
+                                    </div>                                   
+                                </div>
+                                <div class="row margin-bottom">            
+                                    <div class="col-sm-2">                
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <p class="text-muted text-center"  style="font-size:25px; margin: 10% 0 0 1%;" > Esto ha sido todo. </br> <strong> ¡Fue fácil! </strong> ¿No crees? </p>              
+                                    </div>
+                                    <div class="col-sm-2">                
+                                    </div>
+                                </div>
+                          </div>
+                          <div class="modal-footer ">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>                            
+                          </div>
+                        </div>
+                        <!-- /.modal-content -->
+                      </div>
+                      <!-- /.modal-dialog -->
+                    </div>
+                  <!-- /.modal -->
+                  
                                          
                   </section>
                   <!-- /.content -->
@@ -279,7 +309,8 @@
             <?php importView('_static.footer'); ?>
         </div>
         <?php importView('_static.scripts'); ?>
-
+        <script src="assets/plugins/daterangepicker/moment-locales.js"></script>
+        
         <script type="text/javascript">
 
             $(".modal").on("hidden.bs.modal", function(){
@@ -352,7 +383,7 @@
                         url: "?c=cartastraz&a=ajax_load_historial",
                         dataType: "json",
                         method: "POST",
-                        data: ''                
+                        data: '' 
                     }).done(function (data) {
                         var datos = data;   
                         //console.log(datos);              

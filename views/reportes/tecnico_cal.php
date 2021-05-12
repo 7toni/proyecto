@@ -485,7 +485,8 @@
                       "visible" : false }, // "precio_extra"
                     { "data": 'moneda',
                       "visible" : false }, // "moneda"
-                    { "data": 'fecha_salida' }, // "fecha_salida"
+                    { "data": 'fecha_salida',
+                      "visible" : false }, // "fecha_salida"
                     { "data": 'proceso' }, //proceso 
                     { "data": 'fecha_inicio'}, //"fecha_inicio"
                     { "data": 'fecha_calibracion' }, // "fecha_salida"
@@ -493,15 +494,14 @@
                 ],
                 fixedColumns: true,
                 "columnDefs": [ 
-                  { "targets": [7, 17] , "width": "70px" },
-                  { "targets": [19] , "width": "100px" },                  
+                  { "targets": [7, 17] , "width": "70px" },                                    
                   {
                       "render": function(data,type,row){
                           var rowvalue=row['proceso'];                                                     
                           var proceso=["Recepcion","Calibracion","Salida","Facturacion","Terminado"];                              
                           return "<span class='badge "+ bg_color[rowvalue] +"'>"+ proceso[rowvalue]+"</span>";                         
                       },
-                      "targets":20
+                      "targets":21
                   },{                  
                       "render": function(data,type,row){                          
                           var datehome=row['fecha_inicio'];
@@ -516,7 +516,7 @@
                           }                                                                  
                           return "<span class='badge bg-black'>"+ count +"</span>";
                       },
-                      "targets":21
+                      "targets":22
                   },{                  
                       "render": function(data,type,row){
                           var datehome=row['fecha_calibracion'];
@@ -531,7 +531,7 @@
                           }                                                                  
                           return "<span class='badge bg-black'>"+ count +"</span>";
                       },
-                      "targets":22
+                      "targets":23
                   },{                  
                       "render": function(data,type,row){
                           var proceso= row['proceso'];
@@ -557,7 +557,7 @@
                           }                                                                                       
                           return "<span class='badge bg-black'>"+ count +"</span>";                     
                       },
-                      "targets":23
+                      "targets":24
                   },
                 ],     
 

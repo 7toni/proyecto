@@ -13,23 +13,22 @@
                     <h1><?php echo $this->title; ?><small><?php echo $this->subtitle.' '. $this->sucursal; ?></small></h1>
                 </section>
                 <section class="content">
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-xs-12">
-                            <div class="box box-default">
+                            <div class="box box-primary">
                                 <div class="box-header">
                                     <h3 class="box-title">Proceso De <?php echo $this->title; ?></h3>
                                     <hr>
-                                   <div class="progress progress-striped active">  <!-- [{0-0%,recepción},{1-25%,calibracion},{2-50%,salida},{3-75%,factura},{4-100%,bitacora}]-->                           
-                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 1%">                  
+                                    <div class="progress progress-striped active">  
+                                      <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 1%">                  
                                     </div>                                     
                                     </div>
-                                </div>
-                                <!-- /.box-header -->
+                                </div>                                
                                 <div class="box-body">                                
                                 </div>                            
                              </div>                                                
                         </div>
-                    </div>
+                    </div> -->
                     <?php 
                      /// if ($error = Flash::hasError()) { 
                     ?>
@@ -60,16 +59,18 @@
                       <!-- Consulta del id del equipo/ generar número de informe-->                    
                       <div class="row">
                           <div class="col-lg-4">
-
-                            <div class="box box-solid">
+                            <div class="box box-primary">
                               <div class="box-header with-border">
                                   <h3 class="box-title"> Buscar equipo </h3>
+                                  <div class="box-tools pull-right">
+                                        <button class="btn btn-box-tool" id="clear_idequipo"><i class="fa fa-eraser"></i>Limpiar</button>
+                                      </div>
                                     <div class="box-tools">                                        
                                     </div>
                               </div>
                               <div class="box-body form-horizontal">
                                     <div class="form-group" id="alerta_idequipo">
-                                      <label for="idequipo" class="col-sm-3 control-label">Equipo :</label>
+                                      <label for="idequipo" class="col-sm-3 control-label">Equipo :</label>                                      
                                       <div class="col-sm-9">
                                         <div class="input-group">
                                             <input type="text" id="idequipo" class="form-control" placeholder="id" required="" autofocus="">
@@ -95,7 +96,7 @@
                               </div>                              
                             </div>         
 
-                            <div class="box box-solid">
+                            <div class="box box-primary">
                               
                               <div class="box-header with-border">
                                   <h3 class="box-title">Informe</h3>
@@ -137,7 +138,7 @@
                           </div>
                           <!-- Muestra el historial de informes que ha tenido el equipo escaneado-->
                           <div class="col-lg-8">                            
-                              <div class="box box-default">
+                              <div class="box box-primary">
                                   <div class="box-header">
                                     <h3 class="box-title">Equipo</h3>
                                     <div class="box-tools">                                       
@@ -174,13 +175,13 @@
 
                       <div class="row">
                         <div class="col-lg-12">
-                          <div class="box box-default">
+                          <div class="box box-primary">
                               <div class="box-header">
                                 <h3 class="box-title"> Historial </h3>                                    
                               </div>
                               <div class="box-body">
                                <p><b>Nota:</b></p>
-                               <p> Al seleccionar una opción del historial, el sistema llenara las datos de cliente y datos para la calibración (Vigencia, Acreditación, Técnico y Tipo de calibración). <br> El equipo seleccionado previamente no se cambia. </p>
+                               <p> Al seleccionar una opción del historial, el sistema llenara las datos de cliente y datos para la calibración (Vigencia, Acreditación, Técnico y Tipo de servicio). <br> El equipo seleccionado previamente no se cambia. </p>
                                 <table id="table_historial" class="table table-condenced table-striped table-responsive form-inline dt-bootstrap">
                                     <thead>
                                       <tr>
@@ -213,7 +214,7 @@
                       <div class="row">
                          <!-- Modulo de Cliente & Modulo P.O  -->
                           <div class="col-lg-6">
-                            <div class="box box-default">
+                            <div class="box box-primary">
                               <div class="box-header">
                                 <h3 class="box-title">Cliente</h3>
                                 <div class="box-tools">                                       
@@ -267,7 +268,7 @@
                               </div>  
                             </div>
 
-                            <div class="box box-default">
+                            <div class="box box-primary">
                                   <div class="box-header">
                                   <h3 class="box-title">Datos de P.O</h3>
                                     <div class="box-tools">
@@ -306,7 +307,7 @@
                           </div>
                           <!-- Modulo de Datos de Calibracion & Modulo Hoja de entrada  -->
                           <div class="col-lg-6">
-                              <div class="box box-default">
+                              <div class="box box-primary">
                                     <div class="box-header">
                                       <h3 class="box-title"> Datos del equipo para calibración </h3>                                        
                                     </div>                                                                                                                                          
@@ -386,7 +387,7 @@
                                                   <?php
 
                                                   foreach ($data['tecnico'] as $tecnico) {
-                                                      if($tecnico['roles_id']== '10003' || $tecnico['roles_id']== '10002' || $tecnico['roles_id']== '10004'){
+                                                      if($tecnico['roles_id']== '10003' || $tecnico['roles_id']== '10002' || $tecnico['roles_id']== '10004' || $tecnico['roles_id']== '10007'){
                                                         if ($data['get'][0]['usuarios_calibracion_id'] === $tecnico['id']) {
                                                           echo '<option value="'.$tecnico['id'].'" selected="selected">'.$tecnico['nombre'].' '.$tecnico['apellido'].'</option>';
                                                         }
@@ -405,7 +406,7 @@
                                           </div>
                                         </div>                                      
                                         <div class="form-group">
-                                          <label for="calibraciones_id" class="col-sm-3 control-label">Tipo de calibración :</label>
+                                          <label for="calibraciones_id" class="col-sm-3 control-label">Tipo de Servicio :</label>
                                           <div class="col-sm-9"> 
                                                 <select id="calibraciones_id" class="form-control select2" style="width: 100%;" name="calibraciones_id" required="">
                                                   <option value="">Seleccione una opción</option> 
@@ -449,7 +450,7 @@
                                     </div>                                    
                               </div>
 
-                              <div class="box box-default">
+                              <div class="box box-primary">
                                     <div class="box-header">
                                     <h3 class="box-title">Hoja de entrada</h3>
                                     <div class="box-tools">
@@ -548,9 +549,8 @@
             
             var usuario = "<?php echo Session::get('email'); ?>"; 
             var reqautorizacion = "<?php echo ($data['get'][0]['reqautorizacion'] !='')? $data['get'][0]['reqautorizacion']: null; ?>";
-            var proceso = "<?php echo ($data['get'][0]['proceso'] !='')? $data['get'][0]['proceso']: null; ?>";
-            
-                        
+            //var proceso = "<?php echo ($data['get'][0]['proceso'] !='')? $data['get'][0]['proceso']: null; ?>";
+                                    
         </script>       
         <?php importView('_static.scripts'); ?>             
     </body>

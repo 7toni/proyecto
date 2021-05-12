@@ -54,7 +54,7 @@
                                                 <th>Moneda</th>
                                                 <th>Comentarios</th>
                                                 <th>Proceso</th>
-                                                <th>Acción</th>
+                                                <th>Opciones</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
@@ -89,7 +89,7 @@
                                                 <th>Moneda</th>
                                                 <th>Comentarios</th>
                                                 <th >Proceso</th>
-                                                <th >Acción</th> 
+                                                <th >Opciones</th> 
                                             </tr>
                                         </tfoot>
                                     </table>

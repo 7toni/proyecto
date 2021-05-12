@@ -392,13 +392,12 @@
         </script>        
         <?php importView('_static.scripts'); ?>
         <script>
-          // $(document).ready(function() {
-          //   $("form").submit(function(){
-          //     $('#overlayv').addClass('overlay');
-          //     $('#refreshv').addClass('fa fa-refresh fa-spin'); 
-          //   });             
-
-          // });
+          $(document).ready(function() {
+            $("form").submit(function(){
+              $('#overlayv').addClass('overlay');
+              $('#refreshv').addClass('fa fa-refresh fa-spin'); 
+            });             
+          });
         </script>      
     </body>
 </html>

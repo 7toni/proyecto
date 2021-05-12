@@ -19,12 +19,12 @@
                                     <h3 class="box-title with-border">Listado de <?php echo $this->name; ?></h3>
                                     <div class="box-tools pull-right">                                        
                                         <a href="?c=<?php echo $this->name; ?>&a=add" class="btn btn-primary btn-md btn-flat">Agregar nuevo</a>
-                                        <!-- <a href="?c=<?php echo $this->name; ?>&a=volumen" class="btn btn-info btn-md btn-flat">Agregar por volumen</a> -->
+                                        <a href="?c=<?php echo $this->name; ?>&a=volumen" class="btn btn-default btn-md btn-flat">Agregar por volumen</a>
                                     </div>                                    
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                    <table id="table"  class="table table-bordered table-striped table-hover">
+                                    <table id="table"  class="table table-bordered table-striped table-condensed">
                                         <thead>
                                             <tr>
                                                 <th># Id</th>

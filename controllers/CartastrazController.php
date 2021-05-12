@@ -32,31 +32,21 @@ class CartastrazController
 
 	public function ayuda(){		
 		$_SESSION['menu'] = 'cartastraz';
-		  $_SESSION['submenu'] = 'ayuda';
+		$_SESSION['submenu'] = 'ayuda';
 		  
 		include view($this->name.'.ayuda');
 	}
 
-	public function ajax_load_historial(){
-		// Top 10 
-
-		//Preguntar a la lista de equipos y abtraer su informacion.
-
-		//Array de lista vigente
-		//Array de historial
-
-
+	public function ajax_load_historial(){		
 		$sucursal= array('NOGALES'=>'_n','HERMOSILLO'=>'_h','GUAYMAS'=>'_g');
-
-
 		$directorio = 'storage/trazabilidad'. $sucursal[$this->sucursal].'';				
 		$array_file = array_diff(scandir($directorio,1), array('..', '.'));
 				
 		$datatemp= array();
 		$data= array();				
-		$mesrenplace= ["ene"=> "1","feb"=> "2","mar"=> "3","abr"=> "4","may"=> "5","jun"=> "6","jul"=> "7","ago"=> "8","sep"=> "9","oct"=> "10","nov"=> "11","dic"=> "12"];
-															
-		$size= sizeof($array_file);
+		$mesrenplace= ["ene"=> "1","feb"=> "2","mar"=> "3","abr"=> "4","may"=> "5","jun"=> "6","jul"=> "7","ago"=> "8","sep"=> "9","oct"=> "10","nov"=> "11","dic"=> "12"];															
+		$size= sizeof($array_file);				
+
 		if($size > 0 ){
 			for($i=0; $i<$size;$i++){
 				$value= $array_file[$i];
@@ -82,7 +72,8 @@ class CartastrazController
 			foreach($datatemp as $row){
 				$aux[]=  $row["fechahome"];			
 			}		
-			array_multisort($aux, SORT_DESC, $datatemp);	
+			array_multisort($aux, SORT_DESC, $datatemp);		
+
 			$size= sizeof($datatemp);
 
 			$hoy = date("Y/m/d");
@@ -90,7 +81,7 @@ class CartastrazController
 				if(sizeof($data) == 0){
 					$fechahome= trim($val["fechahome"]);
 					$fechaend= trim($val["fechaend"]);				
-	
+
 					if($fechaend >= $hoy){
 						$newarray= array($val["url"],$val["id"],$fechahome,$fechaend,'');
 					}else{
@@ -114,38 +105,45 @@ class CartastrazController
 						if($fechaend >= $hoy){
 							$newarray= array($val["url"],$val["id"],$fechahome,$fechaend,'');
 						}
-						// else{
-						// 	$newarray= array('error_412',$val["id"],$fechahome,$fechaend,$val["url"]);
-						// }								
+						else{
+							$newarray= array('error_412',$val["id"],$fechahome,$fechaend,$val["url"]);
+						}								
 						array_push($data, $newarray);									
 					}				
 				}
 			}
-
+			$ids_collection="";
 			foreach($data as $key => $val){
-					$result= $this->get_queryequipo($val[1]);
-					$size= sizeof($result);										
-					if($size > 0){						
-						foreach($result as $row => $col){
-							$data[$key][]= $col['id'];
-							$data[$key][]= $col['alias'];
-							$data[$key][]= $col['descripcion'];
-							$data[$key][]= $col['marca'];
-							$data[$key][]= $col['modelo'];
-							$data[$key][]= $col['serie'];					
-						}
-					}else{
-						$data[$key][]= "Sin registro";
-						$data[$key][]= "Sin registro";
-						$data[$key][]= "Sin registro";
-						$data[$key][]= "Sin registro";
-						$data[$key][]= "Sin registro";
-						$data[$key][]= "Sin registro";
-					}					
+				$ids_collection .= "'{$val[1]}',";
+			}	
+			$ids_collection = substr($ids_collection, 0, -1);
+			$result= $this->get_queryequipo($ids_collection);
+			
+			foreach($data as $key => $val){
+				$entro=false;
+				foreach($result as $row => $col){
+					if($val[1]===$col['alias']){
+						$data[$key][]= $col['id'];
+						$data[$key][]= $col['alias'];
+						$data[$key][]= $col['descripcion'];
+						$data[$key][]= $col['marca'];
+						$data[$key][]= $col['modelo'];
+						$data[$key][]= $col['serie'];
+						$entro=true;
+						break;
+					}												
+				}
+				if($entro==false){
+					$data[$key][]= "Sin registro";
+					$data[$key][]= "Sin registro";
+					$data[$key][]= "Sin registro";
+					$data[$key][]= "Sin registro";
+					$data[$key][]= "Sin registro";
+					$data[$key][]= "Sin registro";	
+				}												
 			}			
 		}
-				
-
+		echo json_encode($data);				
 		// $usuario =Session::get('id');		
 		// $rol =substr(Session::get('roles_id'),-2); // solo se abstrae el ultimo numero del rol todos empiesan con 100 00
 		// if($rol == "00" || $rol == "02" || $rol == "06"){
@@ -154,12 +152,10 @@ class CartastrazController
 		// else{
 		// 	$proceso="4";
 		// }
-
-		echo json_encode($data);
 	}
 
-	private function get_queryequipo($id){
-		$query="SELECT id,alias,descripcion,marca,modelo,serie FROM view_equipos where alias= '{$id}' limit 1;";
+	private function get_queryequipo($ids){	
+		$query="SELECT * FROM mypsa_bitacoramyp.view_equipos where alias in ({$ids});";
 		$dato= $this->model['equipo']->get_query($query);
 		return $dato;
 	}
@@ -173,7 +169,7 @@ class CartastrazController
 		  	//$cliente= json_decode($temp, true);
 		  	$plantaid=Session::get('plantas_id');		  	
 		 	$file='storage/trazabilidad'.$this->ext.'/'.$url;	 		 		 	 			
-			if (file_exists($file)) {		 		
+			if (is_file($file)) {
 					// if($plantaid == $cliente[0]["plantas_id"] && $rol =='10005') // Nos ayudara para saber si el cliente que quiere ver su informe le corresponde ese número
 				 	// {
 					// 	include view($this->name.'.vercartastraz');

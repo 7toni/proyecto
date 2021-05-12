@@ -29,7 +29,9 @@ class EquiposController {
         include view($this->name . '.add');
     }
 
-    public function volumen() {        
+    public function volumen() { 
+        $_SESSION['menu'] = 'equipos';
+        $_SESSION['submenu'] = 'equipos_volumen';       
         $data['sucursal'] = $this->model['sucursal']->all();
         include view($this->name . '.volumen');
     }
@@ -59,7 +61,7 @@ class EquiposController {
 
     public function store() {
         $data = validate($_POST, [
-            'alias' => 'required|trim|strtoupper',
+            'alias' => 'required|trim',
             'serie' => 'required|trim',
             'descripciones_id' => 'required|number',
             'marcas_id' => 'required|number',
@@ -78,7 +80,7 @@ class EquiposController {
     public function update() {
         $data = validate($_POST, [
             'id' => 'required',
-            'alias' => 'required|trim|strtoupper',
+            'alias' => 'required|trim',
             'serie' => 'required|trim',
             'descripciones_id' => 'required|number',
             'marcas_id' => 'required|number',
@@ -119,7 +121,7 @@ class EquiposController {
         echo json_encode($dato);
     }
 
-    public function download_excel(){                 
+    public function download_excel(){
         $titulos = array("Id","Descripción","Marca","Modelo","Serie");
         echo json_encode($titulos);
     }
@@ -182,7 +184,7 @@ class EquiposController {
                         $data[$clave][6]='1';   //indica que la serie esta registrada con el mismo id de equipo
                     }
                     else{
-                        $data[$clave][6]='0'; //indica que la serie no esta registra
+                        $data[$clave][6]='0'; //indica que la serie no esta registrada
                     }
                 }else{
                     $data[$clave][6]='-1'; //indica que la serie no tiene problemas
@@ -231,77 +233,68 @@ class EquiposController {
                 }
 
             }
-        }                  
+        }
+
+         /*  ////////////////////////////////////////////////
+          Notas: El sistema no registrara descripciones, marcas ni modelos
+          Ya que los diferentes conceptos pueden ser que sean error de dedo.
+          El sistema solo comprobara que los regitros existan, sino, manualmente 
+          el usuario tendra que registrar los conceptos, pero evitar registrar basura
+            /////////////////////////////////////////////////
+         */
+        
+        // Revisar si existen claves repetidas entre los registros que quieren agregar
+        
+        $n= sizeof($data);
+        for($i=0; $i < $n; $i++){
+            $alias= $data[$i][0];
+            $pos=$i;
+            $repetido=false;
+            for($y=0; $y<$n; $y++){
+                $aliastemp= $data[$y][0];
+                $postemp=$y;
+                if($pos != $postemp && $alias== $aliastemp){
+                    $repetido=true;                    
+                    break;
+                }
+            }
+            if($repetido == true){
+                $data[$i][10]='1';
+                $repetido=false;
+            }
+            else{
+                $data[$i][10]='0'; 
+            }
+        }
         echo json_encode($data);      
     }
 
     public function ajax_storevolcsv(){
         $post = $_POST['data'];
         $decoded= json_decode($post, true);                 
-            
-        foreach($decoded as $clave => $value){
-    
-          $data[$clave]=[
-            'id'=> intval($decoded[$clave][0]),
-            'descripcion'=>intval($decoded[$clave][19]),
-            'plantas_id'=>intval($decoded[$clave][20]),        
-            'usuarios_calibracion_id'=>intval($decoded[$clave][21]),
-            'usuarios_informe_id'=>intval($decoded[$clave][21]),        
-            'periodo_id'=>null,
-            'periodo_calibracion'=>null,
-            'calibrado'=>null,
-            'fecha_calibracion'=>null,
-            'fecha_vencimiento'=>null,
-            'po_id'=>null,
-            'acreditaciones_id'=>null,
-            'calibraciones_id'=>null,
-            'hojas_entrada_aux_id'=>null,
-          ];                   
         
-         
-          /* --------------------------------------------- */
-          // Datos del proceso de calibracion
-          $fechacal= $decoded[$clave][17];
-          $vigencia= explode(' ',$decoded[$clave][16]);
-          $periodocal=intval($vigencia[0]);
-          $periodo_id=strtolower($vigencia[1]);
-          $dia_mes="";
-          if ($periodo_id=="mes(s)") {
-            $data[$clave]['periodo_id']=1;
-            $dia_mes="month";
-          }
-          else if ($periodo_id=="día(s)"){
-            $data[$clave]['periodo_id']=2;
-            $dia_mes="days";
-          } 
-          if($periodocal>0){
-            $data[$clave]['calibrado']=1;
-          }
-          else{
-            $data[$clave]['calibrado']=0;
-          } 
-          $data[$clave]['periodo_calibracion']=$periodocal;
-          
-          $data[$clave]['fecha_calibracion']= date('Y-m-d', strtotime($fechacal));
-    
-          $data[$clave]['fecha_vencimiento'] = date('Y-m-d', strtotime($fechacal . "+".$periodocal." ".$dia_mes));  
-          // <-- Fin -->      
-        }
-    
-       //var_dump(sizeof($data));    
-    
-        for ($i=0; $i < sizeof($data); $i++) {
-            $planta= $this->model['planta']->find_by(['id'=>$data[$i]['plantas_id']],'view_plantas');
-            $nombreplanta= strtolower(str_replace(' ','',$planta[0]['nombre']));
-            $cliente= ($nombreplanta=="planta1") ? $planta[0]['empresa']:$planta[0]['empresa'].', '.$planta[0]['nombre'];        
-            if ($this->model['informes']->update($data[$i])){
-              Logs::this("Actualización de informes por CSV", " cliente : {". $cliente ."} y datos de calibración del informe: ".$data[$i]['id']); 
-              $return=true;
-            }else{
-              $return="Error al actualizar Informe ".$data[$i];
-              break;
-            }    
-        }        
+        $i=-1;
+        foreach($decoded as $clave => $value){              
+            if( intval($decoded[$clave][5]) == 0){
+                  $i++;
+                  $data[$i]=[ 
+                    'alias' => $decoded[$clave][0],
+                    'serie' => $decoded[$clave][4],
+                    'descripciones_id' => intval($decoded[$clave][7]),
+                    'marcas_id' => intval($decoded[$clave][8]),
+                    'modelos_id' => intval($decoded[$clave][9]),                                                  
+                  ]; 
+            }                  
+        }                  
+        foreach($data as $clave => $value){           
+            if ($this->model['equipo']->store($value)) {
+                Logs::this("Registro de equipo por CSV. [".$value['alias'].",".$value['serie'].",".$value['descripciones_id'].",".$value['marcas_id'].",".$value['modelos_id']."]"); 
+                $return=true;               
+            } else {
+                $return="Error al actualizar el equipo: [".$value['alias'].",".$value['serie'].",".$value['descripciones_id'].",".$value['marcas_id'].",".$value['modelos_id']."]";
+                break;
+            }              
+        }                           
     
         echo json_encode($return);
       }

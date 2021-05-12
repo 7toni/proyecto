@@ -40,7 +40,7 @@
                     if(Session::has('roles_id',['10000','10001','10002','10003','10006','10004','10007'])){ 
                 echo "
                 <a href='#'>
-                    <i class='fa fa-table'></i> <span>Bitacora</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
+                    <i class='fa fa-table'></i> <span>Bitácora </span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
                 </a>";
                 }?>
                 <ul class='treeview-menu'>
@@ -57,7 +57,7 @@
                             if(Session::has('roles_id',['10000','10001','10003','10002','10006','10007'])){
                                 echo "
                                     <li class='". $recepcionsm ."'><a href='?c=recepcion'><i class='fa fa-circle-o'></i>Recepción de equipo</a></li>                                
-                                    <li class='". $completasm ."'><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitacora completa</a></li>                                
+                                    <li class='". $completasm ."'><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitácora  completa</a></li>                                
                                     <li class='". $procesosm ."'><a href='?c=informes&a=proceso'><i class='fa fa-circle-o'></i>Equipos en proceso</a></li>                                
                             ";
                             }
@@ -67,12 +67,13 @@
 
                             if(Session::has('roles_id',['10000','10002','10003','10004','10006','10007'])){
                                 echo "<li class='". $cancelarsm ."'><a href='?c=informes&a=cancelar'><i class='fa fa-circle-o'></i>Informes cancelados</a></li>";
+                                echo "<li class=''><a href='?c=informes&a=scaninforme'><i class='fa fa-circle-o'></i> Buscar informes firmados</a></li>";
                             }
                         
 
                             if(Session::has('roles_id',['10000','10006','10007'])){
-                                echo "<li class='". $recepcionvolsm ."'><a href='?c=recepcion&a=registrovol'><i class='fa fa-circle-o'></i>Recepción por volumen</a></li>
-                                <li class='". $recepcionactvolsm ."'><a href='?c=recepcion&a=volumen'><i class='fa fa-circle-o'></i>Actualizar informes (*.csv)</a></li>";
+                                echo "<li class='". $recepcionvolsm ."'><a href='?c=recepcion&a=registrovol'><i class='fa fa-circle-o'></i>Recepción por volumen</a></li>";
+                              //<li class='". $recepcionactvolsm ."'><a href='?c=recepcion&a=volumen'><i class='fa fa-circle-o'></i>Actualizar Certificados (*.csv)</a></li>
                             }elseif(Session::has('roles_id',['10001'])){
                                 echo "<li class='". $recepcionvolsm ."'><a href='?c=recepcion&a=registrovol'><i class='fa fa-circle-o'></i>Recepción por volumen</a></li>";
                             }
@@ -86,7 +87,7 @@
                             // } 
                             if(Session::has('roles_id',['10004'])){
                                 echo "         
-                                    <li class='". $completasm ."'><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitacora Terminada</a></li>                                                 
+                                    <li class='". $completasm ."'><a href='?c=informes'><i class='fa fa-circle-o'></i>Bitácora  Terminada</a></li>                                                 
                                     <li class='". $procesosm ."'><a href='?c=informes&a=proceso'><i class='fa fa-circle-o'></i>Equipos en proceso</a></li>
                                     <li class='". $acalibrarsm ."'><a href='?c=informes&a=calibrar'><i class='fa fa-circle-o'></i>Equipos a calibrar</a></li>
                             ";
@@ -107,19 +108,18 @@
                 if(Session::has('roles_id',['10000','10002','10006','10005','10004'])){
                         echo "<li class='". $informesm ." treeview'>
                         <a href='#''>
-                            <i class='fa fa-files-o'></i> <span>Informes</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
+                            <i class='fa fa-files-o'></i> <span>Certificados</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
                         </a>";
                         echo "<ul class='treeview-menu'>";                        
                         if(Session::get('plantas_id')=='126'){
-                            echo "<li class='". $icontim ."' ><a href='?c=clienteinformes&a=continental'><i class='fa fa-circle-o'></i>Historial informes</a></li>";
+                            echo "<li class='". $icontim ."' ><a href='?c=clienteinformes&a=continental'><i class='fa fa-circle-o'></i>Historial de certificados</a></li>";
                         }   
-                        else{echo "<li class='". $ihistorialsm ."' ><a href='?c=clienteinformes'><i class='fa fa-circle-o'></i>Historial informes</a></li>";} 
+                        else{echo "<li class='". $ihistorialsm ."' ><a href='?c=clienteinformes'><i class='fa fa-circle-o'></i>Historial de certificados</a></li>";} 
                         if(Session::get('plantas_id')=='758' && Session::has('roles_id',['10000'])){
-                        echo "<li class='". $icontim ."' ><a href='?c=clienteinformes&a=continental'><i class='fa fa-circle-o'></i>Historial informes conti</a></li>"; 
+                        echo "<li class='". $icontim ."' ><a href='?c=clienteinformes&a=continental'><i class='fa fa-circle-o'></i>Historial de certificados conti</a></li>"; 
                         }
                         echo "<li class='". $iavencersm ."' ><a href='?c=clienteinformes&a=recalibrar'><i class='fa fa-circle-o'></i>Equipos a vencer</a></li>";
                         echo "<li class='". $ivencidossm ."' ><a href='?c=clienteinformes&a=vencidos'><i class='fa fa-circle-o'></i>Equipos vencidos</a></li>";
-                        echo "<li class='". $cartastrazsm ."' ><a href='?c=cartastraz'><i class='fa fa-circle-o'></i>Cartas de trazabilidad</a></li>";
                         echo "</ul> </li>";
                     }
                 ?>
@@ -130,7 +130,7 @@
                 if(Session::has('roles_id',['10000','10002','10006','10005','10004'])){
                         echo "<li class='". $cartastrazm ." treeview'>
                         <a href='#''>
-                            <i class='fa fa-file-pdf-o'></i> <span>Cartas Trazabilidad</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
+                            <i class='fa fa-file-pdf-o'></i> <span>Cartas de Trazabilidad</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
                         </a>";
                         echo "<ul class='treeview-menu'>";                                                                       
                             echo "<li class='". $cartastrazsm ."' ><a href='?c=cartastraz'><i class='fa fa-circle-o'></i>Ver cartas</a></li>";
@@ -231,15 +231,17 @@
                     $descripcionsm = ($_SESSION['submenu']=='equipos_descripciones') ? 'active' : '';
                     $marcasm = ($_SESSION['submenu']=='equipos_marcas') ? 'active' : '';
                     $modelosm = ($_SESSION['submenu']=='equipos_modelos') ? 'active' : '';
+                    $equipovolsm = ($_SESSION['submenu']=='equipos_volumen') ? 'active' : '';
                         echo "<li class='". $equiposm ." treeview'>
                             <a href='#'>
                                 <i class='fa fa-wrench'></i> <span>Administración de equipos</span><span class='pull-right-container'><i class='fa fa-angle-left pull-right'></i></span>
                             </a>
                             <ul class='treeview-menu'>
                                 <li class='". $equipossm ."'><a href='?c=equipos'><i class='fa fa-database'></i> Equipos</a></li>
-                                <li class='". $descripcionsm ."'><a href='?c=equipos_descripciones'><i class='fa fa-font'></i> Descripción de equipos</a></li>
-                                <li class='". $marcasm ."'><a href='?c=equipos_marcas'><i class='fa fa-tags'></i>Marcas de equipos</a></li>
-                                <li class='". $modelosm ."'><a href='?c=equipos_modelos'><i class='fa fa-list'></i>Modelos de equipos</a></li>
+                                <li class='". $descripcionsm ."'><a href='?c=equipos_descripciones'><i class='fa fa-font'></i> Descripciones</a></li>
+                                <li class='". $marcasm ."'><a href='?c=equipos_marcas'><i class='fa fa-tags'></i>Marcas</a></li>
+                                <li class='". $modelosm ."'><a href='?c=equipos_modelos'><i class='fa fa-list'></i>Modelos</a></li>
+                                <li class='". $equipovolsm ."'><a href='?c=equipos&a=volumen'><i class='fa fa-file-excel-o'></i>Registro equipos por volumen</a></li>
                             </ul>
                         </li>";
     
@@ -275,7 +277,7 @@
                                 <li class='". $paissm ."'><a href='?c=paises'><i class='fa fa-globe'></i>Paises</a></li>
                                 <li class='". $estadosm ."'><a href='?c=estados'><i class='fa fa-globe'></i>Estados</a></li>
                                 <li class='". $ciudadsm ."'><a href='?c=ciudades'><i class='fa fa-globe'></i>Ciudades</a></li>
-                                <li class='". $tipocalsm ."'><a href='?c=calibraciones'><i class='fa fa-cog'></i>Tipo de calibración</a></li>
+                                <li class='". $tipocalsm ."'><a href='?c=calibraciones'><i class='fa fa-cog'></i>Tipo de servicio</a></li>
                                 <li class='". $sucursalsm ."'><a href='?c=sucursales'><i class='fa fa-suitcase'></i>Sucursales</a></li>
                                 <li class='". $acreditacionsm ."'><a href='?c=acreditaciones'><i class='fa fa-certificate'></i>Acreditaciones</a></li>
                             </ul>

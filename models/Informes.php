@@ -178,7 +178,7 @@ class Informes extends Model {
             $tipocal .= $value . ", ";               
         }
         $tipocal = substr($tipocal, 0, -2);
-        $condicion .="and calibraciones_id in (". $tipocal .")";    
+        $condicion .=" and calibraciones_id in (". $tipocal .")";    
            
          //Filtrar los procesos
          $proceso="";
@@ -186,12 +186,11 @@ class Informes extends Model {
              $proceso .= $value . ", ";               
          }
          $proceso = substr($proceso, 0, -2);
-         $condicion .="and proceso in (". $proceso .")";    
+         $condicion .=" and proceso in (". $proceso .")";    
 
         $this->query = $query . $condicion.";"; 
-
         $this->get_results_from_query();       
-        return $this->rows;                
+        return $this->rows;       
     }
 
     //Reportes en actualziacion  
@@ -207,7 +206,7 @@ class Informes extends Model {
             $tipocal .= $value . ", ";               
         }
         $tipocal = substr($tipocal, 0, -2);
-        $condicion .="and calibraciones_id in (". $tipocal .")";
+        $condicion .=" and calibraciones_id in (". $tipocal .")";
 
         //Filtrar los usuarios
         $usuario_id="";
@@ -215,10 +214,9 @@ class Informes extends Model {
             $usuario_id .= $value . ", ";               
         }
         $usuario_id = substr($usuario_id, 0, -2);
-        $condicion .="and tecnico_id in (". $usuario_id .")";
+        $condicion .=" and tecnico_id in (". $usuario_id .")";
                        
         $this->query = $query . $condicion.";"; 
-
         $this->get_results_from_query();       
         return $this->rows;                
     }
@@ -274,21 +272,21 @@ class Informes extends Model {
         $this->query= "SELECT id,l.alias as equipo_id,descripcion,marca,modelo,serie,cliente,fecha_calibracion,tecnico_email,fecha_vencimiento,periodo_calibracion,precio,precio_extra,moneda,proceso FROM view_clienteinformes".$data['ext'] ." l ";
 
         if($data['cliente_id'] != 0){
-             $cliente_temp ="and plantas_id=". $data['cliente_id']." ";
+             $cliente_temp =" and plantas_id=". $data['cliente_id']." ";
              $condicion .= $cliente_temp;
         }
         if($data['tipo_busqueda'] == 0){ //equipos calibrados
-             $condicion .="and fecha_calibracion between '". $data['fecha_home']."' and '". $data['fecha_end']."' ";
+             $condicion .=" and fecha_calibracion between '". $data['fecha_home']."' and '". $data['fecha_end']."' ";
         }
         if($data['tipo_busqueda'] == 1){ //equipos a vencer
             $this->query .="LEFT Outer JOIN (select temp2.alias from (SELECT * FROM view_informes". $data['ext'] ." where fecha_calibracion >= '". $data['fecha_home']."' ". $cliente_temp .") as temp2) r1 ON l.alias=r1.alias LEFT JOIN ( select temp3.alias from (SELECT * FROM view_informes". $data['ext'] ." where alias is not null and proceso < 4 ". $cliente_temp .") as temp3) r2 ON l.alias=r2.alias";
 
-             $condicion .="and r1.alias is null and r1.alias is null and fecha_vencimiento between '". $data['fecha_home']."' and '". $data['fecha_end']."' ". $cliente_temp ."";
+             $condicion .=" and r1.alias is null and r1.alias is null and fecha_vencimiento between '". $data['fecha_home']."' and '". $data['fecha_end']."' ". $cliente_temp ."";
         }
         if($data['tipo_busqueda'] == 2){ //equipos vencidos
             $this->query .= " LEFT Outer JOIN (select temp2.alias from (SELECT * FROM view_informes". $data['ext'] ." where fecha_calibracion >= '". $data['fecha_home']."' ". $cliente_temp .") as temp2) r1 ON l.alias=r1.alias LEFT Outer JOIN (select temp3.alias from (SELECT * FROM view_informes". $data['ext'] ." where alias is not null and proceso < 4 ". $cliente_temp .") as temp3) r2 ON l.alias=r2.alias";
 
-            $condicion .="and r1.alias is null and r2.alias is null and fecha_vencimiento between '". $data['fecha_home']."' and '". $data['fecha_end']."' ". $cliente_temp .""; 
+            $condicion .=" and r1.alias is null and r2.alias is null and fecha_vencimiento between '". $data['fecha_home']."' and '". $data['fecha_end']."' ". $cliente_temp .""; 
         }          
         
         $this->query .= $condicion." ;";   

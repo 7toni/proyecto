@@ -1,7 +1,8 @@
 /* Inicio de variables de recepción */    
     //var count_check_equipo = 0;
     var count_numinforme=0;
-    var planta_temp = "";  
+    var idplanta_temp = ""; 
+    var planta_temp = ""; 
     var detalles="";  
 /* End variables de inicio */
  
@@ -56,7 +57,7 @@
     
             var diastotal= dateB.diff(dateA, 'days');
             var diastranscurridos= datehoy.diff(dateA, 'days');
-            value= ((diastranscurridos*100)/diastotal);                             
+            value= Math.round(((diastranscurridos*100)/diastotal));                             
         }              
         return value;
     }
@@ -83,7 +84,7 @@
 /* End asignar_equipo_cliente */
 
 /* Buscar plantas de la empresa  */
-  var empresa_ajax = function() {
+    var empresa_ajax = function() {
     $.ajax({
         url: "?c=usuarios&a=ajax_load_plantas",
         dataType: "json",
@@ -97,49 +98,48 @@
         $.each(datos, function() {
             select.append($("<option />").val(this.id).text(this.nombre));
         });
+        select.trigger("change");
 
     }).fail(function(data) {
 
     }).always(function(data) {
 
     });
-  } 
+    } 
 
-  var empresa_ajax_r = function() {
-
-      $.ajax({
-          url: "?c=recepcion&a=ajax_load_plantas",
-          dataType: "json",
-          method: "POST",
-          data: "idempresa=" + $(".select2").val()
-      }).done(function(data) {
-          var datos = data;        
-          var select = $('#idplanta_ajax_r');
-          select.empty();
+    var empresa_ajax_r = function() {
+        $.ajax({
+            url: "?c=recepcion&a=ajax_load_plantas",
+            dataType: "json",
+            method: "POST",
+            data: "idempresa=" + $(".select2").val()
+        }).done(function(data) {
+            var datos = data;        
+            var select = $('#idplanta_ajax_r');
+            select.empty();
             select.append($("<option >").val('').text('Seleccione una opción'));
-          $.each(datos, function() {
-              select.append($("<option >").val(this.id).text(this.nombre));
-          });                  
-          
-          if (planta_temp.length > 0) {
-            $('#idplanta_ajax_r').val(planta_temp).change();
-            planta_temp = "";
-          } 
+            $.each(datos, function() {
+                select.append($("<option >").val(this.id).text(this.nombre));
+            });                  
+            select.trigger("change");
+
+            if (idplanta_temp.length > 0) {
+                $('#idplanta_ajax_r').val(idplanta_temp).trigger("change");
+                idplanta_temp = "";
+            } 
 
             if(datos.length == 1){
             var optplanta= datos[0]['id'];
-            $('#idplanta_ajax_r').val(optplanta).change();            
+            $('#idplanta_ajax_r').val(optplanta).trigger("change");
             }
             else{
                 $('#direccion_planta').text('...'); 
-            }          
-        //   else  {
-        //       $('#idplanta_ajax_r').val('').change();
-        //   }     
+            } 
+                     
 
-      }).fail(function(data) {}).always(function(data) {
-          // console.log(data);
-      });
+        }).fail(function(data) {}).always(function(data) {
+            // console.log(data);
+        });
     }
 
     var idplanta_ajax_r = function() {
@@ -175,13 +175,16 @@
                 // console.log(data);
             });
         }
-        else{
-            //console.log("vacio");
+        else{            
+            if(planta_temp.length >0){
+                var campo= planta_temp;                                
+                var value=  $("#idplanta_ajax_r").find("option:contains('"+planta_temp+"')").val();               
+                $("#idplanta_ajax_r").val(value).change();
+                planta_temp="";
+            }          
         }       
-        }
-    
-        
-
+    }
+            
 /*  End empresa_ajax_r  */
 
 /* Para capturar factura previa */
@@ -395,7 +398,7 @@ function submit_acceso() {
             if(datos=="exitoso"){
                 $('[type="submit"]').removeAttr('disabled');
                 $logModal.modal('hide');
-                $("[name='informevalidacion']").remove();
+                //$("[name='informevalidacion']").remove();
             }
             else{
                 $("[name='alerta_validacion']").remove();
@@ -415,67 +418,121 @@ function submit_acceso() {
   
   $(document).ready(function() {
         
-    /**
+/**
  *  Modulo de busqueda de historial y equipo
 */
+    var arrayidequipo = function(){        
+        var qr= $("#idequipo").val().trim();
+        //console.log(qr);          
+        var obj= qr.split(';');           
+        return obj;
+    }
+
+    var comparatext = function(var1,var2){
+        if(var1.toLowerCase() == var2.toLowerCase()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     var buscar_historialequipo = function () {
         //count_check_equipo=0;
-
-        //$('[type="submit"]').removeAttr('disabled');
-        $("[name='informevalidacion']").remove();
+            $('[type="submit"]').removeAttr('disabled');
+            //$("[name='informevalidacion']").remove();
+            $("[name='alertas']").remove();
             activarcargando(1);
         if (validar_text($("#idequipo").val().trim())== true) {
-            $.ajax({
-                url: "?c=recepcion&a=ajax_load_historial",
-                dataType: "json",
-                method: "POST",
-                data: "idequipo=" + $("#idequipo").val().trim()                
-            }).done(function (data) {
-                var datos = data;   
-                //console.log(datos);              
-                if (datos.length > 0) {                                                                  
-                    _table2.clear();
-                    _table2.rows.add(datos).draw();              
-                }                 
-                buscar_tablaequipo($("#idequipo").val().trim());
-
-                activarcargando(0);
-
-            }).fail(function (data) {
-            }).always(function (data) {
-                //console.log(data);
-            });
+            var obj = arrayidequipo();  
+            try{
+                $.ajax({
+                    url: "?c=recepcion&a=ajax_load_historial",
+                    dataType: "json",
+                    method: "POST",
+                    data: "idequipo=" + obj[0]  //obj[clave]              
+                }).done(function (data) {
+                    var datos = data;
+                    //console.log(datos);
+                    var sizedatos= datos.length;                                
+                    if (sizedatos > 0) {                                                                  
+                        _table2.clear();
+                        _table2.rows.add(datos).draw();
+                    }                                 
+                    buscar_tablaequipo(obj);
+                    activarcargando(0);
+    
+                }).fail(function (data) {
+                }).always(function (data) {
+                    //console.log(data);
+                }); 
+            }   
+            catch(err){
+                console.log("Tenemos un problema con los datos de entrada");
+            }                                       
         } 
         else{
             alertas_tipo_valor('alerta_idequipo','requerido','id del equipo');
             activarcargando(0);              
-        }        
+        }
     };
 
-    var buscar_tablaequipo = function(val) {
-        if (val != null || val != '') {
+    var buscar_tablaequipo = function(obj) {
+        var sizeobj= obj.length;
+        //$("[name='informevalidacion']").remove();
+        if (obj[0] != null || obj[0] != '') {        
             $.ajax({
                 url: "?c=recepcion&a=ajax_load_equipo",
                 dataType: "json",
                 method: "POST",
-                data: "idequipo=" + val
+                data: "idequipo=" + obj[0]
             }).done(function(data) {
-                var datos = data;  
-               // console.log(datos);              
-                if (datos.length > 0) {
+                var datos = data; 
+                //console.log(datos);
+                var sizedata= datos.length;              
+                if (sizedata > 0) { // Quiere decir que hay equipos en data                                        
                     _table.clear();
                     _table.rows.add(datos).draw();
-                    if(datos.length ==1){
-                        $("input[type='radio'][name='r1'][value='"+datos[0]['id']+"']").prop('checked', true);                        
-                        comprobar_informeequipo(datos[0]['id']);
-                    }else if(getidequipo != null){
+                    var sizegetideq= getidequipo.length;
+                     
+                    if(sizegetideq>0 && obj[0]===getalias){//Verifica que el informe en curso, ya tiene asiganado un equipo, lo que hace es
+                        //buscarlo en el array de datos y seleccionarlo.
+                        var data=[];                      
+                        for (var i in datos) {                          
+                            if(getidequipo == datos[i]['id']){                                                          
+                                data[0]= datos[i];
+                                break;
+                            }                             
+                        }
+                        _table.clear();
+                        _table.rows.add(data).draw();
+                        //La variable getequipo se obtiene desde php
                         $("input[type='radio'][name='r1'][value='"+getidequipo+"']").prop('checked', true);  
-                        comprobar_informeequipo(getidequipo);
-                    }    
+                        evaluar_informeequipo(getidequipo);
+                    } else if(sizeobj > 1){ // quiere decir que el array obj esta lleno con los datos de equipo y cliente, escaneado desde QR
+                        //Comparar si la tabla tiene un columna o varias, y se comparara las datos del obj con el el data                                             
+                        for(var i=0; i<sizedata; i++){                                                   
+                            if(comparatext(datos[i]['alias'],obj[0]) == true && comparatext(datos[i]['descripcion'],obj[1]) && comparatext(datos[i]['marca'],obj[2]) && comparatext(datos[i]['modelo'],obj[3]) && comparatext(datos[i]['serie'],obj[4])){                                
+                                $("input[type='radio'][name='r1'][value='"+datos[i]['id']+"']").prop('checked', true);
+                                evaluar_informeequipo(datos[i]['id']);
+                                var campo= obj[5];                                
+                                var value=  $("#empresa_ajax_r").find("option:contains('"+ campo +"')").val();                                
+                                $("#empresa_ajax_r").val(value).trigger("change");
+                                planta_temp= obj[6];                                                              
+                                break;
+                            }
+                            else{
+                                alertas_tipo_valor('alerta_idequipo', 'vacio', "<p>No se encontró coincidencia, favor de verificar.</p>");
+                            }                                                        
+                        }
+                    } else if(sizedata == 1){//quiere decir que los datos del data, que se llenaron en la tabla equipos, tiene una columna , por lo tanto se hace check
+                        $("input[type='radio'][name='r1'][value='"+datos[0]['id']+"']").prop('checked', true);                        
+                        evaluar_informeequipo(datos[0]['id']);
+                    }
+
                 } else{
                     alertas_tipo_valor('alerta_idequipo', 'vacio', "<p><a href='?c=equipos&a=add' target='_blank' class='btn btn-primary' style='text-decoration:none;'><i class='fa fa-plus-circle'></i> &nbsp; Agregar equipo</a></li></p>");
-                }          
-
+                }
             }).fail(function(data) {}).always(function(data) {
                 // console.log(data);
             });
@@ -484,187 +541,433 @@ function submit_acceso() {
         }
     };
 
-    var comprobar_informeequipo = function(val) {        
-        $("[name='informevalidacion']").remove();       
-        // Agregar un validacion de equipo mas informe, ya que solo valida el etatus del equipo, pero no juntamente con el informe
-            
+    //Validar los valores del informe actual mas las diferentes notifcaciones del caso.
+    var evaluar_informeequipo = function(val) {            
+        // Agregar un validacion de equipo mas informe, ya que solo valida el estado del equipo
+            //$("[name='informevalidacion']").remove();                 
             var numinforme= $("#numero_informe").val();
-            var reqaut_infactual= reqautorizacion;
-            var proceso_infactual= proceso;
+            var reqaut_infactual= parseInt(reqautorizacion);
+            var proceso_infactual= parseInt($("#proceso").val());            
             var equipo_infactual= getidequipo;
-            var valuesubmit=["Actualizar","En espera de autorización","Actualizar","Estado [requiere autorización]", "Solicitar registro","Solicitar registro","Registrar","Actualizar","Actualizar"]; 
-            var tiposubmit= ["actualizar","sinpermiso","actualizaraut","sinpermiso","solicitud","solicitud","registrar","actualizar","actualizar"];
-            var disabledsubmit= [false,true,false,true,false,false,false,false,false];
-            var disablebusqueda= [false,true,true,true,false,false,false,false,false];
-            var btncolor=["btn-warning","btn-danger","btn-info","btn-danger","btn-warning","btn-warning","btn-primary","btn-warning","btn-warning"];
-            var valuealerta=[
-                "Este equipo corresponde a este informe, puedes hacer alguna modificación en los datos del Cliente, PO, datos de calibración, en la hoja de entrada o cambiar de equipo, siempre y cuando este disponible.",
-                "Este informe está en espera que se autorice para ingresar el equipo duplicado. Si deseas ingresar otro id, solicita cancelarlo a tu supervisor.",
-                "Este equipo corresponde a este informe, está autorizado para continuar con el proceso de registro.",
-                "Este Equipo no se puede usar, ya que esta se encuentra en un estado que requiere autorización. Si deseas ingresar este equipo, solicita cancelar el informe que tiene asignado, a tu supervisor.",                
-                "Este Equipo no se puede usar, ya que esta se encuentra vigente en su fecha de calibración. Pero, si deseas ingresar este equipo, solicita la autorización a tu supervisor.",
-                "Este Equipo no se puede usar, ya que esta se encuentra en proceso. Pero, si deseas ingresar este equipo, solicita la autorización a tu supervisor.",
-                "Este Equipo ha superado su fecha de vencimiento <span class='badge bg-red'> URGENTE! </span>. Puedes ingresar el equipo ya que este informe no tiene asignado ningun otro equipo.",
-                "Este Equipo ha superado su fecha de vencimiento <span class='badge bg-red'> URGENTE! </span>. <h3> Ojo! </h3> Este informe ya tiene asigando otro equipo, pero puedes actualizarlo.",
-                "<h3> Ojo! </h3> Este informe tiene asignado otro equipo y se encuentra en proceso, pero puedes actualizarlo."
-            ];
 
-            $.ajax({
-                url: "?c=recepcion&a=ajax_load_ultimoid_equipo",
-                dataType: "json",
-                method: "POST",
-                data: "idequipo=" + val
-            }).done(function(data) {
-                var datos = data;                                                               
-                //Si el datos.length es igual a cero, quiere decir que no tiene ningun informe asociado.                
-                    if (datos.length > 0) {
-                        var num_infbuscado= datos[0]['id'];
-                        var equipo_infbuscado= datos[0]['idequipo'];
-                        var proceso_infbuscado= datos[0]['proceso'];
-                        var reqauto_infbuscado= datos[0]['reqautorizacion'];
-                        var vigencia_infbuscado= "";  
-                        if(proceso_infbuscado == 4){
-                            vigencia_infbuscado= validar_ultimacal(datos[0]['fecha_calibracion'], datos[0]['fecha_vencimiento']);
-                        }                                              
+            var obj={"id":numinforme,"idequipo":equipo_infactual,"proceso":proceso_infactual,"reqautorizacion":reqaut_infactual};
+            var data= historial_ultimoidequipo(val);
+            var sizedata=data.length;
 
-                        // Revisar si el informe actual es igual al encontrado
-                        if(numinforme == num_infbuscado && equipo_infactual == equipo_infbuscado){
-                            //Este alerta es para los informes que pasaron a un estado de reqautizacion                            
-                            if(reqaut_infactual > 0 && proceso_infactual < 4){
-                                //alerta                                                            
-                                $("[name='informevalidacion']").remove();
-                                alertas_col12('alerta_equipoinforme', 'warning', valuealerta[reqaut_infactual] );                            
-                            }else if(proceso_infactual < 4){
-                                $("[name='informevalidacion']").remove();
-                                alertas_col12('alerta_equipoinforme', 'info', valuealerta[reqaut_infactual] );                            
-                            }else if(proceso_infactual == 4){
-                                $("[name='informevalidacion']").remove();
-                                alertas_col12('alerta_equipoinforme', 'info',  "Este equipo corresponde a este informe y finalizado el proceso, si deseas realizar alguna actualización esta permitido." );
-                            }                           
-                            
-                            //Submit
-                            $('[type="submit"]').prop('disabled', disabledsubmit[reqaut_infactual]);                             
-                            $('[type="submit"]').prop('value', valuesubmit[reqaut_infactual]);
-                            $('[name="tiposubmit"]').prop('value',tiposubmit[reqaut_infactual]);
-                            $('[type="submit"]').removeClass('btn-primary').addClass(btncolor[reqaut_infactual]);
-                            
-                            //Opciones de busqueda
-                            $('#buscar_idequipo').prop('disabled', disablebusqueda[reqaut_infactual]);
-                            $('#idequipo').prop('disabled', disablebusqueda[reqaut_infactual]);                            
-                            
-                        }else if(numinforme != num_infbuscado){ //Analizar cuando un equipo o el informe no son iguales, 
-                            var numtemp=0;                            
-                            /**
-                             * 1. Revisar si el equipo esta asignado a un informe que esta en proceso
-                             * 2. Revisar si el equipo esta asignado a un informe que no ha finalizado su vigencia de calibracion.
-                             * 3. Revisar si el equipo no se encuentra en proceso de autorizacion.
-                             * 4. Revisar si el informe no tiene asignado un equipo ya. 
-                             */
-                            if(reqauto_infbuscado == 0){
-                                if(proceso_infbuscado < 4 && proceso_infactual<4){
-                                    numtemp=5;
-                                    $("[name='informevalidacion']").remove();
-                                    alertas_col12('alerta_equipoinforme', 'warning', valuealerta[numtemp] );                                     
-                                    detalles= usuario + "_"+"Último número de informe ("+ num_infbuscado +") encontrado que pertenece al cliente "+  datos[0]['empresa'] +","+  datos[0]['planta']  +", el proceso actual es "+ datos[0]['proceso'];
-
-                                } else if(proceso_infbuscado>3  && vigencia_infbuscado > 100  && equipo_infactual == ""){
-                                    numtemp=6;
-                                    $("[name='informevalidacion']").remove();
-                                    alertas_col12('alerta_equipoinforme', 'warning', valuealerta[numtemp]);
-                                }
-                                else if( proceso_infbuscado>3  && vigencia_infbuscado > 100  && proceso_infactual < 4 && equipo_infactual != null ){
-                                    numtemp=7;
-                                    $("[name='informevalidacion']").remove();
-                                    alertas_col12('alerta_equipoinforme', 'warning', valuealerta[numtemp]);
-                                }                             
-                                else if(vigencia_infbuscado < 80 ){
-                                    numtemp=4;
-                                    $("[name='informevalidacion']").remove();
-                                    alertas_col12('alerta_equipoinforme', 'warning', valuealerta[numtemp] );                                    
-                                    detalles= usuario + "_"+"Último número de informe ("+ num_infbuscado +") encontrado que pertenece al cliente "+  datos[0]['empresa'] +","+  datos[0]['planta']  +", con fecha de vencimiento :"+  datos[0]['fecha_vencimiento'];
-                                } 
-                                                          
-
-                                $('[type="submit"]').prop('disabled',disabledsubmit[numtemp] );
-                                $('[type="submit"]').prop('value', valuesubmit[numtemp]);
-                                $('[name="tiposubmit"]').prop('value',tiposubmit[numtemp]);
-                                $('[type="submit"]').removeClass('btn-primary').addClass(btncolor[numtemp]);
-
-                            }
-                            else{                           
-                                //alerta 
-                                if(reqauto_infbuscado > 0 && proceso_infbuscado < 4){
-                                    numtemp=3;
-                                    $("[name='informevalidacion']").remove();
-                                    alertas_col12('alerta_equipoinforme', 'warning', valuealerta[numtemp] );                                    
-                                }                              
-                                else if( reqauto_infbuscado > 0 && vigencia_infbuscado < 80){
-                                    numtemp=4;
-                                    $("[name='informevalidacion']").remove();
-                                    alertas_col12('alerta_equipoinforme', 'warning', valuealerta[numtemp] );
-                                    detalles= usuario + "_"+"Último número de informe ("+ num_infbuscado +") encontrado que pertenece al cliente "+  datos[0]['empresa'] +","+  datos[0]['planta']  +", con fecha de vencimiento :"+  datos[0]['fecha_vencimiento'];
-                                }                             
-
-                                $('[type="submit"]').prop('disabled',disabledsubmit[numtemp] );
-                                $('[type="submit"]').prop('value', valuesubmit[numtemp]);
-                                $('[name="tiposubmit"]').prop('value',tiposubmit[numtemp]);
-                                $('[type="submit"]').removeClass('btn-primary').addClass(btncolor[numtemp]);
-                            }                            
-
-                        }                 
-                    }else{
-                        // Comprobar si el informe actual tiene alguna restriccion, por ejemplo que este esperando alguna autorizacion y sea haya confirmado
-                        if(reqautorizacion === null || reqautorizacion === "0"){
-                            var valor= "<p>Puedes ingresar el equipo seleccionado sin problema. No se encontró ninguna coincidencia con algún informe.</p>";
-                            alertas_col12('alerta_equipoinforme', 'success', valor );                    
-                            //Cambio de boton de submit= Registrar
-                            $('[type="submit"]').prop('value', 'Registrar');
-                            $('[name="tiposubmit"]').prop('value','registrar');
-                        }else{
-                            var numtemp=0;    
-                            
-                            if(reqautorizacion == 2 ){
-                                numtemp=3;
-                                alertas_col12('alerta_equipoinforme', 'warning', valuealerta[numtemp] );                    
-                                //Cambio de boton de submit= Registrar
-                                $('[type="submit"]').prop('disabled', disabledsubmit[numtemp]);                             
-                                $('[type="submit"]').prop('value', valuesubmit[numtemp]);
-                                $('[name="tiposubmit"]').prop('value',tiposubmit[numtemp]);
-                            }else{
-                                numtemp=1;
-                                alertas_col12('alerta_equipoinforme', 'warning', valuealerta[numtemp] );                    
-                                //Cambio de boton de submit= Registrar
-                                $('[type="submit"]').prop('disabled', disabledsubmit[numtemp]);                             
-                                $('[type="submit"]').prop('value', valuesubmit[numtemp]);
-                                $('[name="tiposubmit"]').prop('value',tiposubmit[numtemp]);
-                            }
-                           
+            var valuesubmit=["Registrar","Actualizar","Solicitar registro","Estado [autorización]", "Bajo autorización","Estado [autorización]"]; 
+            var tiposubmit= ["registrar","actualizar","solicitud","sinpermiso","actualizar","sinpermiso"];
+            var disabledsubmit= [false,false,false,true,false,true];
+            var disablebusqueda= [false,false,false,true,true,false];
+            var btncolor=["btn-primary","btn-info","btn-warning","btn-danger","btn-warning","btn-danger"];
+            //success info warning danger
+            var alertcolor="";
+            var alerta="";
+            var  numtemp=0;
+            if(sizedata==0){
+                if(obj['reqautorizacion']==0){
+                    if(obj['proceso']==0){
+                        if(obj['idequipo']!=val || obj['idequipo']==""){
+                            alerta="#1 Este informe está disponible para ingresar el equipo seleccionado, para continuar con el proceso de registro.";
+                            alertcolor="success";
+                            numtemp=0; 
+                        }else if(obj['idequipo']==val){
+                            alerta="#2 Este informe tiene asigando el equipo seleccionado, el cual esta disponible para continuar con el proceso de registro.";
+                            alertcolor="info";
+                            numtemp=1;
                         }
-                        
-                    }                
-            }).fail(function(data) {}).always(function(data) {
-                // console.log(data);
-            });       
+                    }else if(obj['proceso']>0){
+                        if(obj['proceso']==4){
+                            if(obj['idequipo']!=val || obj['idequipo']==""){
+                                alerta="#3 Este informe se encuentra en proceso finalizado, el equipo asignado no es el seleccionado por lo cual si se desea actualizar se enviara una solicitud de registro.";
+                                alertcolor="warning";
+                                numtemp=2;
+                                detalles = usuario + "_"+"El Informe:"+ obj['id']+ "se encuentra en proceso finalizado, y se desea ingresar otro equipo con el id:"+ val +". Ojo! Revise informe (Excel) y certificado que se haga el cambio completo.";
+                            }
+                            else if(obj['idequipo']==val){
+                                alerta="#4 Este informe se encuentra en proceso finalizado y el equipo asignado es el seleccionado.";
+                                alertcolor="info";
+                                numtemp=1; 
+                            }                                
+                        }else{
+                            if(obj['idequipo']!=val || obj['idequipo']==""){
+                                alerta="#5 Este informe se encuentra en proceso, el equipo asignado no es el seleccionado por lo cual si se desea actualizar se enviara una solicitud de registro.";
+                                alertcolor="warning";
+                                numtemp=2;
+                                detalles = usuario + "_"+"El Informe:"+ obj['id']+ "se encuentra en proceso, y se desea ingresar otro equipo con el id:"+ val;
+                            }else if(obj['idequipo']==val){
+                                alerta="#6 Este informe se encuentra en proceso y el equipo asignado es el seleccionado.";
+                                alertcolor="info";
+                                numtemp=1;  
+                            }                         
+                        }                       
+                    }                   
+                }else if(obj['reqautorizacion']>0){
+                    if(obj['proceso']<4){
+                        if(obj['idequipo']!=val || obj['idequipo']==""){
+                            alerta="#7 Este informe tiene asignado otro equipo";
+                            alertcolor="danger";
+                            var opcionnum=[0,3,3];
+                            var alertatemp=[""," No se puede realizar ninguna modificación hasta que autorice o se cancele."," No se puede realizar cambios o actualizaciones, a menos que se cancele el informe actual."];
+                            numtemp= opcionnum[obj['reqautorizacion']];
+                            alerta+=alertatemp[obj['reqautorizacion']];
+                        }else{
+                            alerta="#8 Este informe tiene asignado el equipo seleccionado.";
+                            alertcolor="danger";
+                            var opcionnum=[0,3,4];
+                            var alertatemp=[""," Pero no se puede realizar ninguna modificación hasta que autorice o se cancele."," Se puede realizar cambios o actualizaciones excepto cambiar el equipo asignado, a menos que se cancele el informe actual."];
+                            numtemp= opcionnum[obj['reqautorizacion']];
+                            alerta+=alertatemp[obj['reqautorizacion']];
+                        }
+                    }else if(obj['proceso']==4){
+                        if(obj['reqautorizacion']==2){
+                            if(obj['idequipo']!=val || obj['idequipo']==""){
+                                alerta="#9 Este informe tiene asignado otro equipo y se encuentra es un estado de autorización aprobado. Si se desea ingresar otro equipo cancele este informe e ingresa la información que desea. ";
+                                alertcolor="danger";
+                                numtemp=3;
+                            }else{
+                                alerta="#10 Este informe tiene asigando el equipo seleccionado y se encuentra en estado de aprobación.";
+                                alertcolor="warning";
+                                numtemp=4; 
+                            }                            
+                        }
+                    }
+                }
+            }
+            else if(sizedata>0){
+                var alertatemp="";
+                for(var i in data){
+                    var vigencia=0;                    
+                    if(obj['reqautorizacion']==0){
+                        if(obj['proceso']==0){
+                            if(obj['idequipo']!=val || obj['idequipo']==""){                                
+                                if(data[i]['reqautorizacion']==0){
+                                    if(parseInt(data[i]['proceso'])<4){
+                                        //Solicitar
+                                        alertatemp+="#11 El equipo seleccionado según su historial se encuentra en el proceso de <span class='badge bg-red'>"+data[i]['nombre_proceso']+"</span>. Si se desea continuar con el proceso de registro, al final del registro se enviara una solicitud para autorizar.";
+                                        alertcolor="warning";
+                                        detalles = usuario + "_"+"El equipo tiene asigando el informe: ("+ data[i]['id'] +") que pertenece al cliente: "+  data[i]['empresa'] +","+  data[i]['planta']  +" y se encuentra en el proceso de "+  data[i]['nombre_proceso']+". Se desea registrar en el informe :"+obj['id'];
+                                        numtemp=2;
+                                    }else if(parseInt(data[i]['proceso'])==4){
+                                        //vigencia, Solicitar registro
+                                        vigencia= validar_ultimacal(data[i]['fecha_calibracion'], data[i]['fecha_vencimiento']);
+                                        if(vigencia>100){
+                                            alertatemp +="#12 El equipo seleccionado puede registrarse, ya que según su historial se encuentra en proceso terminado y su estado de vigencia ha superado el límite. Prioridad de registro: <span class='badge bg-red'> URGENTE! </span>.";
+                                            alertcolor="success";
+                                            numtemp=0;
+                                        }
+                                        else if(vigencia>80){
+                                            alertatemp +="#13 El equipo seleccionado puede registrarse, ya que según su historial se encuentra en proceso terminado y su estado de vigencia es del <span class='badge bg-red'> "+ vigencia +"% </span>. Puede continuar con el proceso de registro.";
+                                            alertcolor="success";
+                                            numtemp=0;
+                                        }else if(vigencia<80){
+                                            alertatemp +="#14 El equipo seleccionado según su historial el estado de vigencia es del <span class='badge bg-red'>"+vigencia+"% </span>. Si se desea continuar con el proceso de registro, al final del registro se enviara una solicitud para autorizar.";
+                                            alertcolor="warning";
+                                            detalles = usuario + "_"+"El equipo tiene asigando el informe: ("+ data[i]['id'] +") que pertenece al cliente: "+  data[i]['empresa'] +","+  data[i]['planta']  +" y su fecha de vencimiento es hasta "+  data[i]['fecha_vencimiento']+". Se desea registrar en el informe :"+obj['id'];
+                                            numtemp=2;
+                                        }                            
+                                    }
+                                }else if(data[i]['reqautorizacion']>0){
+                                    if(data[i]['reqautorizacion']==1){
+                                        alertatemp +="#15 El equipo seleccionado según su historial se encuentra en un estado de autorización <span class='badge bg-yellow'>pendiente</span>,por lo tanto no se puede continuar con el proceso de registro. ";
+                                        alertcolor="danger";
+                                        numtemp=5;
+                                    }else if(data[i]['reqautorizacion']==2){
+                                        if(parseInt(data[i]['proceso'])<4){
+                                            //Solicitar
+                                            alertatemp+="#16 El equipo seleccionado según su historial se encuentra en el proceso de <span class='badge bg-red'>"+data[i]['nombre_proceso']+"</span> y en el estado de <span class='badge bg-red'>bajo autorización</span>. Si se desea registrar, se enviara una solicitud para autorizar. ";
+                                            alertcolor="warning";
+                                            detalles = usuario + "_"+"El equipo tiene asigando el informe: ("+ data[i]['id'] +") que pertenece al cliente: "+  data[i]['empresa'] +","+  data[i]['planta']  +", se encuentra en el proceso de "+  data[i]['nombre_proceso']+" y en un estado: bajo autorización. Se desea registrar en el informe :"+obj['id'];
+                                            numtemp=2;
+                                        }else if(parseInt(data[i]['proceso'])==4){
+                                            //vigencia, Solicitar registro
+                                            vigencia= validar_ultimacal(data[i]['fecha_calibracion'], data[i]['fecha_vencimiento']);
+                                            if(vigencia>100){
+                                                alertatemp +="#17 El equipo seleccionado puede registrarse, ya que según su historial se encuentra en proceso terminado y su estado de vigencia ha superado el límite. Prioridad de registro: <span class='badge bg-red'> URGENTE! </span>.";
+                                                alertcolor="success";
+                                                numtemp=0;
+                                            }
+                                            else if(vigencia>80){
+                                                alertatemp +="#18 El equipo seleccionado puede registrarse, ya que según su historial se encuentra en proceso terminado y su estado de vigencia es del <span class='badge bg-red'> "+ vigencia +"% </span>. Puede continuar con el proceso de registro.";
+                                                alertcolor="success";
+                                                numtemp=0;
+                                            }else if(vigencia<80){
+                                                alertatemp +="#19 El equipo seleccionado según su historial el estado de vigencia es del <span class='badge bg-red'>"+vigencia+"% </span>, además este informe se encuentra <span class='badge bg-red'>bajo autorización</span>. Si se desea continuar con el proceso de registro, al final del registro se enviara una solicitud para autorizar.";
+                                                alertcolor="warning";
+                                                detalles = usuario + "_"+"El equipo tiene asigando el informe: ("+ data[i]['id'] +") que pertenece al cliente: "+  data[i]['empresa'] +","+  data[i]['planta']  +" y su fecha de vencimiento es hasta "+  data[i]['fecha_vencimiento']+". Se desea registrar en el informe :"+obj['id'];
+                                                numtemp=2;
+                                            }                            
+                                        }  
+                                    }
+                                }
+                            }else if(obj['idequipo']== val && obj['id']==parseInt(data[i]['id'])){
+                                alertatemp +="#20 El equipo seleccionado corresponde al informe <span class='badge bg-red'>"+data[i]['id']+"</span>.";
+                                alertcolor="info";
+                                numtemp=1;
+                            }
+                        }else{
+                            if(obj['idequipo']!= val){
+                                if(data[i]['reqautorizacion']==0){
+                                    if(parseInt(data[i]['proceso'])<4){
+                                        //Solicitar
+                                        alertatemp+="#21 El equipo seleccionado según su historial se encuentra en el proceso de <span class='badge bg-red'>"+data[i]['nombre_proceso']+"</span>. Si se desea continuar con el proceso de registro, al final del registro se enviara una solicitud para autorizar.";
+                                        alertcolor="warning";
+                                        detalles = usuario + "_"+"El equipo tiene asigando el informe: ("+ data[i]['id'] +") que pertenece al cliente: "+  data[i]['empresa'] +","+  data[i]['planta']  +" y se encuentra en el proceso de "+  data[i]['nombre_proceso']+". Se desea registrar en el informe :"+obj['id'];
+                                        numtemp=2;
+                                    }else if(parseInt(data[i]['proceso'])==4){
+                                        //vigencia, Solicitar registro
+                                        vigencia= validar_ultimacal(data[i]['fecha_calibracion'], data[i]['fecha_vencimiento']);
+                                        if(vigencia>100){
+                                            alertatemp +="#22 El equipo seleccionado puede registrarse, ya que según su historial se encuentra en proceso terminado y su estado de vigencia ha superado el límite. Prioridad de registro: <span class='badge bg-red'> URGENTE! </span>.";
+                                            alertcolor="success";
+                                            numtemp=0;
+                                        }
+                                        else if(vigencia>80){
+                                            alertatemp +="#23 El equipo seleccionado puede registrarse, ya que según su historial se encuentra en proceso terminado y su estado de vigencia es del <span class='badge bg-red'> "+ vigencia +"% </span>. Puede continuar con el proceso de registro.";
+                                            alertcolor="success";
+                                            numtemp=0;
+                                        }else if(vigencia<80){
+                                            alertatemp +="#24 El equipo seleccionado según su historial el estado de vigencia es del <span class='badge bg-red'>"+vigencia+"% </span>. Si se desea continuar con el proceso de registro, al final del registro se enviara una solicitud para autorizar.";
+                                            alertcolor="warning";
+                                            detalles = usuario + "_"+"El equipo tiene asigando el informe: ("+ data[i]['id'] +") que pertenece al cliente: "+  data[i]['empresa'] +","+  data[i]['planta']  +" y su fecha de vencimiento es hasta "+  data[i]['fecha_vencimiento']+". Se desea registrar en el informe :"+obj['id'];
+                                            numtemp=2;
+                                        }                            
+                                    }
+                                }else if(data[i]['reqautorizacion']>0){
+                                    if(data[i]['reqautorizacion']==1){
+                                        alertatemp +="#25 El equipo seleccionado según su historial se encuentra en un estado de autorización <span class='badge bg-yellow'>pendiente</span>,por lo tanto no se puede continuar con el proceso de registro. ";
+                                        alertcolor="danger";
+                                        numtemp=5;
+                                    }else if(data[i]['reqautorizacion']==2){
+                                        if(parseInt(data[i]['proceso'])<4){
+                                            //Solicitar
+                                            alertatemp+="#26 El equipo seleccionado según su historial se encuentra en el proceso de <span class='badge bg-red'>"+data[i]['nombre_proceso']+"</span> y en el estado de <span class='badge bg-red'>bajo autorización</span>. Si se desea registrar, se enviara una solicitud para autorizar. ";
+                                            alertcolor="warning";
+                                            detalles = usuario + "_"+"El equipo tiene asigando el informe: ("+ data[i]['id'] +") que pertenece al cliente: "+  data[i]['empresa'] +","+  data[i]['planta']  +", se encuentra en el proceso de "+  data[i]['nombre_proceso']+" y en un estado: bajo autorización. Se desea registrar en el informe :"+obj['id'];
+                                            numtemp=2;
+                                        }else if(parseInt(data[i]['proceso'])==4){
+                                            //vigencia, Solicitar registro
+                                            vigencia= validar_ultimacal(data[i]['fecha_calibracion'], data[i]['fecha_vencimiento']);
+                                            if(vigencia>100){
+                                                alertatemp +="#27 El equipo seleccionado puede registrarse, ya que según su historial se encuentra en proceso terminado y su estado de vigencia ha superado el límite. Prioridad de registro: <span class='badge bg-red'> URGENTE! </span>.";
+                                                alertcolor="success";
+                                                numtemp==0;
+                                            }
+                                            else if(vigencia>80){
+                                                alertatemp +="#28 El equipo seleccionado puede registrarse, ya que según su historial se encuentra en proceso terminado y su estado de vigencia es del <span class='badge bg-red'> "+ vigencia +"% </span>. Puede continuar con el proceso de registro.";
+                                                alertcolor="success";
+                                                numtemp==0;
+                                            }else if(vigencia<80){
+                                                alertatemp +="#29 El equipo seleccionado según su historial el estado de vigencia es del <span class='badge bg-red'>"+vigencia+"% </span>, además este informe se encuentra <span class='badge bg-red'>bajo autorización</span>. Si se desea continuar con el proceso de registro, al final del registro se enviara una solicitud para autorizar.";
+                                                alertcolor="warning";
+                                                detalles = usuario + "_"+"El equipo tiene asigando el informe: ("+ data[i]['id'] +") que pertenece al cliente: "+  data[i]['empresa'] +","+  data[i]['planta']  +" y su fecha de vencimiento es hasta "+  data[i]['fecha_vencimiento']+". Se desea registrar en el informe :"+obj['id'];
+                                                numtemp=2;
+                                            }                            
+                                        }  
+                                    }
+                                }
+                            }
+                            else if(obj['idequipo']== val && obj['id']==parseInt(data[i]['id'])){
+                                alertatemp +="#30 El equipo seleccionado corresponde al informe <span class='badge bg-red'>"+data[i]['id']+"</span>.";
+                                alertcolor="info";
+                                numtemp=1;
+                            }
+                        }
+                    }else if(obj['reqautorizacion']>0){
+                        if(obj['reqautorizacion']==1){
+                            alertatemp +="#31 Este informe se encuentra en un estado de autorización <span class='badge bg-yellow'>pendiente</span>,por lo tanto no se puede continuar con el proceso de registro. ";
+                            alertcolor="danger";
+                            numtemp=3;
+                        }else if(obj['reqautorizacion']==2){
+                            if(obj['proceso']==0){
+                                if(obj['idequipo']!=val || obj['idequipo']==""){                                
+                                    if(data[i]['reqautorizacion']==0){
+                                        if(parseInt(data[i]['proceso'])<4){
+                                            //Solicitar
+                                            alertatemp+="#32 El equipo seleccionado según su historial se encuentra en el proceso de <span class='badge bg-red'>"+data[i]['nombre_proceso']+"</span>. Si se desea continuar con el proceso de registro, al final del registro se enviara una solicitud para autorizar.";
+                                            alertcolor="warning";
+                                            detalles = usuario + "_"+"El equipo tiene asigando el informe: ("+ data[i]['id'] +") que pertenece al cliente: "+  data[i]['empresa'] +","+  data[i]['planta']  +" y se encuentra en el proceso de "+  data[i]['nombre_proceso']+". Se desea registrar en el informe :"+obj['id'];
+                                            numtemp=2;
+                                        }else if(parseInt(data[i]['proceso'])==4){
+                                            //vigencia, Solicitar registro
+                                            vigencia= validar_ultimacal(data[i]['fecha_calibracion'], data[i]['fecha_vencimiento']);
+                                            if(vigencia>100){
+                                                alertatemp +="#33 El equipo seleccionado puede registrarse, ya que según su historial se encuentra en proceso terminado y su estado de vigencia ha superado el límite. Prioridad de registro: <span class='badge bg-red'> URGENTE! </span>.";
+                                                alertcolor="success";
+                                                numtemp=0;
+                                            }
+                                            else if(vigencia>80){
+                                                alertatemp +="#34 El equipo seleccionado puede registrarse, ya que según su historial se encuentra en proceso terminado y su estado de vigencia es del <span class='badge bg-red'> "+ vigencia +"% </span>. Puede continuar con el proceso de registro.";
+                                                alertcolor="success";
+                                                numtemp=0;
+                                            }else if(vigencia<80){
+                                                alertatemp +="#35 El equipo seleccionado según su historial el estado de vigencia es del <span class='badge bg-red'>"+vigencia+"% </span>. Si se desea continuar con el proceso de registro, al final del registro se enviara una solicitud para autorizar.";
+                                                alertcolor="warning";
+                                                detalles = usuario + "_"+"El equipo tiene asigando el informe: ("+ data[i]['id'] +") que pertenece al cliente: "+  data[i]['empresa'] +","+  data[i]['planta']  +" y su fecha de vencimiento es hasta "+  data[i]['fecha_vencimiento']+". Se desea registrar en el informe :"+obj['id'];
+                                                numtemp=2;
+                                            }                            
+                                        }
+                                    }else if(data[i]['reqautorizacion']>0){
+                                        if(data[i]['reqautorizacion']==1){
+                                            alertatemp +="#36 El equipo seleccionado según su historial se encuentra en un estado de autorización <span class='badge bg-yellow'>pendiente</span>,por lo tanto no se puede continuar con el proceso de registro. ";
+                                            alertcolor="danger";
+                                            numtemp=3;
+                                        }else if(data[i]['reqautorizacion']==2){
+                                            if(parseInt(data[i]['proceso'])<4){
+                                                //Solicitar
+                                                alertatemp+="#37 El equipo seleccionado según su historial se encuentra en el proceso de <span class='badge bg-red'>"+data[i]['nombre_proceso']+"</span> y en el estado de <span class='badge bg-red'>bajo autorización</span>. Si se desea registrar, se enviara una solicitud para autorizar. ";
+                                                alertcolor="warning";
+                                                detalles = usuario + "_"+"El equipo tiene asigando el informe: ("+ data[i]['id'] +") que pertenece al cliente: "+  data[i]['empresa'] +","+  data[i]['planta']  +", se encuentra en el proceso de "+  data[i]['nombre_proceso']+" y en un estado: bajo autorización. Se desea registrar en el informe :"+obj['id'];
+                                                numtemp=2;
+                                            }else if(parseInt(data[i]['proceso'])==4){
+                                                //vigencia, Solicitar registro
+                                                vigencia= validar_ultimacal(data[i]['fecha_calibracion'], data[i]['fecha_vencimiento']);
+                                                if(vigencia>100){
+                                                    alertatemp +="#38 El equipo seleccionado puede registrarse, ya que según su historial se encuentra en proceso terminado y su estado de vigencia ha superado el límite. Prioridad de registro: <span class='badge bg-red'> URGENTE! </span>.";
+                                                    alertcolor="success";
+                                                    numtemp=0;
+                                                }
+                                                else if(vigencia>80){
+                                                    alertatemp +="#39 El equipo seleccionado puede registrarse, ya que según su historial se encuentra en proceso terminado y su estado de vigencia es del <span class='badge bg-red'> "+ vigencia +"% </span>. Puede continuar con el proceso de registro.";
+                                                    alertcolor="success";
+                                                    numtemp=0;
+                                                }else if(vigencia<80){
+                                                    alertatemp +="#40 El equipo seleccionado según su historial el estado de vigencia es del <span class='badge bg-red'>"+vigencia+"% </span>. Si se desea continuar con el proceso de registro, al final del registro se enviara una solicitud para autorizar.";
+                                                    alertcolor="warning";
+                                                    detalles = usuario + "_"+"El equipo tiene asigando el informe: ("+ data[i]['id'] +") que pertenece al cliente: "+  data[i]['empresa'] +","+  data[i]['planta']  +" y su fecha de vencimiento es hasta "+  data[i]['fecha_vencimiento']+". Se desea registrar en el informe :"+obj['id'];
+                                                    numtemp=2;
+                                                }                            
+                                            }  
+                                        }
+                                    }
+                                }else if(obj['idequipo']== val && obj['id']==parseInt(data[i]['id'])){
+                                    alertatemp +="#41 El equipo seleccionado corresponde al informe <span class='badge bg-red'>"+data[i]['id']+"</span>.";
+                                    alertcolor="info";
+                                    numtemp=1;
+                                }
+                            }else{
+                                if(obj['idequipo']!= val){
+                                    if(data[i]['reqautorizacion']==0){
+                                        if(parseInt(data[i]['proceso'])<4){
+                                            //Solicitar
+                                            alertatemp+="#42 El equipo seleccionado según su historial se encuentra en el proceso de <span class='badge bg-red'>"+data[i]['nombre_proceso']+"</span>. Si se desea continuar con el proceso de registro, al final del registro se enviara una solicitud para autorizar.";
+                                            alertcolor="warning";
+                                            detalles = usuario + "_"+"El equipo tiene asigando el informe: ("+ data[i]['id'] +") que pertenece al cliente: "+  data[i]['empresa'] +","+  data[i]['planta']  +" y se encuentra en el proceso de "+  data[i]['nombre_proceso']+". Se desea registrar en el informe :"+obj['id'];
+                                            numtemp=2;
+                                        }else if(parseInt(data[i]['proceso'])==4){
+                                            //vigencia, Solicitar registro
+                                            vigencia= validar_ultimacal(data[i]['fecha_calibracion'], data[i]['fecha_vencimiento']);
+                                            if(vigencia>100){
+                                                alertatemp +="#43 El equipo seleccionado puede registrarse, ya que según su historial se encuentra en proceso terminado y su estado de vigencia ha superado el límite. Prioridad de registro: <span class='badge bg-red'> URGENTE! </span>.";
+                                                alertcolor="success";
+                                                numtemp=0;
+                                            }
+                                            else if(vigencia>80){
+                                                alertatemp +="#44 El equipo seleccionado puede registrarse, ya que según su historial se encuentra en proceso terminado y su estado de vigencia es del <span class='badge bg-red'> "+ vigencia +"% </span>. Puede continuar con el proceso de registro.";
+                                                alertcolor="success";
+                                                numtemp=0;
+                                            }else if(vigencia<80){
+                                                alertatemp +="#45 El equipo seleccionado según su historial el estado de vigencia es del <span class='badge bg-red'>"+vigencia+"% </span>. Si se desea continuar con el proceso de registro, al final del registro se enviara una solicitud para autorizar.";
+                                                alertcolor="warning";
+                                                detalles = usuario + "_"+"El equipo tiene asigando el informe: ("+ data[i]['id'] +") que pertenece al cliente: "+  data[i]['empresa'] +","+  data[i]['planta']  +" y su fecha de vencimiento es hasta "+  data[i]['fecha_vencimiento']+". Se desea registrar en el informe :"+obj['id'];
+                                                numtemp=2;
+                                            }                            
+                                        }
+                                    }else if(data[i]['reqautorizacion']>0){
+                                        if(data[i]['reqautorizacion']==1){
+                                            alertatemp +="#46 El equipo seleccionado según su historial se encuentra en un estado de autorización <span class='badge bg-yellow'>pendiente</span>,por lo tanto no se puede continuar con el proceso de registro. ";
+                                            alertcolor="danger";
+                                            numtemp=3;
+                                        }else if(data[i]['reqautorizacion']==2){
+                                            if(parseInt(data[i]['proceso'])<4){
+                                                //Solicitar
+                                                alertatemp+="#47 El equipo seleccionado según su historial se encuentra en el proceso de <span class='badge bg-red'>"+data[i]['nombre_proceso']+"</span> y en el estado de <span class='badge bg-red'>bajo autorización</span>. Si se desea registrar, se enviara una solicitud para autorizar. ";
+                                                alertcolor="warning";
+                                                detalles = usuario + "_"+"El equipo tiene asigando el informe: ("+ data[i]['id'] +") que pertenece al cliente: "+  data[i]['empresa'] +","+  data[i]['planta']  +", se encuentra en el proceso de "+  data[i]['nombre_proceso']+" y en un estado: bajo autorización. Se desea registrar en el informe :"+obj['id'];
+                                                numtemp=2;
+                                            }else if(parseInt(data[i]['proceso'])==4){
+                                                //vigencia, Solicitar registro
+                                                vigencia= validar_ultimacal(data[i]['fecha_calibracion'], data[i]['fecha_vencimiento']);
+                                                if(vigencia>100){
+                                                    alertatemp +="#48 El equipo seleccionado puede registrarse, ya que según su historial se encuentra en proceso terminado y su estado de vigencia ha superado el límite. Prioridad de registro: <span class='badge bg-red'> URGENTE! </span>.";
+                                                    alertcolor="success";
+                                                    numtemp=0;
+                                                }
+                                                else if(vigencia>80){
+                                                    alertatemp +="#49 El equipo seleccionado puede registrarse, ya que según su historial se encuentra en proceso terminado y su estado de vigencia es del <span class='badge bg-red'> "+ vigencia +"% </span>. Puede continuar con el proceso de registro.";
+                                                    alertcolor="success";
+                                                    numtemp=0;
+                                                }else if(vigencia<80){
+                                                    alertatemp +="#50 El equipo seleccionado según su historial el estado de vigencia es del <span class='badge bg-red'>"+vigencia+"% </span>. Si se desea continuar con el proceso de registro, al final del registro se enviara una solicitud para autorizar.";
+                                                    alertcolor="warning";
+                                                    detalles = usuario + "_"+"El equipo tiene asigando el informe: ("+ data[i]['id'] +") que pertenece al cliente: "+  data[i]['empresa'] +","+  data[i]['planta']  +" y su fecha de vencimiento es hasta "+  data[i]['fecha_vencimiento']+". Se desea registrar en el informe :"+obj['id'];
+                                                    numtemp=2;
+                                                }                            
+                                            }  
+                                        }
+                                    }
+                                }
+                                else if(obj['idequipo']== val && obj['id']==parseInt(data[i]['id'])){
+                                    alertatemp +="#51 El equipo seleccionado corresponde al informe <span class='badge bg-red'>"+data[i]['id']+"</span>.";
+                                    alertcolor="info";
+                                    numtemp=1;
+                                }
+                            } 
+                        }
+                    }                                                                                            
+                }
+                alerta= alertatemp;
+            }            
+
+            //Submit
+                $('[type="submit"]').prop('disabled', disabledsubmit[numtemp]);                             
+                $('[type="submit"]').prop('value', valuesubmit[numtemp]);
+                $('[name="tiposubmit"]').prop('value',tiposubmit[numtemp]);
+                $('[type="submit"]').removeClass('btn-primary').addClass(btncolor[numtemp]);
+            //Opciones de busqueda           
+                $('#buscar_idequipo').prop('disabled', disablebusqueda[numtemp]);
+                $('#idequipo').prop('disabled', disablebusqueda[numtemp]); 
+            //Notificacion 
+                //$("[name='informevalidacion']").remove();                               
+                alertas_col12('alerta_equipoinforme', alertcolor, alerta);              
     };
+    
+    var historial_ultimoidequipo = function(val){
+        var datos=[];
+        $.ajax({
+            url: "?c=recepcion&a=ajax_load_ultimoid_equipo",
+            dataType: "json",
+            method: "POST",
+            async: false,
+            data: "idequipo=" + val,
+        }).done(function(data) {
+            datos = data;                                                                                         
+        }).fail(function(data) {           
+        }).always(function(data) {
+            //console.log(data);
+        }); 
+        return datos;
+    }
+    
 
     // $('[type="submit"]').prop('disabled', true);
     // $('[type="submit"]').prop('disabled', false);
-/**
-* Final Modulo de busqueda de historial y equipo
-*/
+    /**
+    * Final Modulo de busqueda de historial y equipo
+    */
 
     $("#refresh_informe").click(function(e){
       ultimo_numero_informe();
       e.preventDefault();
     });
    
+
     $("#buscar_idequipo").on('click', buscar_historialequipo);
 
     $("#idequipo").keypress(function(e) {
       if (e.which == 13) {   
-        $(this).val(espacio_blanco($(this).val()));          
-          buscar_historialequipo();
-          e.preventDefault();
+        $(this).val(espacio_blanco($(this).val()));                         
+        buscar_historialequipo();
+          e.preventDefault();            
       }
     });
 
@@ -698,6 +1001,13 @@ function submit_acceso() {
     opciones_po('registrar');
     e.preventDefault();
     });
+
+    $("#clear_idequipo").click(function(e){       
+        $("#idequipo").val('');
+        $("#idequipo").focus();        
+        e.preventDefault();
+    });
+
 
     $("#buscar_po").on('click', buscar_po);
 
@@ -760,7 +1070,7 @@ function submit_acceso() {
         autoclose: true,
         startDate : currDate, //endD,
         // endDate : endD
-    }).datepicker('setDate', 'today');  
+    }).datepicker('setDate', 'today');
     
     var _table = $("#table_equipo").DataTable({
         "deferRender": true,                                                
@@ -785,7 +1095,12 @@ function submit_acceso() {
                 targets: 0,
                 render: function (data, type, row) {
                     var _input="";
-                    _input='<input type="radio" name="r1" value="'+ row['id'] +'">';
+                    if(row['activo']==1){
+                        _input='<input type="radio" name="r1" value="'+ row['id'] +'">';
+                    }else{
+                        _input='<input type="radio" name="r1" value="'+ row['id'] +'" disabled>';
+                    }
+                    
                     return _input;
                 },                
                 orderable: false,
@@ -837,7 +1152,7 @@ function submit_acceso() {
                 { "data": 'empresa'},                
                 { "data": 'planta'},
                 { "data": 'fecha_calibracion'},
-                { "data": 'periodo_calibracion'},
+                { "data": 'vigencia'},
                 { "data": 'fecha_vencimiento'},
                 { "data": 'tecnico_cal_email'},
                 { "data": 'acreditacion'},
@@ -863,17 +1178,18 @@ function submit_acceso() {
                 searchable: false  
             }           
             ], 
-            'order': [[1, 'asc']]                                                                  
+            'order': [[1, 'desc']]                                                                  
     });
       
-    if(getalias != ""){                
-        buscar_tablaequipo(getalias);
+    if(getalias != ""){
+        var obj= getalias.split(';');                
+        buscar_tablaequipo(obj);
     }
     
     $("#table_equipo tbody").on("change", "input[type='radio'][name='r1']", function(){
         if(this.checked){            
             var val = $("input[type='radio'][name='r1']:checked").val(); 
-           comprobar_informeequipo(val); 
+           evaluar_informeequipo(val); 
         }              
     });    
 
@@ -898,7 +1214,7 @@ function submit_acceso() {
                 $("#usuarios_calibracion_id").val(datos[0]['usuarios_calibracion_id']).change();
                 $("#calibraciones_id").val(datos[0]['calibraciones_id']).change();
                 $("#empresa_ajax_r").val(datos[0]['empresas_id']).change();
-                planta_temp= datos[0]['plantas_id'];
+                idplanta_temp= datos[0]['plantas_id'];
         }              
     }); 
 
@@ -909,7 +1225,7 @@ function submit_acceso() {
         //Array de los campos capturados                      
           var parametro = {
              0:$("#numero_informe").val(),
-             1:$("input[type='radio'][name='r1']:checked").val() ,
+             1:$("input[type='radio'][name='r1']:checked").val(),
              2:$("#idplanta_ajax_r").val(),
 
              3:$("input[name='periodo_calibracion']").val(),
@@ -937,7 +1253,7 @@ function submit_acceso() {
              }
           }               
 
-          if(validacion == true){                        
+          if(validacion == true){
             parametro[14]=$("#tiposubmit").val(),
             parametro[15]=$("#proceso").val();
 
@@ -966,8 +1282,7 @@ function submit_acceso() {
               }else{
                 var valor= obj.data[0]['msg'];
                 alertas_col12('alertavalidacion', 'danger', valor );                    
-              }             
-              
+              }
               activarcargandosubmit(0);
             }).fail(function(data) {}).always( function(data) {
               //console.log(data);
@@ -981,12 +1296,11 @@ function submit_acceso() {
             alertas_col12('alertavalidacion', 'danger', valor );
             activarcargandosubmit(0);
           }
-
-      });  
-   
+    });        
+     
     var validar= function(data) {
-        var bool = true;
-        if (data === "" || data === null || data=== 'undefined') {
+        var bool = true;        
+        if (data === "" || data === null || data === undefined) {
             bool = false;
         }       
         return bool;
@@ -1012,5 +1326,9 @@ function submit_acceso() {
         }         
     }
 
-}); 
-  
+    // var campo= 'Grupo Chamberlain S. De R.L. De C.V.';
+    // var value=  $("#empresa_ajax_r").find("option:contains('"+ campo +"')").val();
+
+    // console.log(value);
+     
+});
