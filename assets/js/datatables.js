@@ -324,7 +324,7 @@ $(document).ready(function () {
                                     menu +="<button onclick='informes_off("+row[0]+")' data-type='turn_off' class='btn btn-social-icon badge bg-gray' title='Cancelar Informe'><i class='fa fa-power-off'></i></button>";
                                 }
                                 
-                                menu += "<a href='#' onclick='verhistorial("+ row[0] +")' data-type='historial' class='btn btn-social-icon badge bg-blue' title='Ver historial'><i class='fa fa-arrow-right'></i></a>";
+                                menu += "<a href='#' onclick='verhistorial("+ row[0] +")' data-type='historial' class='btn btn-social-icon badge bg-green-active' title='Ver historial'><i class='fa fa-arrow-right'></i></a>";
                                 // Ver informe                                                             
                                 // if(row[29] == 1){  
                                 //     var valor= validarurl(row[0]);                                                   
@@ -706,7 +706,7 @@ $(document).ready(function () {
                         ];
                         var menu="";
                         var disabledf="";
-
+                        
                         if(row[34]== 1){
                             menu="<small class='label label-warning'><i class='fa fa-spinner'></i> En autorización </small>";
                         }
@@ -720,7 +720,7 @@ $(document).ready(function () {
                                 menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_black' id='btn_recepcion'  class='btn btn-social-icon badge bg-red"+ enable[proceso][0] +"' title='Recepción'><i class='fa fa-sign-in'></i></a>";                        
                             }else{
                                 menu="<a href='?c=recepcion&a=index&p="+row[0]+"' target='_black' id='btn_recepcion'  class='btn btn-social-icon badge bg-red"+ enable[proceso][0] +"' title='Recepción'><i class='fa fa-sign-in'></i></a>"+                              
-                                "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_black' id='btn_calibracion'  class='btn btn-social-icon badge bg-yellow "+ enable[proceso][1] +"' title='Calibración'><i class='fa fa-sliders'></i></a>";
+                                "<a href='?c=calibracion&a=index&p="+row[0]+"'  target='_black' id='btn_calibracion'  class='btn btn-social-icon badge bg-yellow "+ enable[proceso][1] +"' title='Calibración'><i class='fa fa-sliders'></i></a>";                                                                
                             }
                             if( _arrayCtrl[4] == '00' ||  _arrayCtrl[4] == '01' ||  _arrayCtrl[4] == '02' || _arrayCtrl[4] == '04'|| _arrayCtrl[4] == '06'|| _arrayCtrl[4] == '07'){                      
                                 menu +="<a href='?c=salida&a=index&p="+row[0]+"' target='_black' id='btn_salida' class='btn btn-social-icon badge bg-blue "+ enable[proceso][2] +"' title='Salida'><i class='fa fa-sign-out'></i></a>"+
@@ -728,9 +728,8 @@ $(document).ready(function () {
                             }
                             if( _arrayCtrl[4] == '00' ||  _arrayCtrl[4] == '06' || _arrayCtrl[4] == '07'){ 
                                 menu +="<button onclick='informes_off("+row[0]+")' data-type='turn_off' class='btn btn-social-icon badge bg-gray' title='Cancelar Informe'><i class='fa fa-power-off'></i></button>";
-                            }
+                            }                           
                         }
-                                                
                         return  menu;
                     }
             } 
@@ -1017,7 +1016,7 @@ $(document).ready(function () {
                     "targets": -1,                                 
                     "render": function(data,type, row){                                                 
                         var menu="";                       
-                            menu += "<a href='#' onClick='verhistorial("+ row[16] +")' data-type='historial' class='btn btn-social-icon badge bg-blue' title='Ver historial'><i class='fa fa-arrow-right'></i></a>";
+                            menu += "<a href='#' onClick='verhistorial("+ row[16] +")' data-type='historial' class='btn btn-social-icon badge bg-green-active' title='Ver historial'><i class='fa fa-arrow-right'></i></a>";
                             return menu;                       
                     },
                     "orderable" : false,
@@ -1090,7 +1089,7 @@ $(document).ready(function () {
                     "targets": -1,                                 
                     "render": function(data,type, row){
                         var menu="";                      
-                            menu += "<a href='#' onClick='verhistorial("+ row[16] +")' data-type='historial' class='btn btn-social-icon badge bg-blue' title='Ver historial'><i class='fa fa-arrow-right'></i></a>";
+                            menu += "<a href='#' onClick='verhistorial("+ row[16] +")' data-type='historial' class='btn btn-social-icon badge bg-green-active' title='Ver historial'><i class='fa fa-arrow-right'></i></a>";
                             return menu;                                                                   
                     },
                     "orderable" : false,

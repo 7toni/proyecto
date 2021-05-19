@@ -115,7 +115,7 @@
             <?php importView('_static.footer'); ?>
         </div>
         <script>
-              var controller = "<?php echo $this->name.' '.$this->ext.'_v2 '.$proceso.' '.$usuario.' '.$rol.''; ?>"; 
+              var controller = "<?php echo $this->name.' '.$this->ext.'_v2 '; ?>"; 
         </script>
         <?php importView('_static.scripts'); ?>    
         <script type="text/javascript">

@@ -130,7 +130,7 @@
                       </div>
                       <!-- /.modal-dialog -->
                     </div>
-                  <!-- /.modal -->
+                    <!-- /.modal -->                   
 
                 </section>
             </div>
@@ -176,8 +176,7 @@
                     //console.log(data);             
                 }); 
             }
-
-
+            
        $(window).load(function() {
             new $.fn.dataTable.FixedColumns( table_proceso ,{
                 leftColumns:1,

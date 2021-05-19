@@ -32,18 +32,43 @@ $condicion="";
         $table = 'view_'.$controller;
         $table.=$ext; 
         $version= substr($ext,2);
+        $bool=false;          
+
         if($version=="_v1"){
             $condicion="id in (SELECT max(id) as id FROM {$table} group by alias order by id desc)";
-        }
+            $bool=true;         
+        }        
        
         if ($tipo == 4) {
-            $condicion.="proceso=4 ";            
+            if($bool== true){
+                $tipo=$tipo-2;
+                $condicion.=" and proceso>={$tipo}"; 
+            }
+            else{
+                $condicion.="proceso=4 ";
+            }                       
         }
         if ($tipo == 1) {
-            $condicion.="proceso=1";
+            if($bool== true){
+                $condicion.=" and proceso=1";
+            }
+            else{
+                $condicion.="proceso=1";
+            }            
         }
-        if($tipo == 3){$condicion .="proceso <=". $tipo;}   //reqautorizacion<>1 and   
-        if($rol == '10003'){$condicion .="usuarios_calibracion_id=".$usuario;}    
+        if($tipo == 3){
+            if($bool== true){
+                $condicion.=" and proceso <=". $tipo;
+            }
+            else{
+                $condicion.="proceso <=". $tipo;
+            }          
+        }   //reqautorizacion<>1 and   
+        if($rol == '03'){ 
+            if($ext== "_n" && $tipo==1){
+                $condicion.=" and usuarios_calibracion_id=".$usuario;
+            }                   
+        }    
     }
     else{$table = 'view_'.$controller.$ext;}
 
@@ -157,7 +182,7 @@ $sql_details = array(
  * If you just want to use the basic configuration for DataTables with PHP
  * server-side, there is no need to edit below this line.
  */   
-
+ 
 require( "ssp.class.php" );
 echo json_encode(
     SSP::simple($_GET, $sql_details, $table, $primary_key, $columns,$condicion)    

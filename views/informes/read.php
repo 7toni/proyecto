@@ -185,59 +185,59 @@
                       </div>
                       <!-- /.modal-dialog -->
                     </div>
-                  <!-- /.modal -->
+                    <!-- /.modal -->
 
-                  <div class="modal modal-default fade" id="modal-historial">
-                      <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header bg-blue" >                         
-                                <h2 class="modal-title"><i class="fa fa-eye"></i> Certificados</h2>
+                    <div class="modal modal-default fade" id="modal-historial">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header bg-blue" >                         
+                                    <h2 class="modal-title"><i class="fa fa-eye"></i> Certificados</h2>
+                                </div>
+                                <div class="modal-body">                                
+                                    <table id="table_historialinforme" class="table">
+                                        <thead>
+                                            <tr>                                                
+                                                <th>No. certificado</th>
+                                                <th>Id equipo</th>
+                                                <th>Descripción</th>
+                                                <th>Marca</th>
+                                                <th>Modelo</th>
+                                                <th>Serie</th>
+                                                <!-- <th>activo</th> -->
+                                                <th>Acreditación</th> 
+                                                <th>Calibración actual</th>
+                                                <th>Vigencia</th>
+                                                <th>Calibración siguiente</th>
+                                                <th>Ver certificado</th>                                               
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>                                               
+                                                <th>No. certificado</th>
+                                                <th>Id equipo</th>
+                                                <th>Descripción</th>
+                                                <th>Marca</th>
+                                                <th>Modelo</th>
+                                                <th>Serie</th>
+                                                <!-- <th>activo</th> -->
+                                                <th>Acreditación</th> 
+                                                <th>Calibración actual</th>
+                                                <th>Vigencia</th>
+                                                <th>Calibración siguiente</th>
+                                                <th>Ver certificado</th> 
+                                            </tr>
+                                        </tfoot>
+                                    </table>                                                                                                                                                     
+                                </div>                                                
+                                <div class="modal-footer ">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>                            
+                                </div>
                             </div>
-                            <div class="modal-body">                                
-                                <table id="table_historialinforme" class="table">
-                                    <thead>
-                                        <tr>                                                
-                                            <th>No. certificado</th>
-                                            <th>Id equipo</th>
-                                            <th>Descripción</th>
-                                            <th>Marca</th>
-                                            <th>Modelo</th>
-                                            <th>Serie</th>
-                                            <!-- <th>activo</th> -->
-                                            <th>Acreditación</th> 
-                                            <th>Calibración actual</th>
-                                            <th>Vigencia</th>
-                                            <th>Calibración siguiente</th>
-                                            <th>Ver certificado</th>                                               
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>                                               
-                                            <th>No. certificado</th>
-                                            <th>Id equipo</th>
-                                            <th>Descripción</th>
-                                            <th>Marca</th>
-                                            <th>Modelo</th>
-                                            <th>Serie</th>
-                                            <!-- <th>activo</th> -->
-                                            <th>Acreditación</th> 
-                                            <th>Calibración actual</th>
-                                            <th>Vigencia</th>
-                                            <th>Calibración siguiente</th>
-                                            <th>Ver certificado</th> 
-                                        </tr>
-                                    </tfoot>
-                                </table>                                                                                                                                                     
-                            </div>                                                
-                            <div class="modal-footer ">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>                            
-                            </div>
+                            <!-- /.modal-content -->
                         </div>
-                        <!-- /.modal-content -->
-                      </div>
-                      <!-- /.modal-dialog -->
+                        <!-- /.modal-dialog -->
                     </div>
-                  <!-- /.modal -->
+                    <!-- /.modal -->
 
                 </section>
             </div>
@@ -313,7 +313,7 @@
                         '</tr>'+
                     
                     '</table>';
-                }
+            }
 
             var _tableh = $('#table_historialinforme').DataTable({
                 "deferRender": true,

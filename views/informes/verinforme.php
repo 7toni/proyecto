@@ -1,10 +1,12 @@
 
 <?php 
-header('Content-type: application/pdf; charset=utf-8');
+
+header('Content-type: application/pdf; charset=utf-8' );
 $filename=$numinforme;
-header('Content-Disposition: inline; filename="'.$filename.'.pdf"');
+header('Content-Disposition: inline; filename="'.$filename.'.pdf"' );
 header('Content-Transfer-Ecoding: binary');
-header('Accept-Ranges: bytes');
+header('Accept-Ranges: bytes' );
+
 @readfile($file);
 
 ?>
